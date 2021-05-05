@@ -4,8 +4,10 @@ import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +22,19 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,6 +46,8 @@ public class ApplicantFragment extends Fragment {
     Button btnregister;
     EditText edt_email,edt_name,edt_password;
     ProgressDialog progressDialog;
+    FirebaseAuth mAuth;
+    FirebaseUser user;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -90,7 +101,9 @@ public class ApplicantFragment extends Fragment {
         edt_password = view.findViewById(R.id.edittext_password);
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setCancelable(false);
+        mAuth = FirebaseAuth.getInstance();
         String role_applicant = "Applicant";
+        user = mAuth.getCurrentUser();
 
         btnregister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,6 +115,22 @@ public class ApplicantFragment extends Fragment {
                     try{
                         JSONObject object= new JSONObject(response);
                         if(object.getBoolean("success")){
+                            mAuth.createUserWithEmailAndPassword(edt_email.getText().toString().trim(),edt_password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if(task.isSuccessful())
+                                    {
+                                        sendVerificationEmail();
+//                                        user.reload();
+                                    }
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                                    Log.e("MYAPP", "exception", e);
+                                }
+                            });
                             JSONObject user = object.getJSONObject("user");
                             SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user",getContext().MODE_PRIVATE);
                             SharedPreferences.Editor editor = userPref.edit();
@@ -110,7 +139,7 @@ public class ApplicantFragment extends Fragment {
                             editor.putString("name",user.getString("name"));
                             editor.putString("role",user.getString("role"));
                             editor.apply();
-                            Toast.makeText(getContext(),"Register Successfully",Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(),"Register Successfully",Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
                         }
                         else if(object.getString("Status").equals("201"))
@@ -155,5 +184,25 @@ public class ApplicantFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    private void sendVerificationEmail() {
+        if(mAuth.getCurrentUser()!=null)
+        {
+            mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful())
+                    {
+                        Toast.makeText(getContext(),"Email has been send to your email address to verify, if you verified, proceed to login by clicking login below",Toast.LENGTH_SHORT).show();
+//                        user.reload();
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(),"failed to send verification email",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
     }
 }

@@ -4,15 +4,22 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.onlinejobfinder.guest.HomeFragment;
+import com.example.onlinejobfinder.guest.ProfileFragment;
+import com.example.onlinejobfinder.guest.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -37,21 +44,49 @@ public class GuestActivity extends AppCompatActivity implements NavigationView.O
         toggle.syncState();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-           name2 = bundle.getString("name");
+//        Bundle bundle = getIntent().getExtras();
+//        if (bundle != null) {
+//           name2 = bundle.getString("name");
+//
+//       }
 
-       }
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        name2 = prefs.getString("name","name");
+        editor.putString("name",name2);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.container,new HomeFragment()).commit();
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        //TO HIDE DRAWER BUTTON, uncomment below:
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
+        navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment selectedFragment = null;
+                switch(item.getItemId()){
+                    case R.id.navigation_home:
+                        selectedFragment = new HomeFragment();
+                        break;
+                    case R.id.navigation_notifications:
+                        selectedFragment = new SearchFragment();
+                        break;
+                    case R.id.navigation_dashboard:
+                        selectedFragment = new ProfileFragment();
+                        break;
+
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.container,selectedFragment).commit();
+                return true;
+            }
+        });
+
+//        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+//                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+//                .build();
+//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+//        //TO HIDE DRAWER BUTTON, uncomment below:
+////        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+//        NavigationUI.setupWithNavController(navView, navController);
     }
 
     @Override

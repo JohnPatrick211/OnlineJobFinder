@@ -19,6 +19,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.guest.HomeFragment;
 import com.example.onlinejobfinder.tabregister.RegisterActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnlogin;
     EditText edt_loginemail,edt_loginpassword;
     ProgressDialog progressDialog;
+    FirebaseAuth mAuth;
 
 
     @Override
@@ -45,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         btnlogin = findViewById(R.id.btnlogin);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
 
         txtview_signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,30 +69,40 @@ public class MainActivity extends AppCompatActivity {
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                user.reload();
                 progressDialog.setMessage("Logging In");
                 progressDialog.show();
                 StringRequest request = new StringRequest(Request.Method.POST, Constant.login, response -> {
                     try{
-                        JSONObject object= new JSONObject(response);
-                        if(object.getBoolean("success")){
-                            JSONObject user = object.getJSONObject("user");
-                            SharedPreferences userPref = getSharedPreferences("user",MainActivity.this.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = userPref.edit();
-                            editor.putString("token",object.getString("token"));
-                            editor.putString("email",user.getString("email"));
-                            editor.putString("name",user.getString("name"));
-                            editor.apply();
-                            Toast.makeText(MainActivity.this,"login success",Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(MainActivity.this, GuestActivity.class);
-                            editor.commit();
-                            startActivity(i);
-                            progressDialog.cancel();
+                        user.reload();
+                        if(user.isEmailVerified())
+                        {
+                                 progressDialog.cancel();
+                            JSONObject object= new JSONObject(response);
+                            if(object.getBoolean("success")){
+                                JSONObject user = object.getJSONObject("user");
+                                SharedPreferences userPref = getSharedPreferences("user",MainActivity.this.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = userPref.edit();
+                                editor.putString("token",object.getString("token"));
+                                editor.putString("email",user.getString("email"));
+                                editor.putString("name",user.getString("name"));
+                                editor.apply();
+                                Toast.makeText(MainActivity.this,"login success",Toast.LENGTH_SHORT).show();
+                                Intent i = new Intent(MainActivity.this, GuestActivity.class);
+                                editor.commit();
+                                startActivity(i);
+                            }
+                            else{
+                                Toast.makeText(MainActivity.this,"Invalid Credentials",Toast.LENGTH_SHORT).show();
+                                progressDialog.cancel();
+                            }
                         }
                         else
                         {
-                            Toast.makeText(MainActivity.this,"Invalid Credentials",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this,"Your email is not verified",Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
                         }
+                        progressDialog.cancel();
 
                     }catch(JSONException e)
                     {
