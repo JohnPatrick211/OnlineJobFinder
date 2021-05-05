@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".guest.HomeFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            >
+            <ImageView
+                android:id="@+id/image_user"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_person_24"
+                />
+
+            <TextView
+                android:id="@+id/textView_Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@+id/image_user"
+                android:text="Name PlaceHolder"
+                android:textStyle="bold"
+                android:textSize="25sp"/>
+            <TextView
+                android:id="@+id/textView_Manage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/design_default_color_primary_dark"
+                android:layout_marginTop="60dp"
+                android:layout_toRightOf="@+id/image_user"
+                android:text="Manage Your Account"
+                android:textSize="15sp"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</FrameLayout>
