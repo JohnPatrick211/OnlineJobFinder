@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "215140192002",
+    "project_id": "emailverify-a4e1d",
+    "storage_bucket": "emailverify-a4e1d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215140192002:android:318b73709ddf1fc4f97c1b",
+        "android_client_info": {
+          "package_name": "com.example.onlinejobfinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "215140192002-msgl75af7jr164kt0navsumo5d80aqe8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDu0xGkSM_OjZY5vr-DHSK41jGuOdijH60"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "215140192002-msgl75af7jr164kt0navsumo5d80aqe8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
