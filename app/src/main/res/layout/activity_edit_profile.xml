@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="50dp"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context=".guest.EditProfileActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:text="Upload Profile Image"
+        android:layout_marginBottom="30dp"
+        android:gravity="center_horizontal"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@color/design_default_color_primary_dark"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/imguser"
+        />
+
+    <TextView
+        android:id="@+id/txt_selectphoto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Photo"
+        android:gravity="center_horizontal"
+        android:textSize="16sp"
+        android:textColor="@color/design_default_color_primary_dark"
+        android:layout_marginBottom="20dp"/>
+
+    <Button
+        android:id="@+id/btnsaveimage"
+        android:layout_marginTop="10dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shapebutton"
+        android:text="Save Image Profile"
+        android:textColor="#FFFFFF"/>
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/txtuserid"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Sample ID"/>-->
+
+</LinearLayout>

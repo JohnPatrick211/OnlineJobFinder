@@ -1,14 +1,42 @@
 package com.example.onlinejobfinder.guest;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
+import com.example.onlinejobfinder.adapter.jobadapter;
+import com.example.onlinejobfinder.model.job;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +44,17 @@ import com.example.onlinejobfinder.R;
  * create an instance of this fragment.
  */
 public class SearchFragment extends Fragment {
+
+    RecyclerView recyclerView;
+    TextView btnfilter;
+    ArrayList<job> arraylist;
+    ArrayList<job> arraylist2;
+    ArrayList<String> category,location;
+    JSONArray result;
+    SwipeRefreshLayout refreshLayout;
+    jobadapter jobadapter2;
+    Spinner spinnercategory, spinnerlocation;
+    String catergoryString,yearString;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +100,201 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        btnfilter = view.findViewById(R.id.btn_filter);
+        recyclerView = view.findViewById(R.id.recyclerview_jobs);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        refreshLayout = view.findViewById(R.id.swipe);
+        spinnercategory = view.findViewById(R.id.spinner_category);
+        spinnerlocation = view.findViewById(R.id.spinner_location);
+        arraylist = new ArrayList<>();
+        arraylist2 = new ArrayList<>();
+        category = new ArrayList<String>();
+        location = new ArrayList<String>();
+        category.add("Category");
+        category.add("Accountant");
+        category.add("Programmer");
+        location.add("Region");
+        location.add("Region 4-A");
+        location.add("Region 3");
+        spinnerlocation.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, location));
+        refreshLayout.setRefreshing(true);
+        getCategory();
+        btnfilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList<job> w = new ArrayList<>();
+                if(catergoryString.equals("Category") && yearString.equals("Region"))
+                {
+
+                    w.addAll(arraylist);
+                }
+                else
+                {
+                    for(job details : arraylist)
+                    {
+                        if(catergoryString.equals("Category") && !TextUtils.isEmpty(yearString))
+                        {
+                            if(details.getJobaddress().contains(yearString))
+                            {
+                                w.add(details);
+                            }
+                        }
+                        else if(yearString.equals("Region") && !TextUtils.isEmpty(catergoryString))
+                        {
+                            if(details.getJobtitle().contains(catergoryString))
+                            {
+                                w.add(details);
+                            }
+                        }
+                        else
+                        {
+                            if(details.getJobtitle().contains(catergoryString) && details.getJobaddress().contains(yearString))
+                            {
+                                w.add(details);
+                            }
+                        }
+
+                    }
+                }
+                jobadapter2.setWinnerDetails(w);
+            }
+        });
+        getPost();
+        SharedPreferences sharedPreferences = getContext().getApplicationContext().getSharedPreferences("jobpost", Context.MODE_PRIVATE);
+        spinnercategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                catergoryString = (String) parent.getItemAtPosition(position);
+                spinnercategory.setSelection(position);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                catergoryString = "";
+
+            }
+        });
+        spinnerlocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                yearString = (String) parent.getItemAtPosition(position);
+                spinnerlocation.setSelection(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                yearString = "";
+
+            }
+        });
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                arraylist.clear();
+                getPost();
+            }
+        });
+
+        return view;
+    }
+    private void getCategory() {
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.categoryfilter, response ->{
+            JSONObject j = null;
+            try{
+               j = new JSONObject(response);
+               result = j.getJSONArray("categories");
+               getSubCategory(result);
+
+
+            }catch(JSONException e)
+            {
+                e.printStackTrace();
+                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+
+            refreshLayout.setRefreshing(false);
+
+        },error -> {
+            error.printStackTrace();
+            refreshLayout.setRefreshing(false);
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+    }
+
+    private void getSubCategory(JSONArray j) {
+        for(int ai=0;ai<j.length();ai++)
+        {
+            try{
+                JSONObject json = j.getJSONObject(ai);
+                category.add(json.getString("category"));
+            }catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        spinnercategory.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, category));
+    }
+
+    private void getPost() {
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.jobposts, response ->{
+            try{
+                JSONObject object = new JSONObject(response);
+                if(object.getBoolean("success"))
+                {
+                    JSONArray array = new JSONArray(object.getString("jobpost"));
+                    for(int i = 0; i < array.length(); i++)
+                    {
+                        JSONObject postObject = array.getJSONObject(i);
+                        //JSONObject getpostObject = postObject.getJSONObject("jobposts");
+
+                        job job2 = new job();
+                        job2.setJoblogo(postObject.getString("logo"));
+                        job2.setJobtitle(postObject.getString("jobtitle"));
+                        job2.setJobcompany(postObject.getString("companyname"));
+                        job2.setJobaddress(postObject.getString("location"));
+                        job2.setJobsalary(postObject.getString("salary"));
+                        job2.setJobdateposted(postObject.getString("created_at"));
+
+                        arraylist.add(job2);
+                        arraylist2.add(job2);
+                    }
+                    jobadapter2 = new jobadapter(arraylist,getContext());
+                    recyclerView.setAdapter(jobadapter2);
+                }
+                else {
+                    Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+                }
+            }catch(JSONException e)
+            {
+                e.printStackTrace();
+                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+
+            refreshLayout.setRefreshing(false);
+
+        },error -> {
+            error.printStackTrace();
+            refreshLayout.setRefreshing(false);
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
     }
 }

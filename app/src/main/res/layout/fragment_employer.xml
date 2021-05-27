@@ -25,10 +25,35 @@
             android:letterSpacing="0.03"/>
 
         <EditText
+            android:id="@+id/edittext_companynameregisteremp"
             android:layout_width="350dp"
             android:layout_height="45dp"
             android:background="@drawable/forget"
-            android:text="Email"
+            android:hint="Company Name"
+            android:textColor="#0d6e6a"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="20dp"/>
+
+        <EditText
+            android:id="@+id/edittext_emailregisteremp"
+            android:layout_width="350dp"
+            android:layout_height="45dp"
+            android:background="@drawable/forget"
+            android:hint="Email"
+            android:textColor="#0d6e6a"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="20dp"/>
+
+        <EditText
+            android:id="@+id/edittext_passwordregisteremp"
+            android:layout_width="350dp"
+            android:layout_height="45dp"
+            android:background="@drawable/forget"
+            android:hint="Password"
             android:textColor="#0d6e6a"
             android:textStyle="bold"
             android:textSize="18dp"
@@ -39,18 +64,7 @@
             android:layout_width="350dp"
             android:layout_height="45dp"
             android:background="@drawable/forget"
-            android:text="Password"
-            android:textColor="#0d6e6a"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:layout_marginTop="20dp"
-            android:paddingLeft="20dp"/>
-
-        <EditText
-            android:layout_width="350dp"
-            android:layout_height="45dp"
-            android:background="@drawable/forget"
-            android:text="Confirm Password"
+            android:hint="Confirm Password"
             android:textColor="#0d6e6a"
             android:textStyle="bold"
             android:textSize="18dp"
@@ -58,6 +72,7 @@
             android:paddingLeft="20dp"/>
 
         <Button
+            android:id="@+id/btn_registeremp"
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:background="@drawable/button"

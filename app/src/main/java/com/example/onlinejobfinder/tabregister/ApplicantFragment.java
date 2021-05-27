@@ -102,7 +102,7 @@ public class ApplicantFragment extends Fragment {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setCancelable(false);
         mAuth = FirebaseAuth.getInstance();
-        String role_applicant = "Applicant";
+        String role_applicant = "applicant";
         user = mAuth.getCurrentUser();
 
         btnregister.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +121,7 @@ public class ApplicantFragment extends Fragment {
                                     if(task.isSuccessful())
                                     {
                                         sendVerificationEmail();
-//                                        user.reload();
+                 //                       user.reload();
                                     }
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -156,7 +156,6 @@ public class ApplicantFragment extends Fragment {
                         {
                                 Toast.makeText(getContext(), "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
                                 progressDialog.cancel();
-
                         }
 
                     }catch(JSONException e)
@@ -201,6 +200,11 @@ public class ApplicantFragment extends Fragment {
                     {
                         Toast.makeText(getContext(),"failed to send verification email",Toast.LENGTH_SHORT).show();
                     }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
                 }
             });
         }
