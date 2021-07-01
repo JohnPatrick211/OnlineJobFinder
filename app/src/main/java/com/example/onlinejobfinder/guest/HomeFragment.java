@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.onlinejobfinder.R;
@@ -20,8 +21,9 @@ import com.example.onlinejobfinder.R;
  */
 public class HomeFragment extends Fragment {
 
-    TextView txtview_name;
-    String name2;
+    TextView txtview_name, errortext;
+    String name2,specialization;
+    LinearLayout errorlayout;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -72,13 +74,22 @@ public class HomeFragment extends Fragment {
         txtview_name = view.findViewById(R.id.textView_Name);
         SharedPreferences prefs = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
+        errorlayout = view.findViewById(R.id.allerrorlayout);
+        errortext = view.findViewById(R.id.allerrortext);
+        errorlayout.setVisibility(View.GONE);
         name2 = prefs.getString("name","name");
+        specialization = prefs.getString("specialization","specialization");
 //        Bundle bundle = getActivity().getIntent().getExtras();
 ////        if (bundle != null) {
 ////            name2 = bundle.getString("name");
 ////
           txtview_name.setText(name2);
 ////        }
+        if(specialization.equals("null"))
+        {
+            errorlayout.setVisibility(View.VISIBLE);
+            errortext.setText("Please set your Specialization in your Profile");
+        }
 
        return view;
     }

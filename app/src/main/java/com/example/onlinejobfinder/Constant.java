@@ -9,5 +9,8 @@ public class Constant {
     public static final String categoryfilter=home+"/categoryfilter";
     public static final String SAVE_USER_PROFILE=home+"/saveimage";
     public static final String MY_POST=home+"/mypost";
+    public static final String updateprofile =home+"/update";
+    public static final String addeducationalbackground =home+"/addeducational";
+    public static final String updateeducationalbackground =home+"/updateeducational";
     //public static final String joblogo="https://peso-ojfs.000webhostapp.com";
 }

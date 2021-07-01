@@ -46,7 +46,8 @@ import java.util.Map;
 public class ProfileFragment extends Fragment {
 
 
-    TextView txtmanageaccount, txtname;
+    TextView txtmanageaccount, txtname, txtemail, txtcontactno, txtaddress, txtgender, txtspecialization;
+    ImageView editprofile;
    // RecyclerView recyclerview;
   //  jobadapter jobadapter2;
     //ArrayList<job> arraylist;
@@ -63,6 +64,10 @@ public class ProfileFragment extends Fragment {
     //jobadapter.RecyclerViewClickListener listener;
     ImageView imageview_user;
     String name2, user_id,token,permaid, address, email, contactno, background;
+    String val_contactno = "";
+    String val_address = "";
+    String val_gender = "";
+    String val_specialization = "";
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -110,8 +115,13 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
        View root = inflater.inflate(R.layout.fragment_profile, container, false);
-       txtmanageaccount = root.findViewById(R.id.txt_manageaccountprofile);
+       editprofile = root.findViewById(R.id.image_manageaccountprofile);
         txtname = root.findViewById(R.id.textView_NameProfile);
+        txtemail = root.findViewById(R.id.textView_EmailProfile);
+        txtaddress = root.findViewById(R.id.textView_AddressProfile);
+        txtcontactno = root.findViewById(R.id.textView_ContactNoProfile);
+        txtgender = root.findViewById(R.id.textView_GenderProfile);
+        txtspecialization = root.findViewById(R.id.textView_SpecializationProfile);
      //   textView_manage = root.findViewById(R.id.textView_Manage);
         imageview_user = root. findViewById(R.id.imguserprofile);
      //   recyclerview = root.findViewById(R.id.recyclerview_jobs_recommended);
@@ -123,25 +133,50 @@ public class ProfileFragment extends Fragment {
         userPref2 = getContext().getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = userPref2.edit();
         name2 = userPref2.getString("name","name");
+        email = userPref2.getString("email","email");
         user_id = userPref2.getString("id","id");
         token = userPref2.getString("token","token");
         permaid = user_id;
-        Toast.makeText(getContext(), user_id, Toast.LENGTH_SHORT).show();
-        StringRequest request = new StringRequest(Request.Method.GET, Constant.MY_POST+"?id="+userPref2.getString("id","id"), response -> {
+        //check ID debugging//
+        //Toast.makeText(getContext(), user_id, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), email, Toast.LENGTH_SHORT).show();
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.MY_POST+"?applicant_id="+user_id, response -> {
             try{
                 JSONObject object= new JSONObject(response);
                 if(object.getBoolean("success")){
                     JSONObject user = object.getJSONObject("user");
                     txtname.setText(user.get("name").toString());
+                    txtemail.setText(user.get("email").toString());
+                    txtcontactno.setText(user.get("contactno").toString());
+                    val_contactno = txtcontactno.getText().toString();
+                    txtaddress.setText(user.get("address").toString());
+                    val_address = txtaddress.getText().toString();
+                    txtspecialization.setText(user.get("Specialization").toString());
+                    val_specialization = txtspecialization.getText().toString();
+                    txtgender.setText(user.get("gender").toString());
+                    val_gender = txtgender.getText().toString();
                     Picasso.get().load(Constant.URL+"/storage/profiles/"+user.getString("profile_pic")).into(imageview_user);
                     SharedPreferences.Editor editor2 = userPref2.edit();
                     editor2.putString("name",user.getString("name"));
                     editor2.putString("address",user.getString("address"));
                     editor2.putString("contactno",user.getString("contactno"));
-                    editor2.putString("email",user.getString("email"));
+                    //editor2.putString("email",user.getString("email"));
                    // editor2.putString("background",user.getString("background"));
                     editor2.apply();
                     editor2.commit();
+                    if(user.get("contactno").toString().equals("null")|| user.get("address").toString().equals("null")|| user.get("Specialization").toString().equals("null")|| user.get("gender").toString().equals("null"))
+                    {
+                        txtcontactno.setVisibility(View.GONE);
+                        txtaddress.setVisibility(View.GONE);
+                        txtspecialization.setVisibility(View.GONE);
+                        txtgender.setVisibility(View.GONE);
+                    }
+                    else {
+                        txtcontactno.setVisibility(View.VISIBLE);
+                        txtaddress.setVisibility(View.VISIBLE);
+                        txtspecialization.setVisibility(View.VISIBLE);
+                        txtgender.setVisibility(View.VISIBLE);
+                    }
 
                 }
                 else
@@ -152,12 +187,20 @@ public class ProfileFragment extends Fragment {
 
             }catch(JSONException e)
             {
-                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                txtcontactno.setVisibility(View.GONE);
+                txtaddress.setVisibility(View.GONE);
+                txtspecialization.setVisibility(View.GONE);
+                txtgender.setVisibility(View.GONE);
+                txtname.setText(name2);
+                txtemail.setText(email);
                 //  progressDialog.cancel();
             }
         },error ->{
             error.printStackTrace();
             Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+            txtname.setText(name2);
+            txtemail.setText(email);
             // progressDialog.cancel();
         })
         {
@@ -188,15 +231,111 @@ public class ProfileFragment extends Fragment {
      //       }
      //   });
 
-       txtmanageaccount.setOnClickListener(new View.OnClickListener() {
+       editprofile.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
                Intent i = new Intent(getContext(), EditProfileActivity.class);
+               i.putExtra("name",txtname.getText().toString());
+               i.putExtra("email",txtemail.getText().toString());
+               if(val_contactno.equals("null")||val_address.equals("null")||val_specialization.equals("null") ||val_gender.equals("null")  )
+               {
+                   i.putExtra("contactno","");
+                   i.putExtra("address","");
+                   i.putExtra("specialization","");
+                   i.putExtra("gender","");
+               }
+               else
+               {
+                   i.putExtra("contactno",txtcontactno.getText().toString());
+                   i.putExtra("address",txtaddress.getText().toString());
+                   i.putExtra("specialization",txtspecialization.getText().toString());
+                   i.putExtra("gender",txtgender.getText().toString());
+               }
                startActivity(i);
            }
        });
        return root;
     }
+    //reload data//
+    @Override
+    public void onResume() {
+        super.onResume();
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.MY_POST+"?applicant_id="+userPref2.getString("id","id"), response -> {
+            try{
+                JSONObject object= new JSONObject(response);
+                if(object.getBoolean("success")){
+                    JSONObject user = object.getJSONObject("user");
+                    txtname.setText(user.get("name").toString());
+                    txtemail.setText(user.get("email").toString());
+                    txtcontactno.setText(user.get("contactno").toString());
+                    val_contactno = txtcontactno.getText().toString();
+                    txtaddress.setText(user.get("address").toString());
+                    val_address = txtaddress.getText().toString();
+                    txtspecialization.setText(user.get("Specialization").toString());
+                    val_specialization = txtspecialization.getText().toString();
+                    txtgender.setText(user.get("gender").toString());
+                    val_gender = txtgender.getText().toString();
+                    Picasso.get().load(Constant.URL+"/storage/profiles/"+user.getString("profile_pic")).into(imageview_user);
+                    SharedPreferences.Editor editor2 = userPref2.edit();
+                    editor2.putString("name",user.getString("name"));
+                    editor2.putString("address",user.getString("address"));
+                    editor2.putString("contactno",user.getString("contactno"));
+                   // editor2.putString("email",user.getString("email"));
+                    // editor2.putString("background",user.getString("background"));
+                    editor2.apply();
+                    editor2.commit();
+                    if(user.get("contactno").toString().equals("null")|| user.get("address").toString().equals("null")|| user.get("Specialization").toString().equals("null")|| user.get("gender").toString().equals("null"))
+                    {
+                        txtcontactno.setVisibility(View.GONE);
+                        txtaddress.setVisibility(View.GONE);
+                        txtspecialization.setVisibility(View.GONE);
+                        txtgender.setVisibility(View.GONE);
+                    }
+                    else {
+                        txtcontactno.setVisibility(View.VISIBLE);
+                        txtaddress.setVisibility(View.VISIBLE);
+                        txtspecialization.setVisibility(View.VISIBLE);
+                        txtgender.setVisibility(View.VISIBLE);
+                    }
+
+                }
+                else
+                {
+                    Toast.makeText(getContext(), "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                    // progressDialog.cancel();
+                }
+
+            }catch(JSONException e)
+            {
+                txtcontactno.setVisibility(View.GONE);
+                txtaddress.setVisibility(View.GONE);
+                txtspecialization.setVisibility(View.GONE);
+                txtgender.setVisibility(View.GONE);
+                txtname.setText(name2);
+                txtemail.setText(email);
+                //Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                //  progressDialog.cancel();
+            }
+        },error ->{
+            error.printStackTrace();
+            Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+            // progressDialog.cancel();
+        })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                //String token = userPref.getString("token","token");
+                map.put("Authorization","Bearer "+token);
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+    }
+
     private void getData() {
 //        StringRequest request = new StringRequest(Request.Method.GET, Constant.MY_POST+"?id="+userPref2.getString("id","id"), response -> {
 //            try{

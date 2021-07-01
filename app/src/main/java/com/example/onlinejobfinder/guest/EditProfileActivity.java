@@ -14,7 +14,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,13 +36,17 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class EditProfileActivity extends AppCompatActivity {
 
     String name2,user_id;
-    TextView txtid,txtselectphoto;
+    Spinner specialization, gender;
+    EditText edit_contactno, edit_address, edit_name;
+    ArrayList<String> Specialization, Gender;
+    TextView txtid,txtselectphoto,txt_email;
     Button btn_saveimage;
     CircleImageView circleImageView;
     Bitmap bitmap = null;
@@ -54,6 +61,32 @@ public class EditProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
         SharedPreferences prefs = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
+        String intentname = getIntent().getExtras().getString("name");
+        String intentemail = getIntent().getExtras().getString("email");
+        String intentcontactno = getIntent().getExtras().getString("contactno");
+        String intentaddress = getIntent().getExtras().getString("address");
+        String intentspecialization = getIntent().getExtras().getString("specialization");
+        String intentgender = getIntent().getExtras().getString("gender");
+        edit_address = findViewById(R.id.applicantprofile_address);
+        edit_address.setText(intentaddress);
+        edit_contactno = findViewById(R.id.applicantprofile_contactno);
+        edit_contactno.setText(intentcontactno);
+        edit_name = findViewById(R.id.applicantprofile_name);
+        edit_name.setText(intentname);
+        txt_email = findViewById(R.id.applicantprofile_email);
+        txt_email.setText(intentemail);
+        specialization = findViewById(R.id.spinner_specialization);
+        gender = findViewById(R.id.spinner_gender);
+        Specialization = new ArrayList<String>();
+        Specialization.add("Specialization");
+        Specialization.add("Accountant");
+        Specialization.add("Programmer");
+        Gender = new ArrayList<String>();
+        Gender.add("Gender");
+        Gender.add("Male");
+        Gender.add("Female");
+       specialization.setAdapter(new ArrayAdapter<String>(EditProfileActivity.this, android.R.layout.simple_spinner_dropdown_item, Specialization));
+       gender.setAdapter(new ArrayAdapter<String>(EditProfileActivity.this, android.R.layout.simple_spinner_dropdown_item, Gender));
         //name2 = prefs.getString("name","name");
         user_id = prefs.getString("id","id");
        // role = prefs.getString("role","role");
@@ -67,6 +100,8 @@ public class EditProfileActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         //userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        //check ID debugging//
+//        Toast.makeText(EditProfileActivity.this,user_id,Toast.LENGTH_SHORT).show();
         txtselectphoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,28 +113,29 @@ public class EditProfileActivity extends AppCompatActivity {
         btn_saveimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog.setMessage("Updating");
+                progressDialog.setMessage("Saving");
                 progressDialog.show();
-                StringRequest request = new StringRequest(Request.Method.POST, Constant.SAVE_USER_PROFILE, response -> {
+                StringRequest request = new StringRequest(Request.Method.POST, Constant.updateprofile, response -> {
+//                StringRequest request = new StringRequest(Request.Method.POST, Constant.SAVE_USER_PROFILE, response -> {
                     try{
                         JSONObject object= new JSONObject(response);
                         if(object.getBoolean("success")){
-                            JSONObject user = object.getJSONObject("user");
-//                            SharedPreferences userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-                            //SharedPreferences.Editor editor = userPref.edit();
-                           // editor.putString("id",user.getString("id"));
-                           // editor.putString("file_path",user.getString("file_path"));
+                            JSONObject user = object.getJSONObject("update");
+                            SharedPreferences userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = userPref.edit();
+                            editor.putString("id",user.getString("applicant_id"));
+                            //editor.putString("file_path",user.getString("file_path"));
                             //                           Intent i = new Intent(UploadProfileRegister.this, MainActivity.class);
                             //                           startActivity(i);
                             progressDialog.cancel();
 
-                           // editor.apply();
-                           // editor.commit();
-                            //Toast.makeText(UploadProfileRegister.this,"Upload Successfully",Toast.LENGTH_SHORT).show();
+                            editor.apply();
+                            editor.commit();
+                            Toast.makeText(EditProfileActivity.this,"Saved Successfully",Toast.LENGTH_SHORT).show();
                            // if(role.equals("employer"))
                            // {
-                                Intent ia = new Intent(EditProfileActivity.this, GuestActivity.class);
-                                startActivity(ia);
+                             //   Intent ia = new Intent(EditProfileActivity.this, GuestActivity.class);
+                               // startActivity(ia);
                              //   finish();
                            // }
                            // else
@@ -113,6 +149,7 @@ public class EditProfileActivity extends AppCompatActivity {
 //                            startActivity(i);
                             onBackPressed();
 
+
                         }
                         else
                         {
@@ -122,12 +159,12 @@ public class EditProfileActivity extends AppCompatActivity {
 
                     }catch(JSONException e)
                     {
-                        Toast.makeText(EditProfileActivity.this,"Network Busy, Please Try Again",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditProfileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
                         progressDialog.cancel();
                     }
                 },error ->{
                     error.printStackTrace();
-                    Toast.makeText(EditProfileActivity.this,"Network Busy, Please Try Again",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditProfileActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
                     progressDialog.cancel();
                 })
                 {
@@ -141,7 +178,14 @@ public class EditProfileActivity extends AppCompatActivity {
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         HashMap<String,String> map = new HashMap<>();
-                        map.put("id",user_id);
+                        //map.put("id",user_id);
+                        map.put("applicant_id",user_id);
+                        map.put("name",edit_name.getText().toString().trim());
+                        map.put("email",txt_email.getText().toString().trim());
+                        map.put("contactno",edit_contactno.getText().toString().trim());
+                        map.put("address",edit_address.getText().toString().trim());
+                        map.put("gender",gender.getSelectedItem().toString().trim());
+                        map.put("Specialization",specialization.getSelectedItem().toString().trim());
                         map.put("profile_pic",bitmapToString(bitmap));
                         return map;
                     }

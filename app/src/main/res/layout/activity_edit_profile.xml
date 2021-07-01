@@ -4,25 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="50dp"
     android:orientation="vertical"
+    android:background="#F0F0FF"
     android:gravity="center_horizontal"
     tools:context=".guest.EditProfileActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:text="Upload Profile Image"
-        android:layout_marginBottom="30dp"
-        android:gravity="center_horizontal"/>
+
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:src="@color/design_default_color_primary_dark"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
         android:id="@+id/imguser"
         />
 
@@ -35,6 +30,66 @@
         android:textSize="16sp"
         android:textColor="@color/design_default_color_primary_dark"
         android:layout_marginBottom="20dp"/>
+    <EditText
+        android:id="@+id/applicantprofile_name"
+        android:background="#FFFFFF"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:hint="Name"/>
+    <TextView
+        android:id="@+id/applicantprofile_email"
+        android:background="#FFFFFF"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:hint="Email"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_gravity="left"
+        android:layout_marginLeft="8dp"
+        android:text="Specialization"
+        android:textSize="18dp"/>
+    <Spinner
+        android:layout_gravity="left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_specialization"/>
+    <EditText
+        android:id="@+id/applicantprofile_contactno"
+        android:background="#FFFFFF"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:hint="Contact Number"/>
+
+    <EditText
+        android:id="@+id/applicantprofile_address"
+        android:background="#FFFFFF"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:hint="Address"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_gravity="left"
+        android:layout_marginLeft="8dp"
+        android:text="Gender"
+        android:textSize="18dp"/>
+    <Spinner
+        android:layout_gravity="left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_gender"/>
 
     <Button
         android:id="@+id/btnsaveimage"
@@ -42,7 +97,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shapebutton"
-        android:text="Save Image Profile"
+        android:text="Save"
         android:textColor="#FFFFFF"/>
 
     <!--    <TextView-->
