@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context=".tabregister.EmployerRegistrationActivity">
+
+
+    <TextView
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="For Approval"
+        android:textColor="#0d6e6a"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:letterSpacing="0.03"/>
+
+    <EditText
+        android:layout_marginTop="30dp"
+        android:id="@+id/edittext_employer_name"
+        android:background="@drawable/forget"
+        android:padding="10dp"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:hint="Company Name"/>
+    <TextView
+        android:layout_marginTop="15dp"
+        android:id="@+id/txt_employer_email"
+        android:padding="10dp"
+        android:background="@drawable/forget"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:hint="Email"
+        />
+
+    <EditText
+        android:layout_marginTop="15dp"
+        android:id="@+id/edittext_employer_password"
+        android:background="@drawable/forget"
+        android:padding="10dp"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:inputType="textPassword"
+        android:hint="Password"/>
+
+    <EditText
+        android:layout_marginTop="15dp"
+        android:id="@+id/edittext_employer_confirmpassword"
+        android:background="@drawable/forget"
+        android:padding="10dp"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:hint="Confirm Password"/>
+
+    <TextView
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:text="BIR Certificate"
+        android:textSize="18dp"/>
+
+    <ImageView
+        android:id="@+id/img_register_BIR"
+        android:layout_marginTop="15dp"
+        android:layout_width="350dp"
+        android:layout_height="200dp"
+        android:src="@color/design_default_color_primary_dark" />
+
+    <TextView
+        android:layout_marginTop="15dp"
+        android:id="@+id/txt_selectBIR"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Here"
+        android:gravity="center_horizontal"
+        android:textSize="16sp"
+        android:textColor="@color/design_default_color_primary_dark"
+        />
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_gravity="left"
+        android:layout_marginLeft="30dp"
+        android:text="By Clicking Send Button, You agree with our Privacy Policy and Terms of Conditions"
+        android:textSize="18dp"/>
+
+
+    <Button
+        android:id="@+id/btnsendtoapproval"
+        android:layout_marginTop="10dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shapebutton"
+        android:text="Send"
+        android:layout_marginBottom="30dp"
+        android:textColor="#FFFFFF"/>
+
+
+</LinearLayout>
+
+</ScrollView>

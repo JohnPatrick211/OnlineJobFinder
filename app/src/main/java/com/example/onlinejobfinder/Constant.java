@@ -5,6 +5,8 @@ public class Constant {
     public static final String home=URL+"/api";
     public static final String login=home+"/login";
     public static final String register=home+"/register";
+    public static final String registeremployer=home+"/registeremployer";
+    public static final String checkemail=home+"/checkemail";
     public static final String jobposts=home+"/jobpost";
     public static final String categoryfilter=home+"/categoryfilter";
     public static final String SAVE_USER_PROFILE=home+"/saveimage";

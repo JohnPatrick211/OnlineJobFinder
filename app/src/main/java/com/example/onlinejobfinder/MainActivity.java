@@ -98,11 +98,21 @@ public class MainActivity extends AppCompatActivity {
                                 editor.apply();
                                 editor.commit();
                                 String role = user.getString("role");
+                                String status = user.getString("status");
                                 if(role.equals("employer"))
                                 {
-                                    Intent ia = new Intent(MainActivity.this, EmployerActivity.class);
-                                    startActivity(ia);
-                                    finish();
+                                    if(status.equals("pending"))
+                                    {
+                                        Toast.makeText(MainActivity.this,"Your Account is not approved",Toast.LENGTH_SHORT).show();
+                                        progressDialog.cancel();
+                                    }
+                                    else
+                                    {
+                                        Intent ia = new Intent(MainActivity.this, EmployerActivity.class);
+                                        startActivity(ia);
+                                        finish();
+                                    }
+
                                 }
                                 else
                                 {

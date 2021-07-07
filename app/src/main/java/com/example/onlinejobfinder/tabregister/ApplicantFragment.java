@@ -121,7 +121,6 @@ public class ApplicantFragment extends Fragment {
                                     if(task.isSuccessful())
                                     {
                                         sendVerificationEmail();
-                 //                       user.reload();
                                     }
                                 }
                             }).addOnFailureListener(new OnFailureListener() {

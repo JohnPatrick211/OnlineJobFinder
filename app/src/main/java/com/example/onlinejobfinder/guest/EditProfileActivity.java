@@ -235,7 +235,7 @@ public class EditProfileActivity extends AppCompatActivity {
         }
         else
         {
-            Toast.makeText(EditProfileActivity.this,"error2",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(EditProfileActivity.this,"error2",Toast.LENGTH_SHORT).show();
         }
     }
     public void onBackPressed()

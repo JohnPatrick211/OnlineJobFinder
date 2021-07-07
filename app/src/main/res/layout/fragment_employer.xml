@@ -24,17 +24,17 @@
             android:textStyle="bold"
             android:letterSpacing="0.03"/>
 
-        <EditText
-            android:id="@+id/edittext_companynameregisteremp"
-            android:layout_width="350dp"
-            android:layout_height="45dp"
-            android:background="@drawable/forget"
-            android:hint="Company Name"
-            android:textColor="#0d6e6a"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:layout_marginTop="20dp"
-            android:paddingLeft="20dp"/>
+<!--        <EditText-->
+<!--            android:id="@+id/edittext_companynameregisteremp"-->
+<!--            android:layout_width="350dp"-->
+<!--            android:layout_height="45dp"-->
+<!--            android:background="@drawable/forget"-->
+<!--            android:hint="Company Name"-->
+<!--            android:textColor="#0d6e6a"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="18dp"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:paddingLeft="20dp"/>-->
 
         <EditText
             android:id="@+id/edittext_emailregisteremp"
@@ -48,39 +48,59 @@
             android:layout_marginTop="20dp"
             android:paddingLeft="20dp"/>
 
-        <EditText
-            android:id="@+id/edittext_passwordregisteremp"
-            android:layout_width="350dp"
-            android:layout_height="45dp"
-            android:background="@drawable/forget"
-            android:hint="Password"
-            android:textColor="#0d6e6a"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:layout_marginTop="20dp"
-            android:paddingLeft="20dp"/>
+<!--        <EditText-->
+<!--            android:id="@+id/edittext_passwordregisteremp"-->
+<!--            android:layout_width="350dp"-->
+<!--            android:layout_height="45dp"-->
+<!--            android:background="@drawable/forget"-->
+<!--            android:hint="Password"-->
+<!--            android:textColor="#0d6e6a"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="18dp"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:paddingLeft="20dp"/>-->
 
-        <EditText
-            android:layout_width="350dp"
-            android:layout_height="45dp"
-            android:background="@drawable/forget"
-            android:hint="Confirm Password"
-            android:textColor="#0d6e6a"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:layout_marginTop="20dp"
-            android:paddingLeft="20dp"/>
+<!--        <EditText-->
+<!--            android:layout_width="350dp"-->
+<!--            android:layout_height="45dp"-->
+<!--            android:background="@drawable/forget"-->
+<!--            android:hint="Confirm Password"-->
+<!--            android:textColor="#0d6e6a"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="18dp"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:paddingLeft="20dp"/>-->
 
+<!--        <Button-->
+<!--            android:id="@+id/btn_registeremp"-->
+<!--            android:layout_width="300dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:background="@drawable/button"-->
+<!--            android:text="Register"-->
+<!--            android:textSize="18dp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="#FFF"-->
+<!--            android:layout_marginTop="25dp"/>-->
         <Button
-            android:id="@+id/btn_registeremp"
+            android:id="@+id/btn_sendemailverification"
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:background="@drawable/button"
-            android:text="Register"
+            android:text="Send Email"
             android:textSize="18dp"
             android:textStyle="bold"
             android:textColor="#FFF"
             android:layout_marginTop="25dp"/>
+        <Button
+            android:id="@+id/btn_verifyemail"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:background="@drawable/button"
+            android:text="Verify Email"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:textColor="#FFF"
+            android:layout_marginTop="15dp"/>
 
         <TextView
             android:layout_width="wrap_content"
