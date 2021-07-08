@@ -47,14 +47,14 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
     protected void onPreExecute() {
         super.onPreExecute();
         //Showing progress dialog while sending email
-        progressDialog = ProgressDialog.show(context,"Sending Email Notification","Please wait...",false,false);
+        //progressDialog = ProgressDialog.show(context,"Sending Email Notification","Please wait...",false,false);
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         //Dismissing the progress dialog
-        progressDialog.dismiss();
+//        progressDialog.dismiss();
         //Showing a success message
         Toast.makeText(context,"Email Notification Sent",Toast.LENGTH_LONG).show();
     }
@@ -77,7 +77,7 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
                 new javax.mail.Authenticator() {
                     //Authenticating the password
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("pesojob@gmail.com", "wynspogi211");
+                        return new PasswordAuthentication("pesojob@gmail.com", "twnbhinfjdoqzykm");
                     }
                 });
 
@@ -98,7 +98,7 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
             Transport.send(mm);
 
         } catch (MessagingException e) {
-            progressDialog.dismiss();
+  //          progressDialog.dismiss();
             Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
         }
         return null;

@@ -174,6 +174,7 @@ public class EmployerFragment extends Fragment {
             // user.reload();
                 progressDialog.setMessage("Verifying");
                 progressDialog.show();
+
 //                if(user.isEmailVerified())
 //                {
 //                    Toast.makeText(getActivity(),"Success, Move to Next Intent",Toast.LENGTH_SHORT).show();
@@ -184,31 +185,35 @@ public class EmployerFragment extends Fragment {
 //                    Toast.makeText(getActivity(),"Your email is not verified",Toast.LENGTH_SHORT).show();
 //                    progressDialog.cancel();
 //                }
-                                mAuth.signInWithEmailAndPassword( edt_emailemp.getText().toString(),samplepassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                        if(task.isSuccessful()) {
-                                            if(user.isEmailVerified()) {
-                                                Toast.makeText(getActivity(), "Success, Move to Next Intent", Toast.LENGTH_SHORT).show();
-                                                progressDialog.cancel();
-                                                Intent i = new Intent(getContext(), EmployerRegistrationActivity.class);
-                                                i.putExtra("employeremail",edt_emailemp.getText().toString());
-                                                startActivity(i);
-                                            }
-                                            else
-                                            {
-                                                Toast.makeText(getActivity(),"Your email is not verified",Toast.LENGTH_SHORT).show();
-                                                progressDialog.cancel();
-                                            }
-                                        }
+                    mAuth.signInWithEmailAndPassword(edt_emailemp.getText().toString(), samplepassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                try {
+                                if (user.isEmailVerified()) {
+                                    Toast.makeText(getActivity(), "Success, Move to Next Intent", Toast.LENGTH_SHORT).show();
+                                    progressDialog.cancel();
+                                    Intent i = new Intent(getContext(), EmployerRegistrationActivity.class);
+                                    i.putExtra("employeremail", edt_emailemp.getText().toString());
+                                    startActivity(i);
+                                } else {
+                                    Toast.makeText(getActivity(), "Your email is not verified", Toast.LENGTH_SHORT).show();
+                                    progressDialog.cancel();
+                                }
+                                }catch (Exception e)
+                                {
+                                    Toast.makeText(getActivity(), "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
+                                    progressDialog.cancel();
+                                }
+                            }
+                            else {
+                                Toast.makeText(getActivity(), "Your email is not verified", Toast.LENGTH_SHORT).show();
+                                progressDialog.cancel();
+                            }
+                        }
+                    });
 
-                                        else
-                                        {
-                                            Toast.makeText(getActivity(),"Your email is not verified",Toast.LENGTH_SHORT).show();
-                                            progressDialog.cancel();
-                                        }
-                                    }
-                                });
+
 //                                .addOnFailureListener(new OnFailureListener() {
 //                                    @Override
 //                                    public void onFailure(@NonNull Exception e) {

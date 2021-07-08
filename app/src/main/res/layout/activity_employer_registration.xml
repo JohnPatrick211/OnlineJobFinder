@@ -46,6 +46,17 @@
 
     <EditText
         android:layout_marginTop="15dp"
+        android:id="@+id/txt_employer_address"
+        android:padding="10dp"
+        android:background="@drawable/forget"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:hint="Address"
+        />
+
+    <EditText
+        android:layout_marginTop="15dp"
         android:id="@+id/edittext_employer_password"
         android:background="@drawable/forget"
         android:padding="10dp"
@@ -64,6 +75,19 @@
         android:layout_height="wrap_content"
         android:textSize="18dp"
         android:hint="Confirm Password"/>
+
+    <EditText
+        android:layout_marginTop="15dp"
+        android:inputType="textMultiLine"
+        android:id="@+id/edittext_employer_companyoverview"
+        android:background="@drawable/companyoverview"
+        android:padding="10dp"
+        android:ems="10"
+        android:imeOptions="actionDone"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:hint="Company Overview"/>
 
     <TextView
         android:layout_marginTop="15dp"

@@ -26,7 +26,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
+import com.example.onlinejobfinder.EmailActivity;
+import com.example.onlinejobfinder.MainActivity;
 import com.example.onlinejobfinder.R;
+import com.example.onlinejobfinder.SendMail;
 import com.example.onlinejobfinder.guest.EditProfileActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -44,7 +47,7 @@ import java.util.Map;
 import static java.security.AccessController.getContext;
 
 public class EmployerRegistrationActivity extends AppCompatActivity {
-    EditText txtemployercompanyname, txtemployerpassword, txtemployerconfirmpassword;
+    EditText txtemployercompanyname, txtemployerpassword, txtemployerconfirmpassword, txtemployeraddress, txtemployercompanyoverview;
     TextView txtemployeremail,txtselectBIR;
     ImageView imagemployerBIR;
     Button btnsendapproval;
@@ -59,7 +62,10 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
         txtemployercompanyname = findViewById(R.id.edittext_employer_name);
         txtemployerpassword = findViewById(R.id.edittext_employer_password);
         txtemployeremail = findViewById(R.id.txt_employer_email);
+        txtemployeraddress = findViewById(R.id.txt_employer_address);
+        txtemployercompanyoverview = findViewById(R.id.edittext_employer_companyoverview);
         imagemployerBIR = findViewById(R.id.img_register_BIR);
+        imagemployerBIR.setVisibility(View.GONE);
         txtselectBIR = findViewById(R.id.txt_selectBIR);
         btnsendapproval = findViewById(R.id.btnsendtoapproval);
         String intentemail = getIntent().getExtras().getString("employeremail");
@@ -95,6 +101,11 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
 //                            editor.apply();
 
                                 Toast.makeText(getApplicationContext(),"Register Successfully, Please Wait for the email confirmation",Toast.LENGTH_SHORT).show();
+                            SendMail sm = new SendMail(EmployerRegistrationActivity.this, "pesojob@gmail.com", "New Employer Approval", "Please Check the Pending Employer");
+                            sm.execute();
+
+                                Intent i = new Intent(EmployerRegistrationActivity.this, MainActivity.class);
+                               startActivity(i);
                                 progressDialog.cancel();
 
 
@@ -155,6 +166,8 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
                         map.put("email",txtemployeremail.getText().toString().trim());
                         map.put("password",txtemployerpassword.getText().toString());
                         map.put("BIR_file",bitmapToString(bitmap));
+                        map.put("address",txtemployeraddress.getText().toString().trim());
+                        map.put("companyoverview",txtemployercompanyoverview.getText().toString());
                         map.put("status",status_employer);
                         map.put("role",role_employer);
                         return map;
@@ -173,8 +186,6 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
             bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
             byte[] array = byteArrayOutputStream.toByteArray();
             return Base64.encodeToString(array, Base64.DEFAULT);
-
-
         }
         else
         {
@@ -192,6 +203,7 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
             imagemployerBIR.setImageURI(imgUri);
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imgUri);
+                imagemployerBIR.setVisibility(View.VISIBLE);
             } catch (IOException e) {
                 e.printStackTrace();
             }
