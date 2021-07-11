@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -27,10 +28,13 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
+import com.example.onlinejobfinder.adapter.educationalbackgroundadapter;
 import com.example.onlinejobfinder.adapter.jobadapter;
+import com.example.onlinejobfinder.model.educationalbackground;
 import com.example.onlinejobfinder.model.job;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,6 +52,7 @@ public class ProfileFragment extends Fragment {
 
     TextView txtmanageaccount, txtname, txtemail, txtcontactno, txtaddress, txtgender, txtspecialization;
     ImageView editprofile;
+    educationalbackgroundadapter educationalbackgroundadapter;
    // RecyclerView recyclerview;
   //  jobadapter jobadapter2;
     //ArrayList<job> arraylist;
@@ -68,6 +73,10 @@ public class ProfileFragment extends Fragment {
     String val_address = "";
     String val_gender = "";
     String val_specialization = "";
+    ArrayList<educationalbackground> arraylist;
+    ArrayList<educationalbackground> arraylist2;
+    RecyclerView recyclerView;
+    JSONArray result;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -115,6 +124,7 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
        View root = inflater.inflate(R.layout.fragment_profile, container, false);
+
        editprofile = root.findViewById(R.id.image_manageaccountprofile);
         txtname = root.findViewById(R.id.textView_NameProfile);
         txtemail = root.findViewById(R.id.textView_EmailProfile);
@@ -122,6 +132,10 @@ public class ProfileFragment extends Fragment {
         txtcontactno = root.findViewById(R.id.textView_ContactNoProfile);
         txtgender = root.findViewById(R.id.textView_GenderProfile);
         txtspecialization = root.findViewById(R.id.textView_SpecializationProfile);
+        recyclerView = root.findViewById(R.id.recyclerview_educationalbackground);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        arraylist = new ArrayList<>();
+        arraylist2 = new ArrayList<>();
      //   textView_manage = root.findViewById(R.id.textView_Manage);
         imageview_user = root. findViewById(R.id.imguserprofile);
      //   recyclerview = root.findViewById(R.id.recyclerview_jobs_recommended);
@@ -216,6 +230,57 @@ public class ProfileFragment extends Fragment {
 
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
+
+//        StringRequest request2 = new StringRequest(Request.Method.GET, Constant.geteducation+"?educational_id="+user_id, response ->{
+//            try{
+//                JSONObject object = new JSONObject(response);
+//                if(object.getBoolean("success"))
+//                {
+//                    JSONArray array = new JSONArray(object.getString("education"));
+//                    for(int i = 0; i < array.length(); i++)
+//                    {
+//                        JSONObject postObject = array.getJSONObject(i);
+//                        //JSONObject getpostObject = postObject.getJSONObject("jobposts");
+//
+//                        educationalbackground educationalbackground2 = new educationalbackground();
+//                        educationalbackground2.setApplicantschool(postObject.getString("school"));
+//                        educationalbackground2.setApplicantcourse(postObject.getString("course"));
+//                        educationalbackground2.setApplicantyeargraduated(postObject.getString("year"));
+//
+//
+//                        arraylist.add(educationalbackground2);
+//                        arraylist2.add(educationalbackground2);
+//                    }
+//                    educationalbackgroundadapter = new educationalbackgroundadapter(arraylist,getContext());
+//                    recyclerView.setAdapter(educationalbackgroundadapter);
+//                }
+//                else {
+//                    recyclerView.setVisibility(View.GONE);
+//                    Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+//                }
+//            }catch(JSONException e)
+//            {
+//                e.printStackTrace();
+//                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+//                recyclerView.setVisibility(View.GONE);
+//            }
+//
+//
+//
+//        },error -> {
+//            error.printStackTrace();
+//            Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+//            recyclerView.setVisibility(View.GONE);
+//        }){
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                HashMap<String,String> map = new HashMap<>();
+//                return map;
+//            }
+//        };
+//
+//        RequestQueue queue2 = Volley.newRequestQueue(getContext());
+//        queue2.add(request2);
         // Toast.makeText(getContext(), user_id, Toast.LENGTH_SHORT).show();
 //        editor.putString("name",name2);
      //   editor.putString("id1",user_id);
@@ -334,6 +399,59 @@ public class ProfileFragment extends Fragment {
 
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
+        arraylist.clear();
+        StringRequest request2 = new StringRequest(Request.Method.GET, Constant.geteducation+"?educational_id="+user_id, response ->{
+            try{
+                JSONObject object = new JSONObject(response);
+                if(object.getBoolean("success"))
+                {
+                    JSONArray array = new JSONArray(object.getString("education"));
+                    for(int i = 0; i < array.length(); i++)
+                    {
+                        JSONObject postObject = array.getJSONObject(i);
+                        //JSONObject getpostObject = postObject.getJSONObject("jobposts");
+
+                        educationalbackground educationalbackground2 = new educationalbackground();
+                        educationalbackground2.setApplicantschool(postObject.getString("school"));
+                        educationalbackground2.setApplicantcourse(postObject.getString("course"));
+                        educationalbackground2.setApplicantyeargraduated(postObject.getString("year"));
+
+
+
+                        arraylist.add(educationalbackground2);
+
+                    }
+                    educationalbackgroundadapter = new educationalbackgroundadapter(arraylist,getContext());
+                    recyclerView.setAdapter(educationalbackgroundadapter);
+                    educationalbackgroundadapter.notifyDataSetChanged();
+                }
+                else {
+                    Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+                    recyclerView.setVisibility(View.GONE);
+                }
+            }catch(JSONException e)
+            {
+                recyclerView.setVisibility(View.GONE);
+                e.printStackTrace();
+                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+
+
+
+        },error -> {
+            error.printStackTrace();
+            Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+            recyclerView.setVisibility(View.GONE);
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                return map;
+            }
+        };
+
+        RequestQueue queue2 = Volley.newRequestQueue(getContext());
+        queue2.add(request2);
     }
 
     private void getData() {

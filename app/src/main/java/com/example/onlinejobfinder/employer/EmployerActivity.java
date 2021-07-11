@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -35,6 +36,11 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
     private NavigationView navigationView;
     SharedPreferences userPref;
     String name2,user_id;
+    final Fragment fragment1 = new EmployerHomeFragment();
+    final Fragment fragment2 = new ApplicantAppliedFragment();
+    final Fragment fragment3 = new EmployerProfileFragment();
+    final FragmentManager fm = getSupportFragmentManager();
+    Fragment active = fragment1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,33 +53,58 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.start, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-       // userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-      //  name2 = userPref.getString("name","name");
-       // user_id = userPref.getString("id","id");
-      //  SharedPreferences.Editor editor = userPref.edit();
-      //  editor.putString("name",name2);
-      //  editor.putString("id",user_id);
-      //  editor.apply();
-     //   editor.commit();
+        userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        name2 = userPref.getString("name","name");
+        user_id = userPref.getString("id","id");
+        SharedPreferences.Editor editor = userPref.edit();
+        editor.putString("name",name2);
+        editor.putString("id",user_id);
+        editor.apply();
+        editor.commit();
 
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container2,new EmployerHomeFragment()).commit();
+//        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+//        getSupportFragmentManager().beginTransaction().replace(R.id.container2,new EmployerHomeFragment()).commit();
         navigationView.setNavigationItemSelectedListener(this);
 
+        fm.beginTransaction().add(R.id.container2, fragment3, "3").hide(fragment3).commit();
+        fm.beginTransaction().add(R.id.container2, fragment2, "2").hide(fragment2).commit();
+        fm.beginTransaction().add(R.id.container2, fragment1, "1").commit();
+
+//        navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                Fragment selectedFragment = null;
+//                switch(item.getItemId()){
+//                    case R.id.navigation_employerhome:
+//                        selectedFragment = new EmployerHomeFragment();
+//                        break;
+//                    case R.id.navigation_employerapplicants:
+//                        selectedFragment = new ApplicantAppliedFragment();
+//                        break;
+//                }
+//                getSupportFragmentManager().beginTransaction().replace(R.id.container2,selectedFragment).commit();
+//                return true;
+//            }
+//        });
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment selectedFragment = null;
                 switch(item.getItemId()){
                     case R.id.navigation_employerhome:
-                        selectedFragment = new EmployerHomeFragment();
-                        break;
+                        fm.beginTransaction().hide(active).show(fragment1).commit();
+                        active = fragment1;
+                        return true;
                     case R.id.navigation_employerapplicants:
-                        selectedFragment = new ApplicantAppliedFragment();
-                        break;
+                        fm.beginTransaction().hide(active).show(fragment2).commit();
+                        active = fragment2;
+                        return true;
+                    case R.id.navigation_employerprofile:
+                        fm.beginTransaction().hide(active).show(fragment3).commit();
+                        active = fragment3;
+                        return true;
+
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.container2,selectedFragment).commit();
-                return true;
+                return false;
             }
         });
 

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F0F0FF"
+    android:gravity="center_horizontal"
+    tools:context=".employer.EmployerProfileFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:padding="5dp"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:id="@+id/image_manageemployeraccountprofile"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="0dp"
+            android:layout_width="50dp"
+            android:padding="6dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_baseline_edit_24"
+            android:layout_gravity="right"
+            />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_marginTop="-40dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@color/design_default_color_primary_dark"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/imgemployerprofile"
+            />
+
+
+        <TextView
+            android:id="@+id/textView_EmployerNameProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:text=""
+            android:layout_marginBottom="5dp"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/textView_EmployerEmailProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginBottom="10dp"
+            android:text=""
+            android:gravity="center_horizontal"/>
+        <TextView
+            android:id="@+id/textView_EmployerContactNoProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text=""
+            android:gravity="center_horizontal"/>
+        <TextView
+            android:id="@+id/textView_EmployerAddressProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text=""
+            android:gravity="center_horizontal"/>
+        <TextView
+            android:id="@+id/textView_EmployerSpecializationProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text=""
+            android:layout_marginBottom="10px"
+            android:gravity="center_horizontal"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:gravity="center_horizontal">
+
+<!--        <ImageView-->
+<!--            android:id="@+id/image_managecompanyoverviewprofile"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_marginRight="0dp"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:padding="6dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:src="@drawable/ic_baseline_edit_24"-->
+<!--            android:layout_gravity="right"-->
+<!--            />-->
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:text="Company Overview"
+            android:layout_marginBottom="5dp"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:padding="10dp"
+            android:id="@+id/textView_EmployerCompanyOverviewProfile"
+            android:layout_width="wrap_content"
+            android:justificationMode="inter_word"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_marginBottom="10dp"
+            android:text=""
+            android:gravity="left"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="750px"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:layout_marginBottom="30dp"
+        android:gravity="center_horizontal">
+
+<!--        <ImageView-->
+<!--            android:id="@+id/image_manageBIRemployerprofile"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_marginRight="0dp"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:padding="6dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:src="@drawable/ic_baseline_edit_24"-->
+<!--            android:layout_gravity="right"-->
+<!--            />-->
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:text="BIR Certificate"
+            android:layout_marginBottom="5dp"
+            android:gravity="center_horizontal"/>
+
+        <ImageView
+            android:id="@+id/img_profile_BIR"
+            android:layout_marginTop="15dp"
+            android:layout_width="350dp"
+            android:layout_height="200dp"
+            android:src="@color/design_default_color_primary_dark" />
+
+    </LinearLayout>
+
+</LinearLayout>
+
+</ScrollView>

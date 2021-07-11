@@ -16,4 +16,10 @@
         android:label="Applicants"
         tools:layout="@layout/fragment_applicant_applied" />
 
+    <fragment
+        android:id="@+id/navigation_employerprofile"
+        android:name="com.example.onlinejobfinder.employer.EmployerProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_employer_profile" />
+
 </navigation>

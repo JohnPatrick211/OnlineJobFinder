@@ -11,8 +11,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,7 +36,7 @@ import com.example.onlinejobfinder.R;
 public class HomeFragment extends Fragment {
 
     TextView txtview_name, errortext;
-    String name2,specialization;
+    String name2,specialization,user_id;
     LinearLayout errorlayout;
 
 
@@ -78,19 +92,89 @@ public class HomeFragment extends Fragment {
         errortext = view.findViewById(R.id.allerrortext);
         errorlayout.setVisibility(View.GONE);
         name2 = prefs.getString("name","name");
-        specialization = prefs.getString("specialization","specialization");
+        user_id = prefs.getString("id","id");
+        //specialization = prefs.getString("specialization","specialization");
 //        Bundle bundle = getActivity().getIntent().getExtras();
 ////        if (bundle != null) {
 ////            name2 = bundle.getString("name");
 ////
           txtview_name.setText(name2);
 ////        }
-        if(specialization.equals("null"))
+
+        StringRequest request = new StringRequest(Request.Method.POST, Constant.checkspecialization, response -> {
+            try{
+                JSONObject object= new JSONObject(response);
+                if(object.getBoolean("success")){
+                    errorlayout.setVisibility(View.GONE);
+                }
+                else
+                {
+                    errorlayout.setVisibility(View.VISIBLE);
+                    errortext.setText("Please set your Specialization in your Profile");
+                }
+
+            }catch(JSONException e)
+            {
+                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+
+            }
+        },error ->{
+            error.printStackTrace();
+            Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+
+        })
         {
-            errorlayout.setVisibility(View.VISIBLE);
-            errortext.setText("Please set your Specialization in your Profile");
-        }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                map.put("applicant_id",user_id);
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
 
        return view;
+    }
+
+    public void onResume() {
+        super.onResume();
+        StringRequest request = new StringRequest(Request.Method.POST, Constant.checkspecialization, response -> {
+            try{
+                JSONObject object= new JSONObject(response);
+                if(object.getBoolean("success")){
+                    errorlayout.setVisibility(View.GONE);
+                    //errortext.setText("Please set your Specialization in your Profile");
+                }
+                else
+                {
+                    errorlayout.setVisibility(View.VISIBLE);
+                    errortext.setText("Please set your Specialization in your Profile");
+                }
+
+            }catch(JSONException e)
+            {
+                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+
+            }
+        },error ->{
+            error.printStackTrace();
+            Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+
+        })
+        {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                map.put("applicant_id",user_id);
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
     }
 }

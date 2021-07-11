@@ -6,9 +6,66 @@
     tools:context=".employer.ApplicantAppliedFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        android:id="@+id/bruh">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <SearchView
+                android:id="@+id/searchapplicantapplied"
+                android:queryHint="Seek"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <Spinner
+                android:layout_marginTop="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_categoryappliedapplicants"/>
+<!--            <Spinner-->
+<!--                android:layout_marginTop="40dp"-->
+<!--                android:layout_toRightOf="@+id/spinner_category"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:id="@+id/spinner_location"/>-->
+            <TextView
+                android:layout_toRightOf="@+id/spinner_categoryappliedapplicants"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:textAlignment="center"
+                android:textColor="@color/design_default_color_primary"
+                android:text="Filter"
+                android:textSize="20dp"
+                android:id="@+id/btn_filterforapplicants"/>
+
+        </RelativeLayout>
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/swipe_applicantapplied">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"
+                android:orientation="vertical"
+                >
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_appliedapplicants"
+                    android:layout_width="match_parent"
+                    android:layout_height="520dp" />
+            </LinearLayout>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </LinearLayout>
 
 </FrameLayout>

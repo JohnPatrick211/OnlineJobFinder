@@ -8,4 +8,8 @@
         android:id="@+id/navigation_employerapplicants"
         android:title="Applicants" />
 
+    <item
+        android:id="@+id/navigation_employerprofile"
+        android:title="Profile" />
+
 </menu>

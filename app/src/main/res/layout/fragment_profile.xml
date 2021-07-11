@@ -102,9 +102,13 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textSize="25sp"
-            android:text="Sample"
+            android:text="Educational Background"
             android:layout_marginBottom="5dp"
             android:gravity="center_horizontal"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_educationalbackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
