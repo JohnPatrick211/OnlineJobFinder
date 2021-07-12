@@ -1,22 +1,18 @@
-package com.example.onlinejobfinder.guest;
+package com.example.onlinejobfinder.applicant;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,9 +25,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.adapter.educationalbackgroundadapter;
-import com.example.onlinejobfinder.adapter.jobadapter;
 import com.example.onlinejobfinder.model.educationalbackground;
-import com.example.onlinejobfinder.model.job;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -50,9 +44,10 @@ import java.util.Map;
 public class ProfileFragment extends Fragment {
 
 
-    TextView txtmanageaccount, txtname, txtemail, txtcontactno, txtaddress, txtgender, txtspecialization;
+    TextView txtmanageaccount, txtname, txtemail, txtcontactno, txtaddress, txtgender, txtspecialization, txtresume,txtintentresume, txtviewresume, txtaddeduc;
     ImageView editprofile;
     educationalbackgroundadapter educationalbackgroundadapter;
+    educationalbackgroundadapter.RecyclerViewClickListener listener;
    // RecyclerView recyclerview;
   //  jobadapter jobadapter2;
     //ArrayList<job> arraylist;
@@ -73,6 +68,7 @@ public class ProfileFragment extends Fragment {
     String val_address = "";
     String val_gender = "";
     String val_specialization = "";
+    String val_resume = "";
     ArrayList<educationalbackground> arraylist;
     ArrayList<educationalbackground> arraylist2;
     RecyclerView recyclerView;
@@ -124,14 +120,17 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
        View root = inflater.inflate(R.layout.fragment_profile, container, false);
-
+        txtintentresume = root.findViewById(R.id.textView_IntentResume);
+        txtviewresume = root.findViewById(R.id.textView_ViewResume);
        editprofile = root.findViewById(R.id.image_manageaccountprofile);
         txtname = root.findViewById(R.id.textView_NameProfile);
         txtemail = root.findViewById(R.id.textView_EmailProfile);
         txtaddress = root.findViewById(R.id.textView_AddressProfile);
         txtcontactno = root.findViewById(R.id.textView_ContactNoProfile);
         txtgender = root.findViewById(R.id.textView_GenderProfile);
+        txtresume = root.findViewById(R.id.textView_ResumeView);
         txtspecialization = root.findViewById(R.id.textView_SpecializationProfile);
+        txtaddeduc = root.findViewById(R.id.textView_addeducation);
         recyclerView = root.findViewById(R.id.recyclerview_educationalbackground);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         arraylist = new ArrayList<>();
@@ -154,6 +153,29 @@ public class ProfileFragment extends Fragment {
         //check ID debugging//
         //Toast.makeText(getContext(), user_id, Toast.LENGTH_SHORT).show();
         Toast.makeText(getContext(), email, Toast.LENGTH_SHORT).show();
+        setOnClickListener();
+        txtaddeduc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), AddEducationActivity.class);
+                startActivity(i);
+            }
+        });
+        txtintentresume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), UploadResumeActivity.class);
+                i.putExtra("applicant_id", user_id);
+                startActivity(i);
+            }
+        });
+        txtviewresume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://peso-ojfss.000webhostapp.com/storage/resume/"+txtresume.getText().toString()));
+                startActivity(browserIntent);
+            }
+        });
         StringRequest request = new StringRequest(Request.Method.GET, Constant.MY_POST+"?applicant_id="+user_id, response -> {
             try{
                 JSONObject object= new JSONObject(response);
@@ -169,6 +191,8 @@ public class ProfileFragment extends Fragment {
                     val_specialization = txtspecialization.getText().toString();
                     txtgender.setText(user.get("gender").toString());
                     val_gender = txtgender.getText().toString();
+                    txtresume.setText(user.get("resume").toString());
+                    val_resume = txtresume.getText().toString();
                     Picasso.get().load(Constant.URL+"/storage/profiles/"+user.getString("profile_pic")).into(imageview_user);
                     SharedPreferences.Editor editor2 = userPref2.edit();
                     editor2.putString("name",user.getString("name"));
@@ -185,11 +209,18 @@ public class ProfileFragment extends Fragment {
                         txtspecialization.setVisibility(View.GONE);
                         txtgender.setVisibility(View.GONE);
                     }
+                    if(user.get("resume").toString().equals("null"))
+                    {
+                        txtresume.setVisibility(View.GONE);
+                        txtviewresume.setVisibility(View.GONE);
+                    }
                     else {
                         txtcontactno.setVisibility(View.VISIBLE);
                         txtaddress.setVisibility(View.VISIBLE);
                         txtspecialization.setVisibility(View.VISIBLE);
                         txtgender.setVisibility(View.VISIBLE);
+                        txtresume.setVisibility(View.VISIBLE);
+                        txtviewresume.setVisibility(View.VISIBLE);
                     }
 
                 }
@@ -206,6 +237,8 @@ public class ProfileFragment extends Fragment {
                 txtaddress.setVisibility(View.GONE);
                 txtspecialization.setVisibility(View.GONE);
                 txtgender.setVisibility(View.GONE);
+                txtresume.setVisibility(View.GONE);
+                txtviewresume.setVisibility(View.GONE);
                 txtname.setText(name2);
                 txtemail.setText(email);
                 //  progressDialog.cancel();
@@ -340,6 +373,8 @@ public class ProfileFragment extends Fragment {
                     val_specialization = txtspecialization.getText().toString();
                     txtgender.setText(user.get("gender").toString());
                     val_gender = txtgender.getText().toString();
+                    txtresume.setText(user.get("resume").toString());
+                    val_resume = txtresume.getText().toString();
                     Picasso.get().load(Constant.URL+"/storage/profiles/"+user.getString("profile_pic")).into(imageview_user);
                     SharedPreferences.Editor editor2 = userPref2.edit();
                     editor2.putString("name",user.getString("name"));
@@ -356,11 +391,18 @@ public class ProfileFragment extends Fragment {
                         txtspecialization.setVisibility(View.GONE);
                         txtgender.setVisibility(View.GONE);
                     }
+                    if(user.get("resume").toString().equals("null"))
+                    {
+                        txtresume.setVisibility(View.GONE);
+                        txtviewresume.setVisibility(View.GONE);
+                    }
                     else {
                         txtcontactno.setVisibility(View.VISIBLE);
                         txtaddress.setVisibility(View.VISIBLE);
                         txtspecialization.setVisibility(View.VISIBLE);
                         txtgender.setVisibility(View.VISIBLE);
+                        txtresume.setVisibility(View.VISIBLE);
+                        txtviewresume.setVisibility(View.VISIBLE);
                     }
 
                 }
@@ -372,13 +414,15 @@ public class ProfileFragment extends Fragment {
 
             }catch(JSONException e)
             {
+                //Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
                 txtcontactno.setVisibility(View.GONE);
                 txtaddress.setVisibility(View.GONE);
                 txtspecialization.setVisibility(View.GONE);
                 txtgender.setVisibility(View.GONE);
+                txtresume.setVisibility(View.GONE);
+                txtviewresume.setVisibility(View.GONE);
                 txtname.setText(name2);
                 txtemail.setText(email);
-                //Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
                 //  progressDialog.cancel();
             }
         },error ->{
@@ -415,13 +459,14 @@ public class ProfileFragment extends Fragment {
                         educationalbackground2.setApplicantschool(postObject.getString("school"));
                         educationalbackground2.setApplicantcourse(postObject.getString("course"));
                         educationalbackground2.setApplicantyeargraduated(postObject.getString("year"));
+                        educationalbackground2.setId(postObject.getString("id"));
 
 
 
                         arraylist.add(educationalbackground2);
 
                     }
-                    educationalbackgroundadapter = new educationalbackgroundadapter(arraylist,getContext());
+                    educationalbackgroundadapter = new educationalbackgroundadapter(arraylist,getContext(),listener);
                     recyclerView.setAdapter(educationalbackgroundadapter);
                     educationalbackgroundadapter.notifyDataSetChanged();
                 }
@@ -452,6 +497,20 @@ public class ProfileFragment extends Fragment {
 
         RequestQueue queue2 = Volley.newRequestQueue(getContext());
         queue2.add(request2);
+    }
+
+    private void setOnClickListener() {
+        listener = new educationalbackgroundadapter.RecyclerViewClickListener() {
+            @Override
+            public void onClick(View v, int position) {
+                Intent intent = new Intent(getActivity(), UpdateEducationActivity.class);
+                intent.putExtra("educ_id",arraylist.get(position).getId());
+                intent.putExtra("intentschool",arraylist.get(position).getApplicantschool());
+                intent.putExtra("intentcourse",arraylist.get(position).getApplicantcourse());
+                intent.putExtra("intentyear",arraylist.get(position).getApplicantyeargraduated());
+                startActivity(intent);
+            }
+        };
     }
 
     private void getData() {

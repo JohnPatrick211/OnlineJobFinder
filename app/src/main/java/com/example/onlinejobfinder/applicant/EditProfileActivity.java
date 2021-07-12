@@ -1,4 +1,4 @@
-package com.example.onlinejobfinder.guest;
+package com.example.onlinejobfinder.applicant;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,8 +27,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
-import com.example.onlinejobfinder.GuestActivity;
-import com.example.onlinejobfinder.MainActivity;
 import com.example.onlinejobfinder.R;
 
 import org.json.JSONException;

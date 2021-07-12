@@ -28,14 +28,27 @@ public class educationalbackground {
         this.applicantyeargraduated = applicantyeargraduated;
     }
 
-    public educationalbackground(String applicantschool, String applicantcourse, String applicantyeargraduated) {
+
+    public educationalbackground(String id, String applicantschool, String applicantcourse, String applicantyeargraduated) {
+        this.id = id;
         this.applicantschool = applicantschool;
         this.applicantcourse = applicantcourse;
         this.applicantyeargraduated = applicantyeargraduated;
     }
 
+    private String id;
     private String applicantschool;
     private String applicantcourse;
     private String applicantyeargraduated;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+
 
 }

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F0F0FF"
+    android:gravity="center_horizontal"
+    tools:context=".applicant.UpdateEducationActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <EditText
+            android:background="#FFFFFF"
+            android:padding="10dp"
+            android:id="@+id/edittext_updateschool"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="School/Institute"
+            android:textSize="18dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <EditText
+            android:background="#FFFFFF"
+            android:padding="10dp"
+            android:id="@+id/edittext_updatecourse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Course/Field of Studies"
+            android:textSize="18dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <EditText
+            android:padding="10dp"
+            android:background="#FFFFFF"
+            android:id="@+id/edittext_updateyeargraduation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Year of Graduation"
+            android:textSize="18dp"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnupdateeducation"
+        android:layout_marginTop="20dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shapebutton"
+        android:text="Save"
+        android:textColor="#FFFFFF"/>
+
+    <Button
+        android:id="@+id/btndeleteeducation"
+        android:layout_marginTop="20dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shapebutton"
+        android:text="Remove Education"
+        android:textColor="#FFFFFF"/>
+
+</LinearLayout>

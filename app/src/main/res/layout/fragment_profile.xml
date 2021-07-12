@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,7 +12,7 @@
     android:background="#F0F0FF"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context=".guest.ProfileFragment">
+    tools:context=".applicant.ProfileFragment">
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -98,17 +103,80 @@
         android:gravity="center_horizontal">
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:text="Education"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
+            android:gravity="left"
+            android:layout_marginLeft="-100dp"/>
+        <TextView
+            android:id="@+id/textView_addeducation"
+            android:textColor="@color/design_default_color_primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginTop="-50dp"
+            android:text="Add"
+            android:gravity="right"
+            android:layout_marginLeft="150dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="10dp"
+            android:id="@+id/recyclerview_educationalbackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="400px"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:layout_marginBottom="50px"
+        android:gravity="center_horizontal">
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textSize="25sp"
-            android:text="Educational Background"
-            android:layout_marginBottom="5dp"
+            android:text="Resume"
+            android:layout_marginBottom="8dp"
             android:gravity="center_horizontal"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_educationalbackground"
+
+        <TextView
+            android:id="@+id/textView_ResumeView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginBottom="10dp"
+            android:text="Resume"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/textView_ViewResume"
+            android:textColor="@color/design_default_color_primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginBottom="10dp"
+            android:text="View Resume"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/textView_IntentResume"
+            android:textColor="@color/design_default_color_primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginBottom="10dp"
+            android:text="Upload Document"
+            android:gravity="center_horizontal"/>
 
     </LinearLayout>
 
@@ -116,3 +184,4 @@
 
 
 </LinearLayout>
+</ScrollView>

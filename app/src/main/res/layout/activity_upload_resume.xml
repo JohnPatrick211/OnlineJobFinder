@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F0FF"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context=".applicant.UploadResumeActivity">
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/white">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_note_add_24"
+            android:layout_gravity="center"/>
+
+
+        <TextView
+            android:id="@+id/textview_uploadpdf"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/design_default_color_primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="Upload Resume"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="Note: PDF File Only"
+            android:gravity="center_horizontal"/>
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

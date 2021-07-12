@@ -7,10 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,13 +17,8 @@ import android.view.MenuItem;
 
 import com.example.onlinejobfinder.MainActivity;
 import com.example.onlinejobfinder.R;
-import com.example.onlinejobfinder.guest.HomeFragment;
-import com.example.onlinejobfinder.guest.ProfileFragment;
-import com.example.onlinejobfinder.guest.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-
-import java.util.Objects;
 
 public class EmployerActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
 

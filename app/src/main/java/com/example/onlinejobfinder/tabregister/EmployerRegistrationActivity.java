@@ -1,18 +1,15 @@
 package com.example.onlinejobfinder.tabregister;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,15 +23,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
-import com.example.onlinejobfinder.EmailActivity;
 import com.example.onlinejobfinder.MainActivity;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.SendMail;
-import com.example.onlinejobfinder.guest.EditProfileActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,8 +34,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import static java.security.AccessController.getContext;
 
 public class EmployerRegistrationActivity extends AppCompatActivity {
     EditText txtemployercompanyname, txtemployerpassword, txtemployerconfirmpassword, txtemployeraddress, txtemployercompanyoverview;

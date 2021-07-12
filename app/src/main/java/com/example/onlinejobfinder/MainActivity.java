@@ -18,7 +18,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.employer.EmployerActivity;
-import com.example.onlinejobfinder.guest.HomeFragment;
 import com.example.onlinejobfinder.tabregister.RegisterActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -68,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         txtview_guest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, GuestActivity.class);
+                Intent i = new Intent(MainActivity.this, ApplicantActivity.class);
                 startActivity(i);
             }
         });
@@ -116,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 else
                                 {
-                                    Intent i = new Intent(MainActivity.this, GuestActivity.class);
+                                    Intent i = new Intent(MainActivity.this, ApplicantActivity.class);
                                     startActivity(i);
                                     finish();
                                 }

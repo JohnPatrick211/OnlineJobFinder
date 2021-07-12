@@ -1,4 +1,4 @@
-package com.example.onlinejobfinder.guest;
+package com.example.onlinejobfinder.applicant;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -20,7 +20,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -10,11 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OnlineJobFinder"
         android:usesCleartextTraffic="true">
-        <activity android:name=".tabregister.EmployerRegistrationActivity"></activity>
-        <activity android:name=".guest.EditProfileActivity" />
+        <activity android:name=".applicant.UpdateEducationActivity"></activity>
+        <activity android:name=".applicant.AddEducationActivity" />
+        <activity android:name=".applicant.UploadResumeActivity" />
+        <activity android:name=".tabregister.EmployerRegistrationActivity" />
+        <activity android:name=".applicant.EditProfileActivity" />
         <activity android:name=".employer.EmployerActivity" />
         <activity android:name=".EmailActivity" />
-        <activity android:name=".GuestActivity" />
+        <activity android:name=".ApplicantActivity" />
         <activity android:name=".tabregister.RegisterActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

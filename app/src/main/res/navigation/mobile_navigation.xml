@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.onlinejobfinder.guest.HomeFragment"
+        android:name="com.example.onlinejobfinder.applicant.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.onlinejobfinder.guest.SearchFragment"
+        android:name="com.example.onlinejobfinder.applicant.SearchFragment"
         android:label="Search"
         tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.onlinejobfinder.guest.ProfileFragment"
+        android:name="com.example.onlinejobfinder.applicant.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>
