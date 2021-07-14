@@ -1,5 +1,6 @@
 package com.example.onlinejobfinder;
 
+
 public class Constant {
     public static final String URL="https://peso-ojfss.000webhostapp.com";
     public static final String home=URL+"/api";
@@ -10,6 +11,7 @@ public class Constant {
     public static final String checkspecialization=home+"/checkspecialization";
     public static final String jobposts=home+"/jobpost";
     public static final String geteducation=home+"/posteducationalbackground";
+    public static final String sendOTP=home+"/sendOTP";
     public static final String updateeducation=home+"/updateeducationalbackground";
     public static final String addeducation=home+"/addeducationalbackground";
     public static final String categoryfilter=home+"/categoryfilter";

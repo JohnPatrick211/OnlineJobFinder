@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F0F0FF"
+    android:gravity="center"
+    tools:context=".EditContactNumberActivity">
+
+    <LinearLayout
+        android:layout_marginTop="-100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        >
+
+        <EditText
+            android:background="#FFFFFF"
+            android:padding="10dp"
+            android:id="@+id/edittext_editcontactnumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contact Number"
+            android:textSize="18dp"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnsendOTP"
+        android:layout_marginTop="20dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shapebutton"
+        android:text="Send OTP"
+        android:textColor="#FFFFFF"/>
+
+</LinearLayout>

@@ -27,6 +27,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
+import com.example.onlinejobfinder.EditContactNumberActivity;
 import com.example.onlinejobfinder.R;
 
 import org.json.JSONException;
@@ -100,6 +101,17 @@ public class EditProfileActivity extends AppCompatActivity {
         //userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         //check ID debugging//
 //        Toast.makeText(EditProfileActivity.this,user_id,Toast.LENGTH_SHORT).show();
+        edit_contactno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(EditProfileActivity.this, EditContactNumberActivity.class);
+                i.putExtra("name", edit_name.getText().toString());
+                i.putExtra("address", edit_address.getText().toString());
+                i.putExtra("email",txt_email.getText().toString());
+                startActivity(i);
+                finish();
+            }
+        });
         txtselectphoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
