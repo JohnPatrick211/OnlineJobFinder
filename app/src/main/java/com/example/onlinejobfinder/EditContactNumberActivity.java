@@ -49,6 +49,7 @@ public class EditContactNumberActivity extends AppCompatActivity {
         String intentname = getIntent().getExtras().getString("name");
         String intentemail = getIntent().getExtras().getString("email");
         String intentaddress = getIntent().getExtras().getString("address");
+        String intentcompanyoverview = getIntent().getExtras().getString("companyoverview");
 
         btnsendOTP.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,14 +92,15 @@ public class EditContactNumberActivity extends AppCompatActivity {
                             intentcontactnum = object.get("contactnumber").toString();
                             intentOTPcode = object.get("OTPcode").toString();
                             Toast.makeText(EditContactNumberActivity.this,"OTP send Successfully",Toast.LENGTH_SHORT).show();
-                            Toast.makeText(EditContactNumberActivity.this,intentOTPcode,Toast.LENGTH_SHORT).show();
-                            Toast.makeText(EditContactNumberActivity.this,intentcontactnum,Toast.LENGTH_SHORT).show();
+                       //     Toast.makeText(EditContactNumberActivity.this,intentOTPcode,Toast.LENGTH_SHORT).show();
+                        //    Toast.makeText(EditContactNumberActivity.this,intentcontactnum,Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(EditContactNumberActivity.this, VerifyOTP.class);
                             i.putExtra("name",intentname);
                             i.putExtra("email",intentemail);
                             i.putExtra("address",intentaddress);
                             i.putExtra("OTPcode", intentOTPcode);
                             i.putExtra("contactnum","0" + intentcontactnum);
+                            i.putExtra("companyoverview", intentcompanyoverview);
                             startActivity(i);
                             finish();
 

@@ -10,8 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OnlineJobFinder"
         android:usesCleartextTraffic="true">
-        <activity android:name=".VerifyOTP"></activity>
+        <activity android:name=".EmployerVerifyOTP"></activity>
+        <activity android:name=".employer.EditEmployerProfileActivity" />
+        <activity android:name=".VerifyOTP" />
         <activity android:name=".EditContactNumberActivity" />
+        <activity android:name=".EditEmployerContactNumberActivity" />
         <activity android:name=".applicant.UpdateEducationActivity" />
         <activity android:name=".applicant.AddEducationActivity" />
         <activity android:name=".applicant.UploadResumeActivity" />

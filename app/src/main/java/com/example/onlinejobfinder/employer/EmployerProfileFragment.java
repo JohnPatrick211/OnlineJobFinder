@@ -1,6 +1,7 @@
 package com.example.onlinejobfinder.employer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -20,6 +21,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
+import com.example.onlinejobfinder.applicant.EditProfileActivity;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -107,6 +109,7 @@ public class EmployerProfileFragment extends Fragment {
 
 
         Toast.makeText(getContext(), email, Toast.LENGTH_SHORT).show();
+
         StringRequest request = new StringRequest(Request.Method.GET, Constant.EMPLOYER_POST+"?employer_id="+user_id, response -> {
             try{
                 JSONObject object= new JSONObject(response);
@@ -179,6 +182,105 @@ public class EmployerProfileFragment extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
 
+
+
+        editemployerprofile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), EditEmployerProfileActivity.class);
+                i.putExtra("name",txtemployername.getText().toString());
+                i.putExtra("email",txtemployeremail.getText().toString());
+                i.putExtra("address",txtemployeraddress.getText().toString());
+                i.putExtra("companyoverview",txtemployercompanyoverview.getText().toString());
+                if(val_contactno.equals("null")||val_specialization.equals("null"))
+                {
+                    i.putExtra("contactno","");
+                   // i.putExtra("specialization","");
+                }
+                else
+                {
+                    i.putExtra("contactno",txtemployercontactno.getText().toString());
+                    //i.putExtra("specialization",txtemployerspecialization.getText().toString());
+                }
+                startActivity(i);
+            }
+        });
+
         return root;
+    }
+
+    public void onResume() {
+        super.onResume();
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.EMPLOYER_POST+"?employer_id="+user_id, response -> {
+            try{
+                JSONObject object= new JSONObject(response);
+                if(object.getBoolean("success")){
+                    JSONObject user = object.getJSONObject("user");
+                    txtemployername.setText(user.get("name").toString());
+                    txtemployeremail.setText(user.get("email").toString());
+                    txtemployercontactno.setText(user.get("contactno").toString());
+                    val_contactno = txtemployercontactno.getText().toString();
+                    txtemployeraddress.setText(user.get("address").toString());
+                    txtemployerspecialization.setText(user.get("Specialization").toString());
+                    val_specialization =  txtemployerspecialization.getText().toString();
+                    txtemployercompanyoverview.setText(user.get("companyoverview").toString());
+                    Picasso.get().load(Constant.URL+"/storage/profiles/"+user.getString("profile_pic")).into(imageview_employer);
+                    Picasso.get().load(Constant.URL+"/storage/BIR/"+user.getString("BIR_file")).into(imageview_BIRemployer);
+                    SharedPreferences.Editor editor2 = userPref2.edit();
+                    editor2.putString("name",user.getString("name"));
+                    editor2.putString("address",user.getString("address"));
+                    editor2.putString("contactno",user.getString("contactno"));
+                    //editor2.putString("email",user.getString("email"));
+                    // editor2.putString("background",user.getString("background"));
+                    editor2.apply();
+                    editor2.commit();
+                    if(user.get("contactno").toString().equals("null")|| user.get("Specialization").toString().equals("null"))
+                    {
+                        txtemployercontactno.setVisibility(View.GONE);
+                        txtemployerspecialization.setVisibility(View.GONE);
+                    }
+                    else {
+                        txtemployercontactno.setVisibility(View.VISIBLE);
+                        txtemployerspecialization.setVisibility(View.VISIBLE);
+                    }
+
+                }
+                else
+                {
+                    Toast.makeText(getContext(), "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                    // progressDialog.cancel();
+                }
+
+            }catch(JSONException e)
+            {
+                //Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                txtemployercontactno.setVisibility(View.GONE);
+                txtemployeraddress.setVisibility(View.GONE);
+                txtemployerspecialization.setVisibility(View.GONE);
+                txtemployername.setText(name2);
+                txtemployeremail.setText(email);
+                //  progressDialog.cancel();
+            }
+        },error ->{
+            error.printStackTrace();
+            Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+            txtemployername.setText(name2);
+            txtemployeremail.setText(email);
+            txtemployercompanyoverview.setText("network error in loading of content");
+            // progressDialog.cancel();
+        })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                //String token = userPref.getString("token","token");
+                map.put("Authorization","Bearer "+token);
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
     }
 }

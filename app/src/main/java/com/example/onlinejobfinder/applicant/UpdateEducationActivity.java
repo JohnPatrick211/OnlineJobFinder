@@ -38,6 +38,7 @@ public class UpdateEducationActivity extends AppCompatActivity {
         update_course = findViewById(R.id.edittext_updatecourse);
         update_year = findViewById(R.id.edittext_updateyeargraduation);
         btnupdateeduc = findViewById(R.id.btnupdateeducation);
+        btndeleteeduc = findViewById(R.id.btndeleteeducation);
         intentid = getIntent().getExtras().getString("educ_id");
         intentschool = getIntent().getExtras().getString("intentschool");
         intentcourse = getIntent().getExtras().getString("intentcourse");
@@ -48,6 +49,60 @@ public class UpdateEducationActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         //Toast.makeText(UpdateEducationActivity.this, intentid, Toast.LENGTH_SHORT).show();
+
+        btndeleteeduc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialog.setMessage("Deleting");
+                progressDialog.show();
+                StringRequest request = new StringRequest(Request.Method.POST, Constant.deleteeducation, response -> {
+                    try{
+                        JSONObject object= new JSONObject(response);
+                        if(object.getBoolean("success")){
+                            //JSONObject user = object.getJSONObject("update");
+                            //SharedPreferences userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+                            // SharedPreferences.Editor editor = userPref.edit();
+                            //editor.putString("id",user.getString("educational_id"));
+                            progressDialog.cancel();
+
+                            //editor.apply();
+                            //  editor.commit();
+                            Toast.makeText(UpdateEducationActivity.this,"Delete Successfully",Toast.LENGTH_SHORT).show();
+                            onBackPressed();
+
+
+                        }
+                        else
+                        {
+                            Toast.makeText(UpdateEducationActivity.this, "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                            progressDialog.cancel();
+                        }
+
+                    }catch(JSONException e)
+                    {
+                        Toast.makeText(UpdateEducationActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                        progressDialog.cancel();
+                    }
+                },error ->{
+                    error.printStackTrace();
+                    Toast.makeText(UpdateEducationActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                    progressDialog.cancel();
+                })
+                {
+
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        HashMap<String,String> map = new HashMap<>();
+                        //map.put("id",user_id);
+                        map.put("id",intentid);
+                        return map;
+                    }
+                };
+
+                RequestQueue queue = Volley.newRequestQueue(UpdateEducationActivity.this);
+                queue.add(request);
+            }
+        });
 
         btnupdateeduc.setOnClickListener(new View.OnClickListener() {
             @Override
