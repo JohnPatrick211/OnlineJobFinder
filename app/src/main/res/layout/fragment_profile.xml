@@ -107,6 +107,43 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textSize="25sp"
+            android:text="Work Experience"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
+            android:gravity="left"
+            android:layout_marginLeft="-80dp"/>
+        <TextView
+            android:id="@+id/textView_addworkexperience"
+            android:textColor="@color/design_default_color_primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginTop="-50dp"
+            android:text="Add"
+            android:gravity="right"
+            android:layout_marginLeft="150dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="10dp"
+            android:id="@+id/recyclerview_workexperience"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="25sp"
             android:text="Education"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="10dp"

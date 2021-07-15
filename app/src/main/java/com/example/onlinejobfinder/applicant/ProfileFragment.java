@@ -25,7 +25,9 @@ import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.adapter.educationalbackgroundadapter;
+import com.example.onlinejobfinder.adapter.workexperienceadapter;
 import com.example.onlinejobfinder.model.educationalbackground;
+import com.example.onlinejobfinder.model.workexperience;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -44,9 +46,11 @@ import java.util.Map;
 public class ProfileFragment extends Fragment {
 
 
-    TextView txtmanageaccount, txtname, txtemail, txtcontactno, txtaddress, txtgender, txtspecialization, txtresume,txtintentresume, txtviewresume, txtaddeduc;
+    TextView txtmanageaccount, txtname, txtemail, txtcontactno, txtaddress, txtgender, txtspecialization, txtresume,txtintentresume, txtviewresume, txtaddeduc,txtaddwork;
     ImageView editprofile;
     educationalbackgroundadapter educationalbackgroundadapter;
+    workexperienceadapter workexperienceadapter2;
+    workexperienceadapter.RecyclerViewClickListener worklistener;
     educationalbackgroundadapter.RecyclerViewClickListener listener;
    // RecyclerView recyclerview;
   //  jobadapter jobadapter2;
@@ -70,8 +74,8 @@ public class ProfileFragment extends Fragment {
     String val_specialization = "";
     String val_resume = "";
     ArrayList<educationalbackground> arraylist;
-    ArrayList<educationalbackground> arraylist2;
-    RecyclerView recyclerView;
+    ArrayList<workexperience> arraylist2;
+    RecyclerView recyclerView, recyclerView2;
     JSONArray result;
 
 
@@ -131,7 +135,10 @@ public class ProfileFragment extends Fragment {
         txtresume = root.findViewById(R.id.textView_ResumeView);
         txtspecialization = root.findViewById(R.id.textView_SpecializationProfile);
         txtaddeduc = root.findViewById(R.id.textView_addeducation);
+        txtaddwork = root.findViewById(R.id.textView_addworkexperience);
         recyclerView = root.findViewById(R.id.recyclerview_educationalbackground);
+        recyclerView2 = root.findViewById(R.id.recyclerview_workexperience);
+        recyclerView2.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         arraylist = new ArrayList<>();
         arraylist2 = new ArrayList<>();
@@ -154,6 +161,14 @@ public class ProfileFragment extends Fragment {
         //Toast.makeText(getContext(), user_id, Toast.LENGTH_SHORT).show();
         Toast.makeText(getContext(), email, Toast.LENGTH_SHORT).show();
         setOnClickListener();
+        setOnClickListener2();
+        txtaddwork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), AddWorkExperience.class);
+                startActivity(i);
+            }
+        });
         txtaddeduc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -497,6 +512,62 @@ public class ProfileFragment extends Fragment {
 
         RequestQueue queue2 = Volley.newRequestQueue(getContext());
         queue2.add(request2);
+
+        //workexperience
+        arraylist2.clear();
+        StringRequest request3 = new StringRequest(Request.Method.GET, Constant.getworkexperience+"?workexp_id="+user_id, response ->{
+            try{
+                JSONObject object = new JSONObject(response);
+                if(object.getBoolean("success"))
+                {
+                    JSONArray array = new JSONArray(object.getString("workexperience"));
+                    for(int i = 0; i < array.length(); i++)
+                    {
+                        JSONObject postObject = array.getJSONObject(i);
+                        //JSONObject getpostObject = postObject.getJSONObject("jobposts");
+                        workexperience workexperience2 = new workexperience();
+                       // educationalbackground educationalbackground2 = new educationalbackground();
+                        workexperience2.setApplicantworkposition(postObject.getString("position"));
+                        workexperience2.setApplicantworkcompanyname(postObject.getString("name"));
+                        workexperience2.setApplicantworkdate(postObject.getString("startenddate"));
+                        workexperience2.setId(postObject.getString("id"));
+
+
+
+                        arraylist2.add(workexperience2);
+
+                    }
+                    workexperienceadapter2 = new workexperienceadapter(arraylist2,getContext(),worklistener);
+                    recyclerView2.setAdapter(workexperienceadapter2);
+                    workexperienceadapter2.notifyDataSetChanged();
+                }
+                else {
+                    Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+                    recyclerView2.setVisibility(View.GONE);
+                }
+            }catch(JSONException e)
+            {
+                recyclerView2.setVisibility(View.GONE);
+                e.printStackTrace();
+                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+
+
+
+        },error -> {
+            error.printStackTrace();
+            Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+            recyclerView2.setVisibility(View.GONE);
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                return map;
+            }
+        };
+
+        RequestQueue queue3 = Volley.newRequestQueue(getContext());
+        queue3.add(request3);
     }
 
     private void setOnClickListener() {
@@ -508,6 +579,20 @@ public class ProfileFragment extends Fragment {
                 intent.putExtra("intentschool",arraylist.get(position).getApplicantschool());
                 intent.putExtra("intentcourse",arraylist.get(position).getApplicantcourse());
                 intent.putExtra("intentyear",arraylist.get(position).getApplicantyeargraduated());
+                startActivity(intent);
+            }
+        };
+    }
+
+    private void setOnClickListener2() {
+        worklistener = new workexperienceadapter.RecyclerViewClickListener() {
+            @Override
+            public void onClick(View v, int position) {
+                Intent intent = new Intent(getActivity(), UpdateWorkExperienceActivity.class);
+                intent.putExtra("work_id",arraylist2.get(position).getId());
+                intent.putExtra("intentworkposition",arraylist2.get(position).getApplicantworkposition());
+                intent.putExtra("intentworkcompanyname",arraylist2.get(position).getApplicantworkcompanyname());
+                intent.putExtra("intentworkdate",arraylist2.get(position).getApplicantworkdate());
                 startActivity(intent);
             }
         };

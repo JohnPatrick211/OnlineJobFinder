@@ -10,11 +10,18 @@ public class Constant {
     public static final String checkemail=home+"/checkemail";
     public static final String checkspecialization=home+"/checkspecialization";
     public static final String jobposts=home+"/jobpost";
+    //Education Background
     public static final String geteducation=home+"/posteducationalbackground";
-    public static final String sendOTP=home+"/sendOTP";
     public static final String deleteeducation=home+"/deleteeducationalbackground";
     public static final String updateeducation=home+"/updateeducationalbackground";
     public static final String addeducation=home+"/addeducationalbackground";
+    //sendOTP
+    public static final String sendOTP=home+"/sendOTP";
+    //Work Experience
+    public static final String getworkexperience=home+"/postworkexperience";
+    public static final String deleteworkexperience=home+"/deleteworkexperience";
+    public static final String updateworkexperience=home+"/updateworkexperience";
+    public static final String addworkexperience=home+"/addworkexperience";
     public static final String categoryfilter=home+"/categoryfilter";
     public static final String SAVE_USER_PROFILE=home+"/saveimage";
     public static final String MY_POST=home+"/mypost";
