@@ -85,7 +85,7 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <EditText
+        <TextView
             android:background="#FFFFFF"
             android:padding="10dp"
             android:id="@+id/edittext_workstartdate"
@@ -103,7 +103,7 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <EditText
+        <TextView
             android:background="#FFFFFF"
             android:padding="10dp"
             android:id="@+id/edittext_workenddate"

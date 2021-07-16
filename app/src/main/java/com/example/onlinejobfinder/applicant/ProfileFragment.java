@@ -531,6 +531,7 @@ public class ProfileFragment extends Fragment {
                         workexperience2.setApplicantworkcompanyname(postObject.getString("name"));
                         workexperience2.setApplicantworkdate(postObject.getString("startenddate"));
                         workexperience2.setId(postObject.getString("id"));
+                        workexperience2.setApplicantworkspecialization(postObject.getString("specialization"));
 
 
 
@@ -592,7 +593,13 @@ public class ProfileFragment extends Fragment {
                 intent.putExtra("work_id",arraylist2.get(position).getId());
                 intent.putExtra("intentworkposition",arraylist2.get(position).getApplicantworkposition());
                 intent.putExtra("intentworkcompanyname",arraylist2.get(position).getApplicantworkcompanyname());
-                intent.putExtra("intentworkdate",arraylist2.get(position).getApplicantworkdate());
+                intent.putExtra("intentspecialization",arraylist2.get(position).getApplicantworkspecialization());
+                String splitworkdate = arraylist2.get(position).getApplicantworkdate();
+                String[] parts = splitworkdate.split(" - ");
+                String part1 = parts[0];
+                String part2 = parts[1];
+                intent.putExtra("intentworkdate",part1);
+                intent.putExtra("intentenddate",part2);
                 startActivity(intent);
             }
         };

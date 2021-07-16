@@ -26,13 +26,16 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
+import com.whiteelephant.monthpicker.MonthPickerDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class AddWorkExperience extends AppCompatActivity {
@@ -40,13 +43,13 @@ public class AddWorkExperience extends AppCompatActivity {
     Switch Switch_work;
     int position =0;
     JSONArray result;
-    TextView tvworkspecialization;
+    TextView tvworkspecialization,workstartdate,workenddate;
     boolean[] selectedspecialization;
     ArrayList<Integer> Specialization = new ArrayList<>();
     ArrayList<String> category;
     String [] specializationarray;
     String [] specializationarray2 = {"pp","pp"};
-    EditText workposition,workcompanyname,workstartdate,workenddate;
+    EditText workposition,workcompanyname;
 //    Spinner workspecialization;
     Button btn_savework;
     ProgressDialog progressDialog;
@@ -78,6 +81,18 @@ public class AddWorkExperience extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         //getCategory();
+        workstartdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btnStartMonthYear(view);
+            }
+        });
+        workenddate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btnEndMonthYear(view);
+            }
+        });
         tvworkspecialization.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -262,6 +277,144 @@ public class AddWorkExperience extends AppCompatActivity {
             //Toast.makeText(AddWorkExperience.this, specializationarray[ai], Toast.LENGTH_SHORT).show();
             selectedspecialization = new boolean[specializationarray.length];
         //}
+    }
+
+    public void btnStartMonthYear(View view)
+    {
+        final Calendar today = Calendar.getInstance();
+        MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(AddWorkExperience.this, new MonthPickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(int selectedMonth, int selectedYear) {
+                String monthName;
+                switch (selectedMonth){
+                    case Calendar.JANUARY:
+                        monthName = "January";
+                        workstartdate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.FEBRUARY:
+                        monthName = "February";
+                        workstartdate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.MARCH:
+                        monthName = "March";
+                        workstartdate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.APRIL:
+                        monthName = "April";
+                        workstartdate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.MAY:
+                        monthName = "May";
+                        workstartdate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.JUNE:
+                        monthName = "June";
+                        workstartdate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.JULY:
+                        monthName = "July";
+                        workstartdate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.AUGUST:
+                        monthName = "August";
+                        workstartdate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.SEPTEMBER:
+                        monthName = "September";
+                        workstartdate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.OCTOBER:
+                        monthName = "October";
+                        workstartdate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.NOVEMBER:
+                        monthName = "November";
+                        workstartdate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.DECEMBER:
+                        monthName = "December";
+                        workstartdate.setText(monthName + " " + selectedYear);
+                        break;
+                }
+
+            }
+
+        },today.get(Calendar.YEAR), today.get(Calendar.MONTH));
+
+        builder.setActivatedMonth(Calendar.JULY)
+                .setMinYear(1990)
+                .setActivatedYear(today.get(Calendar.YEAR))
+                .setMaxYear(2099)
+                .setTitle("Select Start Date")
+                .build().show();
+    }
+    public void btnEndMonthYear(View view)
+    {
+        final Calendar today = Calendar.getInstance();
+        MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(AddWorkExperience.this, new MonthPickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(int selectedMonth, int selectedYear) {
+                String monthName;
+                switch (selectedMonth){
+                    case Calendar.JANUARY:
+                        monthName = "January";
+                        workenddate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.FEBRUARY:
+                        monthName = "February";
+                        workenddate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.MARCH:
+                        monthName = "March";
+                        workenddate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.APRIL:
+                        monthName = "April";
+                        workenddate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.MAY:
+                        monthName = "May";
+                        workenddate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.JUNE:
+                        monthName = "June";
+                        workenddate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.JULY:
+                        monthName = "July";
+                        workenddate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.AUGUST:
+                        monthName = "August";
+                        workenddate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.SEPTEMBER:
+                        monthName = "September";
+                        workenddate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.OCTOBER:
+                        monthName = "October";
+                        workenddate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.NOVEMBER:
+                        monthName = "November";
+                        workenddate.setText(monthName + " " + selectedYear);
+                        break;
+                    case Calendar.DECEMBER:
+                        monthName = "December";
+                        workenddate.setText(monthName + " " + selectedYear);
+                        break;
+                }
+            }
+
+        },today.get(Calendar.YEAR), today.get(Calendar.MONTH));
+
+        builder.setActivatedMonth(Calendar.JULY)
+                .setMinYear(1990)
+                .setActivatedYear(today.get(Calendar.YEAR))
+                .setMaxYear(2099)
+                .setTitle("Select Start Date")
+                .build().show();
     }
 
     @Override

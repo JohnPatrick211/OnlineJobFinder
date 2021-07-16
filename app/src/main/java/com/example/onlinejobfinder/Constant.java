@@ -22,6 +22,7 @@ public class Constant {
     public static final String deleteworkexperience=home+"/deleteworkexperience";
     public static final String updateworkexperience=home+"/updateworkexperience";
     public static final String addworkexperience=home+"/addworkexperience";
+
     public static final String categoryfilter=home+"/categoryfilter";
     public static final String SAVE_USER_PROFILE=home+"/saveimage";
     public static final String MY_POST=home+"/mypost";
