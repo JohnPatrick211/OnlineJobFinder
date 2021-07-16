@@ -95,11 +95,22 @@
         android:layout_marginLeft="8dp"
         android:text="Specialization"
         android:textSize="18dp"/>
-    <Spinner
-        android:layout_gravity="left"
-        android:layout_width="wrap_content"
+<!--    <Spinner-->
+<!--        android:layout_gravity="left"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/spinner_editemployerspecialization"/>-->
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/editemployerprofile_specialization"
+        android:background="#FFFFFF"
+        android:padding="10dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner_editemployerspecialization"/>
+        android:textSize="18dp"
+        android:hint="Specialization"
+        />
 
     <Button
         android:layout_marginBottom="30dp"

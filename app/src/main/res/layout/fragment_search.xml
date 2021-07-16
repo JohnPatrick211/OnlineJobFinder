@@ -24,14 +24,24 @@
                 android:queryHint="Seek"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-            <Spinner
-                android:layout_marginTop="40dp"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinner_category"/>
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="10dp"
+                android:textAlignment="center"
+                android:textColor="@color/design_default_color_primary"
+                android:text="Specialization"
+                android:textSize="18sp"
+                android:id="@+id/tv_searchspecialization"/>
+<!--            <Spinner-->
+<!--                android:layout_marginTop="40dp"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:id="@+id/spinner_category"/>-->
             <Spinner
                 android:layout_marginTop="40dp"
-                android:layout_toRightOf="@+id/spinner_category"
+                android:layout_toRightOf="@+id/tv_searchspecialization"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinner_location"/>

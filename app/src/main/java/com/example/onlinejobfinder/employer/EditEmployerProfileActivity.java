@@ -4,8 +4,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -31,8 +33,10 @@ import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.EditContactNumberActivity;
 import com.example.onlinejobfinder.EditEmployerContactNumberActivity;
 import com.example.onlinejobfinder.R;
+import com.example.onlinejobfinder.applicant.AddWorkExperience;
 import com.example.onlinejobfinder.applicant.EditProfileActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,15 +50,19 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
 
 
     String name2,user_id;
-    TextView employer_email, employer_contactnum,employer_selectphoto;
+    JSONArray result;
+    TextView employer_email, employer_contactnum,employer_selectphoto, employer_specialization;
     EditText employer_companyname, employer_address, employer_companyoverview;
-    Spinner employer_specialization;
+    //Spinner employer_specialization;
     CircleImageView employer_profilepic;
     Button btn_saveemployer;
     Bitmap bitmap = null;
     ProgressDialog progressDialog;
     private static final int GALLERY_ADD_PROFILE = 1;
-    ArrayList<String> Specialization;
+    boolean[] selectedspecialization;
+    ArrayList<Integer> Specialization = new ArrayList<>();
+    ArrayList<String> category;
+    String [] specializationarray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +78,10 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
         employer_address = findViewById(R.id.editemployerprofile_address);
         employer_companyoverview = findViewById(R.id.editemployerprofile_companyoverview);
         employer_profilepic = findViewById(R.id.editemployer_imguser);
-        employer_specialization = findViewById(R.id.spinner_editemployerspecialization);
+        //employer_specialization = findViewById(R.id.spinner_editemployerspecialization);
+        employer_specialization = findViewById(R.id.editemployerprofile_specialization);
+        String intentspecialization = getIntent().getExtras().getString("specialization");
+        employer_specialization.setText(intentspecialization);
         btn_saveemployer = findViewById(R.id.btnemployersaveimage);
         String intentemployername = getIntent().getExtras().getString("name");
         employer_companyname.setText(intentemployername);
@@ -82,13 +93,74 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
         employer_address.setText(intentemployeraddress);
         String intentemployercompanyoverview = getIntent().getExtras().getString("companyoverview");
         employer_companyoverview.setText(intentemployercompanyoverview);
-        Specialization = new ArrayList<String>();
-        Specialization.add("Specialization");
-        Specialization.add("Accountant");
-        Specialization.add("Programmer");
-        employer_specialization.setAdapter(new ArrayAdapter<String>(EditEmployerProfileActivity.this, android.R.layout.simple_spinner_dropdown_item, Specialization));
+        category = new ArrayList<String>();
+       // Specialization = new ArrayList<String>();
+       // Specialization.add("Specialization");
+       // Specialization.add("Accountant");
+       // Specialization.add("Programmer");
+        //employer_specialization.setAdapter(new ArrayAdapter<String>(EditEmployerProfileActivity.this, android.R.layout.simple_spinner_dropdown_item, Specialization));
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
+
+        employer_specialization.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(
+                        EditEmployerProfileActivity.this
+                );
+
+                builder.setTitle("Select Specialization");
+                builder.setCancelable(false);
+                builder.setMultiChoiceItems(specializationarray, selectedspecialization, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                        if(b)
+                        {
+                            Specialization.add(i);
+                        }
+                        else
+                        {
+                            Specialization.remove(i);
+                        }
+                    }
+                });
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for(int j=0; j<Specialization.size(); j++)
+                        {
+                            stringBuilder.append(specializationarray[Specialization.get(j)]);
+                            if(j != Specialization.size()-1)
+                            {
+                                stringBuilder.append(", ");
+                            }
+                        }
+                        employer_specialization.setText(stringBuilder.toString());
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                builder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        for(int j=0; j<selectedspecialization.length; j++)
+                        {
+                            selectedspecialization[j] = false;
+                            //Specialization.clear();
+                            employer_specialization.setText("");
+                        }
+                    }
+                });
+                builder.show();
+            }
+        });
 
         employer_contactnum.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,7 +262,7 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
                         map.put("contactno",employer_contactnum.getText().toString().trim());
                         map.put("address",employer_address.getText().toString().trim());
                         map.put("companyoverview",employer_companyoverview.getText().toString().trim());
-                        map.put("Specialization",employer_specialization.getSelectedItem().toString().trim());
+                        map.put("Specialization",employer_specialization.getText().toString().trim());
                         map.put("profile_pic",bitmapToString(bitmap));
                         return map;
                     }
@@ -247,5 +319,62 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
     public void onBackPressed()
     {
         super.onBackPressed();
+    }
+
+    private void getCategory() {
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.categoryfilter, response ->{
+            JSONObject j = null;
+            try{
+                j = new JSONObject(response);
+                result = j.getJSONArray("categories");
+                getSubCategory(result);
+
+
+            }catch(JSONException e)
+            {
+                e.printStackTrace();
+                Toast.makeText(EditEmployerProfileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+
+            //refreshLayout.setRefreshing(false);
+
+        },error -> {
+            error.printStackTrace();
+            // refreshLayout.setRefreshing(false);
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(EditEmployerProfileActivity.this);
+        queue.add(request);
+    }
+
+    private void getSubCategory(JSONArray j) {
+        for(int ai=0;ai<j.length();ai++)
+        {
+            try{
+                JSONObject json = j.getJSONObject(ai);
+                category.add(json.getString("category"));
+                //Toast.makeText(AddWorkExperience.this,category.get(ai),Toast.LENGTH_SHORT).show();
+            }catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        //for(int ai=0;ai<j.length();ai++) {
+        specializationarray = category.toArray(new String[0]);
+        //Toast.makeText(AddWorkExperience.this, specializationarray[ai], Toast.LENGTH_SHORT).show();
+        selectedspecialization = new boolean[specializationarray.length];
+        //}
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getCategory();
     }
 }

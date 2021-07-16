@@ -195,12 +195,12 @@ public class EmployerProfileFragment extends Fragment {
                 if(val_contactno.equals("null")||val_specialization.equals("null"))
                 {
                     i.putExtra("contactno","");
-                   // i.putExtra("specialization","");
+                    i.putExtra("specialization","");
                 }
                 else
                 {
                     i.putExtra("contactno",txtemployercontactno.getText().toString());
-                    //i.putExtra("specialization",txtemployerspecialization.getText().toString());
+                    i.putExtra("specialization",txtemployerspecialization.getText().toString());
                 }
                 startActivity(i);
             }

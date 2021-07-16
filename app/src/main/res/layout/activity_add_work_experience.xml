@@ -53,11 +53,30 @@
         android:layout_marginLeft="8dp"
         android:text="Specialization"
         android:textSize="18dp"/>
-    <Spinner
-        android:layout_gravity="left"
-        android:layout_width="wrap_content"
+<!--    <Spinner-->
+<!--        android:spinnerMode="dialog"-->
+<!--        android:layout_gravity="left"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/spinner_workspecialization"/>-->
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner_workspecialization"/>
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:background="#FFFFFF"
+            android:padding="10dp"
+            android:id="@+id/tv_workspecialization"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Specialization"
+            android:textSize="18dp"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_marginTop="10dp"

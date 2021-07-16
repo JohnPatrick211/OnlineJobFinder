@@ -55,11 +55,21 @@
         android:layout_marginLeft="8dp"
         android:text="Specialization"
         android:textSize="18dp"/>
-    <Spinner
-        android:layout_gravity="left"
-        android:layout_width="wrap_content"
+<!--    <Spinner-->
+<!--        android:layout_gravity="left"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/spinner_specialization"/>-->
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/applicantprofile_specialization"
+        android:background="#FFFFFF"
+        android:padding="10dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner_specialization"/>
+        android:textSize="18dp"
+        android:hint="Specialization"
+        />
     <EditText
         android:id="@+id/applicantprofile_contactno"
         android:background="#FFFFFF"
@@ -86,11 +96,21 @@
         android:layout_marginLeft="8dp"
         android:text="Gender"
         android:textSize="18dp"/>
-    <Spinner
-        android:layout_gravity="left"
-        android:layout_width="wrap_content"
+<!--    <Spinner-->
+<!--        android:layout_gravity="left"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/spinner_gender"/>-->
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/applicantprofile_gender"
+        android:background="#FFFFFF"
+        android:padding="10dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner_gender"/>
+        android:textSize="18dp"
+        android:hint="Gender"
+        />
 
     <Button
         android:id="@+id/btnsaveimage"

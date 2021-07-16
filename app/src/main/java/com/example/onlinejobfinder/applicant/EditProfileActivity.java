@@ -4,8 +4,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -29,7 +31,9 @@ import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.EditContactNumberActivity;
 import com.example.onlinejobfinder.R;
+import com.example.onlinejobfinder.employer.EditEmployerProfileActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,10 +46,17 @@ import java.util.Map;
 public class EditProfileActivity extends AppCompatActivity {
 
     String name2,user_id;
-    Spinner specialization, gender;
+    JSONArray result;
+    int position =0;
+    boolean[] selectedspecialization;
+    ArrayList<Integer> Specialization = new ArrayList<>();
+    ArrayList<String> category;
+    String [] specializationarray;
+    String [] specializationarray2 = {"Male","Female"};
+   // Spinner specialization, gender;
     EditText edit_contactno, edit_address, edit_name;
-    ArrayList<String> Specialization, Gender;
-    TextView txtid,txtselectphoto,txt_email;
+   // ArrayList<String> Specialization, Gender;
+    TextView txtid,txtselectphoto,txt_email,txtspecialization,txtgender;
     Button btn_saveimage;
     CircleImageView circleImageView;
     Bitmap bitmap = null;
@@ -66,6 +77,7 @@ public class EditProfileActivity extends AppCompatActivity {
         String intentaddress = getIntent().getExtras().getString("address");
         String intentspecialization = getIntent().getExtras().getString("specialization");
         String intentgender = getIntent().getExtras().getString("gender");
+        category = new ArrayList<String>();
         edit_address = findViewById(R.id.applicantprofile_address);
         edit_address.setText(intentaddress);
         edit_contactno = findViewById(R.id.applicantprofile_contactno);
@@ -74,18 +86,22 @@ public class EditProfileActivity extends AppCompatActivity {
         edit_name.setText(intentname);
         txt_email = findViewById(R.id.applicantprofile_email);
         txt_email.setText(intentemail);
-        specialization = findViewById(R.id.spinner_specialization);
-        gender = findViewById(R.id.spinner_gender);
-        Specialization = new ArrayList<String>();
-        Specialization.add("Specialization");
-        Specialization.add("Accountant");
-        Specialization.add("Programmer");
-        Gender = new ArrayList<String>();
-        Gender.add("Gender");
-        Gender.add("Male");
-        Gender.add("Female");
-       specialization.setAdapter(new ArrayAdapter<String>(EditProfileActivity.this, android.R.layout.simple_spinner_dropdown_item, Specialization));
-       gender.setAdapter(new ArrayAdapter<String>(EditProfileActivity.this, android.R.layout.simple_spinner_dropdown_item, Gender));
+        txtspecialization = findViewById(R.id.applicantprofile_specialization);
+        txtspecialization.setText(intentspecialization);
+        txtgender = findViewById(R.id.applicantprofile_gender);
+        txtgender.setText(intentgender);
+//        specialization = findViewById(R.id.spinner_specialization);
+//        gender = findViewById(R.id.spinner_gender);
+//        Specialization = new ArrayList<String>();
+//        Specialization.add("Specialization");
+//        Specialization.add("Accountant");
+//        Specialization.add("Programmer");
+//        Gender = new ArrayList<String>();
+//        Gender.add("Gender");
+//        Gender.add("Male");
+//        Gender.add("Female");
+//       specialization.setAdapter(new ArrayAdapter<String>(EditProfileActivity.this, android.R.layout.simple_spinner_dropdown_item, Specialization));
+//       gender.setAdapter(new ArrayAdapter<String>(EditProfileActivity.this, android.R.layout.simple_spinner_dropdown_item, Gender));
         //name2 = prefs.getString("name","name");
         user_id = prefs.getString("id","id");
        // role = prefs.getString("role","role");
@@ -101,6 +117,121 @@ public class EditProfileActivity extends AppCompatActivity {
         //userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         //check ID debugging//
 //        Toast.makeText(EditProfileActivity.this,user_id,Toast.LENGTH_SHORT).show();
+        txtspecialization.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(
+                        EditProfileActivity.this
+                );
+
+                builder.setTitle("Select Specialization");
+                builder.setCancelable(false);
+                builder.setMultiChoiceItems(specializationarray, selectedspecialization, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                        if(b)
+                        {
+                            Specialization.add(i);
+                        }
+                        else
+                        {
+                            Specialization.remove(i);
+                        }
+                    }
+                });
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for(int j=0; j<Specialization.size(); j++)
+                        {
+                            stringBuilder.append(specializationarray[Specialization.get(j)]);
+                            if(j != Specialization.size()-1)
+                            {
+                                stringBuilder.append(", ");
+                            }
+                        }
+                        txtspecialization.setText(stringBuilder.toString());
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                builder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        for(int j=0; j<selectedspecialization.length; j++)
+                        {
+                            selectedspecialization[j] = false;
+                            //Specialization.clear();
+                            txtspecialization.setText("");
+                        }
+                    }
+                });
+                builder.show();
+            }
+        });
+        txtgender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(
+                        EditProfileActivity.this
+                );
+                txtgender.setText(specializationarray2[position]);
+                builder.setTitle("Select Specialization");
+                builder.setCancelable(false);
+                builder.setSingleChoiceItems(specializationarray2, position, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        position = i;
+                        txtgender.setText(specializationarray2[i]);
+                    }
+                });
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        StringBuilder stringBuilder = new StringBuilder();
+//                        for(int j=0; j<Specialization.size(); j++)
+//                        {
+//                            stringBuilder.append(specializationarray[Specialization.get(j)]);
+//                            if(j != Specialization.size()-1)
+//                            {
+//                                stringBuilder.append(", ");
+//                            }
+//                        }
+//                        tvworkspecialization.setText(stringBuilder.toString());
+                        //tvworkspecialization.setText(Specialization.get(position));
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        txtgender.setText("");
+                    }
+                });
+
+                builder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        for(int j=0; j<selectedspecialization.length; j++)
+//                        {
+//                            selectedspecialization[j] = false;
+                            // Specialization.clear();
+                            txtgender.setText("");
+//                        }
+                    }
+                });
+                builder.show();
+            }
+        });
         edit_contactno.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -194,8 +325,8 @@ public class EditProfileActivity extends AppCompatActivity {
                         map.put("email",txt_email.getText().toString().trim());
                         map.put("contactno",edit_contactno.getText().toString().trim());
                         map.put("address",edit_address.getText().toString().trim());
-                        map.put("gender",gender.getSelectedItem().toString().trim());
-                        map.put("Specialization",specialization.getSelectedItem().toString().trim());
+                        map.put("gender",txtgender.getText().toString().trim());
+                        map.put("Specialization",txtspecialization.getText().toString().trim());
                         map.put("profile_pic",bitmapToString(bitmap));
                         return map;
                     }
@@ -251,5 +382,62 @@ public class EditProfileActivity extends AppCompatActivity {
     public void onBackPressed()
     {
         super.onBackPressed();
+    }
+
+    private void getCategory() {
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.categoryfilter, response ->{
+            JSONObject j = null;
+            try{
+                j = new JSONObject(response);
+                result = j.getJSONArray("categories");
+                getSubCategory(result);
+
+
+            }catch(JSONException e)
+            {
+                e.printStackTrace();
+                Toast.makeText(EditProfileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+
+            //refreshLayout.setRefreshing(false);
+
+        },error -> {
+            error.printStackTrace();
+            // refreshLayout.setRefreshing(false);
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(EditProfileActivity.this);
+        queue.add(request);
+    }
+
+    private void getSubCategory(JSONArray j) {
+        for(int ai=0;ai<j.length();ai++)
+        {
+            try{
+                JSONObject json = j.getJSONObject(ai);
+                category.add(json.getString("category"));
+                //Toast.makeText(AddWorkExperience.this,category.get(ai),Toast.LENGTH_SHORT).show();
+            }catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        //for(int ai=0;ai<j.length();ai++) {
+        specializationarray = category.toArray(new String[0]);
+        //Toast.makeText(AddWorkExperience.this, specializationarray[ai], Toast.LENGTH_SHORT).show();
+        selectedspecialization = new boolean[specializationarray.length];
+        //}
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getCategory();
     }
 }

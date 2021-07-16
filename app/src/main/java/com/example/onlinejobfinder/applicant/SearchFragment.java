@@ -1,6 +1,8 @@
 package com.example.onlinejobfinder.applicant;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -45,7 +47,10 @@ import java.util.Map;
 public class SearchFragment extends Fragment {
 
     RecyclerView recyclerView;
-    TextView btnfilter;
+    int position =0;
+    boolean[] selectedspecialization;
+    ArrayList<Integer> Specialization = new ArrayList<>();
+    TextView btnfilter,tvsearchspecialization;
     ArrayList<job> arraylist;
     ArrayList<job> arraylist2;
     ArrayList<String> category,location;
@@ -54,6 +59,7 @@ public class SearchFragment extends Fragment {
     jobadapter jobadapter2;
     Spinner spinnercategory, spinnerlocation;
     String catergoryString,yearString;
+    String [] specializationarray;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -101,29 +107,87 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         btnfilter = view.findViewById(R.id.btn_filter);
+        tvsearchspecialization = view.findViewById(R.id.tv_searchspecialization);
         recyclerView = view.findViewById(R.id.recyclerview_jobs);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         refreshLayout = view.findViewById(R.id.swipe);
-        spinnercategory = view.findViewById(R.id.spinner_category);
+//        spinnercategory = view.findViewById(R.id.spinner_category);
         spinnerlocation = view.findViewById(R.id.spinner_location);
         arraylist = new ArrayList<>();
         arraylist2 = new ArrayList<>();
         category = new ArrayList<String>();
         location = new ArrayList<String>();
-        category.add("Category");
-        category.add("Accountant");
-        category.add("Programmer");
+//        category.add("Category");
+//        category.add("Accountant");
+//        category.add("Programmer");
         location.add("Region");
         location.add("Region 4-A");
         location.add("Region 3");
         spinnerlocation.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, location));
         refreshLayout.setRefreshing(true);
         getCategory();
+        tvsearchspecialization.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(
+                        getContext()
+                );
+                tvsearchspecialization.setText(specializationarray[position]);
+                builder.setTitle("Select Specialization");
+                builder.setCancelable(false);
+                builder.setSingleChoiceItems(specializationarray, position, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        position = i;
+                        tvsearchspecialization.setText(specializationarray[i]);
+                    }
+                });
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        StringBuilder stringBuilder = new StringBuilder();
+//                        for(int j=0; j<Specialization.size(); j++)
+//                        {
+//                            stringBuilder.append(specializationarray[Specialization.get(j)]);
+//                            if(j != Specialization.size()-1)
+//                            {
+//                                stringBuilder.append(", ");
+//                            }
+//                        }
+//                        tvworkspecialization.setText(stringBuilder.toString());
+                        //tvworkspecialization.setText(Specialization.get(position));
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        tvsearchspecialization.setText("Specialization");
+                    }
+                });
+
+                builder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        for(int j=0; j<selectedspecialization.length; j++)
+                        {
+                            selectedspecialization[j] = false;
+                            // Specialization.clear();
+                            tvsearchspecialization.setText("Specialization");
+                        }
+                    }
+                });
+                builder.show();
+            }
+        });
         btnfilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                catergoryString = tvsearchspecialization.getText().toString();
                 ArrayList<job> w = new ArrayList<>();
-                if(catergoryString.equals("Category") && yearString.equals("Region"))
+                if(catergoryString.equals("Specialization") && yearString.equals("Region"))
                 {
 
                     w.addAll(arraylist);
@@ -132,7 +196,7 @@ public class SearchFragment extends Fragment {
                 {
                     for(job details : arraylist)
                     {
-                        if(catergoryString.equals("Category") && !TextUtils.isEmpty(yearString))
+                        if(catergoryString.equals("Specialization") && !TextUtils.isEmpty(yearString))
                         {
                             if(details.getJobaddress().contains(yearString))
                             {
@@ -161,20 +225,20 @@ public class SearchFragment extends Fragment {
         });
         getPost();
         SharedPreferences sharedPreferences = getContext().getApplicationContext().getSharedPreferences("jobpost", Context.MODE_PRIVATE);
-        spinnercategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                catergoryString = (String) parent.getItemAtPosition(position);
-                spinnercategory.setSelection(position);
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                catergoryString = "";
-
-            }
-        });
+//        spinnercategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                catergoryString = (String) parent.getItemAtPosition(position);
+//                spinnercategory.setSelection(position);
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                catergoryString = "";
+//
+//            }
+//        });
         spinnerlocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -242,7 +306,10 @@ public class SearchFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-        spinnercategory.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, category));
+        specializationarray = category.toArray(new String[0]);
+        //Toast.makeText(AddWorkExperience.this, specializationarray[ai], Toast.LENGTH_SHORT).show();
+        selectedspecialization = new boolean[specializationarray.length];
+//        spinnercategory.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, category));
     }
 
     private void getPost() {
