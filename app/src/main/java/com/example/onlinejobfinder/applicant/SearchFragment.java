@@ -3,6 +3,7 @@ package com.example.onlinejobfinder.applicant;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -28,6 +29,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
+import com.example.onlinejobfinder.adapter.educationalbackgroundadapter;
 import com.example.onlinejobfinder.adapter.jobadapter;
 import com.example.onlinejobfinder.model.job;
 
@@ -47,19 +49,21 @@ import java.util.Map;
 public class SearchFragment extends Fragment {
 
     RecyclerView recyclerView;
+    jobadapter.RecyclerViewClickListener listener;
     int position =0;
-    boolean[] selectedspecialization;
+    int position2 =0;
+    boolean[] selectedspecialization, selectedlocation;
     ArrayList<Integer> Specialization = new ArrayList<>();
-    TextView btnfilter,tvsearchspecialization;
+    TextView btnfilter,tvsearchspecialization,tvsearchlocation;
     ArrayList<job> arraylist;
     ArrayList<job> arraylist2;
     ArrayList<String> category,location;
-    JSONArray result;
+    JSONArray result,result2;
     SwipeRefreshLayout refreshLayout;
     jobadapter jobadapter2;
-    Spinner spinnercategory, spinnerlocation;
+   // Spinner spinnercategory, spinnerlocation;
     String catergoryString,yearString;
-    String [] specializationarray;
+    String [] specializationarray, locationarray;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -108,24 +112,28 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         btnfilter = view.findViewById(R.id.btn_filter);
         tvsearchspecialization = view.findViewById(R.id.tv_searchspecialization);
+        tvsearchlocation  = view.findViewById(R.id.tv_searchlocation);
         recyclerView = view.findViewById(R.id.recyclerview_jobs);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         refreshLayout = view.findViewById(R.id.swipe);
 //        spinnercategory = view.findViewById(R.id.spinner_category);
-        spinnerlocation = view.findViewById(R.id.spinner_location);
+ //       spinnerlocation = view.findViewById(R.id.spinner_location);
         arraylist = new ArrayList<>();
         arraylist2 = new ArrayList<>();
         category = new ArrayList<String>();
         location = new ArrayList<String>();
+
 //        category.add("Category");
 //        category.add("Accountant");
 //        category.add("Programmer");
-        location.add("Region");
-        location.add("Region 4-A");
-        location.add("Region 3");
-        spinnerlocation.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, location));
+      //  location.add("Region");
+      //  location.add("Region 4-A");
+      //  location.add("Region 3");
+      //  spinnerlocation.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, location));
         refreshLayout.setRefreshing(true);
-        getCategory();
+        setOnClickListener();
+        //getCategory();
+       // getLocation();
         tvsearchspecialization.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -182,10 +190,67 @@ public class SearchFragment extends Fragment {
                 builder.show();
             }
         });
+        tvsearchlocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(
+                        getContext()
+                );
+                tvsearchlocation.setText(locationarray[position2]);
+                builder.setTitle("Select Region");
+                builder.setCancelable(false);
+                builder.setSingleChoiceItems(locationarray, position2, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        position2 = i;
+                        tvsearchlocation.setText(locationarray[i]);
+                    }
+                });
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        StringBuilder stringBuilder = new StringBuilder();
+//                        for(int j=0; j<Specialization.size(); j++)
+//                        {
+//                            stringBuilder.append(specializationarray[Specialization.get(j)]);
+//                            if(j != Specialization.size()-1)
+//                            {
+//                                stringBuilder.append(", ");
+//                            }
+//                        }
+//                        tvworkspecialization.setText(stringBuilder.toString());
+                        //tvworkspecialization.setText(Specialization.get(position));
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        tvsearchlocation.setText("Region");
+                    }
+                });
+
+                builder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        for(int j=0; j<selectedlocation.length; j++)
+                        {
+                            selectedlocation[j] = false;
+                            // Specialization.clear();
+                            tvsearchlocation.setText("Region");
+                        }
+                    }
+                });
+                builder.show();
+            }
+        });
         btnfilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 catergoryString = tvsearchspecialization.getText().toString();
+                yearString = tvsearchlocation.getText().toString();
                 ArrayList<job> w = new ArrayList<>();
                 if(catergoryString.equals("Specialization") && yearString.equals("Region"))
                 {
@@ -239,19 +304,19 @@ public class SearchFragment extends Fragment {
 //
 //            }
 //        });
-        spinnerlocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                yearString = (String) parent.getItemAtPosition(position);
-                spinnerlocation.setSelection(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                yearString = "";
-
-            }
-        });
+//        spinnerlocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                yearString = (String) parent.getItemAtPosition(position);
+//                spinnerlocation.setSelection(position);
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                yearString = "";
+//
+//            }
+//        });
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -312,6 +377,55 @@ public class SearchFragment extends Fragment {
 //        spinnercategory.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, category));
     }
 
+    private void getLocation() {
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.locationfilter, response ->{
+            JSONObject j = null;
+            try{
+                j = new JSONObject(response);
+                result2 = j.getJSONArray("locations");
+                getSubLocation(result2);
+
+
+            }catch(JSONException e)
+            {
+                e.printStackTrace();
+                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+
+            refreshLayout.setRefreshing(false);
+
+        },error -> {
+            error.printStackTrace();
+            refreshLayout.setRefreshing(false);
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+    }
+
+    private void getSubLocation(JSONArray j) {
+        for(int ai=0;ai<j.length();ai++)
+        {
+            try{
+                JSONObject json = j.getJSONObject(ai);
+                location.add(json.getString("location"));
+            }catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        locationarray = location.toArray(new String[0]);
+        //Toast.makeText(AddWorkExperience.this, specializationarray[ai], Toast.LENGTH_SHORT).show();
+        selectedlocation = new boolean[locationarray.length];
+//        spinnercategory.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, category));
+    }
+
     private void getPost() {
         StringRequest request = new StringRequest(Request.Method.GET, Constant.jobposts, response ->{
             try{
@@ -335,7 +449,7 @@ public class SearchFragment extends Fragment {
                         arraylist.add(job2);
                         arraylist2.add(job2);
                     }
-                    jobadapter2 = new jobadapter(arraylist,getContext());
+                    jobadapter2 = new jobadapter(arraylist,getContext(),listener);
                     recyclerView.setAdapter(jobadapter2);
                 }
                 else {
@@ -362,5 +476,24 @@ public class SearchFragment extends Fragment {
 
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
+    }
+    public void onResume() {
+        super.onResume();
+        getCategory();
+        getLocation();
+//        getPost();
+//        arraylist.clear();
+        category.clear();
+        location.clear();
+    }
+
+    private void setOnClickListener() {
+        listener = new jobadapter.RecyclerViewClickListener() {
+            @Override
+            public void onClick(View v, int position) {
+                Intent intent = new Intent(getActivity(), ApplicantJobDescriptionActivity.class);
+                startActivity(intent);
+            }
+        };
     }
 }

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -18,16 +19,19 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
+import com.whiteelephant.monthpicker.MonthPickerDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AddEducationActivity extends AppCompatActivity {
 
-    EditText edit_school, edit_course, edit_year;
+    EditText edit_school, edit_course;
+    TextView tv_year;
     Button btnaddeduc;
     ProgressDialog progressDialog;
     String name2,user_id;
@@ -41,11 +45,18 @@ public class AddEducationActivity extends AppCompatActivity {
 
         edit_school = findViewById(R.id.edittext_addschool);
         edit_course = findViewById(R.id.edittext_addcourse);
-        edit_year = findViewById(R.id.edittext_addyeargraduation);
+        tv_year = findViewById(R.id.tv_addyeargraduation);
         btnaddeduc = findViewById(R.id.btnsaveeducation);
         user_id = prefs.getString("id","id");
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
+
+        tv_year.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btnYear(view);
+            }
+        });
 
         btnaddeduc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +105,7 @@ public class AddEducationActivity extends AppCompatActivity {
                         map.put("educational_id",user_id);
                         map.put("school",edit_school.getText().toString().trim());
                         map.put("course",edit_course.getText().toString().trim());
-                        map.put("year",edit_year.getText().toString().trim());
+                        map.put("year",tv_year.getText().toString().trim());
                         return map;
                     }
                 };
@@ -108,5 +119,25 @@ public class AddEducationActivity extends AppCompatActivity {
     public void onBackPressed()
     {
         super.onBackPressed();
+    }
+
+    public void btnYear(View view)
+    {
+        final Calendar today = Calendar.getInstance();
+        MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(AddEducationActivity.this, new MonthPickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(int selectedMonth, int selectedYear) {
+                tv_year.setText(String.valueOf(selectedYear));
+            }
+
+        },today.get(Calendar.YEAR), today.get(Calendar.MONTH));
+
+        builder.setActivatedMonth(Calendar.JULY)
+                .setMinYear(1990)
+                .setActivatedYear(today.get(Calendar.YEAR))
+                .setMaxYear(2099)
+                .setTitle("Select Year")
+                .showYearOnly()
+                .build().show();
     }
 }

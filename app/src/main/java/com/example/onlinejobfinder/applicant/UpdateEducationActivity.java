@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -18,15 +19,18 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
+import com.whiteelephant.monthpicker.MonthPickerDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 public class UpdateEducationActivity extends AppCompatActivity {
-    EditText update_school, update_course, update_year;
+    EditText update_school, update_course;
+    TextView tv_year;
     Button btnupdateeduc,btndeleteeduc;
     ProgressDialog progressDialog;
     String intentid,intentschool,intentcourse,intentyear;
@@ -36,7 +40,7 @@ public class UpdateEducationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_update_education);
         update_school = findViewById(R.id.edittext_updateschool);
         update_course = findViewById(R.id.edittext_updatecourse);
-        update_year = findViewById(R.id.edittext_updateyeargraduation);
+        tv_year = findViewById(R.id.tv_updateyeargraduation);
         btnupdateeduc = findViewById(R.id.btnupdateeducation);
         btndeleteeduc = findViewById(R.id.btndeleteeducation);
         intentid = getIntent().getExtras().getString("educ_id");
@@ -45,10 +49,16 @@ public class UpdateEducationActivity extends AppCompatActivity {
         intentyear = getIntent().getExtras().getString("intentyear");
         update_school.setText(intentschool);
         update_course.setText(intentcourse);
-        update_year.setText(intentyear);
+        tv_year.setText(intentyear);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         //Toast.makeText(UpdateEducationActivity.this, intentid, Toast.LENGTH_SHORT).show();
+        tv_year.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btnYear(view);
+            }
+        });
 
         btndeleteeduc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,7 +161,7 @@ public class UpdateEducationActivity extends AppCompatActivity {
                         map.put("id",intentid);
                         map.put("school",update_school.getText().toString().trim());
                         map.put("course",update_course.getText().toString().trim());
-                        map.put("year",update_year.getText().toString().trim());
+                        map.put("year",tv_year.getText().toString().trim());
                         return map;
                     }
                 };
@@ -160,5 +170,24 @@ public class UpdateEducationActivity extends AppCompatActivity {
                 queue.add(request);
             }
         });
+    }
+    public void btnYear(View view)
+    {
+        final Calendar today = Calendar.getInstance();
+        MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(UpdateEducationActivity.this, new MonthPickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(int selectedMonth, int selectedYear) {
+                tv_year.setText(String.valueOf(selectedYear));
+            }
+
+        },today.get(Calendar.YEAR), today.get(Calendar.MONTH));
+
+        builder.setActivatedMonth(Calendar.JULY)
+                .setMinYear(1990)
+                .setActivatedYear(today.get(Calendar.YEAR))
+                .setMaxYear(2099)
+                .setTitle("Select Year")
+                .showYearOnly()
+                .build().show();
     }
 }

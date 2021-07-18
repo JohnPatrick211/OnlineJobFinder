@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OnlineJobFinder"
         android:usesCleartextTraffic="true">
-        <activity android:name=".applicant.UpdateWorkExperienceActivity"></activity>
+        <activity android:name=".applicant.ApplicantJobDescriptionActivity"></activity>
+        <activity android:name=".applicant.UpdateWorkExperienceActivity" />
         <activity android:name=".applicant.AddWorkExperience" />
         <activity android:name=".EmployerVerifyOTP" />
         <activity android:name=".employer.EditEmployerProfileActivity" />

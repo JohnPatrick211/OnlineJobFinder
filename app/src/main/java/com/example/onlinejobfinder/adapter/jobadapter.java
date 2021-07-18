@@ -22,15 +22,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class jobadapter extends RecyclerView.Adapter<jobadapter.Viewholder> implements Filterable {
 
-    public jobadapter(ArrayList<job> listjob, Context context) {
+
+    public jobadapter(ArrayList<job> listjob, Context context, RecyclerViewClickListener listener) {
         this.listjob = listjob;
         this.context = context;
+        this.listener = listener;
         categorysearch = new ArrayList<>(listjob);
     }
 
     private ArrayList<job> listjob;
-    private List<job> categorysearch;
     private Context context;
+    private List<job> categorysearch;
+   private RecyclerViewClickListener listener;
+
+
 
 
     @NonNull
@@ -39,6 +44,10 @@ public class jobadapter extends RecyclerView.Adapter<jobadapter.Viewholder> impl
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.cardview_view_jobs,parent,false);
         return new Viewholder(view);
+    }
+
+    public interface RecyclerViewClickListener{
+        void onClick(View v, int position);
     }
 
     @Override
@@ -102,7 +111,7 @@ public class jobadapter extends RecyclerView.Adapter<jobadapter.Viewholder> impl
         }
     };
 
-    public class Viewholder extends RecyclerView.ViewHolder{
+    public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView txtview_jobtitle,txtview_jobcompany,txtview_jobaddress,txtview_jobsalary,txtview_jobdateposted;
         ImageView imageview_joblogo;
@@ -115,6 +124,13 @@ public class jobadapter extends RecyclerView.Adapter<jobadapter.Viewholder> impl
             txtview_jobaddress = itemView.findViewById(R.id.textView_jobaddress);
             txtview_jobsalary = itemView.findViewById(R.id.textView_jobsalary);
             txtview_jobdateposted = itemView.findViewById(R.id.textView_jobdateposted);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            listener.onClick(view, getAdapterPosition());
         }
     }
     public void setWinnerDetails(ArrayList<job> listjob)

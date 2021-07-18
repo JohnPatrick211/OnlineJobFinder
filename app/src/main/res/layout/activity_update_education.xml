@@ -51,10 +51,10 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <EditText
+        <TextView
             android:padding="10dp"
             android:background="#FFFFFF"
-            android:id="@+id/edittext_updateyeargraduation"
+            android:id="@+id/tv_updateyeargraduation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Year of Graduation"
