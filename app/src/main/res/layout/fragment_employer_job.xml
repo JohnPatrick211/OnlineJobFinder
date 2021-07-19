@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="620dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".employer.EmployerJobFragment">
@@ -87,7 +87,8 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview_employerjobs"
                     android:layout_width="match_parent"
-                    android:layout_height="520dp" />
+                    android:layout_height="530dp" />
+
             </LinearLayout>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
@@ -99,10 +100,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/floatingbutton_addjob"
         android:layout_gravity="end|bottom"
-        android:layout_marginTop="-50dp"
         android:layout_margin="16dp"
         app:fabSize="normal"
-        app:backgroundTint="@color/black"
+        android:backgroundTint="#E91E47"
         app:elevation="6dp"
         android:src="@drawable/ic_baseline_add_24"/>
 

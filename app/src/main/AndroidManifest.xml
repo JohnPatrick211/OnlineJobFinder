@@ -10,25 +10,60 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OnlineJobFinder"
         android:usesCleartextTraffic="true">
-        <activity android:name=".applicant.ApplicantJobDescriptionActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".applicant.UpdateWorkExperienceActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".applicant.AddWorkExperience" android:screenOrientation="portrait"/>
-        <activity android:name=".EmployerVerifyOTP" android:screenOrientation="portrait"/>
-        <activity android:name=".employer.EditEmployerProfileActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".VerifyOTP" android:screenOrientation="portrait"/>
-        <activity android:name=".EditContactNumberActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".EditEmployerContactNumberActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".applicant.UpdateEducationActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".applicant.AddEducationActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".applicant.UploadResumeActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".tabregister.EmployerRegistrationActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".applicant.EditProfileActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".employer.EmployerActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".EmailActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ApplicantActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".tabregister.RegisterActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".MainActivity"
+        <activity android:name=".employer.EmployerAddJobActivity"></activity>
+        <activity
+            android:name=".applicant.ApplicantJobDescriptionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".applicant.UpdateWorkExperienceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".applicant.AddWorkExperience"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EmployerVerifyOTP"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".employer.EditEmployerProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".VerifyOTP"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EditContactNumberActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EditEmployerContactNumberActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".applicant.UpdateEducationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".applicant.AddEducationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".applicant.UploadResumeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".tabregister.EmployerRegistrationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".applicant.EditProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".employer.EmployerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EmailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ApplicantActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".tabregister.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

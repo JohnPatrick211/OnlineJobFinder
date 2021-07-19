@@ -29,6 +29,7 @@ import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.adapter.jobadapter;
 import com.example.onlinejobfinder.applicant.ApplicantJobDescriptionActivity;
 import com.example.onlinejobfinder.model.job;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,6 +48,7 @@ public class EmployerJobFragment extends Fragment {
 
     RecyclerView recyclerView;
     jobadapter.RecyclerViewClickListener listener;
+    FloatingActionButton addjob;
     int position =0;
     int position2 =0;
     boolean[] selectedspecialization, selectedlocation;
@@ -108,6 +110,7 @@ public class EmployerJobFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_employer_job, container, false);
         btnfilter = view.findViewById(R.id.btn_employerfilter);
+        addjob = view.findViewById(R.id.floatingbutton_addjob);
         tvsearchspecialization = view.findViewById(R.id.tv_searchemployerspecialization);
         tvsearchlocation  = view.findViewById(R.id.tv_searchemployerlocation);
         recyclerView = view.findViewById(R.id.recyclerview_employerjobs);
@@ -131,6 +134,13 @@ public class EmployerJobFragment extends Fragment {
         setOnClickListener();
         //getCategory();
         // getLocation();
+        addjob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(),EmployerAddJobActivity.class);
+                startActivity(i);
+            }
+        });
         tvsearchspecialization.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
