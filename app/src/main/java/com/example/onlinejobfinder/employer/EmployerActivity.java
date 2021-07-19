@@ -28,8 +28,9 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
     SharedPreferences userPref;
     String name2,user_id;
     final Fragment fragment1 = new EmployerHomeFragment();
-    final Fragment fragment2 = new ApplicantAppliedFragment();
-    final Fragment fragment3 = new EmployerProfileFragment();
+    final Fragment fragment2 = new EmployerJobFragment();
+    final Fragment fragment3 = new ApplicantAppliedFragment();
+    final Fragment fragment4 = new EmployerProfileFragment();
     final FragmentManager fm = getSupportFragmentManager();
     Fragment active = fragment1;
 
@@ -57,6 +58,7 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
 //        getSupportFragmentManager().beginTransaction().replace(R.id.container2,new EmployerHomeFragment()).commit();
         navigationView.setNavigationItemSelectedListener(this);
 
+        fm.beginTransaction().add(R.id.container2, fragment4, "4").hide(fragment4).commit();
         fm.beginTransaction().add(R.id.container2, fragment3, "3").hide(fragment3).commit();
         fm.beginTransaction().add(R.id.container2, fragment2, "2").hide(fragment2).commit();
         fm.beginTransaction().add(R.id.container2, fragment1, "1").commit();
@@ -85,13 +87,17 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
                         fm.beginTransaction().hide(active).show(fragment1).commit();
                         active = fragment1;
                         return true;
-                    case R.id.navigation_employerapplicants:
+                    case R.id.navigation_employerjob:
                         fm.beginTransaction().hide(active).show(fragment2).commit();
                         active = fragment2;
                         return true;
-                    case R.id.navigation_employerprofile:
+                    case R.id.navigation_employerapplicants:
                         fm.beginTransaction().hide(active).show(fragment3).commit();
                         active = fragment3;
+                        return true;
+                    case R.id.navigation_employerprofile:
+                        fm.beginTransaction().hide(active).show(fragment4).commit();
+                        active = fragment4;
                         return true;
 
                 }

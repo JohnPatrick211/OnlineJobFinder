@@ -8,6 +8,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
@@ -64,6 +65,7 @@ public class jobadapter extends RecyclerView.Adapter<jobadapter.Viewholder> impl
         job2.getJobcategory();
         job2.getJobid();
         job2.getJobdescription();
+        job2.getJobuniqueid();
     }
 
     @Override
@@ -121,6 +123,7 @@ public class jobadapter extends RecyclerView.Adapter<jobadapter.Viewholder> impl
         TextView txtview_jobtitle,txtview_jobcompany,txtview_joblocation,txtview_jobsalary,txtview_jobdateposted;
         ImageView imageview_joblogo;
 
+
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             txtview_jobtitle = itemView.findViewById(R.id.textView_jobtitle);
@@ -135,7 +138,26 @@ public class jobadapter extends RecyclerView.Adapter<jobadapter.Viewholder> impl
 
         @Override
         public void onClick(View view) {
-            listener.onClick(view, getAdapterPosition());
+           // listener.onClick(view, getAdapterPosition());
+            if(listener !=null)
+            {
+                int position = getAdapterPosition();
+                String jobid = listjob.get(position).getJobuniqueid();
+                Toast.makeText(context,jobid,Toast.LENGTH_SHORT).show();
+                for(int i=0; i< categorysearch.size(); i++)
+                {
+                    if(jobid.equals(categorysearch.get(i).getJobuniqueid()))
+                    {
+                        position = i;
+                        break;
+                    }
+                }
+//                Toast.makeText(context,position,Toast.LENGTH_SHORT).show();
+                if(position != RecyclerView.NO_POSITION)
+                {
+                    listener.onClick(view,position);
+                }
+            }
         }
     }
     public void setWinnerDetails(ArrayList<job> listjob)

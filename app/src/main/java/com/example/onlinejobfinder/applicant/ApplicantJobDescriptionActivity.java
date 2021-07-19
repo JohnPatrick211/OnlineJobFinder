@@ -21,7 +21,7 @@ import com.squareup.picasso.Picasso;
 public class ApplicantJobDescriptionActivity extends AppCompatActivity {
 
     StickyScrollView scrollview;
-    String job_id;
+    String job_id,id;
     LinearLayout jobdescription, companyoverview;
     TabLayout tablayout_jobdescription;
     CircleImageView img_joblogo;
@@ -57,7 +57,8 @@ public class ApplicantJobDescriptionActivity extends AppCompatActivity {
         tv_jobspecialization.setText(getIntent().getExtras().getString("intentjobspecialization"));
         tv_jobdateposted.setText(getIntent().getExtras().getString("intentjobposted").trim());
         job_id = getIntent().getExtras().getString("intentjob_id");
-        Toast.makeText(getApplicationContext(),job_id,Toast.LENGTH_SHORT).show();
+        id = getIntent().getExtras().getString("intentid");
+        Toast.makeText(getApplicationContext(),id,Toast.LENGTH_SHORT).show();
         tablayout_jobdescription.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

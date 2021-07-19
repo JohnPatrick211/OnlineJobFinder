@@ -11,6 +11,12 @@
         tools:layout="@layout/fragment_employer_home" />
 
     <fragment
+        android:id="@+id/navigation_employerjob"
+        android:name="com.example.onlinejobfinder.employer.EmployerJobFragment"
+        android:label="Job"
+        tools:layout="@layout/fragment_employer_job" />
+
+    <fragment
         android:id="@+id/navigation_employerapplicants"
         android:name="com.example.onlinejobfinder.employer.ApplicantAppliedFragment"
         android:label="Applicants"

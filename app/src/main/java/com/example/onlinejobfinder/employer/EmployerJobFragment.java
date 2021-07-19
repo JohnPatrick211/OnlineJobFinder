@@ -1,4 +1,4 @@
-package com.example.onlinejobfinder.applicant;
+package com.example.onlinejobfinder.employer;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -16,9 +16,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,8 +26,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
-import com.example.onlinejobfinder.adapter.educationalbackgroundadapter;
 import com.example.onlinejobfinder.adapter.jobadapter;
+import com.example.onlinejobfinder.applicant.ApplicantJobDescriptionActivity;
 import com.example.onlinejobfinder.model.job;
 
 import org.json.JSONArray;
@@ -43,10 +40,10 @@ import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SearchFragment#newInstance} factory method to
+ * Use the {@link EmployerJobFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchFragment extends Fragment {
+public class EmployerJobFragment extends Fragment {
 
     RecyclerView recyclerView;
     jobadapter.RecyclerViewClickListener listener;
@@ -61,7 +58,7 @@ public class SearchFragment extends Fragment {
     JSONArray result,result2;
     SwipeRefreshLayout refreshLayout;
     jobadapter jobadapter2;
-   // Spinner spinnercategory, spinnerlocation;
+    // Spinner spinnercategory, spinnerlocation;
     String catergoryString,yearString;
     String [] specializationarray, locationarray;
 
@@ -74,7 +71,7 @@ public class SearchFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public SearchFragment() {
+    public EmployerJobFragment() {
         // Required empty public constructor
     }
 
@@ -84,11 +81,11 @@ public class SearchFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SearchFragment.
+     * @return A new instance of fragment EmployerJobFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SearchFragment newInstance(String param1, String param2) {
-        SearchFragment fragment = new SearchFragment();
+    public static EmployerJobFragment newInstance(String param1, String param2) {
+        EmployerJobFragment fragment = new EmployerJobFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -109,15 +106,15 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
-        btnfilter = view.findViewById(R.id.btn_filter);
-        tvsearchspecialization = view.findViewById(R.id.tv_searchspecialization);
-        tvsearchlocation  = view.findViewById(R.id.tv_searchlocation);
-        recyclerView = view.findViewById(R.id.recyclerview_jobs);
+        View view = inflater.inflate(R.layout.fragment_employer_job, container, false);
+        btnfilter = view.findViewById(R.id.btn_employerfilter);
+        tvsearchspecialization = view.findViewById(R.id.tv_searchemployerspecialization);
+        tvsearchlocation  = view.findViewById(R.id.tv_searchemployerlocation);
+        recyclerView = view.findViewById(R.id.recyclerview_employerjobs);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        refreshLayout = view.findViewById(R.id.swipe);
+        refreshLayout = view.findViewById(R.id.employerswipe);
 //        spinnercategory = view.findViewById(R.id.spinner_category);
- //       spinnerlocation = view.findViewById(R.id.spinner_location);
+        //       spinnerlocation = view.findViewById(R.id.spinner_location);
         arraylist = new ArrayList<>();
         arraylist2 = new ArrayList<>();
         category = new ArrayList<String>();
@@ -126,14 +123,14 @@ public class SearchFragment extends Fragment {
 //        category.add("Category");
 //        category.add("Accountant");
 //        category.add("Programmer");
-      //  location.add("Region");
-      //  location.add("Region 4-A");
-      //  location.add("Region 3");
-      //  spinnerlocation.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, location));
+        //  location.add("Region");
+        //  location.add("Region 4-A");
+        //  location.add("Region 3");
+        //  spinnerlocation.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, location));
         refreshLayout.setRefreshing(true);
         setOnClickListener();
         //getCategory();
-       // getLocation();
+        // getLocation();
         tvsearchspecialization.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -290,33 +287,6 @@ public class SearchFragment extends Fragment {
         });
         getPost();
         SharedPreferences sharedPreferences = getContext().getApplicationContext().getSharedPreferences("jobpost", Context.MODE_PRIVATE);
-//        spinnercategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                catergoryString = (String) parent.getItemAtPosition(position);
-//                spinnercategory.setSelection(position);
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//                catergoryString = "";
-//
-//            }
-//        });
-//        spinnerlocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                yearString = (String) parent.getItemAtPosition(position);
-//                spinnerlocation.setSelection(position);
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//                yearString = "";
-//
-//            }
-//        });
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -328,13 +298,14 @@ public class SearchFragment extends Fragment {
 
         return view;
     }
+
     private void getCategory() {
         StringRequest request = new StringRequest(Request.Method.GET, Constant.categoryfilter, response ->{
             JSONObject j = null;
             try{
-               j = new JSONObject(response);
-               result = j.getJSONArray("categories");
-               getSubCategory(result);
+                j = new JSONObject(response);
+                result = j.getJSONArray("categories");
+                getSubCategory(result);
 
 
             }catch(JSONException e)
