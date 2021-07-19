@@ -53,19 +53,71 @@ public class job {
         this.jobdateposted = jobdateposted;
     }
 
-    public job(String joblogo, String jobtitle, String jobcompany, String jobaddress, String jobsalary, String jobdateposted) {
+    public String getCompanyoverview() {
+        return companyoverview;
+    }
+
+    public void setCompanyoverview(String companyoverview) {
+        this.companyoverview = companyoverview;
+    }
+
+    public String getJobcategory() {
+        return jobcategory;
+    }
+
+    public void setJobcategory(String jobcategory) {
+        this.jobcategory = jobcategory;
+    }
+
+    public String getJoblocation() {
+        return joblocation;
+    }
+
+    public void setJoblocation(String joblocation) {
+        this.joblocation = joblocation;
+    }
+
+
+    public String getJobid() {
+        return jobid;
+    }
+
+    public void setJobid(String jobid) {
+        this.jobid = jobid;
+    }
+
+
+    public String getJobdescription() {
+        return jobdescription;
+    }
+
+    public void setJobdescription(String jobdescription) {
+        this.jobdescription = jobdescription;
+    }
+
+    public job(String jobdescription, String jobid, String joblocation, String jobcategory, String joblogo, String jobtitle, String jobcompany, String jobaddress, String jobsalary, String companyoverview, String jobdateposted) {
+        this.jobdescription = jobdescription;
+        this.jobid = jobid;
+        this.joblocation = joblocation;
+        this.jobcategory = jobcategory;
         this.joblogo = joblogo;
         this.jobtitle = jobtitle;
         this.jobcompany = jobcompany;
         this.jobaddress = jobaddress;
         this.jobsalary = jobsalary;
+        this.companyoverview = companyoverview;
         this.jobdateposted = jobdateposted;
     }
 
+    private String jobdescription;
+    private String jobid;
+    private String joblocation;
+    private String jobcategory;
     private String joblogo;
     private String jobtitle;
     private String jobcompany;
     private String jobaddress;
     private String jobsalary;
+    private String companyoverview;
     private String jobdateposted;
 }

@@ -263,21 +263,21 @@ public class SearchFragment extends Fragment {
                     {
                         if(catergoryString.equals("Specialization") && !TextUtils.isEmpty(yearString))
                         {
-                            if(details.getJobaddress().contains(yearString))
+                            if(details.getJoblocation().contains(yearString))
                             {
                                 w.add(details);
                             }
                         }
                         else if(yearString.equals("Region") && !TextUtils.isEmpty(catergoryString))
                         {
-                            if(details.getJobtitle().contains(catergoryString))
+                            if(details.getJobcategory().contains(catergoryString))
                             {
                                 w.add(details);
                             }
                         }
                         else
                         {
-                            if(details.getJobtitle().contains(catergoryString) && details.getJobaddress().contains(yearString))
+                            if(details.getJobcategory().contains(catergoryString) && details.getJoblocation().contains(yearString))
                             {
                                 w.add(details);
                             }
@@ -442,9 +442,14 @@ public class SearchFragment extends Fragment {
                         job2.setJoblogo(postObject.getString("logo"));
                         job2.setJobtitle(postObject.getString("jobtitle"));
                         job2.setJobcompany(postObject.getString("companyname"));
-                        job2.setJobaddress(postObject.getString("location"));
+                        job2.setJoblocation(postObject.getString("location"));
                         job2.setJobsalary(postObject.getString("salary"));
                         job2.setJobdateposted(postObject.getString("created_at"));
+                        job2.setJobaddress(postObject.getString("address"));
+                        job2.setCompanyoverview(postObject.getString("companyoverview"));
+                        job2.setJobcategory(postObject.getString("category"));
+                        job2.setJobid(postObject.getString("job_id"));
+                        job2.setJobdescription(postObject.getString("jobdescription"));
 
                         arraylist.add(job2);
                         arraylist2.add(job2);
@@ -492,6 +497,17 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v, int position) {
                 Intent intent = new Intent(getActivity(), ApplicantJobDescriptionActivity.class);
+                intent.putExtra("intentjob_id",arraylist.get(position).getJobid());
+                intent.putExtra("intentjoblogo",Constant.URL+"/storage/jobposts/"+arraylist.get(position).getJoblogo());
+                intent.putExtra("intentjobtitle",arraylist.get(position).getJobtitle());
+                intent.putExtra("intentjobcompany",arraylist.get(position).getJobcompany());
+                intent.putExtra("intentjobdescription",arraylist.get(position).getJobdescription());
+                intent.putExtra("intentjobcompanyoverview",arraylist.get(position).getCompanyoverview());
+                intent.putExtra("intentjoblocation",arraylist.get(position).getJoblocation());
+                intent.putExtra("intentjobaddress",arraylist.get(position).getJobaddress());
+                intent.putExtra("intentjobspecialization",arraylist.get(position).getJobcategory());
+                intent.putExtra("intentjobsalary",arraylist.get(position).getJobsalary());
+                intent.putExtra("intentjobposted",arraylist.get(position).getJobdateposted());
                 startActivity(intent);
             }
         };

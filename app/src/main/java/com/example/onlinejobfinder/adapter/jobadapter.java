@@ -56,9 +56,14 @@ public class jobadapter extends RecyclerView.Adapter<jobadapter.Viewholder> impl
         Picasso.get().load(Constant.URL+"/storage/jobposts/"+job2.getJoblogo()).into(holder.imageview_joblogo);
         holder.txtview_jobtitle.setText(job2.getJobtitle());
         holder.txtview_jobcompany.setText(job2.getJobcompany());
-        holder.txtview_jobaddress.setText(job2.getJobaddress());
+        holder.txtview_joblocation.setText(job2.getJoblocation());
         holder.txtview_jobsalary.setText(job2.getJobsalary());
-        holder.txtview_jobdateposted.setText(job2.getJobdateposted());
+        holder.txtview_jobdateposted.setText(job2.getJobdateposted().trim());
+        job2.getJobaddress();
+        job2.getCompanyoverview();
+        job2.getJobcategory();
+        job2.getJobid();
+        job2.getJobdescription();
     }
 
     @Override
@@ -81,18 +86,18 @@ public class jobadapter extends RecyclerView.Adapter<jobadapter.Viewholder> impl
             else {
                 String filterPattern = charSequence.toString().toLowerCase().trim();
                 for (job item : categorysearch){
-                    if (item.getJobtitle().toLowerCase().contains(filterPattern)){
+                    if (item.getJobcategory().toLowerCase().contains(filterPattern)){
                         filterList.add(item);
                     }
-                    else if(item.getJobaddress().toLowerCase().contains(filterPattern))
+                    else if(item.getJoblocation().toLowerCase().contains(filterPattern))
                     {
                         filterList.add(item);
                     }
-                    else if(item.getJobaddress().toLowerCase().contains(filterPattern) && item.getJobtitle().toLowerCase().contains(filterPattern))
+                    else if(item.getJoblocation().toLowerCase().contains(filterPattern) && item.getJobcategory().toLowerCase().contains(filterPattern))
                     {
                         filterList.add(item);
                     }
-                    else if(item.getJobaddress().toLowerCase().contains(filterPattern) || item.getJobtitle().toLowerCase().contains(filterPattern))
+                    else if(item.getJoblocation().toLowerCase().contains(filterPattern) || item.getJobcategory().toLowerCase().contains(filterPattern))
                     {
                         filterList.add(item);
                     }
@@ -113,7 +118,7 @@ public class jobadapter extends RecyclerView.Adapter<jobadapter.Viewholder> impl
 
     public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        TextView txtview_jobtitle,txtview_jobcompany,txtview_jobaddress,txtview_jobsalary,txtview_jobdateposted;
+        TextView txtview_jobtitle,txtview_jobcompany,txtview_joblocation,txtview_jobsalary,txtview_jobdateposted;
         ImageView imageview_joblogo;
 
         public Viewholder(@NonNull View itemView) {
@@ -121,7 +126,7 @@ public class jobadapter extends RecyclerView.Adapter<jobadapter.Viewholder> impl
             txtview_jobtitle = itemView.findViewById(R.id.textView_jobtitle);
             imageview_joblogo = itemView.findViewById(R.id.imageview_joblogo);
             txtview_jobcompany = itemView.findViewById(R.id.textView_jobcompany);
-            txtview_jobaddress = itemView.findViewById(R.id.textView_jobaddress);
+            txtview_joblocation = itemView.findViewById(R.id.textView_joblocation);
             txtview_jobsalary = itemView.findViewById(R.id.textView_jobsalary);
             txtview_jobdateposted = itemView.findViewById(R.id.textView_jobdateposted);
 
