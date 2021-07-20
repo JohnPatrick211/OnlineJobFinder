@@ -30,6 +30,7 @@ import com.example.onlinejobfinder.adapter.jobadapter;
 import com.example.onlinejobfinder.applicant.ApplicantJobDescriptionActivity;
 import com.example.onlinejobfinder.model.job;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,6 +48,7 @@ import java.util.Map;
 public class EmployerJobFragment extends Fragment {
 
     RecyclerView recyclerView;
+    SharedPreferences userPref2;
     jobadapter.RecyclerViewClickListener listener;
     FloatingActionButton addjob;
     int position =0;
@@ -63,6 +65,10 @@ public class EmployerJobFragment extends Fragment {
     // Spinner spinnercategory, spinnerlocation;
     String catergoryString,yearString;
     String [] specializationarray, locationarray;
+    String name2, user_id,token,email;
+    String val_contactno = "";
+    String val_specialization = "";
+    String intentcompanyname, intentcompanyoverview, intentaddress, intentemail, intentcompanylogo,intentcompanylogo2 ;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -122,6 +128,11 @@ public class EmployerJobFragment extends Fragment {
         arraylist2 = new ArrayList<>();
         category = new ArrayList<String>();
         location = new ArrayList<String>();
+        userPref2 = getContext().getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        name2 = userPref2.getString("name","name");
+        email = userPref2.getString("email","email");
+        user_id = userPref2.getString("id","id");
+        token = userPref2.getString("token","token");
 
 //        category.add("Category");
 //        category.add("Accountant");
@@ -137,8 +148,22 @@ public class EmployerJobFragment extends Fragment {
         addjob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(),EmployerAddJobActivity.class);
-                startActivity(i);
+                if(val_specialization.equals("null") || val_contactno.equals("null"))
+                {
+                    Toast.makeText(getActivity(),"Please Add Contact Number and Specialization",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Intent i = new Intent(getActivity(),EmployerAddJobActivity.class);
+                    i.putExtra("jobcompanyname",intentcompanyname);
+                    i.putExtra("jobemail",intentemail);
+                    i.putExtra("jobaddress", intentaddress);
+                    i.putExtra("jobcompanyoverview", intentcompanyoverview);
+                    i.putExtra("jobcompanylogo",intentcompanylogo);
+                    i.putExtra("jobcompanylogo2",intentcompanylogo2);
+                    startActivity(i);
+                }
+
             }
         });
         tvsearchspecialization.setOnClickListener(new View.OnClickListener() {
@@ -295,7 +320,7 @@ public class EmployerJobFragment extends Fragment {
                 jobadapter2.setWinnerDetails(w);
             }
         });
-        getPost();
+        //getPost();
         SharedPreferences sharedPreferences = getContext().getApplicationContext().getSharedPreferences("jobpost", Context.MODE_PRIVATE);
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -408,7 +433,7 @@ public class EmployerJobFragment extends Fragment {
     }
 
     private void getPost() {
-        StringRequest request = new StringRequest(Request.Method.GET, Constant.jobposts, response ->{
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.employerjobposts+"?job_id="+user_id, response ->{
             try{
                 JSONObject object = new JSONObject(response);
                 if(object.getBoolean("success"))
@@ -463,13 +488,15 @@ public class EmployerJobFragment extends Fragment {
 
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
+
     }
     public void onResume() {
         super.onResume();
         getCategory();
         getLocation();
-//        getPost();
-//        arraylist.clear();
+        getEmployer();
+        getPost();
+        arraylist.clear();
         category.clear();
         location.clear();
     }
@@ -478,10 +505,10 @@ public class EmployerJobFragment extends Fragment {
         listener = new jobadapter.RecyclerViewClickListener() {
             @Override
             public void onClick(View v, int position) {
-                Intent intent = new Intent(getActivity(), ApplicantJobDescriptionActivity.class);
+                Intent intent = new Intent(getActivity(), EmployerAddJobActivity.class);
                 intent.putExtra("intentjob_id",arraylist.get(position).getJobid());
                 intent.putExtra("intentid",arraylist.get(position).getJobuniqueid());
-                intent.putExtra("intentjoblogo",Constant.URL+"/storage/jobposts/"+arraylist.get(position).getJoblogo());
+                intent.putExtra("intentjoblogo",Constant.URL+"/storage/profiles/"+arraylist.get(position).getJoblogo());
                 intent.putExtra("intentjobtitle",arraylist.get(position).getJobtitle());
                 intent.putExtra("intentjobcompany",arraylist.get(position).getJobcompany());
                 intent.putExtra("intentjobdescription",arraylist.get(position).getJobdescription());
@@ -494,5 +521,79 @@ public class EmployerJobFragment extends Fragment {
                 startActivity(intent);
             }
         };
+    }
+    private void getEmployer()
+    {
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.EMPLOYER_POST+"?employer_id="+user_id, response -> {
+            try{
+                JSONObject object= new JSONObject(response);
+                if(object.getBoolean("success")){
+                    JSONObject user = object.getJSONObject("user");
+                    val_contactno = user.get("contactno").toString();
+                    val_specialization =  user.get("Specialization").toString();
+                    Toast.makeText(getContext(),val_contactno,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),val_specialization,Toast.LENGTH_SHORT).show();
+                    intentcompanyname = user.get("name").toString();
+                    intentemail = user.get("email").toString();
+                    intentaddress = user.get("address").toString();
+                    intentcompanyoverview = user.get("companyoverview").toString();
+                    intentcompanylogo = Constant.URL+"/storage/profiles/"+user.getString("profile_pic");
+                    intentcompanylogo2 = user.getString("profile_pic");
+                    SharedPreferences.Editor editor2 = userPref2.edit();
+                    editor2.putString("name",user.getString("name"));
+                    editor2.putString("address",user.getString("address"));
+                    editor2.putString("contactno",user.getString("contactno"));
+                    //editor2.putString("email",user.getString("email"));
+                    // editor2.putString("background",user.getString("background"));
+                    editor2.apply();
+                    editor2.commit();
+//                    if(user.get("contactno").toString().equals("null")|| user.get("Specialization").toString().equals("null"))
+//                    {
+//                        txtemployercontactno.setVisibility(View.GONE);
+//                        txtemployerspecialization.setVisibility(View.GONE);
+//                    }
+//                    else {
+//                        txtemployercontactno.setVisibility(View.VISIBLE);
+//                        txtemployerspecialization.setVisibility(View.VISIBLE);
+//                    }
+
+                }
+                else
+                {
+                    Toast.makeText(getContext(), "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                    // progressDialog.cancel();
+                }
+
+            }catch(JSONException e)
+            {
+                //Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+//                txtemployercontactno.setVisibility(View.GONE);
+//                txtemployeraddress.setVisibility(View.GONE);
+//                txtemployerspecialization.setVisibility(View.GONE);
+//                txtemployername.setText(name2);
+//                txtemployeremail.setText(email);
+                //  progressDialog.cancel();
+            }
+        },error ->{
+            error.printStackTrace();
+            Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+//            txtemployername.setText(name2);
+//            txtemployeremail.setText(email);
+//            txtemployercompanyoverview.setText("network error in loading of content");
+            // progressDialog.cancel();
+        })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                //String token = userPref.getString("token","token");
+                map.put("Authorization","Bearer "+token);
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
     }
 }

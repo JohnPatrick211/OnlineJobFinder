@@ -54,7 +54,7 @@ public class jobadapter extends RecyclerView.Adapter<jobadapter.Viewholder> impl
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
         job job2 = listjob.get(position);
-        Picasso.get().load(Constant.URL+"/storage/jobposts/"+job2.getJoblogo()).into(holder.imageview_joblogo);
+        Picasso.get().load(Constant.URL+"/storage/profiles/"+job2.getJoblogo()).into(holder.imageview_joblogo);
         holder.txtview_jobtitle.setText(job2.getJobtitle());
         holder.txtview_jobcompany.setText(job2.getJobcompany());
         holder.txtview_joblocation.setText(job2.getJoblocation());

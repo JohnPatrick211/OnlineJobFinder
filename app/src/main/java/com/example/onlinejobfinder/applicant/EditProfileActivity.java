@@ -368,6 +368,7 @@ public class EditProfileActivity extends AppCompatActivity {
         {
             Uri imgUri = data.getData();
             circleImageView.setImageURI(imgUri);
+            //Toast.makeText(EditProfileActivity.this,imgUri.toString(),Toast.LENGTH_SHORT).show();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imgUri);
             } catch (IOException e) {

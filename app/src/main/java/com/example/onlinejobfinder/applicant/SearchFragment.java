@@ -500,7 +500,7 @@ public class SearchFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ApplicantJobDescriptionActivity.class);
                 intent.putExtra("intentjob_id",arraylist.get(position).getJobid());
                 intent.putExtra("intentid",arraylist.get(position).getJobuniqueid());
-                intent.putExtra("intentjoblogo",Constant.URL+"/storage/jobposts/"+arraylist.get(position).getJoblogo());
+                intent.putExtra("intentjoblogo",Constant.URL+"/storage/profiles/"+arraylist.get(position).getJoblogo());
                 intent.putExtra("intentjobtitle",arraylist.get(position).getJobtitle());
                 intent.putExtra("intentjobcompany",arraylist.get(position).getJobcompany());
                 intent.putExtra("intentjobdescription",arraylist.get(position).getJobdescription());
