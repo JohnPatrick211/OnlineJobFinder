@@ -624,10 +624,11 @@ public class EmployerJobFragment extends Fragment {
         listener = new employerjobadapter.RecyclerViewClickListener() {
             @Override
             public void onClick(View v, int position) {
-                Intent intent = new Intent(getActivity(), EmployerAddJobActivity.class);
+                Intent intent = new Intent(getActivity(), EditEmployerJobActivity.class);
                 intent.putExtra("intentjob_id",arraylist.get(position).getJobid());
                 intent.putExtra("intentid",arraylist.get(position).getJobuniqueid());
                 intent.putExtra("intentjoblogo",Constant.URL+"/storage/profiles/"+arraylist.get(position).getJoblogo());
+                intent.putExtra("jobcompanylogo2",intentcompanylogo2);
                 intent.putExtra("intentjobtitle",arraylist.get(position).getJobtitle());
                 intent.putExtra("intentjobcompany",arraylist.get(position).getJobcompany());
                 intent.putExtra("intentjobdescription",arraylist.get(position).getJobdescription());
@@ -637,6 +638,7 @@ public class EmployerJobFragment extends Fragment {
                 intent.putExtra("intentjobspecialization",arraylist.get(position).getJobcategory());
                 intent.putExtra("intentjobsalary",arraylist.get(position).getJobsalary());
                 intent.putExtra("intentjobposted",arraylist.get(position).getJobdateposted());
+                intent.putExtra("intentjobemail",intentemail);
                 startActivity(intent);
             }
         };

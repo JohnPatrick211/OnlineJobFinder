@@ -13,6 +13,8 @@ public class Constant {
     public static final String jobposts=home+"/jobpost";
     public static final String employerjobposts=home+"/employerjobpost";
     public static final String addjob=home+"/addjob";
+    public static final String updatejob=home+"/updatejobpost";
+    public static final String deletejob=home+"/deletejobpost";
     //Education Background
     public static final String geteducation=home+"/posteducationalbackground";
     public static final String deleteeducation=home+"/deleteeducationalbackground";

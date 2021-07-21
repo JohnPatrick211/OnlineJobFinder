@@ -1,16 +1,14 @@
 package com.example.onlinejobfinder.employer;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,10 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.example.onlinejobfinder.applicant.UpdateWorkExperienceActivity;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -38,16 +33,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EmployerAddJobActivity extends AppCompatActivity {
+public class EditEmployerJobActivity extends AppCompatActivity {
 
-    CircleImageView joblogo;
-    EditText jobtitle,jobaddress,jobsalary,jobdescription,jobcompanyoverview;
-    TextView jobcompanyname, jobregion,jobspecialization,jobemail;
-    Button btnsendjobapprove,btndelete;
+    EditText edit_jobtitle, edit_jobsalary, edit_jobaddress, edit_jobdescription,edit_jobcompanyoverview;
+    TextView edit_jobcompanyname, edit_jobregion, edit_jobemail, edit_jobspecialization;
+    CircleImageView edit_joblogo;
+    Button btn_editsendapprove,btndelete;
     ProgressDialog progressDialog;
-    SharedPreferences userPref2;
+    String intentid,intentjobtitle,intentjobsalary,intentjobaddress,
+            intentjobdescription, intentjobcompanyoverview, intentjobcompanyname,
+            intentjobregion,intentjobemail,intentjobspecialization, intentjoblogo;
     String pending = "pending";
-    String name2, user_id,token,email,joblogo2;
     int position =0;
     int position2 =0;
     JSONArray result,result2;
@@ -55,109 +51,107 @@ public class EmployerAddJobActivity extends AppCompatActivity {
     ArrayList<String> category,location;
     String [] specializationarray, locationarray;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_employer_add_job);
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        joblogo = findViewById(R.id.img_addjobeditemployer_imguser);
-        jobtitle = findViewById(R.id.edittext_addjobemployerjobtitle);
-        jobemail = findViewById(R.id.tv_addjobemail);
-        jobaddress = findViewById(R.id.edittext_addjobemployeraddress);
-        jobsalary = findViewById(R.id.edittext_addjobemployersalary);
-        jobdescription = findViewById(R.id.edittext_addjobemployerjobdescription);
-        jobcompanyoverview = findViewById(R.id.edittext_addjobemployercompanyoverview);
-        jobcompanyname = findViewById(R.id.tv_addjobemployercompanyname);
-        jobregion = findViewById(R.id.tv_addjobemployerregion);
-        jobspecialization = findViewById(R.id.tv_addjobemployerspecialization);
-        btnsendjobapprove = findViewById(R.id.btnaddjobsaveimage);
-        jobcompanyname.setText(getIntent().getExtras().getString("jobcompanyname"));
-        jobemail.setText(getIntent().getExtras().getString("jobemail"));
-        jobaddress.setText(getIntent().getExtras().getString("jobaddress"));
-        jobcompanyoverview.setText(getIntent().getExtras().getString("jobcompanyoverview"));
-        Picasso.get().load(getIntent().getStringExtra("jobcompanylogo")).into(joblogo);
-        joblogo2 = getIntent().getStringExtra("jobcompanylogo2");
-        userPref2 = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-        name2 = userPref2.getString("name","name");
-        email = userPref2.getString("email","email");
-        user_id = userPref2.getString("id","id");
-        token = userPref2.getString("token","token");
+        setContentView(R.layout.activity_edit_employer_jobs);
+
+        intentid = getIntent().getExtras().getString("intentid");
+        edit_jobtitle = findViewById(R.id.edittext_editaddjobemployerjobtitle);
+        edit_jobtitle.setText(getIntent().getExtras().getString("intentjobtitle"));
+        edit_jobsalary = findViewById(R.id.edittext_editaddjobemployersalary);
+        edit_jobsalary.setText(getIntent().getExtras().getString("intentjobsalary"));
+        edit_jobaddress = findViewById(R.id.edittext_editaddjobemployeraddress);
+        edit_jobaddress.setText(getIntent().getExtras().getString("intentjobaddress"));
+        edit_jobdescription = findViewById(R.id.edittext_editaddjobemployerjobdescription);
+        edit_jobdescription.setText(getIntent().getExtras().getString("intentjobdescription"));
+        edit_jobcompanyoverview = findViewById(R.id.edittext_editaddjobemployercompanyoverview);
+        edit_jobcompanyoverview.setText(getIntent().getExtras().getString("intentjobcompanyoverview"));
+        edit_jobcompanyname = findViewById(R.id.tv_editaddjobemployercompanyname);
+        edit_jobcompanyname.setText(getIntent().getExtras().getString("intentjobcompany"));
+        edit_jobregion = findViewById(R.id.tv_editaddjobemployerregion);
+        edit_jobregion.setText(getIntent().getExtras().getString("intentjoblocation"));
+        edit_jobemail = findViewById(R.id.tv_editaddjobemail);
+        edit_jobemail.setText(getIntent().getExtras().getString("intentjobemail"));
+        edit_jobspecialization = findViewById(R.id.tv_editaddjobemployerspecialization);
+        edit_jobspecialization.setText(getIntent().getExtras().getString("intentjobspecialization"));
+        edit_joblogo = findViewById(R.id.img_editaddjobeditemployer_imguser);
+        Picasso.get().load(getIntent().getStringExtra("intentjoblogo")).into(edit_joblogo);
+        intentjoblogo = getIntent().getExtras().getString("jobcompanylogo2");
+        btn_editsendapprove = findViewById(R.id.btneditaddjobsaveimage);
         category = new ArrayList<String>();
         location = new ArrayList<String>();
-        Toast.makeText(EmployerAddJobActivity.this,joblogo2,Toast.LENGTH_SHORT).show();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
 
-        jobspecialization.setOnClickListener(new View.OnClickListener() {
+        btndelete = findViewById(R.id.btndeleteeditjobsaveimage);
+        btndelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(
-                        EmployerAddJobActivity.this
-                );
-                jobspecialization.setText(specializationarray[position]);
-                builder.setTitle("Select Specialization");
-                builder.setCancelable(false);
-                builder.setSingleChoiceItems(specializationarray, position, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        position = i;
-                        jobspecialization.setText(specializationarray[i]);
-                    }
-                });
+                progressDialog.setMessage("Deleting");
+                progressDialog.show();
+                StringRequest request = new StringRequest(Request.Method.POST, Constant.deletejob, response -> {
+                    try{
+                        JSONObject object= new JSONObject(response);
+                        if(object.getBoolean("success")){
+                            //JSONObject user = object.getJSONObject("update");
+                            //SharedPreferences userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+                            // SharedPreferences.Editor editor = userPref.edit();
+                            //editor.putString("id",user.getString("educational_id"));
+                            progressDialog.cancel();
 
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        StringBuilder stringBuilder = new StringBuilder();
-//                        for(int j=0; j<Specialization.size(); j++)
-//                        {
-//                            stringBuilder.append(specializationarray[Specialization.get(j)]);
-//                            if(j != Specialization.size()-1)
-//                            {
-//                                stringBuilder.append(", ");
-//                            }
-//                        }
-//                        tvworkspecialization.setText(stringBuilder.toString());
-                        //tvworkspecialization.setText(Specialization.get(position));
-                        dialogInterface.dismiss();
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                        jobspecialization.setText("Specialization");
-                    }
-                });
+                            //editor.apply();
+                            //  editor.commit();
+                            Toast.makeText(EditEmployerJobActivity.this,"Delete Successfully",Toast.LENGTH_SHORT).show();
+                            onBackPressed();
 
-                builder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        for(int j=0; j<selectedspecialization.length; j++)
-                        {
-                            selectedspecialization[j] = false;
-                            // Specialization.clear();
-                            jobspecialization.setText("Specialization");
+
                         }
+                        else
+                        {
+                            Toast.makeText(EditEmployerJobActivity.this, "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                            progressDialog.cancel();
+                        }
+
+                    }catch(JSONException e)
+                    {
+                        Toast.makeText(EditEmployerJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                        progressDialog.cancel();
                     }
-                });
-                builder.show();
+                },error ->{
+                    error.printStackTrace();
+                    Toast.makeText(EditEmployerJobActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                    progressDialog.cancel();
+                })
+                {
+
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        HashMap<String,String> map = new HashMap<>();
+                        //map.put("id",user_id);
+                        map.put("id",intentid);
+                        return map;
+                    }
+                };
+
+                RequestQueue queue = Volley.newRequestQueue(EditEmployerJobActivity.this);
+                queue.add(request);
             }
         });
-        jobregion.setOnClickListener(new View.OnClickListener() {
+        edit_jobregion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(
-                        EmployerAddJobActivity.this
+                        EditEmployerJobActivity.this
                 );
-                jobregion.setText(locationarray[position2]);
+                edit_jobregion.setText(locationarray[position2]);
                 builder.setTitle("Select Region");
                 builder.setCancelable(false);
                 builder.setSingleChoiceItems(locationarray, position2, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         position2 = i;
-                        jobregion.setText(locationarray[i]);
+                        edit_jobregion.setText(locationarray[i]);
                     }
                 });
 
@@ -182,7 +176,7 @@ public class EmployerAddJobActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
-                        jobregion.setText("Region");
+                        edit_jobregion.setText("Region");
                     }
                 });
 
@@ -193,26 +187,81 @@ public class EmployerAddJobActivity extends AppCompatActivity {
                         {
                             selectedlocation[j] = false;
                             // Specialization.clear();
-                            jobregion.setText("Region");
+                            edit_jobregion.setText("Region");
                         }
                     }
                 });
                 builder.show();
             }
         });
+        edit_jobspecialization.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(
+                        EditEmployerJobActivity.this
+                );
+                edit_jobspecialization.setText(specializationarray[position]);
+                builder.setTitle("Select Specialization");
+                builder.setCancelable(false);
+                builder.setSingleChoiceItems(specializationarray, position, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        position = i;
+                        edit_jobspecialization.setText(specializationarray[i]);
+                    }
+                });
 
-        btnsendjobapprove.setOnClickListener(new View.OnClickListener() {
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        StringBuilder stringBuilder = new StringBuilder();
+//                        for(int j=0; j<Specialization.size(); j++)
+//                        {
+//                            stringBuilder.append(specializationarray[Specialization.get(j)]);
+//                            if(j != Specialization.size()-1)
+//                            {
+//                                stringBuilder.append(", ");
+//                            }
+//                        }
+//                        tvworkspecialization.setText(stringBuilder.toString());
+                        //tvworkspecialization.setText(Specialization.get(position));
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        edit_jobspecialization.setText("Specialization");
+                    }
+                });
+
+                builder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        for(int j=0; j<selectedspecialization.length; j++)
+                        {
+                            selectedspecialization[j] = false;
+                            // Specialization.clear();
+                            edit_jobspecialization.setText("Specialization");
+                        }
+                    }
+                });
+                builder.show();
+            }
+        });
+        btn_editsendapprove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 progressDialog.setMessage("Sending");
                 progressDialog.show();
-                StringRequest request = new StringRequest(Request.Method.POST, Constant.addjob, response -> {
+                StringRequest request = new StringRequest(Request.Method.POST, Constant.updatejob, response -> {
                     try{
                         JSONObject object= new JSONObject(response);
                         if(object.getBoolean("success")){
                             //JSONObject user = object.getJSONObject("user");
                             onBackPressed();
-                            Toast.makeText(EmployerAddJobActivity.this,"Job Approval Successfully Send",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditEmployerJobActivity.this,"Job Approval Successfully Send",Toast.LENGTH_SHORT).show();
 //                            SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user",getContext().MODE_PRIVATE);
 //                            SharedPreferences.Editor editor = userPref.edit();
 //                            editor.putString("token",object.getString("token"));
@@ -223,20 +272,20 @@ public class EmployerAddJobActivity extends AppCompatActivity {
 //                            Toast.makeText(getContext(),"Register Successfully",Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
                         }
-                        else if(object.getString("Status").equals("202"))
-                        {
-                            Toast.makeText(EmployerAddJobActivity.this,"Job Vacant Already Exists",Toast.LENGTH_SHORT).show();
-                            progressDialog.cancel();
-                        }
+//                        else if(object.getString("Status").equals("202"))
+//                        {
+//                            Toast.makeText(EditEmployerJobActivity.this,"Job Vacant Already Exists",Toast.LENGTH_SHORT).show();
+//                            progressDialog.cancel();
+//                        }
                         else
                         {
-                            Toast.makeText(EmployerAddJobActivity.this, "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditEmployerJobActivity.this, "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
                         }
 
                     }catch(JSONException e)
                     {
-                        Toast.makeText(EmployerAddJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditEmployerJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
                         progressDialog.cancel();
                     }
                 },error ->{
@@ -247,28 +296,29 @@ public class EmployerAddJobActivity extends AppCompatActivity {
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         HashMap<String,String> map = new HashMap<>();
-                        map.put("job_id",user_id);
-                        map.put("companyname",jobcompanyname.getText().toString().trim());
-                        map.put("jobtitle",jobtitle.getText().toString().trim());
-                        map.put("email",jobemail.getText().toString().trim());
-                        map.put("category",jobspecialization.getText().toString());
-                        map.put("companyoverview",jobcompanyoverview.getText().toString().trim());
-                        map.put("jobdescription",jobdescription.getText().toString().trim());
-                        map.put("location",jobregion.getText().toString());
-                        map.put("salary",jobsalary.getText().toString().trim());
-                        map.put("address",jobaddress.getText().toString().trim());
-                        map.put("logo",joblogo2.trim());
+                        map.put("id",intentid);
+                        map.put("companyname",edit_jobcompanyname.getText().toString().trim());
+                        map.put("jobtitle",edit_jobtitle.getText().toString().trim());
+                        map.put("email",edit_jobemail.getText().toString().trim());
+                        map.put("category",edit_jobspecialization.getText().toString());
+                        map.put("companyoverview",edit_jobcompanyoverview.getText().toString().trim());
+                        map.put("jobdescription",edit_jobdescription.getText().toString().trim());
+                        map.put("location",edit_jobregion.getText().toString());
+                        map.put("salary",edit_jobsalary.getText().toString().trim());
+                        map.put("address",edit_jobaddress.getText().toString().trim());
+                        map.put("logo", intentjoblogo.trim());
                         map.put("jobstatus",pending);
                         return map;
                     }
                 };
-                RequestQueue queue = Volley.newRequestQueue(EmployerAddJobActivity.this);
+                RequestQueue queue = Volley.newRequestQueue(EditEmployerJobActivity.this);
                 queue.add(request);
             }
         });
 
 
     }
+
     public void onBackPressed()
     {
         super.onBackPressed();
@@ -286,14 +336,14 @@ public class EmployerAddJobActivity extends AppCompatActivity {
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(EmployerAddJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditEmployerJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
             }
 
-           // refreshLayout.setRefreshing(false);
+            // refreshLayout.setRefreshing(false);
 
         },error -> {
             error.printStackTrace();
-           // refreshLayout.setRefreshing(false);
+            // refreshLayout.setRefreshing(false);
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -302,7 +352,7 @@ public class EmployerAddJobActivity extends AppCompatActivity {
             }
         };
 
-        RequestQueue queue = Volley.newRequestQueue(EmployerAddJobActivity.this);
+        RequestQueue queue = Volley.newRequestQueue(EditEmployerJobActivity.this);
         queue.add(request);
     }
 
@@ -335,14 +385,14 @@ public class EmployerAddJobActivity extends AppCompatActivity {
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(EmployerAddJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditEmployerJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
             }
 
-          //  refreshLayout.setRefreshing(false);
+            //  refreshLayout.setRefreshing(false);
 
         },error -> {
             error.printStackTrace();
-           // refreshLayout.setRefreshing(false);
+            // refreshLayout.setRefreshing(false);
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -351,7 +401,7 @@ public class EmployerAddJobActivity extends AppCompatActivity {
             }
         };
 
-        RequestQueue queue = Volley.newRequestQueue(EmployerAddJobActivity.this);
+        RequestQueue queue = Volley.newRequestQueue(EditEmployerJobActivity.this);
         queue.add(request);
     }
 

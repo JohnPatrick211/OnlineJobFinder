@@ -400,6 +400,12 @@ public class SearchFragment extends Fragment {
             }
 
             refreshLayout.setRefreshing(false);
+            recyclerView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return false;
+                }
+            });
 
         },error -> {
             error.printStackTrace();
