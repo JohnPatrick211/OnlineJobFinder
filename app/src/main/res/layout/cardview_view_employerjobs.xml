@@ -34,6 +34,7 @@
                 android:src="@drawable/logo"
                 />
 
+
             <TextView
                 android:id="@+id/textView_jobtitle"
                 android:layout_width="wrap_content"
@@ -44,6 +45,18 @@
                 android:textSize="25sp"/>
 
             <TextView
+                android:layout_marginRight="10dp"
+                android:layout_gravity="right"
+                android:id="@+id/textView_jobstatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/design_default_color_primary_dark"
+                android:text="Job Status"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:layout_marginTop="-35dp"
                 android:id="@+id/textView_jobcompany"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -14,6 +14,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
+import com.example.onlinejobfinder.adapter.employerjobadapter;
 import com.example.onlinejobfinder.adapter.jobadapter;
 import com.example.onlinejobfinder.applicant.ApplicantJobDescriptionActivity;
 import com.example.onlinejobfinder.model.job;
@@ -49,22 +51,24 @@ public class EmployerJobFragment extends Fragment {
 
     RecyclerView recyclerView;
     SharedPreferences userPref2;
-    jobadapter.RecyclerViewClickListener listener;
+    employerjobadapter.RecyclerViewClickListener listener;
     FloatingActionButton addjob;
     int position =0;
     int position2 =0;
-    boolean[] selectedspecialization, selectedlocation;
+    int position3 =0;
+    boolean[] selectedspecialization, selectedlocation, selectedstatus;
     ArrayList<Integer> Specialization = new ArrayList<>();
-    TextView btnfilter,tvsearchspecialization,tvsearchlocation;
+    TextView btnfilter,tvsearchspecialization,tvsearchlocation, tvsearchstatus;
     ArrayList<job> arraylist;
     ArrayList<job> arraylist2;
     ArrayList<String> category,location;
     JSONArray result,result2;
     SwipeRefreshLayout refreshLayout;
-    jobadapter jobadapter2;
+    employerjobadapter jobadapter2;
     // Spinner spinnercategory, spinnerlocation;
-    String catergoryString,yearString;
+    String catergoryString,yearString, statusString;
     String [] specializationarray, locationarray;
+    String [] statusarray = {"Approved", "pending"};
     String name2, user_id,token,email;
     String val_contactno = "";
     String val_specialization = "";
@@ -115,12 +119,14 @@ public class EmployerJobFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_employer_job, container, false);
+        tvsearchstatus = view.findViewById(R.id.tv_searchemployerjobstatus);
         btnfilter = view.findViewById(R.id.btn_employerfilter);
         addjob = view.findViewById(R.id.floatingbutton_addjob);
         tvsearchspecialization = view.findViewById(R.id.tv_searchemployerspecialization);
         tvsearchlocation  = view.findViewById(R.id.tv_searchemployerlocation);
         recyclerView = view.findViewById(R.id.recyclerview_employerjobs);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        selectedstatus = new boolean[statusarray.length];
         refreshLayout = view.findViewById(R.id.employerswipe);
 //        spinnercategory = view.findViewById(R.id.spinner_category);
         //       spinnerlocation = view.findViewById(R.id.spinner_location);
@@ -133,6 +139,7 @@ public class EmployerJobFragment extends Fragment {
         email = userPref2.getString("email","email");
         user_id = userPref2.getString("id","id");
         token = userPref2.getString("token","token");
+
 
 //        category.add("Category");
 //        category.add("Accountant");
@@ -164,6 +171,62 @@ public class EmployerJobFragment extends Fragment {
                     startActivity(i);
                 }
 
+            }
+        });
+        tvsearchstatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(
+                        getContext()
+                );
+                tvsearchstatus.setText(statusarray[position3]);
+                builder.setTitle("Select Status");
+                builder.setCancelable(false);
+                builder.setSingleChoiceItems(statusarray, position3, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        position3 = i;
+                        tvsearchstatus.setText(statusarray[i]);
+                    }
+                });
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        StringBuilder stringBuilder = new StringBuilder();
+//                        for(int j=0; j<Specialization.size(); j++)
+//                        {
+//                            stringBuilder.append(specializationarray[Specialization.get(j)]);
+//                            if(j != Specialization.size()-1)
+//                            {
+//                                stringBuilder.append(", ");
+//                            }
+//                        }
+//                        tvworkspecialization.setText(stringBuilder.toString());
+                        //tvworkspecialization.setText(Specialization.get(position));
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        tvsearchstatus.setText("Status");
+                    }
+                });
+
+                builder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        for(int j=0; j<selectedstatus.length; j++)
+                        {
+                            selectedstatus[j] = false;
+                            // Specialization.clear();
+                            tvsearchstatus.setText("Status");
+                        }
+                    }
+                });
+                builder.show();
             }
         });
         tvsearchspecialization.setOnClickListener(new View.OnClickListener() {
@@ -283,8 +346,9 @@ public class EmployerJobFragment extends Fragment {
             public void onClick(View view) {
                 catergoryString = tvsearchspecialization.getText().toString();
                 yearString = tvsearchlocation.getText().toString();
+                statusString = tvsearchstatus.getText().toString();
                 ArrayList<job> w = new ArrayList<>();
-                if(catergoryString.equals("Specialization") && yearString.equals("Region"))
+                if(catergoryString.equals("Specialization") && yearString.equals("Region") && statusString.equals("Status"))
                 {
 
                     w.addAll(arraylist);
@@ -293,26 +357,62 @@ public class EmployerJobFragment extends Fragment {
                 {
                     for(job details : arraylist)
                     {
-                        if(catergoryString.equals("Specialization") && !TextUtils.isEmpty(yearString))
+                        if(catergoryString.equals("Specialization") && statusString.equals("Status") &&!TextUtils.isEmpty(yearString))
                         {
                             if(details.getJoblocation().contains(yearString))
                             {
                                 w.add(details);
+                                //Toast.makeText(getContext(),"add speonly",Toast.LENGTH_SHORT).show();
                             }
                         }
-                        else if(yearString.equals("Region") && !TextUtils.isEmpty(catergoryString))
+                        else if(yearString.equals("Region") && statusString.equals("Status") &&!TextUtils.isEmpty(catergoryString))
                         {
                             if(details.getJobcategory().contains(catergoryString))
                             {
                                 w.add(details);
+                               // Toast.makeText(getContext(),"add regonly",Toast.LENGTH_SHORT).show();
                             }
                         }
-                        else
+                        else if(yearString.equals("Region") && catergoryString.equals("Specialization")&&!TextUtils.isEmpty(statusString))
+                        {
+                            if(details.getJobstatus().contains(statusString))
+                            {
+                                w.add(details);
+                               // Toast.makeText(getContext(),"add statonly",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else if(catergoryString.equals("Specialization")  && !TextUtils.isEmpty(yearString) && !TextUtils.isEmpty(statusString))
+                        {
+                            if(details.getJoblocation().contains(yearString) && details.getJobstatus().contains(statusString))
+                            {
+                                w.add(details);
+                               // Toast.makeText(getContext(),"add spe",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else if(yearString.equals("Region")  && !TextUtils.isEmpty(catergoryString) && !TextUtils.isEmpty(statusString))
+                        {
+                            if(details.getJobcategory().contains(catergoryString) && details.getJobstatus().contains(statusString))
+                            {
+                                w.add(details);
+                               // Toast.makeText(getContext(),"add reg",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else if(statusString.equals("Status")  && !TextUtils.isEmpty(catergoryString) && !TextUtils.isEmpty(yearString))
                         {
                             if(details.getJobcategory().contains(catergoryString) && details.getJoblocation().contains(yearString))
                             {
                                 w.add(details);
+                               // Toast.makeText(getContext(),"add stat",Toast.LENGTH_SHORT).show();
                             }
+                        }
+                        else
+                        {
+
+                            if(details.getJobcategory().contains(catergoryString) && details.getJobstatus().contains(statusString) && details.getJoblocation().contains(yearString))
+                            {
+                                w.add(details);
+                            }
+//
                         }
 
                     }
@@ -326,6 +426,12 @@ public class EmployerJobFragment extends Fragment {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                recyclerView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return true;
+                    }
+                });
                 arraylist.clear();
                 getPost();
             }
@@ -457,12 +563,19 @@ public class EmployerJobFragment extends Fragment {
                         job2.setJobid(postObject.getString("job_id"));
                         job2.setJobdescription(postObject.getString("jobdescription"));
                         job2.setJobuniqueid(postObject.getString("id"));
+                        job2.setJobstatus(postObject.getString("jobstatus"));
 
                         arraylist.add(job2);
                         arraylist2.add(job2);
                     }
-                    jobadapter2 = new jobadapter(arraylist,getContext(),listener);
+                    jobadapter2 = new employerjobadapter(arraylist,getContext(),listener);
                     recyclerView.setAdapter(jobadapter2);
+                    recyclerView.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            return false;
+                        }
+                    });
                 }
                 else {
                     Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
@@ -492,6 +605,12 @@ public class EmployerJobFragment extends Fragment {
     }
     public void onResume() {
         super.onResume();
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
         getCategory();
         getLocation();
         getEmployer();
@@ -502,7 +621,7 @@ public class EmployerJobFragment extends Fragment {
     }
 
     private void setOnClickListener() {
-        listener = new jobadapter.RecyclerViewClickListener() {
+        listener = new employerjobadapter.RecyclerViewClickListener() {
             @Override
             public void onClick(View v, int position) {
                 Intent intent = new Intent(getActivity(), EmployerAddJobActivity.class);

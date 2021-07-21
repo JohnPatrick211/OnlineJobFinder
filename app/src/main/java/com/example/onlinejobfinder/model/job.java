@@ -104,7 +104,16 @@ public class job {
         this.jobuniqueid = jobuniqueid;
     }
 
-    public job(String jobuniqueid, String jobdescription, String jobid, String joblocation, String jobcategory, String joblogo, String jobtitle, String jobcompany, String jobaddress, String jobsalary, String companyoverview, String jobdateposted) {
+    public String getJobstatus() {
+        return jobstatus;
+    }
+
+    public void setJobstatus(String jobstatus) {
+        this.jobstatus = jobstatus;
+    }
+
+    public job(String jobstatus, String jobuniqueid, String jobdescription, String jobid, String joblocation, String jobcategory, String joblogo, String jobtitle, String jobcompany, String jobaddress, String jobsalary, String companyoverview, String jobdateposted) {
+        this.jobstatus = jobstatus;
         this.jobuniqueid = jobuniqueid;
         this.jobdescription = jobdescription;
         this.jobid = jobid;
@@ -119,6 +128,7 @@ public class job {
         this.jobdateposted = jobdateposted;
     }
 
+    private String jobstatus;
     private String jobuniqueid;
     private String jobdescription;
     private String jobid;

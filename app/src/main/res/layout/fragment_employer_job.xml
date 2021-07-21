@@ -36,6 +36,17 @@
                 android:text="Specialization"
                 android:textSize="18sp"
                 android:id="@+id/tv_searchemployerspecialization"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:layout_marginLeft="10dp"
+                android:textAlignment="center"
+                android:textColor="@color/design_default_color_primary"
+                android:text="Status"
+                android:textSize="18sp"
+                android:id="@+id/tv_searchemployerjobstatus"/>
             <!--            <Spinner-->
             <!--                android:layout_marginTop="40dp"-->
             <!--                android:layout_width="wrap_content"-->
