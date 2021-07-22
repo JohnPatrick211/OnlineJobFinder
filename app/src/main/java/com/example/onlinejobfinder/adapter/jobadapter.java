@@ -66,6 +66,8 @@ public class jobadapter extends RecyclerView.Adapter<jobadapter.Viewholder> impl
         job2.getJobid();
         job2.getJobdescription();
         job2.getJobuniqueid();
+        job2.getJobstatus();
+        job2.getSavedid();
     }
 
     @Override

@@ -112,7 +112,17 @@ public class job {
         this.jobstatus = jobstatus;
     }
 
-    public job(String jobstatus, String jobuniqueid, String jobdescription, String jobid, String joblocation, String jobcategory, String joblogo, String jobtitle, String jobcompany, String jobaddress, String jobsalary, String companyoverview, String jobdateposted) {
+
+    public String getSavedid() {
+        return savedid;
+    }
+
+    public void setSavedid(String savedid) {
+        this.savedid = savedid;
+    }
+
+    public job(String savedid, String jobstatus, String jobuniqueid, String jobdescription, String jobid, String joblocation, String jobcategory, String joblogo, String jobtitle, String jobcompany, String jobaddress, String jobsalary, String companyoverview, String jobdateposted) {
+        this.savedid = savedid;
         this.jobstatus = jobstatus;
         this.jobuniqueid = jobuniqueid;
         this.jobdescription = jobdescription;
@@ -128,6 +138,7 @@ public class job {
         this.jobdateposted = jobdateposted;
     }
 
+    private String savedid;
     private String jobstatus;
     private String jobuniqueid;
     private String jobdescription;

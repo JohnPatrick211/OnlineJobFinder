@@ -14,9 +14,11 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.onlinejobfinder.applicant.ApplicantSavedJobActivity;
 import com.example.onlinejobfinder.applicant.HomeFragment;
 import com.example.onlinejobfinder.applicant.ProfileFragment;
 import com.example.onlinejobfinder.applicant.SearchFragment;
+import com.example.onlinejobfinder.employer.ApplicantAppliedFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -132,7 +134,6 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
         }
         return true;
     }
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId())
@@ -140,6 +141,10 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
             case R.id.navigation_logout:
                 Intent intent = new Intent(ApplicantActivity.this,EmailActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.navigation_savedjob:
+                Intent intent2 = new Intent(ApplicantActivity.this, ApplicantSavedJobActivity.class);
+                startActivity(intent2);
                 break;
         }
         return true;

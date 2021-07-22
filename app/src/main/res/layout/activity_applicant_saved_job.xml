@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".applicant.ApplicantSavedJobActivity">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/bruh">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <SearchView
+                android:id="@+id/search"
+                android:queryHint="Seek"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="10dp"
+                android:textAlignment="center"
+                android:textColor="@color/design_default_color_primary"
+                android:text="Specialization"
+                android:textSize="18sp"
+                android:id="@+id/tv_searchspecialization"/>
+            <!--            <Spinner-->
+            <!--                android:layout_marginTop="40dp"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:id="@+id/spinner_category"/>-->
+
+            <TextView
+                android:layout_toRightOf="@+id/tv_searchspecialization"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="20dp"
+                android:textAlignment="center"
+                android:textColor="@color/design_default_color_primary"
+                android:text="Region"
+                android:textSize="18sp"
+                android:id="@+id/tv_searchlocation"/>
+
+            <!--            <Spinner-->
+            <!--                android:layout_marginTop="40dp"-->
+            <!--                android:layout_toRightOf="@+id/tv_searchspecialization"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:id="@+id/spinner_location"/>-->
+            <TextView
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@+id/tv_searchlocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:textAlignment="center"
+                android:textColor="@color/design_default_color_primary"
+                android:text="Filter"
+                android:textSize="20dp"
+                android:id="@+id/btn_filter"/>
+
+        </RelativeLayout>
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/swipe">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"
+                android:orientation="vertical"
+                >
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_savedjobs"
+                    android:layout_width="match_parent"
+                    android:layout_height="530dp" />
+            </LinearLayout>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -3,5 +3,9 @@
 <item
     android:id="@+id/navigation_logout"
     android:title="Logout"/>
+
+    <item
+        android:id="@+id/navigation_savedjob"
+        android:title="Saved Job"/>
 <!--    android:icon="@drawable/ic_baseline_person_24"/>-->
 </menu>

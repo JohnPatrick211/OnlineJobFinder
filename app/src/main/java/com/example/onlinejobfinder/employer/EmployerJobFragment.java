@@ -68,7 +68,7 @@ public class EmployerJobFragment extends Fragment {
     // Spinner spinnercategory, spinnerlocation;
     String catergoryString,yearString, statusString;
     String [] specializationarray, locationarray;
-    String [] statusarray = {"Approved", "pending"};
+    String [] statusarray = {"Approved", "pending","Reject"};
     String name2, user_id,token,email;
     String val_contactno = "";
     String val_specialization = "";
