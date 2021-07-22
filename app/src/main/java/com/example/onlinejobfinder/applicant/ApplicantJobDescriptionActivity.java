@@ -6,6 +6,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import android.animation.ObjectAnimator;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -59,6 +60,7 @@ public class ApplicantJobDescriptionActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         scrollview = findViewById(R.id.stickyscrollview);
         btnsavedjob = findViewById(R.id.btn_savejobdesc);
+        btnapply = findViewById(R.id.btn_applyjobdesc);
         jobdescription = findViewById(R.id.layout_jobdescription);
         companyoverview = findViewById(R.id.layout_companyoverview);
         tablayout_jobdescription = findViewById(R.id.tab_layout_jobdescription);
@@ -105,7 +107,16 @@ public class ApplicantJobDescriptionActivity extends AppCompatActivity {
         } catch (Exception e) {
             btnsavedjob.setText("Save");
         }
-
+        btnapply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ApplicantJobDescriptionActivity.this,ApplicantFinalCheckProfileActivity.class);
+                i.putExtra("intentjob_id",job_id);
+                i.putExtra("intentid",id);
+                i.putExtra("intentsavedid",saved_id);
+                startActivity(i);
+            }
+        });
         btnsavedjob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
