@@ -139,7 +139,7 @@ public class employerjobadapter extends RecyclerView.Adapter<employerjobadapter.
             txtview_jobdateposted = itemView.findViewById(R.id.textView_jobdateposted);
             editemployerjob = itemView.findViewById(R.id.image_editemployerjob);
             txtview_jobstatus = itemView.findViewById(R.id.textView_jobstatus);
-            editemployerjob.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
         @Override

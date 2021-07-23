@@ -20,23 +20,42 @@
             android:orientation="vertical">
 
             <SearchView
-                android:id="@+id/searchapplicantapplied"
+                android:id="@+id/searchemployerjob"
                 android:queryHint="Seek"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-            <Spinner
-                android:layout_marginTop="40dp"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinner_categoryappliedapplicants"/>
-<!--            <Spinner-->
-<!--                android:layout_marginTop="40dp"-->
-<!--                android:layout_toRightOf="@+id/spinner_category"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:id="@+id/spinner_location"/>-->
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="10dp"
+                android:textAlignment="center"
+                android:textColor="@color/design_default_color_primary"
+                android:text="Specialization"
+                android:textSize="18sp"
+                android:id="@+id/tv_searchemployerspecialization"/>
+
             <TextView
-                android:layout_toRightOf="@+id/spinner_categoryappliedapplicants"
+                android:layout_toRightOf="@+id/tv_searchemployerspecialization"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="20dp"
+                android:textAlignment="center"
+                android:textColor="@color/design_default_color_primary"
+                android:text="Region"
+                android:textSize="18sp"
+                android:id="@+id/tv_searchemployerlocation"/>
+
+            <!--            <Spinner-->
+            <!--                android:layout_marginTop="40dp"-->
+            <!--                android:layout_toRightOf="@+id/tv_searchspecialization"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:id="@+id/spinner_location"/>-->
+            <TextView
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@+id/tv_searchemployerlocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
@@ -44,13 +63,13 @@
                 android:textColor="@color/design_default_color_primary"
                 android:text="Filter"
                 android:textSize="20dp"
-                android:id="@+id/btn_filterforapplicants"/>
+                android:id="@+id/btn_employerfilter"/>
 
         </RelativeLayout>
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/swipe_applicantapplied">
+            android:id="@+id/employerswipe">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -59,13 +78,16 @@
                 >
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerview_appliedapplicants"
+                    android:id="@+id/recyclerview_jobs"
                     android:layout_width="match_parent"
                     android:layout_height="520dp" />
+
             </LinearLayout>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
+
+
 
 </FrameLayout>

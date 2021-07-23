@@ -90,7 +90,7 @@ public class EditEmployerJobActivity extends AppCompatActivity {
             public void onClick(View view) {
                 progressDialog.setMessage("Deleting");
                 progressDialog.show();
-                StringRequest request = new StringRequest(Request.Method.POST, Constant.deletejob, response -> {
+                StringRequest request = new StringRequest(Request.Method.POST, Constant.unsavedjob, response -> {
                     try{
                         JSONObject object= new JSONObject(response);
                         if(object.getBoolean("success")){

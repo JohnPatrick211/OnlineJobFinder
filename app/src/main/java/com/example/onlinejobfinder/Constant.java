@@ -9,7 +9,7 @@ public class Constant {
     public static final String registeremployer=home+"/registeremployer";
     public static final String checkemail=home+"/checkemail";
     public static final String checkspecialization=home+"/checkspecialization";
-    //job postspostsavedjobpost
+    //job posts
     public static final String jobposts=home+"/jobpost";
     public static final String employerjobposts=home+"/employerjobpost";
     public static final String addjob=home+"/addjob";
@@ -17,7 +17,10 @@ public class Constant {
     public static final String deletejob=home+"/deletesavedjobpost";
     public static final String savedjob=home+"/addsavedjobpost";
     public static final String postsavedjob=home+"/postsavedjobpost";
-//    public static final String unsavedjob=home+"/deletejobpost";
+    public static final String unsavedjob=home+"/deletejobpost";
+    //apply job posts
+    public static final String applyjob=home+"/applyjob";
+    public static final String employerapplyjobpost=home+"/employerapplyjobpost";
     //Education Background
     public static final String geteducation=home+"/posteducationalbackground";
     public static final String deleteeducation=home+"/deleteeducationalbackground";

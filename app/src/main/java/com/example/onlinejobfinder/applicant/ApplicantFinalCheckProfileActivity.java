@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -45,6 +46,7 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
     workexperienceadapter workexperienceadapter2;
     workexperienceadapter.RecyclerViewClickListener worklistener;
     educationalbackgroundadapter.RecyclerViewClickListener listener;
+    String profile_pic;
     // RecyclerView recyclerview;
     //  jobadapter jobadapter2;
     //ArrayList<job> arraylist;
@@ -71,6 +73,7 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
     RecyclerView recyclerView, recyclerView2;
     JSONArray result;
     Button btnapply;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +101,8 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
         btnapply = findViewById(R.id.btn_applynow);
         //   textView_manage = root.findViewById(R.id.textView_Manage);
         imageview_user = findViewById(R.id.imguserprofile);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
         //   recyclerview = root.findViewById(R.id.recyclerview_jobs_recommended);
         //   recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
         //  refreshLayout = root.findViewById(R.id.swipe2);
@@ -126,9 +131,6 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
         //check ID debugging//
         //Toast.makeText(getContext(), user_id, Toast.LENGTH_SHORT).show();
         //Toast.makeText(ApplicantFinalCheckProfileActivity.this, email, Toast.LENGTH_SHORT).show();
-        Toast.makeText(ApplicantFinalCheckProfileActivity.this, job_id, Toast.LENGTH_SHORT).show();
-        Toast.makeText(ApplicantFinalCheckProfileActivity.this, id, Toast.LENGTH_SHORT).show();
-        Toast.makeText(ApplicantFinalCheckProfileActivity.this, saved_id, Toast.LENGTH_SHORT).show();
         setOnClickListener();
         setOnClickListener2();
         btnapply.setOnClickListener(new View.OnClickListener() {
@@ -136,17 +138,205 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(saved_id.isEmpty())
                 {
-                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, "From Display Job", Toast.LENGTH_SHORT).show();
-                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, job_id, Toast.LENGTH_SHORT).show();
-                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, id, Toast.LENGTH_SHORT).show();
-                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, user_id, Toast.LENGTH_SHORT).show();
+                    progressDialog.setMessage("Saving");
+                    progressDialog.show();
+                    StringRequest request = new StringRequest(Request.Method.POST, Constant.applyjob, response -> {
+//                StringRequest request = new StringRequest(Request.Method.POST, Constant.SAVE_USER_PROFILE, response -> {
+                        try{
+                            JSONObject object= new JSONObject(response);
+                            if(object.getBoolean("success")){
+                                JSONObject user = object.getJSONObject("update");
+//                                SharedPreferences userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+//                                SharedPreferences.Editor editor = userPref.edit();
+//                                editor.putString("id",user.getString("applicant_id"));
+                                //editor.putString("file_path",user.getString("file_path"));
+                                //                           Intent i = new Intent(UploadProfileRegister.this, MainActivity.class);
+                                //                           startActivity(i);
+                                progressDialog.cancel();
+                                Toast.makeText(ApplicantFinalCheckProfileActivity.this, "From Display Job", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ApplicantFinalCheckProfileActivity.this, job_id, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ApplicantFinalCheckProfileActivity.this, id, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ApplicantFinalCheckProfileActivity.this, user_id, Toast.LENGTH_SHORT).show();
+
+//                                editor.apply();
+//                                editor.commit();
+                                Toast.makeText(ApplicantFinalCheckProfileActivity.this,"Apply Successfully",Toast.LENGTH_SHORT).show();
+                                // if(role.equals("employer"))
+                                // {
+                                //   Intent ia = new Intent(EditProfileActivity.this, GuestActivity.class);
+                                // startActivity(ia);
+                                //   finish();
+                                // }
+                                // else
+                                // {
+                                //      Intent i = new Intent(UploadProfileRegister.this, MainActivity.class);
+                                //      startActivity(i);
+                                //      finish();
+                                //  }
+
+//                            Intent i = new Intent(RegisterActivity.this,UploadProfileRegister.class);
+//                            startActivity(i);
+                                onBackPressed();
+
+
+                            }
+                            else if(object.getString("Status").equals("202"))
+                            {
+                                Toast.makeText(ApplicantFinalCheckProfileActivity.this,"You Already Applied On this Job",Toast.LENGTH_SHORT).show();
+                                progressDialog.cancel();
+                            }
+                            else
+                            {
+                                Toast.makeText(ApplicantFinalCheckProfileActivity.this, "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                                progressDialog.cancel();
+                            }
+
+                        }catch(JSONException e)
+                        {
+                            Toast.makeText(ApplicantFinalCheckProfileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                            progressDialog.cancel();
+                        }
+                    },error ->{
+                        error.printStackTrace();
+                        Toast.makeText(ApplicantFinalCheckProfileActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                        progressDialog.cancel();
+                    })
+                    {
+                        //  public Map<String, String> getHeaders() throws AuthFailureError {
+                        //     HashMap<String,String> map = new HashMap<>();
+                        //    String token = userPref.getString("token","");
+                        //    map.put("Authorization","Bearer"+token);
+                        //     return map;
+                        //}
+
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            HashMap<String,String> map = new HashMap<>();
+                            //map.put("id",user_id);
+                            map.put("applicant_id",user_id);
+                            map.put("job_id",job_id);
+                            map.put("applyjob_id",id);
+                            map.put("name",txtname.getText().toString().trim());
+                            map.put("email",txtemail.getText().toString().trim());
+                            map.put("contactno",txtcontactno.getText().toString().trim());
+                            map.put("address",txtaddress.getText().toString().trim());
+                            map.put("gender",txtgender.getText().toString().trim());
+                            map.put("status","pending");
+                            map.put("profile_pic",profile_pic);
+                            return map;
+                        }
+//                    public byte [] getBody()
+//                    {
+//                        Map <String,String> map = new HashMap<>();
+//                        map.put("id",user_id);
+//                        map.put("file_path",bitmapToString(bitmap));
+//                        return map[user_id,bitmapToString(bitmap)];
+//                    }
+                    };
+
+                    RequestQueue queue = Volley.newRequestQueue(ApplicantFinalCheckProfileActivity.this);
+                    queue.add(request);
                 }
                 else
                 {
-                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, "From Display Saved Job", Toast.LENGTH_SHORT).show();
-                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, job_id, Toast.LENGTH_SHORT).show();
-                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, saved_id, Toast.LENGTH_SHORT).show();
-                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, user_id, Toast.LENGTH_SHORT).show();
+                    progressDialog.setMessage("Saving");
+                    progressDialog.show();
+                    StringRequest request = new StringRequest(Request.Method.POST, Constant.applyjob, response -> {
+//                StringRequest request = new StringRequest(Request.Method.POST, Constant.SAVE_USER_PROFILE, response -> {
+                        try{
+                            JSONObject object= new JSONObject(response);
+                            if(object.getBoolean("success")){
+                                JSONObject user = object.getJSONObject("update");
+//                                SharedPreferences userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+//                                SharedPreferences.Editor editor = userPref.edit();
+//                                editor.putString("id",user.getString("applicant_id"));
+                                //editor.putString("file_path",user.getString("file_path"));
+                                //                           Intent i = new Intent(UploadProfileRegister.this, MainActivity.class);
+                                //                           startActivity(i);
+                                progressDialog.cancel();
+                                Toast.makeText(ApplicantFinalCheckProfileActivity.this, "From Display Saved Job", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ApplicantFinalCheckProfileActivity.this, job_id, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ApplicantFinalCheckProfileActivity.this, saved_id, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ApplicantFinalCheckProfileActivity.this, user_id, Toast.LENGTH_SHORT).show();
+
+//                                editor.apply();
+//                                editor.commit();
+                                Toast.makeText(ApplicantFinalCheckProfileActivity.this,"Apply Successfully",Toast.LENGTH_SHORT).show();
+                                // if(role.equals("employer"))
+                                // {
+                                //   Intent ia = new Intent(EditProfileActivity.this, GuestActivity.class);
+                                // startActivity(ia);
+                                //   finish();
+                                // }
+                                // else
+                                // {
+                                //      Intent i = new Intent(UploadProfileRegister.this, MainActivity.class);
+                                //      startActivity(i);
+                                //      finish();
+                                //  }
+
+//                            Intent i = new Intent(RegisterActivity.this,UploadProfileRegister.class);
+//                            startActivity(i);
+                                onBackPressed();
+
+
+                            }
+                            else if(object.getString("Status").equals("202"))
+                            {
+                                Toast.makeText(ApplicantFinalCheckProfileActivity.this,"You Already Applied On this Job",Toast.LENGTH_SHORT).show();
+                                progressDialog.cancel();
+                            }
+                            else
+                            {
+                                Toast.makeText(ApplicantFinalCheckProfileActivity.this, "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                                progressDialog.cancel();
+                            }
+
+                        }catch(JSONException e)
+                        {
+                            Toast.makeText(ApplicantFinalCheckProfileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                            progressDialog.cancel();
+                        }
+                    },error ->{
+                        error.printStackTrace();
+                        Toast.makeText(ApplicantFinalCheckProfileActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                        progressDialog.cancel();
+                    })
+                    {
+                        //  public Map<String, String> getHeaders() throws AuthFailureError {
+                        //     HashMap<String,String> map = new HashMap<>();
+                        //    String token = userPref.getString("token","");
+                        //    map.put("Authorization","Bearer"+token);
+                        //     return map;
+                        //}
+
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            HashMap<String,String> map = new HashMap<>();
+                            //map.put("id",user_id);
+                            map.put("applicant_id",user_id);
+                            map.put("job_id",job_id);
+                            map.put("applyjob_id",saved_id);
+                            map.put("name",txtname.getText().toString().trim());
+                            map.put("email",txtemail.getText().toString().trim());
+                            map.put("contactno",txtcontactno.getText().toString().trim());
+                            map.put("address",txtaddress.getText().toString().trim());
+                            map.put("gender",txtgender.getText().toString().trim());
+                            map.put("status","pending");
+                            map.put("profile_pic",profile_pic);
+                            return map;
+                        }
+//                    public byte [] getBody()
+//                    {
+//                        Map <String,String> map = new HashMap<>();
+//                        map.put("id",user_id);
+//                        map.put("file_path",bitmapToString(bitmap));
+//                        return map[user_id,bitmapToString(bitmap)];
+//                    }
+                    };
+
+                    RequestQueue queue = Volley.newRequestQueue(ApplicantFinalCheckProfileActivity.this);
+                    queue.add(request);
                 }
             }
         });
@@ -197,6 +387,7 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
                     txtresume.setText(user.get("resume").toString());
                     val_resume = txtresume.getText().toString();
                     Picasso.get().load(Constant.URL+"/storage/profiles/"+user.getString("profile_pic")).into(imageview_user);
+                    profile_pic = user.getString("profile_pic");
                     SharedPreferences.Editor editor2 = userPref2.edit();
                     editor2.putString("name",user.getString("name"));
                     editor2.putString("address",user.getString("address"));
