@@ -664,6 +664,7 @@ public class EmployerJobFragment extends Fragment {
                     editor2.putString("name",user.getString("name"));
                     editor2.putString("address",user.getString("address"));
                     editor2.putString("contactno",user.getString("contactno"));
+                    editor2.putString("Specialization",user.getString("Specialization"));
                     //editor2.putString("email",user.getString("email"));
                     // editor2.putString("background",user.getString("background"));
                     editor2.apply();

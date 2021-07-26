@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,7 +35,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -127,6 +130,7 @@ public class EmployerHomeFragment extends Fragment {
         email = userPref2.getString("email","email");
         user_id = userPref2.getString("id","id");
         token = userPref2.getString("token","token");
+     //   val_specialization = userPref2.getString("Specialization","Specialization");
  //       id = getIntent().getExtras().getString("intentid");
   //      approved = "Approved";
 
@@ -141,7 +145,9 @@ public class EmployerHomeFragment extends Fragment {
         setOnClickListener();
         //getCategory();
         // getLocation();
-        //getPost();
+//        filter();
+       // getPost();
+        //getEmployer();
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -162,7 +168,7 @@ public class EmployerHomeFragment extends Fragment {
     }
 
     private void getPost() {
-        StringRequest request = new StringRequest(Request.Method.GET, Constant.recommendedapplicants, response ->{
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.recommendedapplicants+"?Specialization="+ val_specialization, response ->{
             try{
                 JSONObject object = new JSONObject(response);
                 if(object.getBoolean("success"))
@@ -186,27 +192,12 @@ public class EmployerHomeFragment extends Fragment {
                         recommendedapplicants2.setWorkexp_id(postObject.getString("workexp_id"));
                         recommendedapplicants2.setEducational_id(postObject.getString("educational_id"));
                         arraylist.add(recommendedapplicants2);
+//                        filter();
                        // ArrayList<recommendedapplicants> w = new ArrayList<>();
-                        for(recommendedapplicants details : arraylist) {
-                            if(!details.getAddress().contains("null") && !details.getContactno().contains("null") && !details.getWorkexp_id().contains("null") && !details.getEducational_id().contains("null") && details.getSpecialization().contains(val_specialization))
-                            {
-                                if(details.getSpecialization().contains(val_specialization))
-                                {
-                                    w.add(details);
-                                    arraylist.clear();
-                                }
 
-                            }
-                            else
-                            {
-                                Toast.makeText(getContext(),"none",Toast.LENGTH_SHORT).show();
-                            }
-
-
-                        }
 //                        recommendedapplicantsadapter2.setWinnerDetails(w);
                     }
-                    recommendedapplicantsadapter2 = new recommendedapplicantsadapter(w,getContext(),listener);
+                    recommendedapplicantsadapter2 = new recommendedapplicantsadapter(arraylist,getContext(),listener);
                     recyclerView.setAdapter(recommendedapplicantsadapter2);
                     recyclerView.setOnTouchListener(new View.OnTouchListener() {
                         @Override
@@ -243,14 +234,17 @@ public class EmployerHomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         getEmployer();
-        w.clear();
-        getPost();
+       // val_specialization = userPref2.getString("Specialization","Specialization");
+
+//        filter();
+        refreshLayout.setRefreshing(true);
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return true;
             }
         });
+
     }
 
     private void setOnClickListener() {
@@ -303,6 +297,9 @@ public class EmployerHomeFragment extends Fragment {
                     // editor2.putString("background",user.getString("background"));
                     editor2.apply();
                     editor2.commit();
+                    arraylist.clear();
+                    w.clear();
+                    getPost();
                     if(user.get("Specialization").toString().equals("null"))
                     {
                         recyclerView.setVisibility(View.GONE);
@@ -352,4 +349,27 @@ public class EmployerHomeFragment extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
     }
+//    public void filter(){
+//        for(recommendedapplicants details : arraylist) {
+//            if(!details.getAddress().contains("null") && !details.getContactno().contains("null") && !details.getWorkexp_id().contains("null") && !details.getEducational_id().contains("null") && !TextUtils.isEmpty(val_specialization))
+//            {
+//                if(details.getSpecialization().contains(val_specialization)) {
+//                    w.add(details);
+//                    arraylist.clear();
+//                    Toast.makeText(getContext(), "checked1", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//            else
+//            {
+//                if(details.getSpecialization().contains(val_specialization))
+//                {
+//                    w.add(details);
+//                    arraylist.clear();
+//                    Toast.makeText(getContext(),"checked2",Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//
+//        }
+//    }
 }

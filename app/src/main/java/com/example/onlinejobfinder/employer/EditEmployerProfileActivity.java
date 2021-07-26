@@ -51,6 +51,9 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
 
     String name2,user_id;
     JSONArray result;
+    SharedPreferences userPref2;
+    String val_contactno = "";
+    String val_specialization = "";
     TextView employer_email, employer_contactnum,employer_selectphoto, employer_specialization;
     EditText employer_companyname, employer_address, employer_companyoverview;
     //Spinner employer_specialization;
@@ -93,6 +96,7 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
         employer_address.setText(intentemployeraddress);
         String intentemployercompanyoverview = getIntent().getExtras().getString("companyoverview");
         employer_companyoverview.setText(intentemployercompanyoverview);
+        userPref2 = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         category = new ArrayList<String>();
        // Specialization = new ArrayList<String>();
        // Specialization.add("Specialization");
@@ -101,6 +105,7 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
         //employer_specialization.setAdapter(new ArrayAdapter<String>(EditEmployerProfileActivity.this, android.R.layout.simple_spinner_dropdown_item, Specialization));
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
+        getCategory();
 
         employer_specialization.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,6 +204,11 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
                             SharedPreferences userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = userPref.edit();
                             editor.putString("id",user.getString("employer_id"));
+                            SharedPreferences.Editor editor2 = userPref2.edit();
+                            editor2.putString("name",user.getString("name"));
+                            editor2.putString("address",user.getString("address"));
+                            editor2.putString("contactno",user.getString("contactno"));
+                            editor2.putString("Specialization",user.getString("Specialization"));
                             //editor.putString("file_path",user.getString("file_path"));
                             //                           Intent i = new Intent(UploadProfileRegister.this, MainActivity.class);
                             //                           startActivity(i);
@@ -303,6 +313,7 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==GALLERY_ADD_PROFILE && resultCode==RESULT_OK)
         {
+
             Uri imgUri = data.getData();
             employer_profilepic.setImageURI(imgUri);
             try {
@@ -313,6 +324,7 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
         }
         else
         {
+
             //Toast.makeText(EditProfileActivity.this,"error2",Toast.LENGTH_SHORT).show();
         }
     }
@@ -375,6 +387,5 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getCategory();
     }
 }
