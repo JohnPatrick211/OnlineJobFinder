@@ -20,6 +20,8 @@ import com.example.onlinejobfinder.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.Objects;
+
 public class EmployerActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout drawerLayout;
@@ -45,6 +47,7 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.start, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         name2 = userPref.getString("name","name");
         user_id = userPref.getString("id","id");

@@ -48,6 +48,7 @@ public class EditProfileActivity extends AppCompatActivity {
     String name2,user_id;
     JSONArray result;
     int position =0;
+    int position2 =0;
     boolean[] selectedspecialization;
     ArrayList<Integer> Specialization = new ArrayList<>();
     ArrayList<String> category;
@@ -126,51 +127,47 @@ public class EditProfileActivity extends AppCompatActivity {
 
                 builder.setTitle("Select Specialization");
                 builder.setCancelable(false);
-                builder.setMultiChoiceItems(specializationarray, selectedspecialization, new DialogInterface.OnMultiChoiceClickListener() {
+                builder.setSingleChoiceItems(specializationarray, position2, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
-                        if(b)
-                        {
-                            Specialization.add(i);
-                        }
-                        else
-                        {
-                            Specialization.remove(i);
-                        }
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        position2 = i;
+                        txtspecialization.setText(specializationarray[i]);
                     }
                 });
 
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        StringBuilder stringBuilder = new StringBuilder();
-                        for(int j=0; j<Specialization.size(); j++)
-                        {
-                            stringBuilder.append(specializationarray[Specialization.get(j)]);
-                            if(j != Specialization.size()-1)
-                            {
-                                stringBuilder.append(", ");
-                            }
-                        }
-                        txtspecialization.setText(stringBuilder.toString());
+//                        StringBuilder stringBuilder = new StringBuilder();
+//                        for(int j=0; j<Specialization.size(); j++)
+//                        {
+//                            stringBuilder.append(specializationarray[Specialization.get(j)]);
+//                            if(j != Specialization.size()-1)
+//                            {
+//                                stringBuilder.append(", ");
+//                            }
+//                        }
+//                        txtspecialization.setText(stringBuilder.toString());
+                        dialogInterface.dismiss();
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
+                        txtspecialization.setText("");
                     }
                 });
 
                 builder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        for(int j=0; j<selectedspecialization.length; j++)
-                        {
-                            selectedspecialization[j] = false;
-                            //Specialization.clear();
+//                        for(int j=0; j<selectedspecialization.length; j++)
+//                        {
+//                            selectedspecialization[j] = false;
+//                            //Specialization.clear();
                             txtspecialization.setText("");
-                        }
+  //                      }
                     }
                 });
                 builder.show();

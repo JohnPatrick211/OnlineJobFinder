@@ -47,5 +47,7 @@ public class Constant {
     public static final String updateemployer=home+"/updateemployerprofile";
     //recommended applicants
     public static final String recommendedapplicants=home+"/recommendedapplicants";
+    //recommended job
+    public static final String recommendedjobpost=home+"/recommendedjobpost";
     //public static final String joblogo="https://peso-ojfs.000webhostapp.com";
 }

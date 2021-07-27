@@ -6,60 +6,46 @@
     tools:context=".applicant.HomeFragment">
 
     <LinearLayout
-        android:id="@+id/linearlayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/white"
-            >
-            <ImageView
-                android:id="@+id/image_user"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_person_24"
-                />
-
-            <TextView
-                android:id="@+id/textView_Name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:layout_marginTop="20dp"
-                android:layout_toRightOf="@+id/image_user"
-                android:text="Name PlaceHolder"
-                android:textStyle="bold"
-                android:textSize="25sp"/>
-            <TextView
-                android:id="@+id/textView_Manage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/design_default_color_primary_dark"
-                android:layout_marginTop="60dp"
-                android:layout_toRightOf="@+id/image_user"
-                android:text="Manage Your Account"
-                android:textSize="15sp"/>
-
-        </RelativeLayout>
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
         android:text="Recommended Jobs"
         android:textStyle="bold"
         android:textSize="25sp"/>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/recommendedjobswipe">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"
+                android:orientation="vertical"
+                >
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_recommendedjobs"
+                    android:layout_width="match_parent"
+                    android:layout_height="520dp" />
+            </LinearLayout>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/allerrorlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="40dp"
         android:layout_centerInParent="true"
         android:orientation="vertical"
         android:visibility="visible"
