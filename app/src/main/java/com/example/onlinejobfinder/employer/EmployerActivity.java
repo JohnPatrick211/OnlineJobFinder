@@ -144,6 +144,9 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
                 });
                 builder.show();
                 break;
+            case R.id.navigation_requestmaintenance:
+                Intent ia = new Intent(EmployerActivity.this, RequestMaintenanceActivity.class);
+                startActivity(ia);
         }
         return true;
     }
