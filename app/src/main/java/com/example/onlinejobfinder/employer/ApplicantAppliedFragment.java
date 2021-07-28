@@ -29,6 +29,7 @@ import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.adapter.employerjobadapter;
 import com.example.onlinejobfinder.adapter.jobadapter;
+import com.example.onlinejobfinder.adapter.viewemployerjobadapter;
 import com.example.onlinejobfinder.applicant.ApplicantJobDescriptionActivity;
 import com.example.onlinejobfinder.model.job;
 
@@ -50,7 +51,7 @@ public class ApplicantAppliedFragment extends Fragment {
     RecyclerView recyclerView;
     SharedPreferences userPref2;
     String name2, user_id,token,email;
-    employerjobadapter.RecyclerViewClickListener listener;
+    viewemployerjobadapter.RecyclerViewClickListener listener;
     int position =0;
     int position2 =0;
     boolean[] selectedspecialization, selectedlocation;
@@ -61,7 +62,7 @@ public class ApplicantAppliedFragment extends Fragment {
     ArrayList<String> category,location;
     JSONArray result,result2;
     SwipeRefreshLayout refreshLayout;
-    employerjobadapter jobadapter2;
+    viewemployerjobadapter jobadapter2;
     // Spinner spinnercategory, spinnerlocation;
     String catergoryString,yearString, approved;
     String [] specializationarray, locationarray;
@@ -474,7 +475,7 @@ public class ApplicantAppliedFragment extends Fragment {
                         arraylist.add(job2);
                         arraylist2.add(job2);
                     }
-                    jobadapter2 = new employerjobadapter(arraylist,getContext(),listener);
+                    jobadapter2 = new viewemployerjobadapter(arraylist,getContext(),listener);
                     recyclerView.setAdapter(jobadapter2);
                     recyclerView.setOnTouchListener(new View.OnTouchListener() {
                         @Override
@@ -525,7 +526,7 @@ public class ApplicantAppliedFragment extends Fragment {
     }
 
     private void setOnClickListener() {
-        listener = new employerjobadapter.RecyclerViewClickListener() {
+        listener = new viewemployerjobadapter.RecyclerViewClickListener() {
             @Override
             public void onClick(View v, int position) {
                 Intent intent = new Intent(getActivity(), ViewApplyApplicantActivity.class);

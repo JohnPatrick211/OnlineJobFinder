@@ -1,6 +1,7 @@
 package com.example.onlinejobfinder.employer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -26,6 +27,7 @@ import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.adapter.appliedapplicantsadapter;
 import com.example.onlinejobfinder.adapter.recommendedapplicantsadapter;
+import com.example.onlinejobfinder.applicant.ApplicantJobDescriptionActivity;
 import com.example.onlinejobfinder.model.appliedapplicants;
 import com.example.onlinejobfinder.model.job;
 import com.example.onlinejobfinder.model.recommendedapplicants;
@@ -251,8 +253,8 @@ public class EmployerHomeFragment extends Fragment {
         listener = new recommendedapplicantsadapter.RecyclerViewClickListener() {
             @Override
             public void onClick(View v, int position) {
-//                Intent intent = new Intent(ViewApplyApplicantActivity.this, ApplicantJobDescriptionActivity.class);
-//                intent.putExtra("intentjob_id",arraylist.get(position).getJobid());
+                Intent intent = new Intent(getContext(), ViewRecommendedApplicantProfileActivity.class);
+                intent.putExtra("intentapplicant_id",arraylist.get(position).getApplicant_id());
 //                intent.putExtra("intentid",arraylist.get(position).getJobuniqueid());
 //                intent.putExtra("intentjoblogo",Constant.URL+"/storage/profiles/"+arraylist.get(position).getJoblogo());
 //                intent.putExtra("intentjobtitle",arraylist.get(position).getJobtitle());
@@ -267,7 +269,7 @@ public class EmployerHomeFragment extends Fragment {
 //                intent.putExtra("intentjobstatus",arraylist.get(position).getJobstatus());
 //                intent.putExtra("jobcompanylogo2",arraylist.get(position).getJoblogo());
                 Toast.makeText(getContext(),"Success",Toast.LENGTH_SHORT).show();
-//                startActivity(intent);
+               startActivity(intent);
             }
         };
     }

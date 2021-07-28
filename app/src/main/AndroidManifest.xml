@@ -10,7 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OnlineJobFinder"
         android:usesCleartextTraffic="true">
-        <activity android:name=".employer.ViewAcceptRejectApplicantActivity"></activity>
+        <activity android:name=".employer.ViewJobToSaveRecommendedApplicantActivity"></activity>
+        <activity android:name=".employer.ViewRecommendedApplicantProfileActivity" />
+        <activity android:name=".employer.ViewAcceptRejectApplicantActivity" />
         <activity android:name=".employer.RequestMaintenanceActivity" />
         <activity android:name=".employer.ViewApplyApplicantActivity" />
         <activity android:name=".applicant.ApplicantFinalCheckProfileActivity" />
