@@ -204,8 +204,8 @@ public class ViewApplyApplicantActivity extends AppCompatActivity {
         listener = new appliedapplicantsadapter.RecyclerViewClickListener() {
             @Override
             public void onClick(View v, int position) {
-//                Intent intent = new Intent(ViewApplyApplicantActivity.this, ApplicantJobDescriptionActivity.class);
-//                intent.putExtra("intentjob_id",arraylist.get(position).getJobid());
+                Intent intent = new Intent(ViewApplyApplicantActivity.this, ViewAcceptRejectApplicantActivity.class);//                intent.putExtra("intentjob_id",arraylist.get(position).getJobid());
+                intent.putExtra("intentapplicant_id",arraylist.get(position).getApplicantid());
 //                intent.putExtra("intentid",arraylist.get(position).getJobuniqueid());
 //                intent.putExtra("intentjoblogo",Constant.URL+"/storage/profiles/"+arraylist.get(position).getJoblogo());
 //                intent.putExtra("intentjobtitle",arraylist.get(position).getJobtitle());
@@ -220,7 +220,7 @@ public class ViewApplyApplicantActivity extends AppCompatActivity {
 //                intent.putExtra("intentjobstatus",arraylist.get(position).getJobstatus());
 //                intent.putExtra("jobcompanylogo2",arraylist.get(position).getJoblogo());
                 Toast.makeText(ViewApplyApplicantActivity.this,"Success",Toast.LENGTH_SHORT).show();
-//                startActivity(intent);
+                startActivity(intent);
             }
         };
     }

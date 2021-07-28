@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.amar.library.ui.StickyScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/stickyscrollview"
+    tools:context=".applicant.ApplicantFinalCheckProfileActivity"
+    app:stickyFooter="@+id/footer"
+    >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F0FF"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context=".employer.ViewAcceptRejectApplicantActivity">
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:gravity="center_horizontal">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_marginTop="20dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@color/design_default_color_primary_dark"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/imguserprofile"
+        />
+
+
+    <TextView
+        android:id="@+id/textView_NameProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:text=""
+        android:layout_marginBottom="5dp"
+        android:gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/textView_EmailProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginBottom="10dp"
+        android:text=""
+        android:gravity="center_horizontal"/>
+    <TextView
+        android:id="@+id/textView_ContactNoProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text=""
+
+        android:gravity="center_horizontal"/>
+    <TextView
+        android:id="@+id/textView_AddressProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text=""
+        android:gravity="center_horizontal"/>
+    <TextView
+        android:id="@+id/textView_SpecializationProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text=""
+        android:gravity="center_horizontal"/>
+    <TextView
+        android:id="@+id/textView_GenderProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:textSize="18sp"
+        android:text=""
+        android:gravity="center_horizontal"/>
+
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:text="Work Experience"
+            android:layout_marginTop="10dp"
+            android:gravity="left"
+            android:layout_marginLeft="-80dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="10dp"
+            android:id="@+id/recyclerview_workexperience"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:text="Education"
+            android:layout_marginTop="10dp"
+            android:gravity="left"
+            android:layout_marginLeft="-105dp"/>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="10dp"
+            android:id="@+id/recyclerview_appliededucationalbackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="250px"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:layout_marginBottom="10px"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:text="Resume"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/textView_ResumeView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginBottom="10dp"
+            android:text="Resume"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/textView_ViewResume"
+            android:textColor="@color/design_default_color_primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="View Resume"
+            android:gravity="center_horizontal"/>
+
+
+    </LinearLayout>
+    <RelativeLayout
+        android:padding="15dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:layout_marginRight="5dp"
+            android:background="@drawable/shapebutton"
+            android:id="@+id/btn_appliedapplicantreject"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Decline"/>
+
+        <Button
+            android:id="@+id/btn_appliedapplicantaccept"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/shapebutton"
+            android:layout_toRightOf="@+id/btn_appliedapplicantreject"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Hire"/>
+
+
+    </RelativeLayout>
+
+</LinearLayout>
+</com.amar.library.ui.StickyScrollView>
