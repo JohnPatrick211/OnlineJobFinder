@@ -145,7 +145,7 @@ public class jobadapter extends RecyclerView.Adapter<jobadapter.Viewholder> impl
             {
                 int position = getAdapterPosition();
                 String jobid = listjob.get(position).getJobuniqueid();
-                Toast.makeText(context,jobid,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context,jobid,Toast.LENGTH_SHORT).show();
                 for(int i=0; i< categorysearch.size(); i++)
                 {
                     if(jobid.equals(categorysearch.get(i).getJobuniqueid()))

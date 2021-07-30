@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/guest_navigation"
+    app:startDestination="@+id/navigation_guesthome">
+
+    <fragment
+        android:id="@+id/navigation_guesthome"
+        android:name="com.example.onlinejobfinder.guest.GuestHomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_guest_home" />
+
+    <fragment
+        android:id="@+id/navigation_guestdashboard"
+        android:name="com.example.onlinejobfinder.guest.GuestSearchFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_guest_search" />
+
+    <fragment
+        android:id="@+id/navigation_guestnotifications"
+        android:name="com.example.onlinejobfinder.guest.GuestProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_guest_profile" />
+</navigation>

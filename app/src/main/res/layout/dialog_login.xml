@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/logo"/>
+
+        <TextView
+            android:id="@+id/tv_contentdialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Log in or Sign up to apply for this job"
+            android:textStyle="bold"
+            android:textSize="17sp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_gotologin"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/dialogloginbutton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Log in"
+            app:backgroundTint="@null"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_gotosignup"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dialogsignupbutton"
+            app:backgroundTint="@null"
+            android:text="Sign Up"
+            android:textColor="@color/themecolor"
+            />
+
+        <TextView
+            android:id="@+id/btn_maybedismiss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/themecolor"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Maybe later"
+            android:layout_marginBottom="10dp"
+            android:textSize="18sp"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

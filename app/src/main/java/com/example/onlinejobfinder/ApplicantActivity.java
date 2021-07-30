@@ -18,7 +18,6 @@ import com.example.onlinejobfinder.applicant.ApplicantSavedJobActivity;
 import com.example.onlinejobfinder.applicant.HomeFragment;
 import com.example.onlinejobfinder.applicant.ProfileFragment;
 import com.example.onlinejobfinder.applicant.SearchFragment;
-import com.example.onlinejobfinder.employer.ApplicantAppliedFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -40,7 +39,7 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_guest);
+        setContentView(R.layout.activity_applicant);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigation_view);
