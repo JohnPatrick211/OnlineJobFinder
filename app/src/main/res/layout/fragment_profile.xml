@@ -128,6 +128,28 @@
             android:id="@+id/recyclerview_workexperience"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/tv_networkerrordisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:text="Network Error Please Reload Again"
+            android:gravity="left"
+            android:visibility="visible"
+            />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/tv_networkerrorrefresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:text="Refresh"
+            android:gravity="left"
+            android:visibility="visible"
+            />
 
     </LinearLayout>
 
@@ -165,6 +187,30 @@
             android:id="@+id/recyclerview_educationalbackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/tv_networkerrordisplay2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:text="Network Error Please Reload Again"
+            android:gravity="left"
+            android:visibility="visible"
+            />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/tv_networkerrorrefresh2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:text="Refresh"
+            android:gravity="left"
+            android:visibility="visible"
+            />
+
 
     </LinearLayout>
 
