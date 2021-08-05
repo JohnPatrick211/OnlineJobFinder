@@ -460,7 +460,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
         {
             try{
                 JSONObject json = j.getJSONObject(ai);
-                location.add(json.getString("location"));
+                location.add(json.getString("region"));
                 main.setVisibility(View.VISIBLE);
                 ln_networkjobsearcherror.setVisibility(View.GONE);
             }catch (JSONException e)

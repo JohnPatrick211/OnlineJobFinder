@@ -360,7 +360,7 @@ public class EmployerAddJobActivity extends AppCompatActivity {
         {
             try{
                 JSONObject json = j.getJSONObject(ai);
-                location.add(json.getString("location"));
+                location.add(json.getString("region"));
             }catch (JSONException e)
             {
                 e.printStackTrace();
