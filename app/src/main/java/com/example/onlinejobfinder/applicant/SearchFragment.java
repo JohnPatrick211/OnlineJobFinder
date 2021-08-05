@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.onlinejobfinder.CheckInternet;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.adapter.educationalbackgroundadapter;
@@ -48,7 +50,8 @@ import java.util.Map;
  * create an instance of this fragment.
  */
 public class SearchFragment extends Fragment {
-
+    TextView tv_networkerrorrefresh;
+    LinearLayout ln_networkjobsearcherror,main;
     RecyclerView recyclerView;
     jobadapter.RecyclerViewClickListener listener;
     int position =0;
@@ -60,7 +63,7 @@ public class SearchFragment extends Fragment {
     ArrayList<job> arraylist2;
     ArrayList<String> category,location;
     JSONArray result,result2;
-    SwipeRefreshLayout refreshLayout;
+    SwipeRefreshLayout refreshLayout,networkrefresh;
     jobadapter jobadapter2;
    // Spinner spinnercategory, spinnerlocation;
     String catergoryString,yearString, approved;
@@ -117,6 +120,8 @@ public class SearchFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerview_jobs);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         refreshLayout = view.findViewById(R.id.swipe);
+        networkrefresh = view.findViewById(R.id.networkswipe);
+        main = view.findViewById(R.id.bruh);
 //        spinnercategory = view.findViewById(R.id.spinner_category);
  //       spinnerlocation = view.findViewById(R.id.spinner_location);
         arraylist = new ArrayList<>();
@@ -133,6 +138,25 @@ public class SearchFragment extends Fragment {
       //  location.add("Region 3");
       //  spinnerlocation.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, location));
         refreshLayout.setRefreshing(true);
+        tv_networkerrorrefresh = view.findViewById(R.id.tv_networkjobsearcherrorrefresh);
+        ln_networkjobsearcherror = view.findViewById(R.id.networkjobsearcherrorlayout);
+        ln_networkjobsearcherror.setVisibility(View.GONE);
+        main.setVisibility(View.GONE);
+        tv_networkerrorrefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ln_networkjobsearcherror.setVisibility(View.GONE);
+                networkrefresh.setRefreshing(true);
+                recyclerView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return true;
+                    }
+                });
+                arraylist.clear();
+                getPost();
+            }
+        });
         setOnClickListener();
         //getCategory();
        // getLocation();
@@ -323,6 +347,7 @@ public class SearchFragment extends Fragment {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                ln_networkjobsearcherror.setVisibility(View.GONE);
                 recyclerView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
@@ -333,6 +358,21 @@ public class SearchFragment extends Fragment {
                 getPost();
             }
         });
+//        networkrefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                ln_networkjobsearcherror.setVisibility(View.GONE);
+//                recyclerView.setOnTouchListener(new View.OnTouchListener() {
+//                    @Override
+//                    public boolean onTouch(View v, MotionEvent event) {
+//                        return true;
+//                    }
+//                });
+//                arraylist.clear();
+//                getPost();
+//            }
+//        });
+
 
         return view;
     }
@@ -343,19 +383,30 @@ public class SearchFragment extends Fragment {
                j = new JSONObject(response);
                result = j.getJSONArray("categories");
                getSubCategory(result);
+                main.setVisibility(View.VISIBLE);
+                ln_networkjobsearcherror.setVisibility(View.GONE);
 
 
             }catch(JSONException e)
             {
                 e.printStackTrace();
                 Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                main.setVisibility(View.GONE);
+                ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                networkrefresh.setVisibility(View.VISIBLE);
             }
 
             refreshLayout.setRefreshing(false);
+            networkrefresh.setRefreshing(false);
 
         },error -> {
             error.printStackTrace();
             refreshLayout.setRefreshing(false);
+            networkrefresh.setRefreshing(false);
+
+            main.setVisibility(View.GONE);
+            ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+            networkrefresh.setVisibility(View.VISIBLE);
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -374,9 +425,13 @@ public class SearchFragment extends Fragment {
             try{
                 JSONObject json = j.getJSONObject(ai);
                 category.add(json.getString("category"));
+                main.setVisibility(View.VISIBLE);
+                ln_networkjobsearcherror.setVisibility(View.GONE);
             }catch (JSONException e)
             {
                 e.printStackTrace();
+                main.setVisibility(View.GONE);
+                ln_networkjobsearcherror.setVisibility(View.VISIBLE);
             }
         }
         specializationarray = category.toArray(new String[0]);
@@ -392,15 +447,22 @@ public class SearchFragment extends Fragment {
                 j = new JSONObject(response);
                 result2 = j.getJSONArray("locations");
                 getSubLocation(result2);
+                main.setVisibility(View.VISIBLE);
+                ln_networkjobsearcherror.setVisibility(View.GONE);
 
 
             }catch(JSONException e)
             {
                 e.printStackTrace();
                 Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                main.setVisibility(View.GONE);
+                ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                networkrefresh.setVisibility(View.VISIBLE);
             }
 
             refreshLayout.setRefreshing(false);
+            networkrefresh.setRefreshing(false);
+
             recyclerView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -411,6 +473,11 @@ public class SearchFragment extends Fragment {
         },error -> {
             error.printStackTrace();
             refreshLayout.setRefreshing(false);
+            networkrefresh.setRefreshing(false);
+
+            main.setVisibility(View.GONE);
+            ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+            networkrefresh.setVisibility(View.VISIBLE);
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -429,9 +496,13 @@ public class SearchFragment extends Fragment {
             try{
                 JSONObject json = j.getJSONObject(ai);
                 location.add(json.getString("location"));
+                main.setVisibility(View.VISIBLE);
+                ln_networkjobsearcherror.setVisibility(View.GONE);
             }catch (JSONException e)
             {
                 e.printStackTrace();
+                main.setVisibility(View.GONE);
+                ln_networkjobsearcherror.setVisibility(View.VISIBLE);
             }
         }
         locationarray = location.toArray(new String[0]);
@@ -441,68 +512,97 @@ public class SearchFragment extends Fragment {
     }
 
     private void getPost() {
-        StringRequest request = new StringRequest(Request.Method.GET, Constant.jobposts+"?jobstatus="+approved, response ->{
-            try{
-                JSONObject object = new JSONObject(response);
-                if(object.getBoolean("success"))
-                {
-                    JSONArray array = new JSONArray(object.getString("jobpost"));
-                    for(int i = 0; i < array.length(); i++)
+        if(new CheckInternet().checkInternet(getContext()))
+        {
+
+            StringRequest request = new StringRequest(Request.Method.GET, Constant.jobposts+"?jobstatus="+approved, response ->{
+                try{
+                    JSONObject object = new JSONObject(response);
+                    if(object.getBoolean("success"))
                     {
-                        JSONObject postObject = array.getJSONObject(i);
-                        //JSONObject getpostObject = postObject.getJSONObject("jobposts");
+                        JSONArray array = new JSONArray(object.getString("jobpost"));
+                        for(int i = 0; i < array.length(); i++)
+                        {
+                            JSONObject postObject = array.getJSONObject(i);
+                            //JSONObject getpostObject = postObject.getJSONObject("jobposts");
 
-                        job job2 = new job();
-                        job2.setJoblogo(postObject.getString("logo"));
-                        job2.setJobtitle(postObject.getString("jobtitle"));
-                        job2.setJobcompany(postObject.getString("companyname"));
-                        job2.setJoblocation(postObject.getString("location"));
-                        job2.setJobsalary(postObject.getString("salary"));
-                        job2.setJobdateposted(postObject.getString("created_at"));
-                        job2.setJobaddress(postObject.getString("address"));
-                        job2.setCompanyoverview(postObject.getString("companyoverview"));
-                        job2.setJobcategory(postObject.getString("category"));
-                        job2.setJobid(postObject.getString("job_id"));
-                        job2.setJobdescription(postObject.getString("jobdescription"));
-                        job2.setJobuniqueid(postObject.getString("id"));
-                        job2.setJobstatus(postObject.getString("jobstatus"));
+                            job job2 = new job();
+                            job2.setJoblogo(postObject.getString("logo"));
+                            job2.setJobtitle(postObject.getString("jobtitle"));
+                            job2.setJobcompany(postObject.getString("companyname"));
+                            job2.setJoblocation(postObject.getString("location"));
+                            job2.setJobsalary(postObject.getString("salary"));
+                            job2.setJobdateposted(postObject.getString("created_at"));
+                            job2.setJobaddress(postObject.getString("address"));
+                            job2.setCompanyoverview(postObject.getString("companyoverview"));
+                            job2.setJobcategory(postObject.getString("category"));
+                            job2.setJobid(postObject.getString("job_id"));
+                            job2.setJobdescription(postObject.getString("jobdescription"));
+                            job2.setJobuniqueid(postObject.getString("id"));
+                            job2.setJobstatus(postObject.getString("jobstatus"));
 
-                        arraylist.add(job2);
-                        arraylist2.add(job2);
-                    }
-                    jobadapter2 = new jobadapter(arraylist,getContext(),listener);
-                    recyclerView.setAdapter(jobadapter2);
-                    recyclerView.setOnTouchListener(new View.OnTouchListener() {
-                        @Override
-                        public boolean onTouch(View v, MotionEvent event) {
-                            return false;
+                            arraylist.add(job2);
+                            arraylist2.add(job2);
                         }
-                    });
+                        jobadapter2 = new jobadapter(arraylist,getContext(),listener);
+                        recyclerView.setAdapter(jobadapter2);
+                        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+                            @Override
+                            public boolean onTouch(View v, MotionEvent event) {
+                                return false;
+                            }
+                        });
+                        main.setVisibility(View.VISIBLE);
+                        ln_networkjobsearcherror.setVisibility(View.GONE);
+                        networkrefresh.setVisibility(View.GONE);
+                    }
+                    else {
+                        Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+                        main.setVisibility(View.GONE);
+                        ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                        networkrefresh.setVisibility(View.VISIBLE);
+                    }
+                }catch(JSONException e)
+                {
+                    e.printStackTrace();
+                    Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                    main.setVisibility(View.GONE);
+                    ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                    networkrefresh.setVisibility(View.VISIBLE);
                 }
-                else {
-                    Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+
+                refreshLayout.setRefreshing(false);
+                networkrefresh.setRefreshing(false);
+
+
+            },error -> {
+                error.printStackTrace();
+                refreshLayout.setRefreshing(false);
+                networkrefresh.setRefreshing(false);
+                main.setVisibility(View.GONE);
+                ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                networkrefresh.setVisibility(View.VISIBLE);
+
+            }){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String,String> map = new HashMap<>();
+                    return map;
                 }
-            }catch(JSONException e)
-            {
-                e.printStackTrace();
-                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
-            }
+            };
 
+            RequestQueue queue = Volley.newRequestQueue(getContext());
+            queue.add(request);
+        }
+        else
+        {
+            main.setVisibility(View.GONE);
+            ln_networkjobsearcherror.setVisibility(View.VISIBLE);
             refreshLayout.setRefreshing(false);
+            networkrefresh.setRefreshing(false);
+            networkrefresh.setVisibility(View.VISIBLE);
 
-        },error -> {
-            error.printStackTrace();
-            refreshLayout.setRefreshing(false);
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<>();
-                return map;
-            }
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-        queue.add(request);
+        }
     }
     public void onResume() {
         super.onResume();

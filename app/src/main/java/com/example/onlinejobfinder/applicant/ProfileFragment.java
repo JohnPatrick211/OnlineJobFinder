@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,7 +49,8 @@ public class ProfileFragment extends Fragment {
 
     TextView txtmanageaccount, txtname, txtemail, txtcontactno, txtaddress, txtgender, txtspecialization, txtresume,txtintentresume, txtviewresume, txtaddeduc,txtaddwork;
     ImageView editprofile;
-    TextView tvs_networkerrordisplay,tvs_networkerrorrefresh, tvs_networkerrordisplay2,tvs_networkerrorrefresh2;
+    LinearLayout ln_networkerrorworkexperience, ln_networkerroreducation;
+    TextView tvs_networkworkerrorrefresh, tvs_networkeducationerrorrefresh;
     educationalbackgroundadapter educationalbackgroundadapter;
     workexperienceadapter workexperienceadapter2;
     workexperienceadapter.RecyclerViewClickListener worklistener;
@@ -158,26 +160,24 @@ public class ProfileFragment extends Fragment {
         user_id = userPref2.getString("id","id");
         token = userPref2.getString("token","token");
         permaid = user_id;
-        tvs_networkerrordisplay = root.findViewById(R.id.tv_networkerrordisplay);
-        tvs_networkerrorrefresh = root.findViewById(R.id.tv_networkerrorrefresh);
-        tvs_networkerrordisplay2 = root.findViewById(R.id.tv_networkerrordisplay2);
-        tvs_networkerrorrefresh2 = root.findViewById(R.id.tv_networkerrorrefresh2);
-        tvs_networkerrordisplay.setVisibility(View.GONE);
-        tvs_networkerrorrefresh.setVisibility(View.GONE);
-        tvs_networkerrordisplay2.setVisibility(View.GONE);
-        tvs_networkerrorrefresh2.setVisibility(View.GONE);
+        ln_networkerrorworkexperience= root.findViewById(R.id.networkworkexperienceerrorlayout);
+        ln_networkerroreducation = root.findViewById(R.id.networkeducationerrorlayout);
+        tvs_networkworkerrorrefresh = root.findViewById(R.id.tv_networkworkexperienceerrorrefresh);
+        tvs_networkeducationerrorrefresh = root.findViewById(R.id.tv_networkeducationerrorrefresh);
+        ln_networkerrorworkexperience.setVisibility(View.GONE);
+        ln_networkerroreducation.setVisibility(View.GONE);
         //check ID debugging//
         //Toast.makeText(getContext(), user_id, Toast.LENGTH_SHORT).show();
         Toast.makeText(getContext(), email, Toast.LENGTH_SHORT).show();
         setOnClickListener();
         setOnClickListener2();
-        tvs_networkerrorrefresh.setOnClickListener(new View.OnClickListener() {
+        tvs_networkworkerrorrefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 refreshWorkExperience();
             }
         });
-        tvs_networkerrorrefresh2.setOnClickListener(new View.OnClickListener() {
+        tvs_networkeducationerrorrefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 refreshEducation();
@@ -299,71 +299,6 @@ public class ProfileFragment extends Fragment {
 
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
-
-//        StringRequest request2 = new StringRequest(Request.Method.GET, Constant.geteducation+"?educational_id="+user_id, response ->{
-//            try{
-//                JSONObject object = new JSONObject(response);
-//                if(object.getBoolean("success"))
-//                {
-//                    JSONArray array = new JSONArray(object.getString("education"));
-//                    for(int i = 0; i < array.length(); i++)
-//                    {
-//                        JSONObject postObject = array.getJSONObject(i);
-//                        //JSONObject getpostObject = postObject.getJSONObject("jobposts");
-//
-//                        educationalbackground educationalbackground2 = new educationalbackground();
-//                        educationalbackground2.setApplicantschool(postObject.getString("school"));
-//                        educationalbackground2.setApplicantcourse(postObject.getString("course"));
-//                        educationalbackground2.setApplicantyeargraduated(postObject.getString("year"));
-//
-//
-//                        arraylist.add(educationalbackground2);
-//                        arraylist2.add(educationalbackground2);
-//                    }
-//                    educationalbackgroundadapter = new educationalbackgroundadapter(arraylist,getContext());
-//                    recyclerView.setAdapter(educationalbackgroundadapter);
-//                }
-//                else {
-//                    recyclerView.setVisibility(View.GONE);
-//                    Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
-//                }
-//            }catch(JSONException e)
-//            {
-//                e.printStackTrace();
-//                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
-//                recyclerView.setVisibility(View.GONE);
-//            }
-//
-//
-//
-//        },error -> {
-//            error.printStackTrace();
-//            Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
-//            recyclerView.setVisibility(View.GONE);
-//        }){
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                HashMap<String,String> map = new HashMap<>();
-//                return map;
-//            }
-//        };
-//
-//        RequestQueue queue2 = Volley.newRequestQueue(getContext());
-//        queue2.add(request2);
-        // Toast.makeText(getContext(), user_id, Toast.LENGTH_SHORT).show();
-//        editor.putString("name",name2);
-     //   editor.putString("id1",user_id);
-     //   editor.apply();
-     //   editor.commit();
-       // getData();
-      //  setOnClickListener();
-       // refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-       //     @Override
-      //      public void onRefresh() {
-               // arraylist.clear();
-     //           getData();
-     //       }
-     //   });
 
        editprofile.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -506,15 +441,16 @@ public class ProfileFragment extends Fragment {
                     recyclerView.setAdapter(educationalbackgroundadapter);
                     educationalbackgroundadapter.notifyDataSetChanged();
                     recyclerView.setVisibility(View.VISIBLE);
+                    ln_networkerroreducation.setVisibility(View.GONE);
                 }
                 else {
-                    networkerror2();
+                    networkeducationerror();
                     Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
                     recyclerView.setVisibility(View.GONE);
                 }
             }catch(JSONException e)
             {
-                networkerror2();
+                networkeducationerror();
                 recyclerView.setVisibility(View.GONE);
                 e.printStackTrace();
                 Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
@@ -524,7 +460,7 @@ public class ProfileFragment extends Fragment {
 
         },error -> {
             error.printStackTrace();
-            networkerror2();
+            networkeducationerror();
             Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
             recyclerView.setVisibility(View.GONE);
         }){
@@ -567,17 +503,18 @@ public class ProfileFragment extends Fragment {
                     recyclerView2.setAdapter(workexperienceadapter2);
                     workexperienceadapter2.notifyDataSetChanged();
                     recyclerView2.setVisibility(View.VISIBLE);
+                    ln_networkerrorworkexperience.setVisibility(View.GONE);
                 }
                 else {
                     Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
                     recyclerView2.setVisibility(View.GONE);
-                    networkerror();
+                    networkworkexperienceerror();
                 }
             }catch(JSONException e)
             {
                 recyclerView2.setVisibility(View.GONE);
                 e.printStackTrace();
-                networkerror();
+                networkworkexperienceerror();
                 Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
             }
 
@@ -587,7 +524,7 @@ public class ProfileFragment extends Fragment {
             error.printStackTrace();
             Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
             recyclerView2.setVisibility(View.GONE);
-            networkerror();
+            networkworkexperienceerror();
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -635,8 +572,7 @@ public class ProfileFragment extends Fragment {
     }
     private void refreshEducation()
     {
-        tvs_networkerrordisplay2.setVisibility(View.GONE);
-        tvs_networkerrorrefresh2.setVisibility(View.GONE);
+        ln_networkerroreducation.setVisibility(View.GONE);
 
         arraylist.clear();
         StringRequest request2 = new StringRequest(Request.Method.GET, Constant.geteducation+"?educational_id="+user_id, response ->{
@@ -668,12 +604,12 @@ public class ProfileFragment extends Fragment {
                 }
                 else {
                     Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
-                    networkerror2();
+                    networkeducationerror();
                     recyclerView.setVisibility(View.GONE);
                 }
             }catch(JSONException e)
             {
-                networkerror2();
+                networkeducationerror();
                 recyclerView.setVisibility(View.GONE);
                 e.printStackTrace();
                 Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
@@ -684,7 +620,7 @@ public class ProfileFragment extends Fragment {
         },error -> {
             error.printStackTrace();
             Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
-            networkerror2();
+            networkeducationerror();
             recyclerView.setVisibility(View.GONE);
         }){
             @Override
@@ -699,8 +635,7 @@ public class ProfileFragment extends Fragment {
     }
     private void refreshWorkExperience()
     {
-        tvs_networkerrordisplay.setVisibility(View.GONE);
-        tvs_networkerrorrefresh.setVisibility(View.GONE);
+        ln_networkerrorworkexperience.setVisibility(View.GONE);
         arraylist2.clear();
         StringRequest request3 = new StringRequest(Request.Method.GET, Constant.getworkexperience+"?workexp_id="+user_id, response ->{
             try{
@@ -733,14 +668,14 @@ public class ProfileFragment extends Fragment {
                 else {
                     Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
                     recyclerView2.setVisibility(View.GONE);
-                    networkerror();
+                    networkworkexperienceerror();
                 }
             }catch(JSONException e)
             {
                 recyclerView2.setVisibility(View.GONE);
                 e.printStackTrace();
                 Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
-                networkerror();
+                networkworkexperienceerror();
             }
 
 
@@ -749,7 +684,7 @@ public class ProfileFragment extends Fragment {
             error.printStackTrace();
             Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
             recyclerView2.setVisibility(View.GONE);
-            networkerror();
+            networkworkexperienceerror();
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -761,15 +696,13 @@ public class ProfileFragment extends Fragment {
         RequestQueue queue3 = Volley.newRequestQueue(getContext());
         queue3.add(request3);
     }
-    private void networkerror()
+    private void networkworkexperienceerror()
     {
-        tvs_networkerrordisplay.setVisibility(View.VISIBLE);
-        tvs_networkerrorrefresh.setVisibility(View.VISIBLE);
+        ln_networkerrorworkexperience.setVisibility(View.VISIBLE);
     }
-    private void networkerror2()
+    private void networkeducationerror()
     {
-        tvs_networkerrordisplay2.setVisibility(View.VISIBLE);
-        tvs_networkerrorrefresh2.setVisibility(View.VISIBLE);
+       ln_networkerroreducation.setVisibility(View.VISIBLE);
     }
 
     private void getData() {

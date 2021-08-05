@@ -1,8 +1,11 @@
 package com.example.onlinejobfinder.applicant;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,7 +17,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +28,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.onlinejobfinder.CheckInternet;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.adapter.jobadapter;
@@ -43,9 +49,9 @@ import java.util.Map;
  */
 public class HomeFragment extends Fragment {
 
-    TextView errortext;
+    TextView errortext,tv_networkerrorrefresh;
     String name2,specialization,user_id;
-    LinearLayout errorlayout;
+    LinearLayout errorlayout,ln_networkrecommendedjoberror;
     RecyclerView recyclerView;
     jobadapter.RecyclerViewClickListener listener;
     int position =0;
@@ -63,6 +69,7 @@ public class HomeFragment extends Fragment {
     String catergoryString,yearString, approved;
     String [] specializationarray, locationarray;
     String val_specialization = "";
+//    ProgressBar loader;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -124,6 +131,16 @@ public class HomeFragment extends Fragment {
         //       spinnerlocation = view.findViewById(R.id.spinner_location);
         arraylist = new ArrayList<>();
         arraylist2 = new ArrayList<>();
+        tv_networkerrorrefresh = view.findViewById(R.id.tv_networkrecommendedjoberrorrefresh);
+        ln_networkrecommendedjoberror = view.findViewById(R.id.networkerecommendedjoberrorlayout);
+        ln_networkrecommendedjoberror.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+        tv_networkerrorrefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CheckSpecialization();
+            }
+        });
         refreshLayout.setRefreshing(true);
         setOnClickListener();
         //specialization = prefs.getString("specialization","specialization");
@@ -179,6 +196,7 @@ public class HomeFragment extends Fragment {
                     }
                     jobadapter2 = new jobadapter(arraylist,getContext(),listener);
                     recyclerView.setAdapter(jobadapter2);
+                    recyclerView.setVisibility(View.VISIBLE);
                     recyclerView.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
@@ -188,11 +206,15 @@ public class HomeFragment extends Fragment {
                 }
                 else {
                     Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+                    recyclerView.setVisibility(View.GONE);
+                    ln_networkrecommendedjoberror.setVisibility(View.VISIBLE);
                 }
             }catch(JSONException e)
             {
                 e.printStackTrace();
                 Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                recyclerView.setVisibility(View.GONE);
+                ln_networkrecommendedjoberror.setVisibility(View.VISIBLE);
             }
 
             refreshLayout.setRefreshing(false);
@@ -200,6 +222,8 @@ public class HomeFragment extends Fragment {
         },error -> {
             error.printStackTrace();
             refreshLayout.setRefreshing(false);
+            recyclerView.setVisibility(View.GONE);
+            ln_networkrecommendedjoberror.setVisibility(View.VISIBLE);
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -215,50 +239,64 @@ public class HomeFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
+        refreshLayout.setRefreshing(true);
         arraylist.clear();
         CheckSpecialization();
 
     }
+
+
     private void CheckSpecialization() {
-        StringRequest request = new StringRequest(Request.Method.POST, Constant.checkspecialization, response -> {
-            try{
-                JSONObject object= new JSONObject(response);
-                if(object.getBoolean("success")){
-                    errorlayout.setVisibility(View.GONE);
-                    JSONObject user = object.getJSONObject("Specialization");
-                    val_specialization =  user.get("Specialization").toString();
-                    getPost();
-                }
-                else
+        ln_networkrecommendedjoberror.setVisibility(View.GONE);
+        refreshLayout.setRefreshing(true);
+        if(new CheckInternet().checkInternet(getContext()))
+        {
+            StringRequest request = new StringRequest(Request.Method.POST, Constant.checkspecialization, response -> {
+                try{
+                    JSONObject object= new JSONObject(response);
+                    if(object.getBoolean("success")){
+                        errorlayout.setVisibility(View.GONE);
+                        JSONObject user = object.getJSONObject("Specialization");
+                        val_specialization =  user.get("Specialization").toString();
+                        getPost();
+                    }
+                    else
+                    {
+                        errorlayout.setVisibility(View.VISIBLE);
+                        errortext.setText("Please set your Specialization in your Profile");
+                        refreshLayout.setRefreshing(false);
+                    }
+
+                }catch(JSONException e)
                 {
-                    errorlayout.setVisibility(View.VISIBLE);
-                    errortext.setText("Please set your Specialization in your Profile");
+                    Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
                     refreshLayout.setRefreshing(false);
                 }
-
-            }catch(JSONException e)
-            {
-                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+            },error ->{
+                error.printStackTrace();
+                Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
                 refreshLayout.setRefreshing(false);
-            }
-        },error ->{
-            error.printStackTrace();
-            Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
-            refreshLayout.setRefreshing(false);
 
-        })
+            })
+            {
+
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    HashMap<String,String> map = new HashMap<>();
+                    map.put("applicant_id",user_id);
+                    return map;
+                }
+            };
+
+            RequestQueue queue = Volley.newRequestQueue(getContext());
+            queue.add(request);
+        }
+        else
         {
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<>();
-                map.put("applicant_id",user_id);
-                return map;
-            }
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-        queue.add(request);
+            recyclerView.setVisibility(View.GONE);
+            ln_networkrecommendedjoberror.setVisibility(View.VISIBLE);
+            refreshLayout.setRefreshing(false);
+        }
     }
 
     private void setOnClickListener() {

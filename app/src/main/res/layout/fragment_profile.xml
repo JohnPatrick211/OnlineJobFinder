@@ -128,9 +128,24 @@
             android:id="@+id/recyclerview_workexperience"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <LinearLayout
+            android:id="@+id/networkworkexperienceerrorlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="visible"
+            >
+
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_baseline_error_24"/>
+
         <TextView
             android:layout_marginTop="10dp"
-            android:id="@+id/tv_networkerrordisplay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
@@ -141,15 +156,17 @@
             />
         <TextView
             android:layout_marginTop="10dp"
-            android:id="@+id/tv_networkerrorrefresh"
+            android:id="@+id/tv_networkworkexperienceerrorrefresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
+            android:textColor="@color/themecolor"
             android:textSize="18sp"
             android:text="Refresh"
             android:gravity="left"
             android:visibility="visible"
             />
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -188,9 +205,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <LinearLayout
+            android:id="@+id/networkeducationerrorlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="visible"
+            >
+
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_baseline_error_24"/>
+
         <TextView
             android:layout_marginTop="10dp"
-            android:id="@+id/tv_networkerrordisplay2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
@@ -201,7 +233,7 @@
             />
         <TextView
             android:layout_marginTop="10dp"
-            android:id="@+id/tv_networkerrorrefresh2"
+            android:id="@+id/tv_networkeducationerrorrefresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
@@ -210,6 +242,8 @@
             android:gravity="left"
             android:visibility="visible"
             />
+
+        </LinearLayout>
 
 
     </LinearLayout>

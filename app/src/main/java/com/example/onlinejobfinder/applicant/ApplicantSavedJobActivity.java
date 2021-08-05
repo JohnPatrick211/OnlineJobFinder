@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.onlinejobfinder.CheckInternet;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.adapter.jobadapter;
@@ -36,7 +38,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ApplicantSavedJobActivity extends AppCompatActivity {
-
+    TextView tv_networkerrorrefresh;
+    LinearLayout ln_networkjobsearcherror,main;
     RecyclerView recyclerView;
     SharedPreferences userPref2;
     jobadapter.RecyclerViewClickListener listener;
@@ -49,7 +52,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity {
     ArrayList<job> arraylist2;
     ArrayList<String> category,location;
     JSONArray result,result2;
-    SwipeRefreshLayout refreshLayout;
+    SwipeRefreshLayout refreshLayout,networkrefresh;
     jobadapter jobadapter2;
     String name2, user_id,token,email;
     // Spinner spinnercategory, spinnerlocation;
@@ -90,6 +93,27 @@ public class ApplicantSavedJobActivity extends AppCompatActivity {
         email = userPref2.getString("email","email");
         user_id = userPref2.getString("id","id");
         token = userPref2.getString("token","token");
+        networkrefresh = findViewById(R.id.networkswipe);
+        main = findViewById(R.id.bruh);
+        tv_networkerrorrefresh = findViewById(R.id.tv_networkjobsearcherrorrefresh);
+        ln_networkjobsearcherror = findViewById(R.id.networkjobsearcherrorlayout);
+        ln_networkjobsearcherror.setVisibility(View.GONE);
+        main.setVisibility(View.GONE);
+        tv_networkerrorrefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ln_networkjobsearcherror.setVisibility(View.GONE);
+                networkrefresh.setRefreshing(true);
+                recyclerView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return true;
+                    }
+                });
+                arraylist.clear();
+                getPost();
+            }
+        });
         tvsearchspecialization.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -277,6 +301,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                ln_networkjobsearcherror.setVisibility(View.GONE);
                 recyclerView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
@@ -297,19 +322,30 @@ public class ApplicantSavedJobActivity extends AppCompatActivity {
                 j = new JSONObject(response);
                 result = j.getJSONArray("categories");
                 getSubCategory(result);
+                main.setVisibility(View.VISIBLE);
+                ln_networkjobsearcherror.setVisibility(View.GONE);
 
 
             }catch(JSONException e)
             {
                 e.printStackTrace();
                 Toast.makeText(ApplicantSavedJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                main.setVisibility(View.GONE);
+                ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                networkrefresh.setVisibility(View.VISIBLE);
             }
 
             refreshLayout.setRefreshing(false);
+            networkrefresh.setRefreshing(false);
 
         },error -> {
             error.printStackTrace();
             refreshLayout.setRefreshing(false);
+            networkrefresh.setRefreshing(false);
+
+            main.setVisibility(View.GONE);
+            ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+            networkrefresh.setVisibility(View.VISIBLE);
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -328,9 +364,13 @@ public class ApplicantSavedJobActivity extends AppCompatActivity {
             try{
                 JSONObject json = j.getJSONObject(ai);
                 category.add(json.getString("category"));
+                main.setVisibility(View.VISIBLE);
+                ln_networkjobsearcherror.setVisibility(View.GONE);
             }catch (JSONException e)
             {
                 e.printStackTrace();
+                main.setVisibility(View.GONE);
+                ln_networkjobsearcherror.setVisibility(View.VISIBLE);
             }
         }
         specializationarray = category.toArray(new String[0]);
@@ -346,15 +386,22 @@ public class ApplicantSavedJobActivity extends AppCompatActivity {
                 j = new JSONObject(response);
                 result2 = j.getJSONArray("locations");
                 getSubLocation(result2);
+                main.setVisibility(View.VISIBLE);
+                ln_networkjobsearcherror.setVisibility(View.GONE);
 
 
             }catch(JSONException e)
             {
                 e.printStackTrace();
                 Toast.makeText(ApplicantSavedJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                main.setVisibility(View.GONE);
+                ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                networkrefresh.setVisibility(View.VISIBLE);
             }
 
             refreshLayout.setRefreshing(false);
+            networkrefresh.setRefreshing(false);
+
             recyclerView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -365,6 +412,11 @@ public class ApplicantSavedJobActivity extends AppCompatActivity {
         },error -> {
             error.printStackTrace();
             refreshLayout.setRefreshing(false);
+            networkrefresh.setRefreshing(false);
+
+            main.setVisibility(View.GONE);
+            ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+            networkrefresh.setVisibility(View.VISIBLE);
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -383,9 +435,13 @@ public class ApplicantSavedJobActivity extends AppCompatActivity {
             try{
                 JSONObject json = j.getJSONObject(ai);
                 location.add(json.getString("location"));
+                main.setVisibility(View.VISIBLE);
+                ln_networkjobsearcherror.setVisibility(View.GONE);
             }catch (JSONException e)
             {
                 e.printStackTrace();
+                main.setVisibility(View.GONE);
+                ln_networkjobsearcherror.setVisibility(View.VISIBLE);
             }
         }
         locationarray = location.toArray(new String[0]);
@@ -395,69 +451,94 @@ public class ApplicantSavedJobActivity extends AppCompatActivity {
     }
 
     private void getPost() {
-        StringRequest request = new StringRequest(Request.Method.GET, Constant.postsavedjob+"?applicant_id="+user_id, response ->{
-            try{
-                JSONObject object = new JSONObject(response);
-                if(object.getBoolean("success"))
-                {
-                    JSONArray array = new JSONArray(object.getString("jobpost"));
-                    for(int i = 0; i < array.length(); i++)
+        if(new CheckInternet().checkInternet(ApplicantSavedJobActivity.this))
+        {
+            StringRequest request = new StringRequest(Request.Method.GET, Constant.postsavedjob+"?applicant_id="+user_id, response ->{
+                try{
+                    JSONObject object = new JSONObject(response);
+                    if(object.getBoolean("success"))
                     {
-                        JSONObject postObject = array.getJSONObject(i);
-                        //JSONObject getpostObject = postObject.getJSONObject("jobposts");
+                        JSONArray array = new JSONArray(object.getString("jobpost"));
+                        for(int i = 0; i < array.length(); i++)
+                        {
+                            JSONObject postObject = array.getJSONObject(i);
+                            //JSONObject getpostObject = postObject.getJSONObject("jobposts");
 
-                        job job2 = new job();
-                        job2.setJoblogo(postObject.getString("logo"));
-                        job2.setJobtitle(postObject.getString("jobtitle"));
-                        job2.setJobcompany(postObject.getString("companyname"));
-                        job2.setJoblocation(postObject.getString("location"));
-                        job2.setJobsalary(postObject.getString("salary"));
-                        job2.setJobdateposted(postObject.getString("created_at"));
-                        job2.setJobaddress(postObject.getString("address"));
-                        job2.setCompanyoverview(postObject.getString("companyoverview"));
-                        job2.setJobcategory(postObject.getString("category"));
-                        job2.setJobid(postObject.getString("job_id"));
-                        job2.setJobdescription(postObject.getString("jobdescription"));
-                        job2.setJobuniqueid(postObject.getString("id"));
-                        job2.setJobstatus(postObject.getString("jobstatus"));
-                        job2.setSavedid(postObject.getString("saved_id"));
+                            job job2 = new job();
+                            job2.setJoblogo(postObject.getString("logo"));
+                            job2.setJobtitle(postObject.getString("jobtitle"));
+                            job2.setJobcompany(postObject.getString("companyname"));
+                            job2.setJoblocation(postObject.getString("location"));
+                            job2.setJobsalary(postObject.getString("salary"));
+                            job2.setJobdateposted(postObject.getString("created_at"));
+                            job2.setJobaddress(postObject.getString("address"));
+                            job2.setCompanyoverview(postObject.getString("companyoverview"));
+                            job2.setJobcategory(postObject.getString("category"));
+                            job2.setJobid(postObject.getString("job_id"));
+                            job2.setJobdescription(postObject.getString("jobdescription"));
+                            job2.setJobuniqueid(postObject.getString("id"));
+                            job2.setJobstatus(postObject.getString("jobstatus"));
+                            job2.setSavedid(postObject.getString("saved_id"));
 
-                        arraylist.add(job2);
-                        arraylist2.add(job2);
-                    }
-                    jobadapter2 = new jobadapter(arraylist,ApplicantSavedJobActivity.this,listener);
-                    recyclerView.setAdapter(jobadapter2);
-                    recyclerView.setOnTouchListener(new View.OnTouchListener() {
-                        @Override
-                        public boolean onTouch(View v, MotionEvent event) {
-                            return false;
+                            arraylist.add(job2);
+                            arraylist2.add(job2);
                         }
-                    });
+                        jobadapter2 = new jobadapter(arraylist,ApplicantSavedJobActivity.this,listener);
+                        recyclerView.setAdapter(jobadapter2);
+                        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+                            @Override
+                            public boolean onTouch(View v, MotionEvent event) {
+                                return false;
+                            }
+                        });
+                        main.setVisibility(View.VISIBLE);
+                        ln_networkjobsearcherror.setVisibility(View.GONE);
+                        networkrefresh.setVisibility(View.GONE);
+                    }
+                    else {
+                        Toast.makeText(ApplicantSavedJobActivity.this,"error",Toast.LENGTH_SHORT).show();
+                        main.setVisibility(View.GONE);
+                        ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                        networkrefresh.setVisibility(View.VISIBLE);
+                    }
+                }catch(JSONException e)
+                {
+                    e.printStackTrace();
+                    Toast.makeText(ApplicantSavedJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                    main.setVisibility(View.GONE);
+                    ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                    networkrefresh.setVisibility(View.VISIBLE);
                 }
-                else {
-                    Toast.makeText(ApplicantSavedJobActivity.this,"error",Toast.LENGTH_SHORT).show();
+
+                refreshLayout.setRefreshing(false);
+                networkrefresh.setRefreshing(false);
+
+            },error -> {
+                error.printStackTrace();
+                refreshLayout.setRefreshing(false);
+                networkrefresh.setRefreshing(false);
+                main.setVisibility(View.GONE);
+                ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                networkrefresh.setVisibility(View.VISIBLE);
+            }){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String,String> map = new HashMap<>();
+                    return map;
                 }
-            }catch(JSONException e)
-            {
-                e.printStackTrace();
-                Toast.makeText(ApplicantSavedJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
-            }
+            };
 
+            RequestQueue queue = Volley.newRequestQueue(ApplicantSavedJobActivity.this);
+            queue.add(request);
+        }
+        else
+        {
+            main.setVisibility(View.GONE);
+            ln_networkjobsearcherror.setVisibility(View.VISIBLE);
             refreshLayout.setRefreshing(false);
-
-        },error -> {
-            error.printStackTrace();
-            refreshLayout.setRefreshing(false);
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<>();
-                return map;
-            }
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(ApplicantSavedJobActivity.this);
-        queue.add(request);
+            networkrefresh.setRefreshing(false);
+            networkrefresh.setVisibility(View.VISIBLE);
+        }
     }
     public void onResume() {
         super.onResume();
