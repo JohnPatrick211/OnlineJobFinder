@@ -116,11 +116,11 @@
 <!--        android:padding="20dp"-->
 <!--        android:layout_gravity="center">-->
 
-<!--&lt;!&ndash;        <ProgressBar&ndash;&gt;-->
-<!--&lt;!&ndash;            android:id="@+id/applicantrecommendedjob_loader"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_width="30dp"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_height="30dp"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:visibility="visible"/>&ndash;&gt;-->
+<!--        <ProgressBar-->
+<!--            android:id="@+id/applicantrecommendedjob_loader"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:visibility="visible"/>-->
 <!--    </RelativeLayout>-->
 
 

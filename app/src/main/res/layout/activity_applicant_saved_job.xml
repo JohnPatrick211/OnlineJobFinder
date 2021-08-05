@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/drawerLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -136,4 +141,28 @@
                 />
         </LinearLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:id="@+id/ln_loader"
+        android:layout_gravity="center">
+
+        <ProgressBar
+            android:id="@+id/applicantsavedjob_loader"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:visibility="visible"/>
+    </RelativeLayout>
 </FrameLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/navigation_view"
+        app:menu="@menu/navigation_drawer_menu"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/drawer_header"
+        app:itemTextAppearance="?android:attr/textAppearanceMedium"
+        android:layout_gravity="start"/>
+</androidx.drawerlayout.widget.DrawerLayout>

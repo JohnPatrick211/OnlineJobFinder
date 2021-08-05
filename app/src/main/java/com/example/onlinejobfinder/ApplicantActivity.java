@@ -12,6 +12,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.onlinejobfinder.applicant.ApplicantSavedJobActivity;
@@ -137,15 +139,24 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId())
         {
+            case R.id.navigation_home:
+                drawerLayout.closeDrawers();
+                break;
             case R.id.navigation_logout:
-                Intent intent = new Intent(ApplicantActivity.this,EmailActivity.class);
-                startActivity(intent);
+                Intent intent1 = new Intent(ApplicantActivity.this,EmailActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.navigation_savedjob:
                 Intent intent2 = new Intent(ApplicantActivity.this, ApplicantSavedJobActivity.class);
+                intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent2.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent2);
                 break;
         }
         return true;
+    }
+    public void onResume() {
+        super.onResume();
+        drawerLayout.closeDrawers();
     }
 }

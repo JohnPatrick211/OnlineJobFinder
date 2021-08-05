@@ -1,6 +1,9 @@
 package com.example.onlinejobfinder.applicant;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -12,9 +15,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,11 +29,14 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.onlinejobfinder.ApplicantActivity;
 import com.example.onlinejobfinder.CheckInternet;
 import com.example.onlinejobfinder.Constant;
+import com.example.onlinejobfinder.EmailActivity;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.adapter.jobadapter;
 import com.example.onlinejobfinder.model.job;
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,10 +45,16 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
-public class ApplicantSavedJobActivity extends AppCompatActivity {
+public class ApplicantSavedJobActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle toggle;
+    private NavigationView navigationView;
+    ProgressBar loader;
     TextView tv_networkerrorrefresh;
     LinearLayout ln_networkjobsearcherror,main;
+    RelativeLayout ln_jobloader;
     RecyclerView recyclerView;
     SharedPreferences userPref2;
     jobadapter.RecyclerViewClickListener listener;
@@ -63,6 +78,14 @@ public class ApplicantSavedJobActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_applicant_saved_job);
+
+        drawerLayout = findViewById(R.id.drawerLayout);
+        navigationView = findViewById(R.id.navigation_view);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.start, R.string.close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        navigationView.setNavigationItemSelectedListener(this);
 
         btnfilter = findViewById(R.id.btn_filter);
         tvsearchspecialization = findViewById(R.id.tv_searchspecialization);
@@ -99,6 +122,9 @@ public class ApplicantSavedJobActivity extends AppCompatActivity {
         ln_networkjobsearcherror = findViewById(R.id.networkjobsearcherrorlayout);
         ln_networkjobsearcherror.setVisibility(View.GONE);
         main.setVisibility(View.GONE);
+        loader = findViewById(R.id.applicantsavedjob_loader);
+        ln_jobloader = findViewById(R.id.ln_loader);
+        loader.setProgress(100);
         tv_networkerrorrefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -494,6 +520,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity {
                         main.setVisibility(View.VISIBLE);
                         ln_networkjobsearcherror.setVisibility(View.GONE);
                         networkrefresh.setVisibility(View.GONE);
+                        ln_jobloader.setVisibility(View.GONE);
                     }
                     else {
                         Toast.makeText(ApplicantSavedJobActivity.this,"error",Toast.LENGTH_SHORT).show();
@@ -542,6 +569,8 @@ public class ApplicantSavedJobActivity extends AppCompatActivity {
     }
     public void onResume() {
         super.onResume();
+        drawerLayout.closeDrawers();
+        ln_jobloader.setVisibility(View.VISIBLE);
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -581,5 +610,33 @@ public class ApplicantSavedJobActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         };
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(toggle.onOptionsItemSelected(item))
+        {
+            return true;
+        }
+        return true;
+    }
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.navigation_home:
+                Intent intent = new Intent(ApplicantSavedJobActivity.this, ApplicantActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                break;
+            case R.id.navigation_logout:
+                Intent intent1 = new Intent(ApplicantSavedJobActivity.this, EmailActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.navigation_savedjob:
+                drawerLayout.closeDrawers();
+                break;
+        }
+        return true;
     }
 }
