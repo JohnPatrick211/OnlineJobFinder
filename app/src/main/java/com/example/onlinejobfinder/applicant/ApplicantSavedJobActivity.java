@@ -27,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amar.library.ui.StickyScrollView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -54,11 +55,11 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
+    RelativeLayout ln_jobloader;
     ProgressBar loader;
     EditText edt_search;
     TextView tv_networkerrorrefresh;
     LinearLayout ln_networkjobsearcherror,main;
-    RelativeLayout ln_jobloader;
     RecyclerView recyclerView;
     SharedPreferences userPref2;
     jobadapter.RecyclerViewClickListener listener;
@@ -146,6 +147,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
         loader = findViewById(R.id.applicantsavedjob_loader);
         ln_jobloader = findViewById(R.id.ln_loader);
         loader.setProgress(100);
+
         tv_networkerrorrefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

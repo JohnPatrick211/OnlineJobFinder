@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.onlinejobfinder.CheckInternet;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.adapter.appliedapplicantsadapter;
@@ -49,6 +51,8 @@ import java.util.Map;
  */
 public class EmployerHomeFragment extends Fragment {
 
+    TextView tv_networkerrorrefresh;
+    LinearLayout ln_networkrecommendedapperror;
     RecyclerView recyclerView;
     SharedPreferences userPref2;
     recommendedapplicantsadapter.RecyclerViewClickListener listener;
@@ -132,6 +136,17 @@ public class EmployerHomeFragment extends Fragment {
         email = userPref2.getString("email","email");
         user_id = userPref2.getString("id","id");
         token = userPref2.getString("token","token");
+        tv_networkerrorrefresh = view.findViewById(R.id.tv_networkrecommendedapperrorrefresh);
+        ln_networkrecommendedapperror = view.findViewById(R.id.networkerecommendedapperrorlayout);
+        ln_networkrecommendedapperror.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+        tv_networkerrorrefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refreshLayout.setRefreshing(true);
+                getEmployer();
+            }
+        });
      //   val_specialization = userPref2.getString("Specialization","Specialization");
  //       id = getIntent().getExtras().getString("intentid");
   //      approved = "Approved";
@@ -170,68 +185,88 @@ public class EmployerHomeFragment extends Fragment {
     }
 
     private void getPost() {
-        StringRequest request = new StringRequest(Request.Method.GET, Constant.recommendedapplicants+"?Specialization="+ val_specialization, response ->{
-            try{
-                JSONObject object = new JSONObject(response);
-                if(object.getBoolean("success"))
-                {
-                    JSONArray array = new JSONArray(object.getString("jobpost"));
-                    for(int i = 0; i < array.length(); i++)
+        if(new CheckInternet().checkInternet(getContext()))
+        {
+            StringRequest request = new StringRequest(Request.Method.GET, Constant.recommendedapplicants+"?Specialization="+ val_specialization, response ->{
+                try{
+                    JSONObject object = new JSONObject(response);
+                    if(object.getBoolean("success"))
                     {
-                        JSONObject postObject = array.getJSONObject(i);
-                        //JSONObject getpostObject = postObject.getJSONObject("jobposts");
+                        JSONArray array = new JSONArray(object.getString("jobpost"));
+                        for(int i = 0; i < array.length(); i++)
+                        {
+                            JSONObject postObject = array.getJSONObject(i);
+                            //JSONObject getpostObject = postObject.getJSONObject("jobposts");
 
-                        recommendedapplicants recommendedapplicants2 = new recommendedapplicants();
-                        recommendedapplicants2.setId(postObject.getString("id"));
-                        recommendedapplicants2.setApplicant_id(postObject.getString("applicant_id"));
-                        recommendedapplicants2.setProfile_pic(postObject.getString("profile_pic"));
-                        recommendedapplicants2.setName(postObject.getString("name"));
-                        recommendedapplicants2.setEmail(postObject.getString("email"));
-                        recommendedapplicants2.setAddress(postObject.getString("address"));
-                        recommendedapplicants2.setContactno(postObject.getString("contactno"));
-                        recommendedapplicants2.setSpecialization(postObject.getString("Specialization"));
-                        recommendedapplicants2.setGender(postObject.getString("gender"));
-                        recommendedapplicants2.setWorkexp_id(postObject.getString("workexp_id"));
-                        recommendedapplicants2.setEducational_id(postObject.getString("educational_id"));
-                        arraylist.add(recommendedapplicants2);
+                            recommendedapplicants recommendedapplicants2 = new recommendedapplicants();
+                            recommendedapplicants2.setId(postObject.getString("id"));
+                            recommendedapplicants2.setApplicant_id(postObject.getString("applicant_id"));
+                            recommendedapplicants2.setProfile_pic(postObject.getString("profile_pic"));
+                            recommendedapplicants2.setName(postObject.getString("name"));
+                            recommendedapplicants2.setEmail(postObject.getString("email"));
+                            recommendedapplicants2.setAddress(postObject.getString("address"));
+                            recommendedapplicants2.setContactno(postObject.getString("contactno"));
+                            recommendedapplicants2.setSpecialization(postObject.getString("Specialization"));
+                            recommendedapplicants2.setGender(postObject.getString("gender"));
+                            recommendedapplicants2.setWorkexp_id(postObject.getString("workexp_id"));
+                            recommendedapplicants2.setEducational_id(postObject.getString("educational_id"));
+                            arraylist.add(recommendedapplicants2);
 //                        filter();
-                       // ArrayList<recommendedapplicants> w = new ArrayList<>();
+                            // ArrayList<recommendedapplicants> w = new ArrayList<>();
 
 //                        recommendedapplicantsadapter2.setWinnerDetails(w);
-                    }
-                    recommendedapplicantsadapter2 = new recommendedapplicantsadapter(arraylist,getContext(),listener);
-                    recyclerView.setAdapter(recommendedapplicantsadapter2);
-                    recyclerView.setOnTouchListener(new View.OnTouchListener() {
-                        @Override
-                        public boolean onTouch(View v, MotionEvent event) {
-                            return false;
                         }
-                    });
+                        recommendedapplicantsadapter2 = new recommendedapplicantsadapter(arraylist,getContext(),listener);
+                        recyclerView.setAdapter(recommendedapplicantsadapter2);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+                            @Override
+                            public boolean onTouch(View v, MotionEvent event) {
+                                return false;
+                            }
+                        });
+                    }
+                    else {
+                        Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+                        recyclerView.setVisibility(View.GONE);
+                        ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
+                        refreshLayout.setRefreshing(false);
+                    }
+                }catch(JSONException e)
+                {
+                    e.printStackTrace();
+                    Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                    recyclerView.setVisibility(View.GONE);
+                    ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
+                    refreshLayout.setRefreshing(false);
                 }
-                else {
-                    Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+
+                refreshLayout.setRefreshing(false);
+
+            },error -> {
+                error.printStackTrace();
+                refreshLayout.setRefreshing(false);
+                recyclerView.setVisibility(View.GONE);
+                ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
+                refreshLayout.setRefreshing(false);
+            }){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String,String> map = new HashMap<>();
+                    return map;
                 }
-            }catch(JSONException e)
-            {
-                e.printStackTrace();
-                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
-            }
+            };
 
+            RequestQueue queue = Volley.newRequestQueue(getContext());
+            queue.add(request);
+        }
+        else
+        {
             refreshLayout.setRefreshing(false);
-
-        },error -> {
-            error.printStackTrace();
+            recyclerView.setVisibility(View.GONE);
+            ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
             refreshLayout.setRefreshing(false);
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<>();
-                return map;
-            }
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-        queue.add(request);
+        }
     }
     public void onResume() {
         super.onResume();
@@ -275,81 +310,106 @@ public class EmployerHomeFragment extends Fragment {
     }
     private void getEmployer()
     {
-        StringRequest request = new StringRequest(Request.Method.GET, Constant.EMPLOYER_POST+"?employer_id="+user_id, response -> {
-            try{
-                JSONObject object= new JSONObject(response);
-                if(object.getBoolean("success")){
-                    JSONObject user = object.getJSONObject("user");
-                    val_contactno = user.get("contactno").toString();
-                    val_specialization =  user.get("Specialization").toString();
-                    Toast.makeText(getContext(),val_contactno,Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getContext(),val_specialization,Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getContext(),"success",Toast.LENGTH_SHORT).show();
-                    intentcompanyname = user.get("name").toString();
-                    intentemail = user.get("email").toString();
-                    intentaddress = user.get("address").toString();
-                    intentcompanyoverview = user.get("companyoverview").toString();
-                    intentcompanylogo = Constant.URL+"/storage/profiles/"+user.getString("profile_pic");
-                    intentcompanylogo2 = user.getString("profile_pic");
-                    SharedPreferences.Editor editor2 = userPref2.edit();
-                    editor2.putString("name",user.getString("name"));
-                    editor2.putString("address",user.getString("address"));
-                    editor2.putString("contactno",user.getString("contactno"));
-                    //editor2.putString("email",user.getString("email"));
-                    // editor2.putString("background",user.getString("background"));
-                    editor2.apply();
-                    editor2.commit();
-                    arraylist.clear();
-                    w.clear();
-                    getPost();
-                    if(user.get("Specialization").toString().equals("null"))
-                    {
-                        recyclerView.setVisibility(View.GONE);
-
-                    }
-                    else {
+        ln_networkrecommendedapperror.setVisibility(View.GONE);
+        if(new CheckInternet().checkInternet(getContext()))
+        {
+            StringRequest request = new StringRequest(Request.Method.GET, Constant.EMPLOYER_POST+"?employer_id="+user_id, response -> {
+                try{
+                    JSONObject object= new JSONObject(response);
+                    if(object.getBoolean("success")){
+                        JSONObject user = object.getJSONObject("user");
+                        val_contactno = user.get("contactno").toString();
+                        val_specialization =  user.get("Specialization").toString();
+                        Toast.makeText(getContext(),val_contactno,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),val_specialization,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),"success",Toast.LENGTH_SHORT).show();
+                        intentcompanyname = user.get("name").toString();
+                        intentemail = user.get("email").toString();
+                        intentaddress = user.get("address").toString();
+                        intentcompanyoverview = user.get("companyoverview").toString();
+                        intentcompanylogo = Constant.URL+"/storage/profiles/"+user.getString("profile_pic");
+                        intentcompanylogo2 = user.getString("profile_pic");
+                        SharedPreferences.Editor editor2 = userPref2.edit();
+                        editor2.putString("name",user.getString("name"));
+                        editor2.putString("address",user.getString("address"));
+                        editor2.putString("contactno",user.getString("contactno"));
+                        //editor2.putString("email",user.getString("email"));
+                        // editor2.putString("background",user.getString("background"));
+                        editor2.apply();
+                        editor2.commit();
                         recyclerView.setVisibility(View.VISIBLE);
-                       // txtemployerspecialization.setVisibility(View.VISIBLE);
+                        arraylist.clear();
+                        w.clear();
+                        getPost();
+                        if(user.get("Specialization").toString().equals("null"))
+                        {
+                            recyclerView.setVisibility(View.GONE);
+                            ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
+                            refreshLayout.setRefreshing(false);
+
+                        }
+                        else {
+                            recyclerView.setVisibility(View.VISIBLE);
+
+                            // txtemployerspecialization.setVisibility(View.VISIBLE);
+                        }
+                        refreshLayout.setRefreshing(false);
+
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(), "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                        // progressDialog.cancel();
+                        recyclerView.setVisibility(View.GONE);
+                        ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
+                        refreshLayout.setRefreshing(false);
                     }
 
-                }
-                else
+                }catch(JSONException e)
                 {
-                    Toast.makeText(getContext(), "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
-                    // progressDialog.cancel();
-                }
-
-            }catch(JSONException e)
-            {
-                //Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
 //                txtemployercontactno.setVisibility(View.GONE);
 //                txtemployeraddress.setVisibility(View.GONE);
 //                txtemployerspecialization.setVisibility(View.GONE);
 //                txtemployername.setText(name2);
 //                txtemployeremail.setText(email);
-                //  progressDialog.cancel();
-            }
-        },error ->{
-            error.printStackTrace();
-            Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+                    //  progressDialog.cancel();
+                    recyclerView.setVisibility(View.GONE);
+                    ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
+                    refreshLayout.setRefreshing(false);
+                }
+            },error ->{
+                error.printStackTrace();
+                Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+                recyclerView.setVisibility(View.GONE);
+                ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
+                refreshLayout.setRefreshing(false);
 //            txtemployername.setText(name2);
 //            txtemployeremail.setText(email);
 //            txtemployercompanyoverview.setText("network error in loading of content");
-            // progressDialog.cancel();
-        })
+                // progressDialog.cancel();
+            })
+            {
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String,String> map = new HashMap<>();
+                    //String token = userPref.getString("token","token");
+                    map.put("Authorization","Bearer "+token);
+                    return map;
+                }
+            };
+
+            RequestQueue queue = Volley.newRequestQueue(getContext());
+            queue.add(request);
+        }
+        else
         {
+            recyclerView.setVisibility(View.GONE);
+            ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
+            refreshLayout.setRefreshing(false);
+        }
 
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<>();
-                //String token = userPref.getString("token","token");
-                map.put("Authorization","Bearer "+token);
-                return map;
-            }
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-        queue.add(request);
     }
 //    public void filter(){
 //        for(recommendedapplicants details : arraylist) {

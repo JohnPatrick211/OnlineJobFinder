@@ -11,10 +11,12 @@
     app:stickyFooter="@+id/footer"
     >
 
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/bruh"
     android:layout_height="match_parent"
     android:background="#F0F0FF"
     android:orientation="vertical"
@@ -80,6 +82,7 @@
             android:textSize="18sp"
             android:text=""
             android:gravity="center_horizontal"/>
+
         <TextView
             android:id="@+id/textView_GenderProfile"
             android:layout_width="match_parent"
@@ -90,6 +93,7 @@
             android:gravity="center_horizontal"/>
 
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_marginTop="10dp"
@@ -182,6 +186,20 @@
 
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:id="@+id/ln_loader"
+        android:layout_gravity="center">
+
+        <ProgressBar
+            android:id="@+id/applicantsavedjob_loader"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:visibility="visible"/>
+    </RelativeLayout>
     <RelativeLayout
         android:padding="15dp"
         android:layout_marginTop="10dp"
@@ -203,6 +221,11 @@
 
     </RelativeLayout>
 
+
+
 </LinearLayout>
 
 </com.amar.library.ui.StickyScrollView>
+
+
+

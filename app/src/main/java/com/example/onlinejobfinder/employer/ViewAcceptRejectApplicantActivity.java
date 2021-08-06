@@ -14,6 +14,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +48,9 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
 
     TextView txtmanageaccount, txtname, txtemail, txtcontactno, txtaddress, txtgender, txtspecialization, txtresume,txtintentresume, txtviewresume, txtaddeduc,txtaddwork;
     ImageView editprofile;
+    RelativeLayout ln_jobloader;
+    ProgressBar loader;
+    LinearLayout main;
     com.example.onlinejobfinder.adapter.vieweducationalbackgroundadapter educationalbackgroundadapter;
     viewworkexperienceadapter workexperienceadapter2;
     String profile_pic;
@@ -115,6 +121,12 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
         //check ID debugging//
         //Toast.makeText(getContext(), user_id, Toast.LENGTH_SHORT).show();
         //Toast.makeText(ApplicantFinalCheckProfileActivity.this, email, Toast.LENGTH_SHORT).show();
+        main = findViewById(R.id.bruh);
+        loader = findViewById(R.id.applicantsavedjob_loader);
+        ln_jobloader = findViewById(R.id.ln_loader);
+        loader.setProgress(100);
+        main.setVisibility(View.GONE);
+        ln_jobloader.setVisibility(View.GONE);
        btnhire.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
@@ -162,6 +174,8 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
                     // editor2.putString("background",user.getString("background"));
                     editor2.apply();
                     editor2.commit();
+                    main.setVisibility(View.VISIBLE);
+                    ln_jobloader.setVisibility(View.GONE);
                     if(user.get("contactno").toString().equals("null")|| user.get("address").toString().equals("null")|| user.get("Specialization").toString().equals("null")|| user.get("gender").toString().equals("null"))
                     {
                         txtcontactno.setVisibility(View.GONE);
@@ -181,6 +195,7 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
                         txtgender.setVisibility(View.VISIBLE);
                         txtresume.setVisibility(View.VISIBLE);
                         txtviewresume.setVisibility(View.VISIBLE);
+
                     }
 
                 }
@@ -227,6 +242,8 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
 
     public void onResume() {
         super.onResume();
+        main.setVisibility(View.GONE);
+        ln_jobloader.setVisibility(View.VISIBLE);
         StringRequest request = new StringRequest(Request.Method.GET, Constant.MY_POST+"?applicant_id="+applicant_id, response -> {
             try{
                 JSONObject object= new JSONObject(response);
@@ -253,6 +270,8 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
                     // editor2.putString("background",user.getString("background"));
                     editor2.apply();
                     editor2.commit();
+                    main.setVisibility(View.VISIBLE);
+                    ln_jobloader.setVisibility(View.GONE);
                     if(user.get("contactno").toString().equals("null")|| user.get("address").toString().equals("null")|| user.get("Specialization").toString().equals("null")|| user.get("gender").toString().equals("null"))
                     {
                         txtcontactno.setVisibility(View.GONE);
@@ -338,6 +357,8 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
                     educationalbackgroundadapter = new vieweducationalbackgroundadapter(arraylist,ViewAcceptRejectApplicantActivity.this);
                     recyclerView.setAdapter(educationalbackgroundadapter);
                     educationalbackgroundadapter.notifyDataSetChanged();
+                    main.setVisibility(View.VISIBLE);
+                    ln_jobloader.setVisibility(View.GONE);
                 }
                 else {
                     Toast.makeText(ViewAcceptRejectApplicantActivity.this,"error",Toast.LENGTH_SHORT).show();
@@ -395,6 +416,8 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
                     workexperienceadapter2 = new viewworkexperienceadapter(arraylist2,ViewAcceptRejectApplicantActivity.this);
                     recyclerView2.setAdapter(workexperienceadapter2);
                     workexperienceadapter2.notifyDataSetChanged();
+                    main.setVisibility(View.VISIBLE);
+                    ln_jobloader.setVisibility(View.GONE);
                 }
                 else {
                     Toast.makeText(ViewAcceptRejectApplicantActivity.this,"error",Toast.LENGTH_SHORT).show();

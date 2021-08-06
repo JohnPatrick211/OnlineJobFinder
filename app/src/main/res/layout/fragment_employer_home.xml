@@ -23,6 +23,45 @@
             android:textStyle="bold"
             android:textSize="25sp"/>
 
+        <LinearLayout
+            android:id="@+id/networkerecommendedapperrorlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="40dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="visible"
+            >
+
+            <ImageView
+                android:layout_marginTop="20dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_baseline_error_24"/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:text="Network Error Please Reload Again"
+                android:gravity="left"
+                android:visibility="visible"
+                />
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/tv_networkrecommendedapperrorrefresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:text="Refresh"
+                android:gravity="left"
+                android:visibility="visible"
+                />
+        </LinearLayout>
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -43,8 +82,7 @@
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+
     </LinearLayout>
-
-
 
 </LinearLayout>

@@ -12,6 +12,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +38,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ViewJobToSaveRecommendedApplicantActivity extends AppCompatActivity {
-
     RecyclerView recyclerView;
     SharedPreferences userPref2;
     String name2, user_id,token,email;
@@ -99,6 +100,7 @@ public class ViewJobToSaveRecommendedApplicantActivity extends AppCompatActivity
         //  spinnerlocation.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, location));
         refreshLayout.setRefreshing(true);
         setOnClickListener();
+
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

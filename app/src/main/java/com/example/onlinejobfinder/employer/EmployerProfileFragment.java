@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,8 @@ public class EmployerProfileFragment extends Fragment {
     String val_contactno = "";
     String val_specialization = "";
     SharedPreferences userPref2;
+    LinearLayout ln_networkerroreducation;
+    TextView tvs_networkeducationerrorrefresh;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -106,6 +109,19 @@ public class EmployerProfileFragment extends Fragment {
         user_id = userPref2.getString("id","id");
         token = userPref2.getString("token","token");
 
+        ln_networkerroreducation = root.findViewById(R.id.networkeducationerrorlayout);
+        tvs_networkeducationerrorrefresh = root.findViewById(R.id.tv_networkeducationerrorrefresh);
+        ln_networkerroreducation.setVisibility(View.GONE);
+        txtemployercompanyoverview.setVisibility(View.GONE);
+
+
+        tvs_networkeducationerrorrefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refreshCompany();
+            }
+        });
+
 
 
         Toast.makeText(getContext(), email, Toast.LENGTH_SHORT).show();
@@ -133,6 +149,7 @@ public class EmployerProfileFragment extends Fragment {
                     // editor2.putString("background",user.getString("background"));
                     editor2.apply();
                     editor2.commit();
+                    txtemployercompanyoverview.setVisibility(View.VISIBLE);
                     if(user.get("contactno").toString().equals("null")|| user.get("Specialization").toString().equals("null"))
                     {
                         txtemployercontactno.setVisibility(View.GONE);
@@ -148,6 +165,8 @@ public class EmployerProfileFragment extends Fragment {
                 {
                     Toast.makeText(getContext(), "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
                     // progressDialog.cancel();
+                    networkcompanyerror();
+                    txtemployercompanyoverview.setVisibility(View.GONE);
                 }
 
             }catch(JSONException e)
@@ -158,6 +177,8 @@ public class EmployerProfileFragment extends Fragment {
                 txtemployerspecialization.setVisibility(View.GONE);
                 txtemployername.setText(name2);
                 txtemployeremail.setText(email);
+                networkcompanyerror();
+                txtemployercompanyoverview.setVisibility(View.GONE);
                 //  progressDialog.cancel();
             }
         },error ->{
@@ -165,7 +186,8 @@ public class EmployerProfileFragment extends Fragment {
             Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
             txtemployername.setText(name2);
             txtemployeremail.setText(email);
-            txtemployercompanyoverview.setText("network error in loading of content");
+            networkcompanyerror();
+            txtemployercompanyoverview.setVisibility(View.GONE);
             // progressDialog.cancel();
         })
         {
@@ -211,6 +233,7 @@ public class EmployerProfileFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
+        ln_networkerroreducation.setVisibility(View.GONE);
         StringRequest request = new StringRequest(Request.Method.GET, Constant.EMPLOYER_POST+"?employer_id="+user_id, response -> {
             try{
                 JSONObject object= new JSONObject(response);
@@ -234,6 +257,7 @@ public class EmployerProfileFragment extends Fragment {
                     // editor2.putString("background",user.getString("background"));
                     editor2.apply();
                     editor2.commit();
+                    txtemployercompanyoverview.setVisibility(View.VISIBLE);
                     if(user.get("contactno").toString().equals("null")|| user.get("Specialization").toString().equals("null"))
                     {
                         txtemployercontactno.setVisibility(View.GONE);
@@ -249,6 +273,8 @@ public class EmployerProfileFragment extends Fragment {
                 {
                     Toast.makeText(getContext(), "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
                     // progressDialog.cancel();
+                    networkcompanyerror();
+                    txtemployercompanyoverview.setVisibility(View.GONE);
                 }
 
             }catch(JSONException e)
@@ -259,6 +285,8 @@ public class EmployerProfileFragment extends Fragment {
                 txtemployerspecialization.setVisibility(View.GONE);
                 txtemployername.setText(name2);
                 txtemployeremail.setText(email);
+                networkcompanyerror();
+                txtemployercompanyoverview.setVisibility(View.GONE);
                 //  progressDialog.cancel();
             }
         },error ->{
@@ -266,7 +294,8 @@ public class EmployerProfileFragment extends Fragment {
             Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
             txtemployername.setText(name2);
             txtemployeremail.setText(email);
-            txtemployercompanyoverview.setText("network error in loading of content");
+            networkcompanyerror();
+            txtemployercompanyoverview.setVisibility(View.GONE);
             // progressDialog.cancel();
         })
         {
@@ -282,5 +311,92 @@ public class EmployerProfileFragment extends Fragment {
 
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
+    }
+
+    public void refreshCompany()
+    {
+        ln_networkerroreducation.setVisibility(View.GONE);
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.EMPLOYER_POST+"?employer_id="+user_id, response -> {
+            try{
+                JSONObject object= new JSONObject(response);
+                if(object.getBoolean("success")){
+                    JSONObject user = object.getJSONObject("user");
+                    txtemployername.setText(user.get("name").toString());
+                    txtemployeremail.setText(user.get("email").toString());
+                    txtemployercontactno.setText(user.get("contactno").toString());
+                    val_contactno = txtemployercontactno.getText().toString();
+                    txtemployeraddress.setText(user.get("address").toString());
+                    txtemployerspecialization.setText(user.get("Specialization").toString());
+                    val_specialization =  txtemployerspecialization.getText().toString();
+                    txtemployercompanyoverview.setText(user.get("companyoverview").toString());
+                    Picasso.get().load(Constant.URL+"/storage/profiles/"+user.getString("profile_pic")).into(imageview_employer);
+                    Picasso.get().load(Constant.URL+"/storage/BIR/"+user.getString("BIR_file")).into(imageview_BIRemployer);
+                    SharedPreferences.Editor editor2 = userPref2.edit();
+                    editor2.putString("name",user.getString("name"));
+                    editor2.putString("address",user.getString("address"));
+                    editor2.putString("contactno",user.getString("contactno"));
+                    //editor2.putString("email",user.getString("email"));
+                    // editor2.putString("background",user.getString("background"));
+                    editor2.apply();
+                    editor2.commit();
+                    txtemployercompanyoverview.setVisibility(View.VISIBLE);
+                    if(user.get("contactno").toString().equals("null")|| user.get("Specialization").toString().equals("null"))
+                    {
+                        txtemployercontactno.setVisibility(View.GONE);
+                        txtemployerspecialization.setVisibility(View.GONE);
+                    }
+                    else {
+                        txtemployercontactno.setVisibility(View.VISIBLE);
+                        txtemployerspecialization.setVisibility(View.VISIBLE);
+                    }
+
+                }
+                else
+                {
+                    Toast.makeText(getContext(), "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                    networkcompanyerror();
+                    txtemployercompanyoverview.setVisibility(View.GONE);
+                    // progressDialog.cancel();
+                }
+
+            }catch(JSONException e)
+            {
+                //Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                txtemployercontactno.setVisibility(View.GONE);
+                txtemployeraddress.setVisibility(View.GONE);
+                txtemployerspecialization.setVisibility(View.GONE);
+                txtemployername.setText(name2);
+                txtemployeremail.setText(email);
+                networkcompanyerror();
+                txtemployercompanyoverview.setVisibility(View.GONE);
+                //  progressDialog.cancel();
+            }
+        },error ->{
+            error.printStackTrace();
+            Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+            txtemployername.setText(name2);
+            txtemployeremail.setText(email);
+            txtemployercompanyoverview.setText("network error in loading of content");
+            networkcompanyerror();
+            txtemployercompanyoverview.setVisibility(View.GONE);
+            // progressDialog.cancel();
+        })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                //String token = userPref.getString("token","token");
+                map.put("Authorization","Bearer "+token);
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+    }
+    private void networkcompanyerror()
+    {
+        ln_networkerroreducation.setVisibility(View.VISIBLE);
     }
 }
