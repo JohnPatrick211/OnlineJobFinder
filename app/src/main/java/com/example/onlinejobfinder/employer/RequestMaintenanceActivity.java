@@ -1,21 +1,35 @@
 package com.example.onlinejobfinder.employer;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.onlinejobfinder.EmailActivity;
+import com.example.onlinejobfinder.MainActivity;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.SendMail;
 import com.example.onlinejobfinder.SendRequestMail;
+import com.google.android.material.navigation.NavigationView;
 
-public class RequestMaintenanceActivity extends AppCompatActivity {
+import java.util.Objects;
+
+public class RequestMaintenanceActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle toggle;
+    private NavigationView navigationView;
     Button btn_sendrequest;
     ProgressDialog progressDialog;
     EditText edittext_subject, edittext_message,edittext_email;
@@ -33,6 +47,12 @@ public class RequestMaintenanceActivity extends AppCompatActivity {
         edittext_email = findViewById(R.id.edittext_requestmaintenance_sender);
         userPref2 = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = userPref2.edit();
+        drawerLayout = findViewById(R.id.drawerLayout2);
+        navigationView = findViewById(R.id.navigation_view2);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.start, R.string.close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         name2 = userPref2.getString("name","name");
         email = userPref2.getString("email","email");
         user_id = userPref2.getString("id","id");
@@ -41,6 +61,8 @@ public class RequestMaintenanceActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         edittext_email.setText(email);
 
+        navigationView.setNavigationItemSelectedListener(this);
+
         btn_sendrequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,5 +70,57 @@ public class RequestMaintenanceActivity extends AppCompatActivity {
                 sm.execute();
             }
         });
+    }
+
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(toggle.onOptionsItemSelected(item))
+        {
+            return true;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.navigation_home_employer:
+                Intent ia1 = new Intent(RequestMaintenanceActivity.this, EmployerActivity.class);
+                ia1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                ia1.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(ia1);
+                break;
+            case R.id.navigation_logout:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Do you want to logout?");
+                builder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        SharedPreferences.Editor editor = userPref.edit();
+                        //                       editor.clear();
+                        //                      editor.apply();
+                        Intent ia = new Intent(RequestMaintenanceActivity.this, MainActivity.class);
+                        startActivity(ia);
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                builder.show();
+                break;
+            case R.id.navigation_requestmaintenance:
+                drawerLayout.closeDrawers();
+                break;
+        }
+        return true;
+    }
+
+    public void onResume() {
+        super.onResume();
+        drawerLayout.closeDrawers();
     }
 }

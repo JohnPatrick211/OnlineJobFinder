@@ -122,6 +122,9 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId())
         {
+            case R.id.navigation_home_employer:
+                drawerLayout.closeDrawers();
+                break;
             case R.id.navigation_logout:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("Do you want to logout?");
@@ -146,8 +149,15 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
                 break;
             case R.id.navigation_requestmaintenance:
                 Intent ia = new Intent(EmployerActivity.this, RequestMaintenanceActivity.class);
+                ia.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                ia.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(ia);
+                break;
         }
         return true;
+    }
+    public void onResume() {
+        super.onResume();
+        drawerLayout.closeDrawers();
     }
 }
