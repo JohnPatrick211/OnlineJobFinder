@@ -12,11 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,6 +74,7 @@ public class EmployerJobFragment extends Fragment {
     String [] statusarray = {"Approved", "pending","Reject"};
     String name2, user_id,token,email;
     String val_contactno = "";
+    EditText edt_search;
     String val_specialization = "";
     String intentcompanyname, intentcompanyoverview, intentaddress, intentemail, intentcompanylogo,intentcompanylogo2 ;
 
@@ -139,6 +143,24 @@ public class EmployerJobFragment extends Fragment {
         email = userPref2.getString("email","email");
         user_id = userPref2.getString("id","id");
         token = userPref2.getString("token","token");
+        edt_search = view.findViewById(R.id.search);
+        edt_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                jobadapter2.getFilter().filter(charSequence.toString().toLowerCase());
+                tvsearchspecialization.setText("Specialization");
+                tvsearchlocation.setText("Region");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
 
 
 //        category.add("Category");
@@ -576,6 +598,7 @@ public class EmployerJobFragment extends Fragment {
                             return false;
                         }
                     });
+                    safefilter();
                 }
                 else {
                     Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
@@ -717,5 +740,82 @@ public class EmployerJobFragment extends Fragment {
 
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
+    }
+    private void safefilter()
+    {
+        catergoryString = tvsearchspecialization.getText().toString();
+        yearString = tvsearchlocation.getText().toString();
+        statusString = tvsearchstatus.getText().toString();
+        ArrayList<job> w = new ArrayList<>();
+        if(catergoryString.equals("Specialization") && yearString.equals("Region") && statusString.equals("Status"))
+        {
+
+            w.addAll(arraylist);
+        }
+        else
+        {
+            for(job details : arraylist)
+            {
+                if(catergoryString.equals("Specialization") && statusString.equals("Status") &&!TextUtils.isEmpty(yearString))
+                {
+                    if(details.getJoblocation().contains(yearString))
+                    {
+                        w.add(details);
+                        //Toast.makeText(getContext(),"add speonly",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else if(yearString.equals("Region") && statusString.equals("Status") &&!TextUtils.isEmpty(catergoryString))
+                {
+                    if(details.getJobcategory().contains(catergoryString))
+                    {
+                        w.add(details);
+                        // Toast.makeText(getContext(),"add regonly",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else if(yearString.equals("Region") && catergoryString.equals("Specialization")&&!TextUtils.isEmpty(statusString))
+                {
+                    if(details.getJobstatus().contains(statusString))
+                    {
+                        w.add(details);
+                        // Toast.makeText(getContext(),"add statonly",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else if(catergoryString.equals("Specialization")  && !TextUtils.isEmpty(yearString) && !TextUtils.isEmpty(statusString))
+                {
+                    if(details.getJoblocation().contains(yearString) && details.getJobstatus().contains(statusString))
+                    {
+                        w.add(details);
+                        // Toast.makeText(getContext(),"add spe",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else if(yearString.equals("Region")  && !TextUtils.isEmpty(catergoryString) && !TextUtils.isEmpty(statusString))
+                {
+                    if(details.getJobcategory().contains(catergoryString) && details.getJobstatus().contains(statusString))
+                    {
+                        w.add(details);
+                        // Toast.makeText(getContext(),"add reg",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else if(statusString.equals("Status")  && !TextUtils.isEmpty(catergoryString) && !TextUtils.isEmpty(yearString))
+                {
+                    if(details.getJobcategory().contains(catergoryString) && details.getJoblocation().contains(yearString))
+                    {
+                        w.add(details);
+                        // Toast.makeText(getContext(),"add stat",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+
+                    if(details.getJobcategory().contains(catergoryString) && details.getJobstatus().contains(statusString) && details.getJoblocation().contains(yearString))
+                    {
+                        w.add(details);
+                    }
+//
+                }
+
+            }
+        }
+        jobadapter2.setWinnerDetails(w);
     }
 }

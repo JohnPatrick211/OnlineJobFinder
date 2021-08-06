@@ -14,10 +14,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -52,6 +55,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     ProgressBar loader;
+    EditText edt_search;
     TextView tv_networkerrorrefresh;
     LinearLayout ln_networkjobsearcherror,main;
     RelativeLayout ln_jobloader;
@@ -86,7 +90,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
         toggle.syncState();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         navigationView.setNavigationItemSelectedListener(this);
-
+        edt_search = findViewById(R.id.search);
         btnfilter = findViewById(R.id.btn_filter);
         tvsearchspecialization = findViewById(R.id.tv_searchspecialization);
         tvsearchlocation  = findViewById(R.id.tv_searchlocation);
@@ -99,6 +103,23 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
         arraylist2 = new ArrayList<>();
         category = new ArrayList<String>();
         location = new ArrayList<String>();
+        edt_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                jobadapter2.getFilter().filter(charSequence.toString().toLowerCase());
+                tvsearchspecialization.setText("Specialization");
+                tvsearchlocation.setText("Region");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
 
 //        category.add("Category");
 //        category.add("Accountant");
@@ -521,6 +542,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                         ln_networkjobsearcherror.setVisibility(View.GONE);
                         networkrefresh.setVisibility(View.GONE);
                         ln_jobloader.setVisibility(View.GONE);
+                        safefilter();
                     }
                     else {
                         Toast.makeText(ApplicantSavedJobActivity.this,"error",Toast.LENGTH_SHORT).show();
@@ -638,5 +660,45 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                 break;
         }
         return true;
+    }
+    private void safefilter()
+    {
+        catergoryString = tvsearchspecialization.getText().toString();
+        yearString = tvsearchlocation.getText().toString();
+        ArrayList<job> w = new ArrayList<>();
+        if(catergoryString.equals("Specialization") && yearString.equals("Region"))
+        {
+
+            w.addAll(arraylist);
+        }
+        else
+        {
+            for(job details : arraylist)
+            {
+                if(catergoryString.equals("Specialization") && !TextUtils.isEmpty(yearString))
+                {
+                    if(details.getJoblocation().contains(yearString))
+                    {
+                        w.add(details);
+                    }
+                }
+                else if(yearString.equals("Region") && !TextUtils.isEmpty(catergoryString))
+                {
+                    if(details.getJobcategory().contains(catergoryString))
+                    {
+                        w.add(details);
+                    }
+                }
+                else
+                {
+                    if(details.getJobcategory().contains(catergoryString) && details.getJoblocation().contains(yearString))
+                    {
+                        w.add(details);
+                    }
+                }
+
+            }
+        }
+        jobadapter2.setWinnerDetails(w);
     }
 }

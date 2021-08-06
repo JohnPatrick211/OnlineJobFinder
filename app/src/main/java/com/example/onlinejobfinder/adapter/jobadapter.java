@@ -97,14 +97,22 @@ public class jobadapter extends RecyclerView.Adapter<jobadapter.Viewholder> impl
                     {
                         filterList.add(item);
                     }
-                    else if(item.getJoblocation().toLowerCase().contains(filterPattern) && item.getJobcategory().toLowerCase().contains(filterPattern))
+                    else if(item.getJobcompany().toLowerCase().contains(filterPattern))
                     {
                         filterList.add(item);
                     }
-                    else if(item.getJoblocation().toLowerCase().contains(filterPattern) || item.getJobcategory().toLowerCase().contains(filterPattern))
+                    else if(item.getJobtitle().toLowerCase().contains(filterPattern))
                     {
                         filterList.add(item);
                     }
+//                    else if(item.getJoblocation().toLowerCase().contains(filterPattern) && item.getJobcategory().toLowerCase().contains(filterPattern))
+//                    {
+//                        filterList.add(item);
+//                    }
+//                    else if(item.getJoblocation().toLowerCase().contains(filterPattern) || item.getJobcategory().toLowerCase().contains(filterPattern))
+//                    {
+//                        filterList.add(item);
+//                    }
                 }
             }
             FilterResults results = new FilterResults();

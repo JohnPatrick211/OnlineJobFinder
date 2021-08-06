@@ -24,9 +24,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <SearchView
+            <EditText
                 android:id="@+id/search"
-                android:queryHint="Seek"
+                android:hint="Search Here"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView

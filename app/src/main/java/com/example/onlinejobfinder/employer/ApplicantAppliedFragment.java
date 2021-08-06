@@ -12,11 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +52,7 @@ import java.util.Map;
 public class ApplicantAppliedFragment extends Fragment {
 
     RecyclerView recyclerView;
+    EditText edt_search;
     SharedPreferences userPref2;
     String name2, user_id,token,email;
     viewemployerjobadapter.RecyclerViewClickListener listener;
@@ -116,6 +120,7 @@ public class ApplicantAppliedFragment extends Fragment {
         tvsearchspecialization = view.findViewById(R.id.tv_searchemployerspecialization);
         tvsearchlocation  = view.findViewById(R.id.tv_searchemployerlocation);
         recyclerView = view.findViewById(R.id.recyclerview_jobs);
+        edt_search = view.findViewById(R.id.search);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         refreshLayout = view.findViewById(R.id.employerswipe);
 //        spinnercategory = view.findViewById(R.id.spinner_category);
@@ -130,6 +135,23 @@ public class ApplicantAppliedFragment extends Fragment {
         email = userPref2.getString("email","email");
         user_id = userPref2.getString("id","id");
         token = userPref2.getString("token","token");
+        edt_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                jobadapter2.getFilter().filter(charSequence.toString().toLowerCase());
+                tvsearchspecialization.setText("Specialization");
+                tvsearchlocation.setText("Region");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
 
 //        category.add("Category");
 //        category.add("Accountant");
@@ -483,6 +505,7 @@ public class ApplicantAppliedFragment extends Fragment {
                             return false;
                         }
                     });
+                    safefilter();
                 }
                 else {
                     Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
@@ -547,5 +570,45 @@ public class ApplicantAppliedFragment extends Fragment {
                 startActivity(intent);
             }
         };
+    }
+    private void safefilter()
+    {
+        catergoryString = tvsearchspecialization.getText().toString();
+        yearString = tvsearchlocation.getText().toString();
+        ArrayList<job> w = new ArrayList<>();
+        if(catergoryString.equals("Specialization") && yearString.equals("Region"))
+        {
+
+            w.addAll(arraylist);
+        }
+        else
+        {
+            for(job details : arraylist)
+            {
+                if(catergoryString.equals("Specialization") && !TextUtils.isEmpty(yearString))
+                {
+                    if(details.getJoblocation().contains(yearString))
+                    {
+                        w.add(details);
+                    }
+                }
+                else if(yearString.equals("Region") && !TextUtils.isEmpty(catergoryString))
+                {
+                    if(details.getJobcategory().contains(catergoryString))
+                    {
+                        w.add(details);
+                    }
+                }
+                else
+                {
+                    if(details.getJobcategory().contains(catergoryString) && details.getJoblocation().contains(yearString))
+                    {
+                        w.add(details);
+                    }
+                }
+
+            }
+        }
+        jobadapter2.setWinnerDetails(w);
     }
 }

@@ -12,13 +12,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -51,6 +54,7 @@ import java.util.Map;
  */
 public class SearchFragment extends Fragment {
     TextView tv_networkerrorrefresh;
+    EditText edt_search;
     LinearLayout ln_networkjobsearcherror,main;
     RecyclerView recyclerView;
     jobadapter.RecyclerViewClickListener listener;
@@ -122,6 +126,7 @@ public class SearchFragment extends Fragment {
         refreshLayout = view.findViewById(R.id.swipe);
         networkrefresh = view.findViewById(R.id.networkswipe);
         main = view.findViewById(R.id.bruh);
+        edt_search = view.findViewById(R.id.search);
 //        spinnercategory = view.findViewById(R.id.spinner_category);
  //       spinnerlocation = view.findViewById(R.id.spinner_location);
         arraylist = new ArrayList<>();
@@ -142,6 +147,23 @@ public class SearchFragment extends Fragment {
         ln_networkjobsearcherror = view.findViewById(R.id.networkjobsearcherrorlayout);
         ln_networkjobsearcherror.setVisibility(View.GONE);
         main.setVisibility(View.GONE);
+        edt_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                jobadapter2.getFilter().filter(charSequence.toString().toLowerCase());
+                tvsearchspecialization.setText("Specialization");
+                tvsearchlocation.setText("Region");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
         tv_networkerrorrefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -555,6 +577,7 @@ public class SearchFragment extends Fragment {
                         main.setVisibility(View.VISIBLE);
                         ln_networkjobsearcherror.setVisibility(View.GONE);
                         networkrefresh.setVisibility(View.GONE);
+                        safefilter();
                     }
                     else {
                         Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
@@ -642,5 +665,45 @@ public class SearchFragment extends Fragment {
                 startActivity(intent);
             }
         };
+    }
+    private void safefilter()
+    {
+        catergoryString = tvsearchspecialization.getText().toString();
+        yearString = tvsearchlocation.getText().toString();
+        ArrayList<job> w = new ArrayList<>();
+        if(catergoryString.equals("Specialization") && yearString.equals("Region"))
+        {
+
+            w.addAll(arraylist);
+        }
+        else
+        {
+            for(job details : arraylist)
+            {
+                if(catergoryString.equals("Specialization") && !TextUtils.isEmpty(yearString))
+                {
+                    if(details.getJoblocation().contains(yearString))
+                    {
+                        w.add(details);
+                    }
+                }
+                else if(yearString.equals("Region") && !TextUtils.isEmpty(catergoryString))
+                {
+                    if(details.getJobcategory().contains(catergoryString))
+                    {
+                        w.add(details);
+                    }
+                }
+                else
+                {
+                    if(details.getJobcategory().contains(catergoryString) && details.getJoblocation().contains(yearString))
+                    {
+                        w.add(details);
+                    }
+                }
+
+            }
+        }
+        jobadapter2.setWinnerDetails(w);
     }
 }
