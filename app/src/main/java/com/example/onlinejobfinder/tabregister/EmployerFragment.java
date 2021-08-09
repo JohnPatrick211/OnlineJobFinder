@@ -7,12 +7,15 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -21,10 +24,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
+import com.example.onlinejobfinder.MainActivity;
 import com.example.onlinejobfinder.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,7 +49,9 @@ import java.util.Map;
 public class EmployerFragment extends Fragment {
 
     Button btnsendemailverification,btnverifyemail;
-    EditText edt_emailemp;
+    TextInputEditText edt_emailemp;
+    TextInputLayout LayoutCheckEmail;
+    TextView signin;
     ProgressDialog progressDialog;
     FirebaseAuth mAuth;
     FirebaseUser user;
@@ -96,81 +104,113 @@ public class EmployerFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_employer, container, false);
         btnsendemailverification = view.findViewById(R.id.btn_sendemailverification);
         btnverifyemail = view.findViewById(R.id.btn_verifyemail);
+        signin = view.findViewById(R.id.txtview_signin);
         //btnverifyemail.setVisibility(View.GONE);
         edt_emailemp = view.findViewById(R.id.edittext_emailregisteremp);
+        LayoutCheckEmail = view.findViewById(R.id.txtLayoutEmailCheckEmployerSignUp);
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setCancelable(false);
         mAuth = FirebaseAuth.getInstance();
         String role_employer = "employer";
         String samplepassword = "samplepassword";
         user = mAuth.getCurrentUser();
+        signin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), MainActivity.class);
+                startActivity(i);
+            }
+        });
+        edt_emailemp.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!edt_emailemp.getText().toString().isEmpty()){
+                    LayoutCheckEmail.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         btnsendemailverification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog.setMessage("Sending Email");
-                progressDialog.show();
-                StringRequest request = new StringRequest(Request.Method.POST, Constant.checkemail, response -> {
-                    try{
-                        JSONObject object= new JSONObject(response);
-                        if(object.getString("Status").equals("201"))
-                        {
-                            progressDialog.cancel();
-                            mAuth.createUserWithEmailAndPassword(edt_emailemp.getText().toString().trim(),samplepassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful())
-                            {
-                            sendVerificationEmail();
-                            }
-                        }
-                        }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
-                            Log.e("MYAPP", "exception", e);
-                            }
-                        });
-                        }
-                        else if(object.getString("Status").equals("202"))
-                        {
-                            Toast.makeText(getContext(),"Email Already Used in the Approved Account",Toast.LENGTH_SHORT).show();
-                            progressDialog.cancel();
-                        }
-                        else
-                        {
-                            Toast.makeText(getContext(), "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
-                            progressDialog.cancel();
-                        }
-
-                    }catch(JSONException e)
-                    {
-                        Toast.makeText(getContext(),response,Toast.LENGTH_SHORT).show();
-                        progressDialog.cancel();
-                    }
-                },error ->{
-                    error.printStackTrace();
-                })
+                if(validate())
                 {
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        HashMap<String,String> map = new HashMap<>();
+                    progressDialog.setMessage("Sending Email");
+                    progressDialog.show();
+                    StringRequest request = new StringRequest(Request.Method.POST, Constant.checkemail, response -> {
+                        try{
+                            JSONObject object= new JSONObject(response);
+                            if(object.getString("Status").equals("201"))
+                            {
+                                progressDialog.cancel();
+                                mAuth.createUserWithEmailAndPassword(edt_emailemp.getText().toString().trim(),samplepassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if(task.isSuccessful())
+                                        {
+                                            sendVerificationEmail();
+                                        }
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                                        Log.e("MYAPP", "exception", e);
+                                    }
+                                });
+                            }
+                            else if(object.getString("Status").equals("202"))
+                            {
+                                Toast.makeText(getContext(),"Email Already Used in the Approved Account",Toast.LENGTH_SHORT).show();
+                                progressDialog.cancel();
+                            }
+                            else
+                            {
+                                Toast.makeText(getContext(), "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                                progressDialog.cancel();
+                            }
+
+                        }catch(JSONException e)
+                        {
+                            Toast.makeText(getContext(),response,Toast.LENGTH_SHORT).show();
+                            progressDialog.cancel();
+                        }
+                    },error ->{
+                        error.printStackTrace();
+                    })
+                    {
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            HashMap<String,String> map = new HashMap<>();
 //                        map.put("name",edt_nameemp.getText().toString().trim());
-                        map.put("email",edt_emailemp.getText().toString().trim());
+                            map.put("email",edt_emailemp.getText().toString().trim());
 //                        map.put("password",edt_passwordemp.getText().toString());
 //                        map.put("role",role_employer);
-                        return map;
-                    }
-                };
-                RequestQueue queue = Volley.newRequestQueue(getContext());
-                queue.add(request);
+                            return map;
+                        }
+                    };
+                    RequestQueue queue = Volley.newRequestQueue(getContext());
+                    queue.add(request);
+                }
             }
         });
         btnverifyemail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            // user.reload();
-                progressDialog.setMessage("Verifying");
-                progressDialog.show();
+                if(validate())
+                {
+                    // user.reload();
+                    progressDialog.setMessage("Verifying");
+                    progressDialog.show();
 
 //                if(user.isEmailVerified())
 //                {
@@ -187,16 +227,16 @@ public class EmployerFragment extends Fragment {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 try {
-                                if (user.isEmailVerified()) {
-                                    Toast.makeText(getActivity(), "Success, Move to Next Intent", Toast.LENGTH_SHORT).show();
-                                    progressDialog.cancel();
-                                    Intent i = new Intent(getContext(), EmployerRegistrationActivity.class);
-                                    i.putExtra("employeremail", edt_emailemp.getText().toString());
-                                    startActivity(i);
-                                } else {
-                                    Toast.makeText(getActivity(), "Your email is not verified", Toast.LENGTH_SHORT).show();
-                                    progressDialog.cancel();
-                                }
+                                    if (user.isEmailVerified()) {
+                                        Toast.makeText(getActivity(), "Success, Move to Next Intent", Toast.LENGTH_SHORT).show();
+                                        progressDialog.cancel();
+                                        Intent i = new Intent(getContext(), EmployerRegistrationActivity.class);
+                                        i.putExtra("employeremail", edt_emailemp.getText().toString());
+                                        startActivity(i);
+                                    } else {
+                                        Toast.makeText(getActivity(), "Your email is not verified", Toast.LENGTH_SHORT).show();
+                                        progressDialog.cancel();
+                                    }
                                 }catch (Exception e)
                                 {
                                     Toast.makeText(getActivity(), "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
@@ -222,8 +262,8 @@ public class EmployerFragment extends Fragment {
 
 
 
+                }
             }
-        });
 
 //        btnregisteremp.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -302,7 +342,7 @@ public class EmployerFragment extends Fragment {
 //
 //            }
 //        });
-
+                });
         return view;
     }
     private void sendVerificationEmail() {
@@ -329,5 +369,14 @@ public class EmployerFragment extends Fragment {
                 }
             });
         }
+    }
+    private boolean validate (){
+
+        if ( edt_emailemp.getText().toString().isEmpty()) {
+            LayoutCheckEmail.setErrorEnabled(true);
+            LayoutCheckEmail.setError("Email is Required");
+            return false;
+        }
+        return true;
     }
 }

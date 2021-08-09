@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:padding="20dp"
     >
     <LinearLayout
         android:layout_marginTop="25dp"
@@ -19,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Register For Employer"
-            android:textColor="#0d6e6a"
+            android:textColor="@color/themecolor"
             android:textSize="25dp"
             android:textStyle="bold"
             android:letterSpacing="0.03"/>
@@ -36,17 +37,36 @@
 <!--            android:layout_marginTop="20dp"-->
 <!--            android:paddingLeft="20dp"/>-->
 
-        <EditText
-            android:id="@+id/edittext_emailregisteremp"
-            android:layout_width="350dp"
-            android:layout_height="45dp"
-            android:background="@drawable/forget"
-            android:hint="Email"
-            android:textColor="#0d6e6a"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:layout_marginTop="20dp"
-            android:paddingLeft="20dp"/>
+<!--        <EditText-->
+<!--            android:id="@+id/edittext_emailregisteremp"-->
+<!--            android:layout_width="350dp"-->
+<!--            android:layout_height="45dp"-->
+<!--            android:background="@drawable/forget"-->
+<!--            android:hint="Email"-->
+<!--            android:textColor="#0d6e6a"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="18dp"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:paddingLeft="20dp"/>-->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtLayoutEmailCheckEmployerSignUp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:backgroundTint="#FFFFFF"
+                android:background="#FFFFFF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edittext_emailregisteremp"
+                android:hint="Email"
+                android:defaultFocusHighlightEnabled="false"
+                android:inputType="textEmailAddress"
+                android:textSize="15sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
 <!--        <EditText-->
 <!--            android:id="@+id/edittext_passwordregisteremp"-->
@@ -102,14 +122,43 @@
             android:textColor="#FFF"
             android:layout_marginTop="15dp"/>
 
-        <TextView
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Already have an account? Sign In"-->
+<!--            android:textColor="#0d6e6a"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="18dp"-->
+<!--            android:layout_marginTop="15dp"/>-->
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Already have an account? Sign In"
-            android:textColor="#0d6e6a"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:layout_marginTop="15dp"/>
+            android:background="@color/white"
+            >
+
+            <TextView
+                android:id="@+id/txt_donthave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Already have an account? "
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:layout_marginTop="15dp"/>
+
+            <TextView
+                android:id="@+id/txtview_signin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sign In"
+                android:layout_toRightOf="@+id/txt_donthave"
+                android:textColor="@color/design_default_color_primary"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:layout_marginTop="15dp"/>
+
+
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.example.onlinejobfinder.tabregister;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -33,6 +34,8 @@ public class RegisterActivity extends AppCompatActivity {
         employer = findViewById(R.id.tabitem_employer);
         pageradapter2 = new pageradapter(getSupportFragmentManager(),tabLayout.getTabCount());
         viewpager.setAdapter(pageradapter2);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.customactionbarregister);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
