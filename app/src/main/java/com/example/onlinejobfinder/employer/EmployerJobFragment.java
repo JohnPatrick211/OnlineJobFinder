@@ -56,6 +56,7 @@ import java.util.Map;
 public class EmployerJobFragment extends Fragment {
 
     RecyclerView recyclerView;
+    View ln_nojoblayout;
     SharedPreferences userPref2;
     employerjobadapter.RecyclerViewClickListener listener;
     FloatingActionButton addjob;
@@ -129,6 +130,7 @@ public class EmployerJobFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_employer_job, container, false);
+        ln_nojoblayout = view.findViewById(R.id.ln_nojoblayout);
         tvsearchstatus = view.findViewById(R.id.tv_searchemployerjobstatus);
         btnfilter = view.findViewById(R.id.btn_employerfilter);
         addjob = view.findViewById(R.id.floatingbutton_addjob);
@@ -498,7 +500,7 @@ public class EmployerJobFragment extends Fragment {
                 j = new JSONObject(response);
                 result = j.getJSONArray("categories");
                 getSubCategory(result);
-                main.setVisibility(View.VISIBLE);
+//                main.setVisibility(View.VISIBLE);
                 addjob.setVisibility(View.VISIBLE);
                 ln_networkjobsearcherror.setVisibility(View.GONE);
 
@@ -510,6 +512,7 @@ public class EmployerJobFragment extends Fragment {
                 main.setVisibility(View.GONE);
                 addjob.setVisibility(View.GONE);
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                ln_nojoblayout.setVisibility(View.GONE);
                 networkrefresh.setVisibility(View.VISIBLE);
             }
 
@@ -523,6 +526,7 @@ public class EmployerJobFragment extends Fragment {
             addjob.setVisibility(View.GONE);
             main.setVisibility(View.GONE);
             ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+            ln_nojoblayout.setVisibility(View.GONE);
             networkrefresh.setVisibility(View.VISIBLE);
         }){
             @Override
@@ -542,7 +546,7 @@ public class EmployerJobFragment extends Fragment {
             try{
                 JSONObject json = j.getJSONObject(ai);
                 category.add(json.getString("category"));
-                main.setVisibility(View.VISIBLE);
+//                main.setVisibility(View.VISIBLE);
                 addjob.setVisibility(View.VISIBLE);
                 ln_networkjobsearcherror.setVisibility(View.GONE);
             }catch (JSONException e)
@@ -551,6 +555,7 @@ public class EmployerJobFragment extends Fragment {
                 e.printStackTrace();
                 main.setVisibility(View.GONE);
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                ln_nojoblayout.setVisibility(View.GONE);
             }
         }
         specializationarray = category.toArray(new String[0]);
@@ -566,7 +571,7 @@ public class EmployerJobFragment extends Fragment {
                 j = new JSONObject(response);
                 result2 = j.getJSONArray("locations");
                 getSubLocation(result2);
-                main.setVisibility(View.VISIBLE);
+//                main.setVisibility(View.VISIBLE);
                 addjob.setVisibility(View.VISIBLE);
                 ln_networkjobsearcherror.setVisibility(View.GONE);
 
@@ -577,6 +582,7 @@ public class EmployerJobFragment extends Fragment {
                 Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
                 main.setVisibility(View.GONE);
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                ln_nojoblayout.setVisibility(View.GONE);
                 networkrefresh.setVisibility(View.VISIBLE);
                 addjob.setVisibility(View.GONE);
             }
@@ -599,6 +605,7 @@ public class EmployerJobFragment extends Fragment {
 
             main.setVisibility(View.GONE);
             ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+            ln_nojoblayout.setVisibility(View.GONE);
             networkrefresh.setVisibility(View.VISIBLE);
         }){
             @Override
@@ -618,7 +625,7 @@ public class EmployerJobFragment extends Fragment {
             try{
                 JSONObject json = j.getJSONObject(ai);
                 location.add(json.getString("region"));
-                main.setVisibility(View.VISIBLE);
+//                main.setVisibility(View.VISIBLE);
                 addjob.setVisibility(View.VISIBLE);
                 ln_networkjobsearcherror.setVisibility(View.GONE);
             }catch (JSONException e)
@@ -626,6 +633,7 @@ public class EmployerJobFragment extends Fragment {
                 e.printStackTrace();
                 main.setVisibility(View.GONE);
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                ln_nojoblayout.setVisibility(View.GONE);
                 addjob.setVisibility(View.GONE);
             }
         }
@@ -675,16 +683,27 @@ public class EmployerJobFragment extends Fragment {
                                 return false;
                             }
                         });
-                        main.setVisibility(View.VISIBLE);
-                        addjob.setVisibility(View.VISIBLE);
-                        ln_networkjobsearcherror.setVisibility(View.GONE);
-                        networkrefresh.setVisibility(View.GONE);
-                        safefilter();
+                        if(arraylist.isEmpty())
+                        {
+                            main.setVisibility(View.GONE);
+                            ln_nojoblayout.setVisibility(View.VISIBLE);
+                            addjob.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            ln_nojoblayout.setVisibility(View.GONE);
+                            main.setVisibility(View.VISIBLE);
+                            addjob.setVisibility(View.VISIBLE);
+                            ln_networkjobsearcherror.setVisibility(View.GONE);
+                            networkrefresh.setVisibility(View.GONE);
+                            safefilter();
+                        }
                     }
                     else {
                         Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
                         main.setVisibility(View.GONE);
                         ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                        ln_nojoblayout.setVisibility(View.GONE);
                         networkrefresh.setVisibility(View.VISIBLE);
                         addjob.setVisibility(View.GONE);
                     }
@@ -695,6 +714,7 @@ public class EmployerJobFragment extends Fragment {
                     main.setVisibility(View.GONE);
                     ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                     addjob.setVisibility(View.GONE);
+                    ln_nojoblayout.setVisibility(View.GONE);
                     networkrefresh.setVisibility(View.VISIBLE);
                 }
 
@@ -708,6 +728,7 @@ public class EmployerJobFragment extends Fragment {
                 main.setVisibility(View.GONE);
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                 networkrefresh.setVisibility(View.VISIBLE);
+                ln_nojoblayout.setVisibility(View.GONE);
                 addjob.setVisibility(View.GONE);
             }){
                 @Override
@@ -726,6 +747,7 @@ public class EmployerJobFragment extends Fragment {
             ln_networkjobsearcherror.setVisibility(View.VISIBLE);
             refreshLayout.setRefreshing(false);
             networkrefresh.setRefreshing(false);
+            ln_nojoblayout.setVisibility(View.GONE);
             networkrefresh.setVisibility(View.VISIBLE);
             addjob.setVisibility(View.GONE);
         }
@@ -818,6 +840,7 @@ public class EmployerJobFragment extends Fragment {
                         main.setVisibility(View.GONE);
                         ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                         networkrefresh.setVisibility(View.VISIBLE);
+                        ln_nojoblayout.setVisibility(View.GONE);
                         addjob.setVisibility(View.GONE);
                     }
 
@@ -829,6 +852,7 @@ public class EmployerJobFragment extends Fragment {
                     ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                     networkrefresh.setVisibility(View.VISIBLE);
                     refreshLayout.setRefreshing(false);
+                    ln_nojoblayout.setVisibility(View.GONE);
                     addjob.setVisibility(View.GONE);
                     networkrefresh.setRefreshing(false);
                 }
@@ -840,6 +864,7 @@ public class EmployerJobFragment extends Fragment {
                 refreshLayout.setRefreshing(false);
                 networkrefresh.setRefreshing(false);
                 main.setVisibility(View.GONE);
+                ln_nojoblayout.setVisibility(View.GONE);
                 addjob.setVisibility(View.GONE);
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                 networkrefresh.setVisibility(View.VISIBLE);
@@ -868,6 +893,7 @@ public class EmployerJobFragment extends Fragment {
             ln_networkjobsearcherror.setVisibility(View.VISIBLE);
             refreshLayout.setRefreshing(false);
             networkrefresh.setRefreshing(false);
+            ln_nojoblayout.setVisibility(View.GONE);
             networkrefresh.setVisibility(View.VISIBLE);
             addjob.setVisibility(View.GONE);
         }

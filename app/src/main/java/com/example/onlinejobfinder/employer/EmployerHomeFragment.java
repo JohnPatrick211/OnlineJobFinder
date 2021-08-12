@@ -53,6 +53,7 @@ public class EmployerHomeFragment extends Fragment {
 
     TextView tv_networkerrorrefresh;
     LinearLayout ln_networkrecommendedapperror;
+    View ln_norecommendedlayout;
     RecyclerView recyclerView;
     SharedPreferences userPref2;
     recommendedapplicantsadapter.RecyclerViewClickListener listener;
@@ -127,6 +128,7 @@ public class EmployerHomeFragment extends Fragment {
         refreshLayout = view.findViewById(R.id.recommendedswipe);
 //        spinnercategory = view.findViewById(R.id.spinner_category);
         //       spinnerlocation = view.findViewById(R.id.spinner_location);
+        ln_norecommendedlayout = view.findViewById(R.id.ln_norecommendedlayout);
         arraylist = new ArrayList<>();
         arraylist2 = new ArrayList<>();
         category = new ArrayList<String>();
@@ -237,7 +239,8 @@ public class EmployerHomeFragment extends Fragment {
                     e.printStackTrace();
                     Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
                     recyclerView.setVisibility(View.GONE);
-                    ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
+                    //ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
+                    ln_norecommendedlayout.setVisibility(View.VISIBLE);
                     refreshLayout.setRefreshing(false);
                 }
 
@@ -247,7 +250,8 @@ public class EmployerHomeFragment extends Fragment {
                 error.printStackTrace();
                 refreshLayout.setRefreshing(false);
                 recyclerView.setVisibility(View.GONE);
-                ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
+//                ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
+                ln_norecommendedlayout.setVisibility(View.VISIBLE);
                 refreshLayout.setRefreshing(false);
             }){
                 @Override
@@ -344,11 +348,13 @@ public class EmployerHomeFragment extends Fragment {
                         if(user.get("Specialization").toString().equals("null"))
                         {
                             recyclerView.setVisibility(View.GONE);
-                            ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
+//                            ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
+                            ln_norecommendedlayout.setVisibility(View.VISIBLE);
                             refreshLayout.setRefreshing(false);
 
                         }
                         else {
+                            ln_norecommendedlayout.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);
 
                             // txtemployerspecialization.setVisibility(View.VISIBLE);
@@ -376,6 +382,7 @@ public class EmployerHomeFragment extends Fragment {
                     //  progressDialog.cancel();
                     recyclerView.setVisibility(View.GONE);
                     ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
+                    ln_norecommendedlayout.setVisibility(View.GONE);
                     refreshLayout.setRefreshing(false);
                 }
             },error ->{
@@ -384,6 +391,7 @@ public class EmployerHomeFragment extends Fragment {
                 recyclerView.setVisibility(View.GONE);
                 ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
                 refreshLayout.setRefreshing(false);
+                ln_norecommendedlayout.setVisibility(View.GONE);
 //            txtemployername.setText(name2);
 //            txtemployeremail.setText(email);
 //            txtemployercompanyoverview.setText("network error in loading of content");
@@ -408,6 +416,7 @@ public class EmployerHomeFragment extends Fragment {
             recyclerView.setVisibility(View.GONE);
             ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
             refreshLayout.setRefreshing(false);
+            ln_norecommendedlayout.setVisibility(View.GONE);
         }
 
     }

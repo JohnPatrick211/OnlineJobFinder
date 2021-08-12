@@ -54,6 +54,7 @@ import java.util.Map;
 public class ApplicantAppliedFragment extends Fragment {
 
     RecyclerView recyclerView;
+    View ln_nojobappplicantlayout;
     EditText edt_search;
     SharedPreferences userPref2;
     String name2, user_id,token,email;
@@ -141,6 +142,7 @@ public class ApplicantAppliedFragment extends Fragment {
         user_id = userPref2.getString("id","id");
         token = userPref2.getString("token","token");
         networkrefresh = view.findViewById(R.id.networkswipe);
+        ln_nojobappplicantlayout = view.findViewById(R.id.ln_nojobapplicantlayout);
         main = view.findViewById(R.id.bruh);
         tv_networkerrorrefresh = view.findViewById(R.id.tv_networkjobsearcherrorrefresh);
         ln_networkjobsearcherror = view.findViewById(R.id.networkjobsearcherrorlayout);
@@ -397,7 +399,7 @@ public class ApplicantAppliedFragment extends Fragment {
                 j = new JSONObject(response);
                 result = j.getJSONArray("categories");
                 getSubCategory(result);
-                main.setVisibility(View.VISIBLE);
+//                main.setVisibility(View.VISIBLE);
 
                 ln_networkjobsearcherror.setVisibility(View.GONE);
 
@@ -410,6 +412,7 @@ public class ApplicantAppliedFragment extends Fragment {
 
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                 networkrefresh.setVisibility(View.VISIBLE);
+                ln_nojobappplicantlayout.setVisibility(View.GONE);
             }
 
             refreshLayout.setRefreshing(false);
@@ -423,6 +426,7 @@ public class ApplicantAppliedFragment extends Fragment {
             main.setVisibility(View.GONE);
             ln_networkjobsearcherror.setVisibility(View.VISIBLE);
             networkrefresh.setVisibility(View.VISIBLE);
+            ln_nojobappplicantlayout.setVisibility(View.GONE);
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -441,7 +445,7 @@ public class ApplicantAppliedFragment extends Fragment {
             try{
                 JSONObject json = j.getJSONObject(ai);
                 category.add(json.getString("category"));
-                main.setVisibility(View.VISIBLE);
+//                main.setVisibility(View.VISIBLE);
 
                 ln_networkjobsearcherror.setVisibility(View.GONE);
             }catch (JSONException e)
@@ -450,6 +454,7 @@ public class ApplicantAppliedFragment extends Fragment {
                 e.printStackTrace();
                 main.setVisibility(View.GONE);
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                ln_nojobappplicantlayout.setVisibility(View.GONE);
             }
         }
         specializationarray = category.toArray(new String[0]);
@@ -465,7 +470,7 @@ public class ApplicantAppliedFragment extends Fragment {
                 j = new JSONObject(response);
                 result2 = j.getJSONArray("locations");
                 getSubLocation(result2);
-                main.setVisibility(View.VISIBLE);
+//                main.setVisibility(View.VISIBLE);
 
                 ln_networkjobsearcherror.setVisibility(View.GONE);
 
@@ -477,6 +482,7 @@ public class ApplicantAppliedFragment extends Fragment {
                 main.setVisibility(View.GONE);
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                 networkrefresh.setVisibility(View.VISIBLE);
+                ln_nojobappplicantlayout.setVisibility(View.GONE);
 
             }
 
@@ -497,6 +503,7 @@ public class ApplicantAppliedFragment extends Fragment {
 
 
             main.setVisibility(View.GONE);
+            ln_nojobappplicantlayout.setVisibility(View.GONE);
             ln_networkjobsearcherror.setVisibility(View.VISIBLE);
             networkrefresh.setVisibility(View.VISIBLE);
         }){
@@ -517,13 +524,14 @@ public class ApplicantAppliedFragment extends Fragment {
             try{
                 JSONObject json = j.getJSONObject(ai);
                 location.add(json.getString("region"));
-                main.setVisibility(View.VISIBLE);
+//                main.setVisibility(View.VISIBLE);
 
                 ln_networkjobsearcherror.setVisibility(View.GONE);
             }catch (JSONException e)
             {
                 e.printStackTrace();
                 main.setVisibility(View.GONE);
+                ln_nojobappplicantlayout.setVisibility(View.GONE);
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
 
             }
@@ -537,7 +545,7 @@ public class ApplicantAppliedFragment extends Fragment {
     private void getPost() {
         if(new CheckInternet().checkInternet(getContext()))
         {
-            StringRequest request = new StringRequest(Request.Method.GET, Constant.employerjobposts+"?job_id="+user_id, response ->{
+            StringRequest request = new StringRequest(Request.Method.GET, Constant.employerjobpostapproved+"?job_id="+user_id+"&jobstatus=Approved", response ->{
                 try{
                     JSONObject object = new JSONObject(response);
                     if(object.getBoolean("success"))
@@ -574,14 +582,24 @@ public class ApplicantAppliedFragment extends Fragment {
                                 return false;
                             }
                         });
-                        main.setVisibility(View.VISIBLE);
-                        ln_networkjobsearcherror.setVisibility(View.GONE);
-                        networkrefresh.setVisibility(View.GONE);
-                        safefilter();
+                        if(arraylist.isEmpty())
+                        {
+                            main.setVisibility(View.GONE);
+                            ln_nojobappplicantlayout.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            ln_nojobappplicantlayout.setVisibility(View.GONE);
+                            main.setVisibility(View.VISIBLE);
+                            ln_networkjobsearcherror.setVisibility(View.GONE);
+                            networkrefresh.setVisibility(View.GONE);
+                            safefilter();
+                        }
+
                     }
                     else {
                         Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
                         main.setVisibility(View.GONE);
+                        ln_nojobappplicantlayout.setVisibility(View.GONE);
                         ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                         networkrefresh.setVisibility(View.VISIBLE);
                     }
@@ -590,6 +608,7 @@ public class ApplicantAppliedFragment extends Fragment {
                     e.printStackTrace();
                     Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
                     main.setVisibility(View.GONE);
+                    ln_nojobappplicantlayout.setVisibility(View.GONE);
                     ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                     networkrefresh.setVisibility(View.VISIBLE);
                 }
@@ -599,6 +618,7 @@ public class ApplicantAppliedFragment extends Fragment {
 
             },error -> {
                 error.printStackTrace();
+                ln_nojobappplicantlayout.setVisibility(View.GONE);
                 refreshLayout.setRefreshing(false);
                 networkrefresh.setRefreshing(false);
                 main.setVisibility(View.GONE);
@@ -618,6 +638,7 @@ public class ApplicantAppliedFragment extends Fragment {
         else
         {
             main.setVisibility(View.GONE);
+            ln_nojobappplicantlayout.setVisibility(View.GONE);
             ln_networkjobsearcherror.setVisibility(View.VISIBLE);
             refreshLayout.setRefreshing(false);
             networkrefresh.setRefreshing(false);

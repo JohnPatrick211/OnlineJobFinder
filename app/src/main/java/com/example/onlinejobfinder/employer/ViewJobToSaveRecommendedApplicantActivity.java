@@ -40,6 +40,7 @@ import java.util.Map;
 public class ViewJobToSaveRecommendedApplicantActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     SharedPreferences userPref2;
+    View ln_nojobappplicantlayout;
     String name2, user_id,token,email;
     viewemployerjobadapter.RecyclerViewClickListener listener;
     int position =0;
@@ -74,6 +75,7 @@ public class ViewJobToSaveRecommendedApplicantActivity extends AppCompatActivity
         arraylist2 = new ArrayList<>();
         category = new ArrayList<String>();
         location = new ArrayList<String>();
+        ln_nojobappplicantlayout = findViewById(R.id.ln_nojobapplicantlayout);
         approved = "Approved";
         userPref2 = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         name2 = userPref2.getString("name","name");
@@ -155,6 +157,16 @@ public class ViewJobToSaveRecommendedApplicantActivity extends AppCompatActivity
                             return false;
                         }
                     });
+                    if(arraylist.isEmpty())
+                    {
+                        recyclerView.setVisibility(View.GONE);
+                        ln_nojobappplicantlayout.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        recyclerView.setVisibility(View.VISIBLE);
+                        ln_nojobappplicantlayout.setVisibility(View.GONE);
+                    }
                 }
                 else {
                     Toast.makeText(ViewJobToSaveRecommendedApplicantActivity.this,"error",Toast.LENGTH_SHORT).show();

@@ -119,6 +119,14 @@
         app:elevation="6dp"
         android:src="@drawable/ic_baseline_add_24"/>
 
+    <include
+        android:layout_marginTop="80dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ln_nojoblayout"
+        layout="@layout/nojoblayout"
+        android:visibility="gone"/>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
