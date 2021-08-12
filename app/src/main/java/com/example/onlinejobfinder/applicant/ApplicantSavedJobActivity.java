@@ -37,6 +37,7 @@ import com.example.onlinejobfinder.ApplicantActivity;
 import com.example.onlinejobfinder.CheckInternet;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.EmailActivity;
+import com.example.onlinejobfinder.MainActivity;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.adapter.jobadapter;
 import com.example.onlinejobfinder.model.job;
@@ -653,12 +654,34 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
                 break;
-            case R.id.navigation_logout:
-                Intent intent1 = new Intent(ApplicantSavedJobActivity.this, EmailActivity.class);
+            case R.id.navigation_testemail:
+                Intent intent1 = new Intent(ApplicantSavedJobActivity.this,EmailActivity.class);
                 startActivity(intent1);
                 break;
             case R.id.navigation_savedjob:
                 drawerLayout.closeDrawers();
+                break;
+            case R.id.navigation_logout:
+                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+                builder.setMessage("Do you want to logout?");
+                builder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        SharedPreferences.Editor editor = userPref.edit();
+                        //                       editor.clear();
+                        //                      editor.apply();
+                        Intent ia = new Intent(ApplicantSavedJobActivity.this, MainActivity.class);
+                        startActivity(ia);
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                builder.show();
                 break;
         }
         return true;
