@@ -16,6 +16,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -108,6 +110,86 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
         //employer_specialization.setAdapter(new ArrayAdapter<String>(EditEmployerProfileActivity.this, android.R.layout.simple_spinner_dropdown_item, Specialization));
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
+        employer_companyname.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                employer_companyname.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                employer_companyname.setError(null);
+            }
+        });
+        employer_address.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                employer_address.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                employer_address.setError(null);
+            }
+        });
+        employer_contactnum.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                employer_contactnum.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                employer_contactnum.setError(null);
+            }
+        });
+        employer_companyoverview.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                employer_companyoverview.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                employer_companyoverview.setError(null);
+            }
+        });
+        employer_specialization.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                employer_specialization.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                employer_specialization.setError(null);
+            }
+        });
         try {
             String checknull = getIntent().getExtras().getString("profile_pic");
             if (checknull.equals("null")) {
@@ -184,7 +266,7 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
                         {
                             selectedspecialization[j] = false;
                             //Specialization.clear();
-                            employer_specialization.setText("");
+                            employer_specialization.setText("Specialization");
                         }
                     }
                 });
@@ -217,90 +299,92 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
         btn_saveemployer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog.setMessage("Saving");
-                progressDialog.show();
-                StringRequest request = new StringRequest(Request.Method.POST, Constant.updateemployer, response -> {
+                if(validate())
+                {
+                    progressDialog.setMessage("Saving");
+                    progressDialog.show();
+                    StringRequest request = new StringRequest(Request.Method.POST, Constant.updateemployer, response -> {
 //                StringRequest request = new StringRequest(Request.Method.POST, Constant.SAVE_USER_PROFILE, response -> {
-                    try{
-                        JSONObject object= new JSONObject(response);
+                        try{
+                            JSONObject object= new JSONObject(response);
 
-                        if(object.getBoolean("success")){
-                            JSONObject user = object.getJSONObject("update");
-                            SharedPreferences userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = userPref.edit();
-                            editor.putString("id",user.getString("employer_id"));
-                            SharedPreferences.Editor editor2 = userPref2.edit();
-                            editor2.putString("name",user.getString("name"));
-                            editor2.putString("address",user.getString("address"));
-                            editor2.putString("contactno",user.getString("contactno"));
-                            editor2.putString("Specialization",user.getString("Specialization"));
-                            //editor.putString("file_path",user.getString("file_path"));
-                            //                           Intent i = new Intent(UploadProfileRegister.this, MainActivity.class);
-                            //                           startActivity(i);
-                            progressDialog.cancel();
+                            if(object.getBoolean("success")){
+                                JSONObject user = object.getJSONObject("update");
+                                SharedPreferences userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = userPref.edit();
+                                editor.putString("id",user.getString("employer_id"));
+                                SharedPreferences.Editor editor2 = userPref2.edit();
+                                editor2.putString("name",user.getString("name"));
+                                editor2.putString("address",user.getString("address"));
+                                editor2.putString("contactno",user.getString("contactno"));
+                                editor2.putString("Specialization",user.getString("Specialization"));
+                                //editor.putString("file_path",user.getString("file_path"));
+                                //                           Intent i = new Intent(UploadProfileRegister.this, MainActivity.class);
+                                //                           startActivity(i);
+                                progressDialog.cancel();
 
-                            editor.apply();
-                            editor.commit();
-                            Toast.makeText(EditEmployerProfileActivity.this,"Saved Successfully",Toast.LENGTH_SHORT).show();
-                            // if(role.equals("employer"))
-                            // {
-                            //   Intent ia = new Intent(EditProfileActivity.this, GuestActivity.class);
-                            // startActivity(ia);
-                            //   finish();
-                            // }
-                            // else
-                            // {
-                            //      Intent i = new Intent(UploadProfileRegister.this, MainActivity.class);
-                            //      startActivity(i);
-                            //      finish();
-                            //  }
+                                editor.apply();
+                                editor.commit();
+                                Toast.makeText(EditEmployerProfileActivity.this,"Saved Successfully",Toast.LENGTH_SHORT).show();
+                                // if(role.equals("employer"))
+                                // {
+                                //   Intent ia = new Intent(EditProfileActivity.this, GuestActivity.class);
+                                // startActivity(ia);
+                                //   finish();
+                                // }
+                                // else
+                                // {
+                                //      Intent i = new Intent(UploadProfileRegister.this, MainActivity.class);
+                                //      startActivity(i);
+                                //      finish();
+                                //  }
 
 //                            Intent i = new Intent(RegisterActivity.this,UploadProfileRegister.class);
 //                            startActivity(i);
-                            onBackPressed();
+                                onBackPressed();
 
 
-                        }
-                        else
+                            }
+                            else
+                            {
+                                Toast.makeText(EditEmployerProfileActivity.this, "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(EditEmployerProfileActivity.this, response, Toast.LENGTH_SHORT).show();
+                                progressDialog.cancel();
+                            }
+
+                        }catch(JSONException e)
                         {
-                            Toast.makeText(EditEmployerProfileActivity.this, "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
-                            //Toast.makeText(EditEmployerProfileActivity.this, response, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditEmployerProfileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(EditEmployerProfileActivity.this, response, Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
                         }
-
-                    }catch(JSONException e)
-                    {
-                        Toast.makeText(EditEmployerProfileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
-                       // Toast.makeText(EditEmployerProfileActivity.this, response, Toast.LENGTH_SHORT).show();
+                    },error ->{
+                        error.printStackTrace();
+                        Toast.makeText(EditEmployerProfileActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
                         progressDialog.cancel();
-                    }
-                },error ->{
-                    error.printStackTrace();
-                    Toast.makeText(EditEmployerProfileActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
-                    progressDialog.cancel();
-                })
-                {
-                    //  public Map<String, String> getHeaders() throws AuthFailureError {
-                    //     HashMap<String,String> map = new HashMap<>();
-                    //    String token = userPref.getString("token","");
-                    //    map.put("Authorization","Bearer"+token);
-                    //     return map;
-                    //}
+                    })
+                    {
+                        //  public Map<String, String> getHeaders() throws AuthFailureError {
+                        //     HashMap<String,String> map = new HashMap<>();
+                        //    String token = userPref.getString("token","");
+                        //    map.put("Authorization","Bearer"+token);
+                        //     return map;
+                        //}
 
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        HashMap<String,String> map = new HashMap<>();
-                        //map.put("id",user_id);
-                        map.put("employer_id",user_id);
-                        map.put("name",employer_companyname.getText().toString().trim());
-                        map.put("email",employer_email.getText().toString().trim());
-                        map.put("contactno",employer_contactnum.getText().toString().trim());
-                        map.put("address",employer_address.getText().toString().trim());
-                        map.put("companyoverview",employer_companyoverview.getText().toString().trim());
-                        map.put("Specialization",employer_specialization.getText().toString().trim());
-                        map.put("profile_pic",bitmapToString(bitmap));
-                        return map;
-                    }
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            HashMap<String,String> map = new HashMap<>();
+                            //map.put("id",user_id);
+                            map.put("employer_id",user_id);
+                            map.put("name",employer_companyname.getText().toString().trim());
+                            map.put("email",employer_email.getText().toString().trim());
+                            map.put("contactno",employer_contactnum.getText().toString().trim());
+                            map.put("address",employer_address.getText().toString().trim());
+                            map.put("companyoverview",employer_companyoverview.getText().toString().trim());
+                            map.put("Specialization",employer_specialization.getText().toString().trim());
+                            map.put("profile_pic",bitmapToString(bitmap));
+                            return map;
+                        }
 //                    public byte [] getBody()
 //                    {
 //                        Map <String,String> map = new HashMap<>();
@@ -308,10 +392,11 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
 //                        map.put("file_path",bitmapToString(bitmap));
 //                        return map[user_id,bitmapToString(bitmap)];
 //                    }
-                };
+                    };
 
-                RequestQueue queue = Volley.newRequestQueue(EditEmployerProfileActivity.this);
-                queue.add(request);
+                    RequestQueue queue = Volley.newRequestQueue(EditEmployerProfileActivity.this);
+                    queue.add(request);
+                }
             }
         });
     }
@@ -412,5 +497,34 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+    private boolean validate(){
+        if (employer_companyname.getText().toString().isEmpty()){
+            employer_companyname.setError("Company Name is required");
+            employer_companyname.requestFocus();
+            return false;
+        }
+        if (employer_address.getText().toString().isEmpty()) {
+            employer_address.setError("Address is required");
+            employer_address.requestFocus();
+            return false;
+        }
+        if (employer_contactnum.getText().toString().equals("Contact Number")){
+            employer_contactnum.setError("Contact Number is required");
+            employer_contactnum.requestFocus();
+            return false;
+        }
+        if (employer_companyoverview.getText().toString().isEmpty()){
+            employer_companyoverview.setError("Company Overview is required");
+            employer_companyoverview.requestFocus();
+            return false;
+        }
+        if (employer_specialization.getText().toString().equals("Specialization")) {
+            employer_specialization.setError("Specialization is required");
+            employer_specialization.requestFocus();
+            return false;
+        }
+
+        return true;
     }
 }

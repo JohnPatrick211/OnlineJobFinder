@@ -70,7 +70,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18dp"
-        android:hint="Contact Number"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:text="Contact Number"
         />
 
     <EditText
@@ -109,7 +111,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18dp"
-        android:hint="Specialization"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:text="Specialization"
         />
 
     <Button

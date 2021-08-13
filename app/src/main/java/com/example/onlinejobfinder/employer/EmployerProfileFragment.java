@@ -118,6 +118,7 @@ public class EmployerProfileFragment extends Fragment {
         txtemployercompanyoverview.setVisibility(View.GONE);
 
 
+
         tvs_networkeducationerrorrefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -228,8 +229,8 @@ public class EmployerProfileFragment extends Fragment {
                 i.putExtra("companyoverview",txtemployercompanyoverview.getText().toString());
                 if(val_contactno.equals("null")||val_specialization.equals("null"))
                 {
-                    i.putExtra("contactno","");
-                    i.putExtra("specialization","");
+                    i.putExtra("contactno","Contact Number");
+                    i.putExtra("specialization","Specialization");
                 }
                 if(imageview_employer.getDrawable() != null)
                 {

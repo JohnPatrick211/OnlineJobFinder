@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -86,7 +88,118 @@ public class EmployerAddJobActivity extends AppCompatActivity {
         token = userPref2.getString("token","token");
         category = new ArrayList<String>();
         location = new ArrayList<String>();
-        Toast.makeText(EmployerAddJobActivity.this,joblogo2,Toast.LENGTH_SHORT).show();
+        jobtitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                jobtitle.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                jobtitle.setError(null);
+            }
+        });
+        jobsalary.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                jobsalary.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                jobsalary.setError(null);
+            }
+        });
+        jobaddress.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                jobaddress.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                jobaddress.setError(null);
+            }
+        });
+        jobdescription.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                jobdescription.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                jobdescription.setError(null);
+            }
+        });
+        jobcompanyoverview.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                jobcompanyoverview.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                jobcompanyoverview.setError(null);
+            }
+        });
+        jobspecialization.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                jobspecialization.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                jobspecialization.setError(null);
+            }
+        });
+        jobregion.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                jobregion.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                jobregion.setError(null);
+            }
+        });
 
         jobspecialization.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,15 +317,17 @@ public class EmployerAddJobActivity extends AppCompatActivity {
         btnsendjobapprove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog.setMessage("Sending");
-                progressDialog.show();
-                StringRequest request = new StringRequest(Request.Method.POST, Constant.addjob, response -> {
-                    try{
-                        JSONObject object= new JSONObject(response);
-                        if(object.getBoolean("success")){
-                            //JSONObject user = object.getJSONObject("user");
-                            onBackPressed();
-                            Toast.makeText(EmployerAddJobActivity.this,"Job Approval Successfully Send",Toast.LENGTH_SHORT).show();
+                if(validate())
+                {
+                    progressDialog.setMessage("Sending");
+                    progressDialog.show();
+                    StringRequest request = new StringRequest(Request.Method.POST, Constant.addjob, response -> {
+                        try{
+                            JSONObject object= new JSONObject(response);
+                            if(object.getBoolean("success")){
+                                //JSONObject user = object.getJSONObject("user");
+                                onBackPressed();
+                                Toast.makeText(EmployerAddJobActivity.this,"Job Approval Successfully Send",Toast.LENGTH_SHORT).show();
 //                            SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user",getContext().MODE_PRIVATE);
 //                            SharedPreferences.Editor editor = userPref.edit();
 //                            editor.putString("token",object.getString("token"));
@@ -221,49 +336,50 @@ public class EmployerAddJobActivity extends AppCompatActivity {
 //                            editor.putString("role",user.getString("role"));
 //                            editor.apply();
 //                            Toast.makeText(getContext(),"Register Successfully",Toast.LENGTH_SHORT).show();
-                            progressDialog.cancel();
-                        }
-                        else if(object.getString("Status").equals("202"))
-                        {
-                            Toast.makeText(EmployerAddJobActivity.this,"Job Vacant Already Exists",Toast.LENGTH_SHORT).show();
-                            progressDialog.cancel();
-                        }
-                        else
-                        {
-                            Toast.makeText(EmployerAddJobActivity.this, "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
-                            progressDialog.cancel();
-                        }
+                                progressDialog.cancel();
+                            }
+                            else if(object.getString("Status").equals("202"))
+                            {
+                                Toast.makeText(EmployerAddJobActivity.this,"Job Vacant Already Exists",Toast.LENGTH_SHORT).show();
+                                progressDialog.cancel();
+                            }
+                            else
+                            {
+                                Toast.makeText(EmployerAddJobActivity.this, "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                                progressDialog.cancel();
+                            }
 
-                    }catch(JSONException e)
-                    {
-                        Toast.makeText(EmployerAddJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                        }catch(JSONException e)
+                        {
+                            Toast.makeText(EmployerAddJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                            progressDialog.cancel();
+                        }
+                    },error ->{
+                        error.printStackTrace();
                         progressDialog.cancel();
-                    }
-                },error ->{
-                    error.printStackTrace();
-                    progressDialog.cancel();
-                })
-                {
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        HashMap<String,String> map = new HashMap<>();
-                        map.put("job_id",user_id);
-                        map.put("companyname",jobcompanyname.getText().toString().trim());
-                        map.put("jobtitle",jobtitle.getText().toString().trim());
-                        map.put("email",jobemail.getText().toString().trim());
-                        map.put("category",jobspecialization.getText().toString());
-                        map.put("companyoverview",jobcompanyoverview.getText().toString().trim());
-                        map.put("jobdescription",jobdescription.getText().toString().trim());
-                        map.put("location",jobregion.getText().toString());
-                        map.put("salary",jobsalary.getText().toString().trim());
-                        map.put("address",jobaddress.getText().toString().trim());
-                        map.put("logo",joblogo2.trim());
-                        map.put("jobstatus",pending);
-                        return map;
-                    }
-                };
-                RequestQueue queue = Volley.newRequestQueue(EmployerAddJobActivity.this);
-                queue.add(request);
+                    })
+                    {
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            HashMap<String,String> map = new HashMap<>();
+                            map.put("job_id",user_id);
+                            map.put("companyname",jobcompanyname.getText().toString().trim());
+                            map.put("jobtitle",jobtitle.getText().toString().trim());
+                            map.put("email",jobemail.getText().toString().trim());
+                            map.put("category",jobspecialization.getText().toString());
+                            map.put("companyoverview",jobcompanyoverview.getText().toString().trim());
+                            map.put("jobdescription",jobdescription.getText().toString().trim());
+                            map.put("location",jobregion.getText().toString());
+                            map.put("salary",jobsalary.getText().toString().trim());
+                            map.put("address",jobaddress.getText().toString().trim());
+                            map.put("logo",joblogo2.trim());
+                            map.put("jobstatus",pending);
+                            return map;
+                        }
+                    };
+                    RequestQueue queue = Volley.newRequestQueue(EmployerAddJobActivity.this);
+                    queue.add(request);
+                }
             }
         });
 
@@ -380,5 +496,45 @@ public class EmployerAddJobActivity extends AppCompatActivity {
 //        arraylist.clear();
         category.clear();
         location.clear();
+    }
+
+    private boolean validate(){
+        if (jobtitle.getText().toString().isEmpty()){
+            jobtitle.setError("Job Title is required");
+            jobtitle.requestFocus();
+            return false;
+        }
+        if (jobregion.getText().toString().equals("Region")) {
+            jobregion.setError("Region is required");
+            jobregion.requestFocus();
+            return false;
+        }
+        if (jobaddress.getText().toString().isEmpty()){
+            jobaddress.setError("Address is required");
+            jobaddress.requestFocus();
+            return false;
+        }
+        if (jobsalary.getText().toString().isEmpty()){
+            jobsalary.setError("Salary is required");
+            jobsalary.requestFocus();
+            return false;
+        }
+        if (jobdescription.getText().toString().isEmpty()){
+            jobdescription.setError("Job Description is required");
+            jobdescription.requestFocus();
+            return false;
+        }
+        if (jobcompanyoverview.getText().toString().isEmpty()){
+            jobcompanyoverview.setError("Company Overview is required");
+            jobcompanyoverview.requestFocus();
+            return false;
+        }
+        if (jobspecialization.getText().toString().equals("Specialization")) {
+            jobspecialization.setError("Specialization is required");
+            jobspecialization.requestFocus();
+            return false;
+        }
+
+        return true;
     }
 }

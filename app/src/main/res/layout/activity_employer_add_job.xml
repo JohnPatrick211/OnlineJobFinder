@@ -56,8 +56,10 @@
         android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:textSize="18dp"
-        android:hint="Region"
+        android:text="Region"
         />
 
     <EditText
@@ -135,10 +137,12 @@
         android:id="@+id/tv_addjobemployerspecialization"
         android:background="#FFFFFF"
         android:padding="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18dp"
-        android:hint="Specialization"
+        android:text="Specialization"
         />
 
     <Button
