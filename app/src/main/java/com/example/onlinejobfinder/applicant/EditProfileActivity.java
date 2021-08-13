@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -32,6 +33,7 @@ import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.EditContactNumberActivity;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.employer.EditEmployerProfileActivity;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -115,6 +117,28 @@ public class EditProfileActivity extends AppCompatActivity {
 //        txtid.setText(user_id);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
+        try {
+            String checknull = getIntent().getExtras().getString("profile_pic");
+            if (checknull.equals("null")) {
+                circleImageView.setImageResource(R.drawable.img);
+                bitmap = ((BitmapDrawable)  circleImageView.getDrawable()).getBitmap();
+            } else {
+                Picasso.get().load(getIntent().getStringExtra("profile_pic")).into( circleImageView);
+                bitmap = ((BitmapDrawable)  circleImageView.getDrawable()).getBitmap();
+//                if(bitmap == null)
+//                {
+//                    Toast.makeText(EditEmployerProfileActivity.this,"failed",Toast.LENGTH_SHORT).show();
+//                }
+//                else
+//                {
+//                    Toast.makeText(EditEmployerProfileActivity.this,bitmap.toString(),Toast.LENGTH_SHORT).show();
+//                }
+
+            }
+        } catch (Exception e) {
+            circleImageView.setImageResource(R.drawable.img);
+            bitmap = ((BitmapDrawable)  circleImageView.getDrawable()).getBitmap();
+        }
         //userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         //check ID debugging//
 //        Toast.makeText(EditProfileActivity.this,user_id,Toast.LENGTH_SHORT).show();

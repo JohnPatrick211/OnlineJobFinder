@@ -76,6 +76,7 @@ public class ProfileFragment extends Fragment {
     String val_gender = "";
     String val_specialization = "";
     String val_resume = "";
+    String imgUrl = "";
     ArrayList<educationalbackground> arraylist;
     ArrayList<workexperience> arraylist2;
     RecyclerView recyclerView, recyclerView2;
@@ -230,6 +231,7 @@ public class ProfileFragment extends Fragment {
                     txtresume.setText(user.get("resume").toString());
                     val_resume = txtresume.getText().toString();
                     Picasso.get().load(Constant.URL+"/storage/profiles/"+user.getString("profile_pic")).into(imageview_user);
+                    imgUrl = Constant.URL+"/storage/profiles/"+user.getString("profile_pic");
                     SharedPreferences.Editor editor2 = userPref2.edit();
                     editor2.putString("name",user.getString("name"));
                     editor2.putString("address",user.getString("address"));
@@ -244,6 +246,12 @@ public class ProfileFragment extends Fragment {
                         txtaddress.setVisibility(View.GONE);
                         txtspecialization.setVisibility(View.GONE);
                         txtgender.setVisibility(View.GONE);
+                    }
+                    if(imageview_user.getDrawable() == null)
+                    {
+
+                        imageview_user.setBackgroundResource(R.drawable.img);
+
                     }
                     if(user.get("resume").toString().equals("null"))
                     {
@@ -275,6 +283,7 @@ public class ProfileFragment extends Fragment {
                 txtgender.setVisibility(View.GONE);
                 txtresume.setVisibility(View.GONE);
                 txtviewresume.setVisibility(View.GONE);
+                imageview_user.setBackgroundResource(R.drawable.img);
                 txtname.setText(name2);
                 txtemail.setText(email);
                 //  progressDialog.cancel();
@@ -282,6 +291,7 @@ public class ProfileFragment extends Fragment {
         },error ->{
             error.printStackTrace();
             Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+            imageview_user.setBackgroundResource(R.drawable.img);
             txtname.setText(name2);
             txtemail.setText(email);
             // progressDialog.cancel();
@@ -313,7 +323,13 @@ public class ProfileFragment extends Fragment {
                    i.putExtra("specialization","");
                    i.putExtra("gender","");
                }
-               else
+               if(imageview_user.getDrawable() != null)
+               {
+
+                   i.putExtra("profile_pic", imgUrl);
+
+               }
+               if(!val_contactno.equals("null")||!val_address.equals("null")||!val_specialization.equals("null") ||!val_gender.equals("null") )
                {
                    i.putExtra("contactno",txtcontactno.getText().toString());
                    i.putExtra("address",txtaddress.getText().toString());

@@ -11,6 +11,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -35,6 +37,7 @@ import com.example.onlinejobfinder.EditEmployerContactNumberActivity;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.applicant.AddWorkExperience;
 import com.example.onlinejobfinder.applicant.EditProfileActivity;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -105,6 +108,28 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
         //employer_specialization.setAdapter(new ArrayAdapter<String>(EditEmployerProfileActivity.this, android.R.layout.simple_spinner_dropdown_item, Specialization));
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
+        try {
+            String checknull = getIntent().getExtras().getString("profile_pic");
+            if (checknull.equals("null")) {
+                employer_profilepic.setImageResource(R.drawable.img);
+                bitmap = ((BitmapDrawable) employer_profilepic.getDrawable()).getBitmap();
+            } else {
+                Picasso.get().load(getIntent().getStringExtra("profile_pic")).into( employer_profilepic);
+                bitmap = ((BitmapDrawable) employer_profilepic.getDrawable()).getBitmap();
+//                if(bitmap == null)
+//                {
+//                    Toast.makeText(EditEmployerProfileActivity.this,"failed",Toast.LENGTH_SHORT).show();
+//                }
+//                else
+//                {
+//                    Toast.makeText(EditEmployerProfileActivity.this,bitmap.toString(),Toast.LENGTH_SHORT).show();
+//                }
+
+            }
+        } catch (Exception e) {
+            employer_profilepic.setImageResource(R.drawable.img);
+            bitmap = ((BitmapDrawable) employer_profilepic.getDrawable()).getBitmap();
+        }
         getCategory();
 
         employer_specialization.setOnClickListener(new View.OnClickListener() {

@@ -3,6 +3,9 @@ package com.example.onlinejobfinder.employer;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -22,7 +25,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
-import com.example.onlinejobfinder.applicant.EditProfileActivity;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -46,6 +48,7 @@ public class EmployerProfileFragment extends Fragment {
     SharedPreferences userPref2;
     LinearLayout ln_networkerroreducation;
     TextView tvs_networkeducationerrorrefresh;
+    String imgUrl = "";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -139,6 +142,7 @@ public class EmployerProfileFragment extends Fragment {
                     txtemployerspecialization.setText(user.get("Specialization").toString());
                     val_specialization =  txtemployerspecialization.getText().toString();
                     txtemployercompanyoverview.setText(user.get("companyoverview").toString());
+                    imgUrl = Constant.URL+"/storage/profiles/"+user.getString("profile_pic");
                     Picasso.get().load(Constant.URL+"/storage/profiles/"+user.getString("profile_pic")).into(imageview_employer);
                     Picasso.get().load(Constant.URL+"/storage/BIR/"+user.getString("BIR_file")).into(imageview_BIRemployer);
                     SharedPreferences.Editor editor2 = userPref2.edit();
@@ -154,6 +158,12 @@ public class EmployerProfileFragment extends Fragment {
                     {
                         txtemployercontactno.setVisibility(View.GONE);
                         txtemployerspecialization.setVisibility(View.GONE);
+                    }
+                    if(imageview_employer.getDrawable() == null)
+                    {
+
+                        imageview_employer.setBackgroundResource(R.drawable.img);
+
                     }
                     else {
                         txtemployercontactno.setVisibility(View.VISIBLE);
@@ -177,6 +187,7 @@ public class EmployerProfileFragment extends Fragment {
                 txtemployerspecialization.setVisibility(View.GONE);
                 txtemployername.setText(name2);
                 txtemployeremail.setText(email);
+                imageview_employer.setBackgroundResource(R.drawable.img);
                 networkcompanyerror();
                 txtemployercompanyoverview.setVisibility(View.GONE);
                 //  progressDialog.cancel();
@@ -187,6 +198,7 @@ public class EmployerProfileFragment extends Fragment {
             txtemployername.setText(name2);
             txtemployeremail.setText(email);
             networkcompanyerror();
+            imageview_employer.setBackgroundResource(R.drawable.img);
             txtemployercompanyoverview.setVisibility(View.GONE);
             // progressDialog.cancel();
         })
@@ -219,7 +231,13 @@ public class EmployerProfileFragment extends Fragment {
                     i.putExtra("contactno","");
                     i.putExtra("specialization","");
                 }
-                else
+                if(imageview_employer.getDrawable() != null)
+                {
+
+                    i.putExtra("profile_pic", imgUrl);
+
+                }
+                if(!val_contactno.equals("null")||!val_specialization.equals("null"))
                 {
                     i.putExtra("contactno",txtemployercontactno.getText().toString());
                     i.putExtra("specialization",txtemployerspecialization.getText().toString());
@@ -285,6 +303,7 @@ public class EmployerProfileFragment extends Fragment {
                 txtemployerspecialization.setVisibility(View.GONE);
                 txtemployername.setText(name2);
                 txtemployeremail.setText(email);
+                imageview_employer.setBackgroundResource(R.drawable.img);
                 networkcompanyerror();
                 txtemployercompanyoverview.setVisibility(View.GONE);
                 //  progressDialog.cancel();
@@ -295,6 +314,7 @@ public class EmployerProfileFragment extends Fragment {
             txtemployername.setText(name2);
             txtemployeremail.setText(email);
             networkcompanyerror();
+            imageview_employer.setBackgroundResource(R.drawable.img);
             txtemployercompanyoverview.setVisibility(View.GONE);
             // progressDialog.cancel();
         })
@@ -366,6 +386,7 @@ public class EmployerProfileFragment extends Fragment {
                 txtemployeraddress.setVisibility(View.GONE);
                 txtemployerspecialization.setVisibility(View.GONE);
                 txtemployername.setText(name2);
+                imageview_employer.setBackgroundResource(R.drawable.img);
                 txtemployeremail.setText(email);
                 networkcompanyerror();
                 txtemployercompanyoverview.setVisibility(View.GONE);
@@ -376,6 +397,7 @@ public class EmployerProfileFragment extends Fragment {
             Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
             txtemployername.setText(name2);
             txtemployeremail.setText(email);
+            imageview_employer.setBackgroundResource(R.drawable.img);
             txtemployercompanyoverview.setText("network error in loading of content");
             networkcompanyerror();
             txtemployercompanyoverview.setVisibility(View.GONE);
