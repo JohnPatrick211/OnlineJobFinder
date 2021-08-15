@@ -33,6 +33,7 @@ import com.example.onlinejobfinder.CheckInternet;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.adapter.employerjobadapter;
+import com.example.onlinejobfinder.adapter.employerjobcountadapter;
 import com.example.onlinejobfinder.adapter.jobadapter;
 import com.example.onlinejobfinder.adapter.viewemployerjobadapter;
 import com.example.onlinejobfinder.applicant.ApplicantJobDescriptionActivity;
@@ -58,7 +59,7 @@ public class ApplicantAppliedFragment extends Fragment {
     EditText edt_search;
     SharedPreferences userPref2;
     String name2, user_id,token,email;
-    viewemployerjobadapter.RecyclerViewClickListener listener;
+    employerjobcountadapter.RecyclerViewClickListener listener;
     int position =0;
     int position2 =0;
     boolean[] selectedspecialization, selectedlocation;
@@ -72,7 +73,7 @@ public class ApplicantAppliedFragment extends Fragment {
     TextView tv_networkerrorrefresh;
     LinearLayout main;
     LinearLayout ln_networkjobsearcherror;
-    viewemployerjobadapter jobadapter2;
+    employerjobcountadapter jobadapter2;
     // Spinner spinnercategory, spinnerlocation;
     String catergoryString,yearString, approved;
     String [] specializationarray, locationarray;
@@ -545,7 +546,7 @@ public class ApplicantAppliedFragment extends Fragment {
     private void getPost() {
         if(new CheckInternet().checkInternet(getContext()))
         {
-            StringRequest request = new StringRequest(Request.Method.GET, Constant.employerjobpostapproved+"?job_id="+user_id+"&jobstatus=Approved", response ->{
+            StringRequest request = new StringRequest(Request.Method.GET, Constant.employerjobpostcount+"?job_id="+user_id, response ->{
                 try{
                     JSONObject object = new JSONObject(response);
                     if(object.getBoolean("success"))
@@ -569,12 +570,12 @@ public class ApplicantAppliedFragment extends Fragment {
                             job2.setJobid(postObject.getString("job_id"));
                             job2.setJobdescription(postObject.getString("jobdescription"));
                             job2.setJobuniqueid(postObject.getString("id"));
-                            job2.setJobstatus(postObject.getString("jobstatus"));
+                            job2.setCountapplicants(postObject.getString("countapplicants"));
 
                             arraylist.add(job2);
                             arraylist2.add(job2);
                         }
-                        jobadapter2 = new viewemployerjobadapter(arraylist,getContext(),listener);
+                        jobadapter2 = new employerjobcountadapter(arraylist,getContext(),listener);
                         recyclerView.setAdapter(jobadapter2);
                         recyclerView.setOnTouchListener(new View.OnTouchListener() {
                             @Override
@@ -663,7 +664,7 @@ public class ApplicantAppliedFragment extends Fragment {
     }
 
     private void setOnClickListener() {
-        listener = new viewemployerjobadapter.RecyclerViewClickListener() {
+        listener = new  employerjobcountadapter.RecyclerViewClickListener() {
             @Override
             public void onClick(View v, int position) {
                 Intent intent = new Intent(getActivity(), ViewApplyApplicantActivity.class);

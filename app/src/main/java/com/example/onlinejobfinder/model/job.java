@@ -121,7 +121,15 @@ public class job {
         this.savedid = savedid;
     }
 
-    public job(String savedid, String jobstatus, String jobuniqueid, String jobdescription, String jobid, String joblocation, String jobcategory, String joblogo, String jobtitle, String jobcompany, String jobaddress, String jobsalary, String companyoverview, String jobdateposted) {
+    public String getCountapplicants() {
+        return countapplicants;
+    }
+
+    public void setCountapplicants(String countapplicants) {
+        this.countapplicants = countapplicants;
+    }
+
+    public job(String savedid, String jobstatus, String jobuniqueid, String jobdescription, String jobid, String joblocation, String jobcategory, String joblogo, String jobtitle, String jobcompany, String jobaddress, String jobsalary, String companyoverview, String jobdateposted, String countapplicants) {
         this.savedid = savedid;
         this.jobstatus = jobstatus;
         this.jobuniqueid = jobuniqueid;
@@ -136,6 +144,7 @@ public class job {
         this.jobsalary = jobsalary;
         this.companyoverview = companyoverview;
         this.jobdateposted = jobdateposted;
+        this.countapplicants = countapplicants;
     }
 
     private String savedid;
@@ -152,4 +161,5 @@ public class job {
     private String jobsalary;
     private String companyoverview;
     private String jobdateposted;
+    private String countapplicants;
 }
