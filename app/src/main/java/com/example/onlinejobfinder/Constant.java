@@ -22,6 +22,7 @@ public class Constant {
     //apply job posts
     public static final String applyjob=home+"/applyjob";
     public static final String employerapplyjobpost=home+"/employerapplyjobpost";
+    public static final String validateemployerapplyjobpost=home+"/validateemployerapplyjobpost";
     //Education Background
     public static final String geteducation=home+"/posteducationalbackground";
     public static final String deleteeducation=home+"/deleteeducationalbackground";

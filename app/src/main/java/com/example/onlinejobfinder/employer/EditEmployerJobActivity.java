@@ -23,7 +23,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
+import com.example.onlinejobfinder.applicant.ApplicantJobDescriptionActivity;
 import com.example.onlinejobfinder.applicant.UpdateWorkExperienceActivity;
+import com.example.onlinejobfinder.model.appliedapplicants;
+import com.example.onlinejobfinder.model.job;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -51,6 +54,7 @@ public class EditEmployerJobActivity extends AppCompatActivity {
     boolean[] selectedspecialization, selectedlocation;
     ArrayList<String> category,location;
     String [] specializationarray, locationarray;
+    boolean remjob = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +88,7 @@ public class EditEmployerJobActivity extends AppCompatActivity {
         location = new ArrayList<String>();
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
+        getPost();
 
         btndelete = findViewById(R.id.btndeleteeditjobsaveimage);
 
@@ -202,54 +207,62 @@ public class EditEmployerJobActivity extends AppCompatActivity {
         btndelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog.setMessage("Deleting");
-                progressDialog.show();
-                StringRequest request = new StringRequest(Request.Method.POST, Constant.unsavedjob, response -> {
-                    try{
-                        JSONObject object= new JSONObject(response);
-                        if(object.getBoolean("success")){
-                            //JSONObject user = object.getJSONObject("update");
-                            //SharedPreferences userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-                            // SharedPreferences.Editor editor = userPref.edit();
-                            //editor.putString("id",user.getString("educational_id"));
-                            progressDialog.cancel();
-
-                            //editor.apply();
-                            //  editor.commit();
-                            Toast.makeText(EditEmployerJobActivity.this,"Delete Successfully",Toast.LENGTH_SHORT).show();
-                            onBackPressed();
-
-
-                        }
-                        else
-                        {
-                            Toast.makeText(EditEmployerJobActivity.this, "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
-                            progressDialog.cancel();
-                        }
-
-                    }catch(JSONException e)
-                    {
-                        Toast.makeText(EditEmployerJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
-                        progressDialog.cancel();
-                    }
-                },error ->{
-                    error.printStackTrace();
-                    Toast.makeText(EditEmployerJobActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
-                    progressDialog.cancel();
-                })
+                if(remjob)
                 {
+                    Toast.makeText(EditEmployerJobActivity.this,"Cannot Delete, there are pending applicants on this job",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    progressDialog.setMessage("Deleting");
+                    progressDialog.show();
+                    StringRequest request = new StringRequest(Request.Method.POST, Constant.unsavedjob, response -> {
+                        try{
+                            JSONObject object= new JSONObject(response);
+                            if(object.getBoolean("success")){
+                                //JSONObject user = object.getJSONObject("update");
+                                //SharedPreferences userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+                                // SharedPreferences.Editor editor = userPref.edit();
+                                //editor.putString("id",user.getString("educational_id"));
+                                progressDialog.cancel();
 
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        HashMap<String,String> map = new HashMap<>();
-                        //map.put("id",user_id);
-                        map.put("id",intentid);
-                        return map;
-                    }
-                };
+                                //editor.apply();
+                                //  editor.commit();
+                                Toast.makeText(EditEmployerJobActivity.this,"Delete Successfully",Toast.LENGTH_SHORT).show();
+                                onBackPressed();
 
-                RequestQueue queue = Volley.newRequestQueue(EditEmployerJobActivity.this);
-                queue.add(request);
+
+                            }
+                            else
+                            {
+                                Toast.makeText(EditEmployerJobActivity.this, "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                                progressDialog.cancel();
+                            }
+
+                        }catch(JSONException e)
+                        {
+                            Toast.makeText(EditEmployerJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                            progressDialog.cancel();
+                        }
+                    },error ->{
+                        error.printStackTrace();
+                        Toast.makeText(EditEmployerJobActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                        progressDialog.cancel();
+                    })
+                    {
+
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            HashMap<String,String> map = new HashMap<>();
+                            //map.put("id",user_id);
+                            map.put("id",intentid);
+                            return map;
+                        }
+                    };
+
+                    RequestQueue queue = Volley.newRequestQueue(EditEmployerJobActivity.this);
+                    queue.add(request);
+                }
+
             }
         });
         edit_jobregion.setOnClickListener(new View.OnClickListener() {
@@ -543,11 +556,63 @@ public class EditEmployerJobActivity extends AppCompatActivity {
         super.onResume();
         getCategory();
         getLocation();
-//        getPost();
+        getPost();
 //        arraylist.clear();
         category.clear();
         location.clear();
     }
+
+    private void getPost() {
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.validateemployerapplyjobpost + "?applyjob_id=" + intentid, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    JSONArray array = new JSONArray(object.getString("jobpost"));
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject postObject = array.getJSONObject(i);
+                        //JSONObject getpostObject = postObject.getJSONObject("jobposts");
+
+//                        appliedapplicants appliedapplicants2 = new appliedapplicants();
+//                        appliedapplicants2.setId(postObject.getString("id"));
+//                        appliedapplicants2.setApplicantid(postObject.getString("applicant_id"));//
+//                        appliedapplicants2.setJobapplyid(postObject.getString("applyjob_id"));
+//                        appliedapplicants2.setJobid(postObject.getString("job_id"));
+//                        appliedapplicants2.setProfilepic(postObject.getString("profile_pic"));
+//                        appliedapplicants2.setName(postObject.getString("name"));
+//                        appliedapplicants2.setEmail(postObject.getString("email"));
+//                        appliedapplicants2.setAddress(postObject.getString("address"));
+//                        appliedapplicants2.setContactno(postObject.getString("contactno"));
+//                        appliedapplicants2.setStatus(postObject.getString("status"));
+//                        appliedapplicants2.setGender(postObject.getString("gender"));
+                        if (intentid.equals(postObject.getString("applyjob_id"))) {
+                            remjob = true;
+                        }
+                    }
+
+                } else {
+                    Toast.makeText(EditEmployerJobActivity.this, "error", Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(EditEmployerJobActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+
+        }, error -> {
+            error.printStackTrace();
+
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<>();
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(EditEmployerJobActivity.this);
+        queue.add(request);
+    }
+
     private boolean validate(){
         if (edit_jobtitle.getText().toString().isEmpty()){
             edit_jobtitle.setError("Job Title is required");
