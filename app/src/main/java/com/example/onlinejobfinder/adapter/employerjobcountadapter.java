@@ -95,19 +95,15 @@ public class employerjobcountadapter extends RecyclerView.Adapter<employerjobcou
                     {
                         filterList.add(item);
                     }
-                    else if(item.getJobstatus().toLowerCase().contains(filterPattern))
-                    {
-                        filterList.add(item);
-                    }
                     else if(item.getJobtitle().toLowerCase().contains(filterPattern))
                     {
                         filterList.add(item);
                     }
-                    else if(item.getJoblocation().toLowerCase().contains(filterPattern) && item.getJobcategory().toLowerCase().contains(filterPattern) && item.getJobstatus().toLowerCase().contains(filterPattern))
+                    else if(item.getJoblocation().toLowerCase().contains(filterPattern) && item.getJobcategory().toLowerCase().contains(filterPattern))
                     {
                         filterList.add(item);
                     }
-                    else if(item.getJoblocation().toLowerCase().contains(filterPattern) || item.getJobcategory().toLowerCase().contains(filterPattern) || item.getJobstatus().toLowerCase().contains(filterPattern))
+                    else if(item.getJoblocation().toLowerCase().contains(filterPattern) || item.getJobcategory().toLowerCase().contains(filterPattern))
                     {
                         filterList.add(item);
                     }
