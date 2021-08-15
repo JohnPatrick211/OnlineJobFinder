@@ -132,6 +132,7 @@ public class ApplicantFragment extends Fragment {
             public void onClick(View view) {
                 Intent i = new Intent(getContext(), MainActivity.class);
                 startActivity(i);
+                getActivity().finish();
             }
         });
 

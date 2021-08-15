@@ -44,7 +44,7 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
     TextInputLayout layoutAddress, layoutPassword,layoutConfirm,layoutCompanyName;
     TextInputEditText txtemployercompanyname, txtemployerpassword, txtemployerconfirmpassword, txtemployeraddress;
     EditText txtemployercompanyoverview;
-    TextView txtemployeremail,txtselectBIR;
+    TextView txtemployeremail,txtselectBIR,txtview_BIR;
     ImageView imagemployerBIR;
     Button btnsendapproval;
     Bitmap bitmap = null;
@@ -54,6 +54,7 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employer_registration);
+        txtview_BIR = findViewById(R.id.txtview_BIR);
         layoutAddress = findViewById(R.id.txtLayoutEmployerAddressSignUp);
         layoutPassword = findViewById(R.id.txtLayoutEmployerPasswordSignUp);
         layoutConfirm = findViewById(R.id.txtLayoutEmployerConfirmPasswordSignUp);
@@ -150,6 +151,25 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if ( txtemployerconfirmpassword.getText().toString().equals( txtemployerpassword.getText().toString())){
                     layoutConfirm.setErrorEnabled(false);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        txtemployercompanyoverview.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!txtemployercompanyoverview.getText().toString().isEmpty()){
+                    txtemployercompanyoverview.setError(null);
                 }
 
             }
@@ -317,6 +337,17 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
         if (!txtemployerconfirmpassword.getText().toString().equals(txtemployerpassword.getText().toString())){
             layoutConfirm.setErrorEnabled(true);
             layoutConfirm.setError("Password does not match");
+            return false;
+        }
+        if (txtemployercompanyoverview.getText().toString().isEmpty()){
+            txtemployercompanyoverview.setError("Company Overview is required");
+            txtemployercompanyoverview.requestFocus();
+            return false;
+        }
+        if(imagemployerBIR.getDrawable() == null)
+        {
+            txtview_BIR.setError("BIR Certificate is Required");
+            Toast.makeText(EmployerRegistrationActivity.this,"BIR Certificate is Required",Toast.LENGTH_SHORT).show();
             return false;
         }
 

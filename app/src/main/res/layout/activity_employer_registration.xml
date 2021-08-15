@@ -167,12 +167,15 @@
         android:hint="Company Overview"/>
 
     <TextView
+        android:id="@+id/txtview_BIR"
         android:layout_marginTop="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:layout_gravity="center"
         android:text="BIR Certificate"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:textSize="18dp"/>
 
     <ImageView
@@ -180,7 +183,7 @@
         android:layout_marginTop="15dp"
         android:layout_width="350dp"
         android:layout_height="200dp"
-        android:src="@color/design_default_color_primary_dark" />
+        />
 
     <TextView
         android:layout_marginTop="15dp"

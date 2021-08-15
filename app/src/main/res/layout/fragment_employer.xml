@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:padding="20dp"
-    >
+    android:padding="20dp">
     <LinearLayout
         android:layout_marginTop="25dp"
         android:layout_width="match_parent"
@@ -50,6 +49,7 @@
 <!--            android:paddingLeft="20dp"/>-->
 
         <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/txtLayoutEmailCheckEmployerSignUp"
@@ -101,26 +101,19 @@
 <!--            android:textStyle="bold"-->
 <!--            android:textColor="#FFF"-->
 <!--            android:layout_marginTop="25dp"/>-->
-        <Button
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_sendemailverification"
-            android:layout_width="300dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/dialogloginbutton"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/button"
-            android:text="Send Email"
-            android:textSize="18dp"
-            android:textStyle="bold"
+            android:text="Send Email Code"
             android:textColor="#FFF"
-            android:layout_marginTop="25dp"/>
-        <Button
-            android:id="@+id/btn_verifyemail"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:background="@drawable/button"
-            android:text="Verify Email"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:textColor="#FFF"
-            android:layout_marginTop="15dp"/>
+            android:textSize="15sp"
+            app:backgroundTint="@null"
+            />
 
 <!--        <TextView-->
 <!--            android:layout_width="wrap_content"-->
@@ -144,7 +137,7 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="18dp"
-                android:layout_marginTop="15dp"/>
+                />
 
             <TextView
                 android:id="@+id/txtview_signin"
@@ -155,7 +148,7 @@
                 android:textColor="@color/design_default_color_primary"
                 android:textStyle="bold"
                 android:textSize="18dp"
-                android:layout_marginTop="15dp"/>
+                />
 
 
         </RelativeLayout>

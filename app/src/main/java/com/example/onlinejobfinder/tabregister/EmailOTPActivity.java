@@ -34,12 +34,12 @@ import java.util.Map;
 import java.util.Random;
 
 public class EmailOTPActivity extends AppCompatActivity {
-
     EditText code1, code2, code3, code4, code5, code6;
     Button btnEmailVerify;
     TextView displayemail,tv_resend;
     ProgressDialog progressDialog;
     int i = 30;
+    int e = 2;
     CountDownTimer CDT;
     int randomnumber;
     String intentOTPcode;
@@ -143,6 +143,7 @@ public class EmailOTPActivity extends AppCompatActivity {
                                         editor.putString("name",user.getString("name"));
                                         editor.putString("role",user.getString("role"));
                                         editor.apply();
+                                        finish();
 //                            Toast.makeText(getContext(),"Register Successfully",Toast.LENGTH_SHORT).show();
                                         progressDialog.cancel();
                                     }
@@ -186,7 +187,25 @@ public class EmailOTPActivity extends AppCompatActivity {
                         }
                         else
                         {
-                            Toast.makeText(EmailOTPActivity.this,"Employer verification",Toast.LENGTH_SHORT).show();
+                            CDT = new CountDownTimer(2000, 1000) {
+                                @Override
+                                public void onTick(long l) {
+                                    progressDialog.setMessage("Verifying");
+                                    progressDialog.show();
+                                    e--;
+                                }
+
+                                @Override
+                                public void onFinish() {
+                                    e=3;
+                                    progressDialog.cancel();
+                                    Intent i = new Intent(EmailOTPActivity.this, EmployerRegistrationActivity.class);
+                                    i.putExtra("employeremail", intentemail);
+                                    startActivity(i);
+                                    finish();
+                                }
+                            }.start();
+
                         }
                     }
                     else

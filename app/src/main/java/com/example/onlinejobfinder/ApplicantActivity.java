@@ -166,7 +166,7 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
                         //                      editor.apply();
                         Intent ia = new Intent(ApplicantActivity.this, MainActivity.class);
                         startActivity(ia);
-                        finish();
+
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
