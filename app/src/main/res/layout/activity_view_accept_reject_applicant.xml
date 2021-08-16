@@ -15,12 +15,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F0F0FF"
-    android:id="@+id/bruh"
     android:orientation="vertical"
     android:gravity="center_horizontal"
     tools:context=".employer.ViewAcceptRejectApplicantActivity">
 
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="1300px"
+        android:layout_gravity="center"
+        android:id="@+id/ln_delayloadinglayout"
+        layout="@layout/delayloadinglayout"
+        />
+
     <LinearLayout
+        android:id="@+id/bruh"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -91,6 +99,7 @@
 </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/bruh2"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -117,6 +126,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/bruh3"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -144,6 +154,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/bruh4"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="250px"
@@ -181,19 +192,6 @@
 
 
     </LinearLayout>
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:id="@+id/ln_loader"
-        android:layout_gravity="center">
-
-        <ProgressBar
-            android:id="@+id/applicantsavedjob_loader"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:visibility="visible"/>
-    </RelativeLayout>
     <RelativeLayout
         android:padding="15dp"
         android:layout_marginTop="10dp"

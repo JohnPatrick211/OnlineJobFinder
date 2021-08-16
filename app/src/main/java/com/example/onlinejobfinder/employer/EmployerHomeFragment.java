@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -55,6 +56,9 @@ public class EmployerHomeFragment extends Fragment {
     LinearLayout ln_networkrecommendedapperror;
     View ln_norecommendedlayout;
     RecyclerView recyclerView;
+    View ln_delay;
+    LinearLayout main;
+    CountDownTimer CDT;
     SharedPreferences userPref2;
     recommendedapplicantsadapter.RecyclerViewClickListener listener;
     int position =0;
@@ -142,6 +146,10 @@ public class EmployerHomeFragment extends Fragment {
         ln_networkrecommendedapperror = view.findViewById(R.id.networkerecommendedapperrorlayout);
         ln_networkrecommendedapperror.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
+        ln_delay = view.findViewById(R.id.ln_delayloadinglayout);
+        main = view.findViewById(R.id.bruh);
+        main.setVisibility(View.GONE);
+        delay();
         tv_networkerrorrefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -285,6 +293,7 @@ public class EmployerHomeFragment extends Fragment {
     }
     public void onResume() {
         super.onResume();
+        delay();
         getEmployer();
        // val_specialization = userPref2.getString("Specialization","Specialization");
 
@@ -429,6 +438,24 @@ public class EmployerHomeFragment extends Fragment {
             refreshLayout.setRefreshing(false);
             ln_norecommendedlayout.setVisibility(View.GONE);
         }
+
+    }
+    public void delay()
+    {
+        main.setVisibility(View.GONE);
+        CDT = new CountDownTimer(2000, 1000) {
+            @Override
+            public void onTick(long l) {
+                ln_delay.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFinish() {
+                ln_delay.setVisibility(View.GONE);
+                main.setVisibility(View.VISIBLE);
+
+            }
+        }.start();
 
     }
 //    public void filter(){

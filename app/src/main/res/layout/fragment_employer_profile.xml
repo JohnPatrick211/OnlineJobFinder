@@ -13,7 +13,16 @@
     android:gravity="center_horizontal"
     tools:context=".employer.EmployerProfileFragment">
 
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="1300px"
+        android:layout_gravity="center"
+        android:id="@+id/ln_delayloadinglayout"
+        layout="@layout/delayloadinglayout"
+        />
+
     <LinearLayout
+        android:id="@+id/bruh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -87,6 +96,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/bruh2"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -169,6 +179,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/bruh3"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="750px"

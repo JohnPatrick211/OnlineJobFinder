@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -20,6 +21,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +55,9 @@ public class GuestSearchFragment extends Fragment {
 
     RecyclerView recyclerView;
     EditText edt_search;
+    LinearLayout main;
+    CountDownTimer CDT;
+    View ln_delay;
     jobadapter.RecyclerViewClickListener listener;
     int position =0;
     int position2 =0;
@@ -127,7 +132,11 @@ public class GuestSearchFragment extends Fragment {
         location = new ArrayList<String>();
         approved = "Approved";
         refreshLayout.setRefreshing(true);
+        ln_delay = view.findViewById(R.id.ln_delayloadinglayout);
+        main = view.findViewById(R.id.bruh);
+        main.setVisibility(View.GONE);
         setOnClickListener();
+        delay();
 
         //getCategory();
         // getLocation();
@@ -476,6 +485,7 @@ public class GuestSearchFragment extends Fragment {
                 return true;
             }
         });
+        delay();
         getCategory();
         getLocation();
 //        getPost();
@@ -546,6 +556,24 @@ public class GuestSearchFragment extends Fragment {
             }
         }
         jobadapter2.setWinnerDetails(w);
+    }
+    public void delay()
+    {
+        main.setVisibility(View.GONE);
+        CDT = new CountDownTimer(2000, 1000) {
+            @Override
+            public void onTick(long l) {
+                ln_delay.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFinish() {
+                ln_delay.setVisibility(View.GONE);
+                main.setVisibility(View.VISIBLE);
+
+            }
+        }.start();
+
     }
 
     }

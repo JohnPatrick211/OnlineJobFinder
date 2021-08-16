@@ -10,11 +10,13 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +51,9 @@ public class EmployerProfileFragment extends Fragment {
     LinearLayout ln_networkerroreducation;
     TextView tvs_networkeducationerrorrefresh;
     String imgUrl = "";
+    LinearLayout main, main2, main3, main4;
+    View ln_delay;
+    CountDownTimer CDT;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -112,11 +117,21 @@ public class EmployerProfileFragment extends Fragment {
         user_id = userPref2.getString("id","id");
         token = userPref2.getString("token","token");
 
+        ln_delay = root.findViewById(R.id.ln_delayloadinglayout);
+
         ln_networkerroreducation = root.findViewById(R.id.networkeducationerrorlayout);
         tvs_networkeducationerrorrefresh = root.findViewById(R.id.tv_networkeducationerrorrefresh);
         ln_networkerroreducation.setVisibility(View.GONE);
         txtemployercompanyoverview.setVisibility(View.GONE);
 
+        main = root.findViewById(R.id.bruh);
+        main2 = root.findViewById(R.id.bruh2);
+        main3 = root.findViewById(R.id.bruh3);
+        main.setVisibility(View.GONE);
+        main2.setVisibility(View.GONE);
+        main3.setVisibility(View.GONE);
+
+        delay();
 
 
         tvs_networkeducationerrorrefresh.setOnClickListener(new View.OnClickListener() {
@@ -252,6 +267,7 @@ public class EmployerProfileFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
+        delay();
         ln_networkerroreducation.setVisibility(View.GONE);
         StringRequest request = new StringRequest(Request.Method.GET, Constant.EMPLOYER_POST+"?employer_id="+user_id, response -> {
             try{
@@ -421,5 +437,27 @@ public class EmployerProfileFragment extends Fragment {
     private void networkcompanyerror()
     {
         ln_networkerroreducation.setVisibility(View.VISIBLE);
+    }
+    public void delay()
+    {
+        main.setVisibility(View.GONE);
+        main2.setVisibility(View.GONE);
+        main3.setVisibility(View.GONE);
+        CDT = new CountDownTimer(2000, 1000) {
+            @Override
+            public void onTick(long l) {
+                ln_delay.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFinish() {
+                ln_delay.setVisibility(View.GONE);
+                main.setVisibility(View.VISIBLE);
+                main2.setVisibility(View.VISIBLE);
+                main3.setVisibility(View.VISIBLE);
+
+            }
+        }.start();
+
     }
 }

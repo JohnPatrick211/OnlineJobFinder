@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -79,7 +80,9 @@ public class EmployerJobFragment extends Fragment {
     String val_contactno = "";
     SwipeRefreshLayout refreshLayout,networkrefresh;
     TextView tv_networkerrorrefresh;
+    View ln_delay;
     LinearLayout main;
+    CountDownTimer CDT;
     LinearLayout ln_networkjobsearcherror;
     EditText edt_search;
     String val_specialization = "";
@@ -153,12 +156,15 @@ public class EmployerJobFragment extends Fragment {
         token = userPref2.getString("token","token");
         edt_search = view.findViewById(R.id.search);
         networkrefresh = view.findViewById(R.id.networkswipe);
-        main = view.findViewById(R.id.bruh);
         tv_networkerrorrefresh = view.findViewById(R.id.tv_networkjobsearcherrorrefresh);
         ln_networkjobsearcherror = view.findViewById(R.id.networkjobsearcherrorlayout);
         ln_networkjobsearcherror.setVisibility(View.GONE);
+        ln_delay = view.findViewById(R.id.ln_delayloadinglayout);
+        main = view.findViewById(R.id.bruh);
         main.setVisibility(View.GONE);
         addjob.setVisibility(View.GONE);
+
+        delay();
         tv_networkerrorrefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -756,6 +762,7 @@ public class EmployerJobFragment extends Fragment {
     }
     public void onResume() {
         super.onResume();
+        delay();
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -975,5 +982,35 @@ public class EmployerJobFragment extends Fragment {
             }
         }
         jobadapter2.setWinnerDetails(w);
+    }
+    public void delay()
+    {
+        main.setVisibility(View.GONE);
+        addjob.setVisibility(View.GONE);
+        CDT = new CountDownTimer(2000, 1000) {
+            @Override
+            public void onTick(long l) {
+                ln_delay.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFinish() {
+                if(new CheckInternet().checkInternet(getContext())) {
+                    ln_delay.setVisibility(View.GONE);
+                    main.setVisibility(View.VISIBLE);
+                    addjob.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    ln_delay.setVisibility(View.GONE);
+                    main.setVisibility(View.GONE);
+                    addjob.setVisibility(View.GONE);
+                    ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                    networkrefresh.setVisibility(View.VISIBLE);
+                }
+
+            }
+        }.start();
+
     }
 }

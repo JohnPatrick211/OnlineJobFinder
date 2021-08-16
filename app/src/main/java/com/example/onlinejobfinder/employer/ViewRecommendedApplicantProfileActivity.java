@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -45,9 +46,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ViewRecommendedApplicantProfileActivity extends AppCompatActivity {
-    RelativeLayout ln_jobloader;
-    ProgressBar loader;
-    LinearLayout main;
+    LinearLayout main, main2, main3, main4;
+    RelativeLayout footer;
+    View ln_delay;
+    CountDownTimer CDT;
     TextView txtmanageaccount, txtname, txtemail, txtcontactno, txtaddress, txtgender, txtspecialization, txtresume,txtintentresume, txtviewresume, txtaddeduc,txtaddwork;
     ImageView editprofile;
     com.example.onlinejobfinder.adapter.vieweducationalbackgroundadapter educationalbackgroundadapter;
@@ -88,6 +90,7 @@ public class ViewRecommendedApplicantProfileActivity extends AppCompatActivity {
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         txtintentresume = findViewById(R.id.textView_IntentResume);
+        ln_delay = findViewById(R.id.ln_delayloadinglayout);
         txtviewresume = findViewById(R.id.textView_ViewResume);
         editprofile = findViewById(R.id.image_manageaccountprofile);
         txtname = findViewById(R.id.textView_NameProfile);
@@ -125,12 +128,18 @@ public class ViewRecommendedApplicantProfileActivity extends AppCompatActivity {
         permaid = user_id;
         applicant_id = getIntent().getExtras().getString("intentapplicant_id");
         main = findViewById(R.id.bruh);
-        loader = findViewById(R.id.applicantsavedjob_loader);
-        ln_jobloader = findViewById(R.id.ln_loader);
-        loader.setProgress(100);
+        main2 = findViewById(R.id.bruh2);
+        main3 = findViewById(R.id.bruh3);
+        main4 = findViewById(R.id.bruh4);
+        footer = findViewById(R.id.footer);
         main.setVisibility(View.GONE);
-        ln_jobloader.setVisibility(View.GONE);
+        main2.setVisibility(View.GONE);
+        main3.setVisibility(View.GONE);
+        main4.setVisibility(View.GONE);
+        footer.setVisibility(View.GONE);
 
+
+        delay();
         btnsaveapplicant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -176,8 +185,6 @@ public class ViewRecommendedApplicantProfileActivity extends AppCompatActivity {
                     // editor2.putString("background",user.getString("background"));
                     editor2.apply();
                     editor2.commit();
-                    main.setVisibility(View.VISIBLE);
-                    ln_jobloader.setVisibility(View.GONE);
                     if(user.get("contactno").toString().equals("null")|| user.get("address").toString().equals("null")|| user.get("Specialization").toString().equals("null")|| user.get("gender").toString().equals("null"))
                     {
                         txtcontactno.setVisibility(View.GONE);
@@ -243,8 +250,12 @@ public class ViewRecommendedApplicantProfileActivity extends AppCompatActivity {
     }
     public void onResume() {
         super.onResume();
+        delay();
         main.setVisibility(View.GONE);
-        ln_jobloader.setVisibility(View.VISIBLE);
+        main2.setVisibility(View.GONE);
+        main3.setVisibility(View.GONE);
+        main4.setVisibility(View.GONE);
+        footer.setVisibility(View.GONE);
         StringRequest request = new StringRequest(Request.Method.GET, Constant.MY_POST+"?applicant_id="+applicant_id, response -> {
             try{
                 JSONObject object= new JSONObject(response);
@@ -271,8 +282,6 @@ public class ViewRecommendedApplicantProfileActivity extends AppCompatActivity {
                     // editor2.putString("background",user.getString("background"));
                     editor2.apply();
                     editor2.commit();
-                    main.setVisibility(View.VISIBLE);
-                    ln_jobloader.setVisibility(View.GONE);
                     if(user.get("contactno").toString().equals("null")|| user.get("address").toString().equals("null")|| user.get("Specialization").toString().equals("null")|| user.get("gender").toString().equals("null"))
                     {
                         txtcontactno.setVisibility(View.GONE);
@@ -358,8 +367,6 @@ public class ViewRecommendedApplicantProfileActivity extends AppCompatActivity {
                     educationalbackgroundadapter = new vieweducationalbackgroundadapter(arraylist,ViewRecommendedApplicantProfileActivity.this);
                     recyclerView.setAdapter(educationalbackgroundadapter);
                     educationalbackgroundadapter.notifyDataSetChanged();
-                    main.setVisibility(View.VISIBLE);
-                    ln_jobloader.setVisibility(View.GONE);
                 }
                 else {
                     Toast.makeText(ViewRecommendedApplicantProfileActivity.this,"error",Toast.LENGTH_SHORT).show();
@@ -417,8 +424,6 @@ public class ViewRecommendedApplicantProfileActivity extends AppCompatActivity {
                     workexperienceadapter2 = new viewworkexperienceadapter(arraylist2,ViewRecommendedApplicantProfileActivity.this);
                     recyclerView2.setAdapter(workexperienceadapter2);
                     workexperienceadapter2.notifyDataSetChanged();
-                    main.setVisibility(View.VISIBLE);
-                    ln_jobloader.setVisibility(View.GONE);
                 }
                 else {
                     Toast.makeText(ViewRecommendedApplicantProfileActivity.this,"error",Toast.LENGTH_SHORT).show();
@@ -447,5 +452,27 @@ public class ViewRecommendedApplicantProfileActivity extends AppCompatActivity {
 
         RequestQueue queue3 = Volley.newRequestQueue(ViewRecommendedApplicantProfileActivity.this);
         queue3.add(request3);
+    }
+    public void delay()
+    {
+        main.setVisibility(View.GONE);
+        CDT = new CountDownTimer(2000, 1000) {
+            @Override
+            public void onTick(long l) {
+                ln_delay.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFinish() {
+                ln_delay.setVisibility(View.GONE);
+                main.setVisibility(View.VISIBLE);
+                main2.setVisibility(View.VISIBLE);
+                main3.setVisibility(View.VISIBLE);
+                main4.setVisibility(View.VISIBLE);
+                footer.setVisibility(View.VISIBLE);
+
+            }
+        }.start();
+
     }
 }

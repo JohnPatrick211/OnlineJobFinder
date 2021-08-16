@@ -7,6 +7,14 @@
     android:orientation="vertical"
     tools:context=".employer.EmployerJobFragment">
 
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:id="@+id/ln_delayloadinglayout"
+        layout="@layout/delayloadinglayout"
+        />
+
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
 

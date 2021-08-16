@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -77,6 +78,8 @@ public class ApplicantAppliedFragment extends Fragment {
     // Spinner spinnercategory, spinnerlocation;
     String catergoryString,yearString, approved;
     String [] specializationarray, locationarray;
+    View ln_delay;
+    CountDownTimer CDT;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -144,11 +147,15 @@ public class ApplicantAppliedFragment extends Fragment {
         token = userPref2.getString("token","token");
         networkrefresh = view.findViewById(R.id.networkswipe);
         ln_nojobappplicantlayout = view.findViewById(R.id.ln_nojobapplicantlayout);
+        ln_delay = view.findViewById(R.id.ln_delayloadinglayout);
         main = view.findViewById(R.id.bruh);
+        main.setVisibility(View.GONE);
         tv_networkerrorrefresh = view.findViewById(R.id.tv_networkjobsearcherrorrefresh);
         ln_networkjobsearcherror = view.findViewById(R.id.networkjobsearcherrorlayout);
         ln_networkjobsearcherror.setVisibility(View.GONE);
         main.setVisibility(View.GONE);
+
+        delay();
         tv_networkerrorrefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -649,6 +656,7 @@ public class ApplicantAppliedFragment extends Fragment {
     }
     public void onResume() {
         super.onResume();
+        delay();
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -725,5 +733,32 @@ public class ApplicantAppliedFragment extends Fragment {
             }
         }
         jobadapter2.setWinnerDetails(w);
+    }
+    public void delay()
+    {
+        main.setVisibility(View.GONE);
+        CDT = new CountDownTimer(2000, 1000) {
+            @Override
+            public void onTick(long l) {
+                ln_delay.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFinish() {
+                if(new CheckInternet().checkInternet(getContext())) {
+                    ln_delay.setVisibility(View.GONE);
+                    main.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    ln_delay.setVisibility(View.GONE);
+                    main.setVisibility(View.GONE);
+                    ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                    networkrefresh.setVisibility(View.VISIBLE);
+                }
+
+            }
+        }.start();
+
     }
 }
