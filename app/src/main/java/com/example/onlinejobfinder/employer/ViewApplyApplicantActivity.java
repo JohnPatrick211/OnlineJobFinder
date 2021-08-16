@@ -39,6 +39,7 @@ public class ViewApplyApplicantActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     appliedapplicantsadapter.RecyclerViewClickListener listener;
+    View ln_noappplicantsappliedlayout;
     int position =0;
     int position2 =0;
     boolean[] selectedspecialization, selectedlocation;
@@ -69,6 +70,7 @@ public class ViewApplyApplicantActivity extends AppCompatActivity {
         arraylist2 = new ArrayList<>();
         category = new ArrayList<String>();
         location = new ArrayList<String>();
+        ln_noappplicantsappliedlayout = findViewById(R.id.ln_noapplicantsappliedlayout);
         id = getIntent().getExtras().getString("intentid");
         approved = "Approved";
 
@@ -164,14 +166,22 @@ public class ViewApplyApplicantActivity extends AppCompatActivity {
                             return false;
                         }
                     });
+                    if(arraylist.isEmpty())
+                    {
+                        recyclerView.setVisibility(View.GONE);
+                        ln_noappplicantsappliedlayout.setVisibility(View.VISIBLE);
+                        Toast.makeText(ViewApplyApplicantActivity.this,"arraylist is empty",Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else {
                     Toast.makeText(ViewApplyApplicantActivity.this,"error",Toast.LENGTH_SHORT).show();
+                    ln_noappplicantsappliedlayout.setVisibility(View.GONE);
                 }
             }catch(JSONException e)
             {
                 e.printStackTrace();
                 Toast.makeText(ViewApplyApplicantActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                ln_noappplicantsappliedlayout.setVisibility(View.GONE);
             }
 
             refreshLayout.setRefreshing(false);
@@ -179,6 +189,7 @@ public class ViewApplyApplicantActivity extends AppCompatActivity {
         },error -> {
             error.printStackTrace();
             refreshLayout.setRefreshing(false);
+            ln_noappplicantsappliedlayout.setVisibility(View.GONE);
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {

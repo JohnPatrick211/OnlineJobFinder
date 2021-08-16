@@ -39,7 +39,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -241,6 +243,7 @@ public class GuestSearchFragment extends Fragment {
                 catergoryString = tvsearchspecialization.getText().toString();
                 yearString = tvsearchlocation.getText().toString();
                 ArrayList<job> w = new ArrayList<>();
+               List<String> al = new ArrayList<String>();
                 if(catergoryString.equals("Specialization") && yearString.equals("Region"))
                 {
 
