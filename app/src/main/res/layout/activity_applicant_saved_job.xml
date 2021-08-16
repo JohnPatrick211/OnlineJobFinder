@@ -142,19 +142,13 @@
         </LinearLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <include
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:id="@+id/ln_loader"
-        android:layout_gravity="center">
-
-        <ProgressBar
-            android:id="@+id/applicantsavedjob_loader"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:visibility="visible"/>
-    </RelativeLayout>
+        android:layout_gravity="center"
+        android:id="@+id/ln_delayloadinglayout"
+        layout="@layout/delayloadinglayout"
+        />
 </FrameLayout>
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"

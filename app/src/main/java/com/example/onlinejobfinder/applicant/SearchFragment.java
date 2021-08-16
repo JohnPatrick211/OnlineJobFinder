@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -55,7 +56,7 @@ import java.util.Map;
 public class SearchFragment extends Fragment {
     TextView tv_networkerrorrefresh;
     EditText edt_search;
-    LinearLayout ln_networkjobsearcherror,main;
+    LinearLayout ln_networkjobsearcherror;
     RecyclerView recyclerView;
     jobadapter.RecyclerViewClickListener listener;
     int position =0;
@@ -72,6 +73,9 @@ public class SearchFragment extends Fragment {
    // Spinner spinnercategory, spinnerlocation;
     String catergoryString,yearString, approved;
     String [] specializationarray, locationarray;
+    View ln_delay;
+    LinearLayout main;
+    CountDownTimer CDT;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -146,7 +150,11 @@ public class SearchFragment extends Fragment {
         tv_networkerrorrefresh = view.findViewById(R.id.tv_networkjobsearcherrorrefresh);
         ln_networkjobsearcherror = view.findViewById(R.id.networkjobsearcherrorlayout);
         ln_networkjobsearcherror.setVisibility(View.GONE);
+        ln_delay = view.findViewById(R.id.ln_delayloadinglayout);
+        main = view.findViewById(R.id.bruh);
         main.setVisibility(View.GONE);
+
+        delay();
         edt_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -405,7 +413,6 @@ public class SearchFragment extends Fragment {
                j = new JSONObject(response);
                result = j.getJSONArray("categories");
                getSubCategory(result);
-                main.setVisibility(View.VISIBLE);
                 ln_networkjobsearcherror.setVisibility(View.GONE);
 
 
@@ -447,7 +454,6 @@ public class SearchFragment extends Fragment {
             try{
                 JSONObject json = j.getJSONObject(ai);
                 category.add(json.getString("category"));
-                main.setVisibility(View.VISIBLE);
                 ln_networkjobsearcherror.setVisibility(View.GONE);
             }catch (JSONException e)
             {
@@ -469,7 +475,6 @@ public class SearchFragment extends Fragment {
                 j = new JSONObject(response);
                 result2 = j.getJSONArray("locations");
                 getSubLocation(result2);
-                main.setVisibility(View.VISIBLE);
                 ln_networkjobsearcherror.setVisibility(View.GONE);
 
 
@@ -518,7 +523,6 @@ public class SearchFragment extends Fragment {
             try{
                 JSONObject json = j.getJSONObject(ai);
                 location.add(json.getString("region"));
-                main.setVisibility(View.VISIBLE);
                 ln_networkjobsearcherror.setVisibility(View.GONE);
             }catch (JSONException e)
             {
@@ -574,7 +578,6 @@ public class SearchFragment extends Fragment {
                                 return false;
                             }
                         });
-                        main.setVisibility(View.VISIBLE);
                         ln_networkjobsearcherror.setVisibility(View.GONE);
                         networkrefresh.setVisibility(View.GONE);
                         safefilter();
@@ -629,6 +632,7 @@ public class SearchFragment extends Fragment {
     }
     public void onResume() {
         super.onResume();
+        delay();
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -705,5 +709,32 @@ public class SearchFragment extends Fragment {
             }
         }
         jobadapter2.setWinnerDetails(w);
+    }
+    public void delay()
+    {
+        main.setVisibility(View.GONE);
+        CDT = new CountDownTimer(2000, 1000) {
+            @Override
+            public void onTick(long l) {
+                ln_delay.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFinish() {
+                if(new CheckInternet().checkInternet(getContext())) {
+                    ln_delay.setVisibility(View.GONE);
+                    main.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    ln_delay.setVisibility(View.GONE);
+                    main.setVisibility(View.GONE);
+                    ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                    networkrefresh.setVisibility(View.VISIBLE);
+                }
+
+            }
+        }.start();
+
     }
 }

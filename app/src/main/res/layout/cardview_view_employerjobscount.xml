@@ -16,18 +16,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/image_editemployerjob"
-                android:layout_marginRight="0dp"
-                android:layout_width="50dp"
-                android:padding="6dp"
-                android:layout_height="50dp"
-                android:src="@drawable/ic_baseline_edit_24"
-                android:layout_gravity="right"
-                />
+
 
             <ImageView
-                android:layout_marginTop="-40dp"
+                android:layout_marginTop="10dp"
                 android:id="@+id/imageview_joblogo"
                 android:layout_width="100dp"
                 android:layout_height="100dp"

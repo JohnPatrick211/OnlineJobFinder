@@ -14,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -56,11 +57,9 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
-    RelativeLayout ln_jobloader;
-    ProgressBar loader;
     EditText edt_search;
     TextView tv_networkerrorrefresh;
-    LinearLayout ln_networkjobsearcherror,main;
+    LinearLayout ln_networkjobsearcherror;
     RecyclerView recyclerView;
     SharedPreferences userPref2;
     jobadapter.RecyclerViewClickListener listener;
@@ -79,6 +78,9 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
     // Spinner spinnercategory, spinnerlocation;
     String catergoryString,yearString;
     String [] specializationarray, locationarray;
+    View ln_delay;
+    LinearLayout main;
+    CountDownTimer CDT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,10 +146,12 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
         tv_networkerrorrefresh = findViewById(R.id.tv_networkjobsearcherrorrefresh);
         ln_networkjobsearcherror = findViewById(R.id.networkjobsearcherrorlayout);
         ln_networkjobsearcherror.setVisibility(View.GONE);
+        ln_delay = findViewById(R.id.ln_delayloadinglayout);
+        main = findViewById(R.id.bruh);
         main.setVisibility(View.GONE);
-        loader = findViewById(R.id.applicantsavedjob_loader);
-        ln_jobloader = findViewById(R.id.ln_loader);
-        loader.setProgress(100);
+
+        delay();
+
 
         tv_networkerrorrefresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -372,7 +376,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                 j = new JSONObject(response);
                 result = j.getJSONArray("categories");
                 getSubCategory(result);
-                main.setVisibility(View.VISIBLE);
+//                main.setVisibility(View.VISIBLE);
                 ln_networkjobsearcherror.setVisibility(View.GONE);
 
 
@@ -414,7 +418,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
             try{
                 JSONObject json = j.getJSONObject(ai);
                 category.add(json.getString("category"));
-                main.setVisibility(View.VISIBLE);
+//                main.setVisibility(View.VISIBLE);
                 ln_networkjobsearcherror.setVisibility(View.GONE);
             }catch (JSONException e)
             {
@@ -436,7 +440,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                 j = new JSONObject(response);
                 result2 = j.getJSONArray("locations");
                 getSubLocation(result2);
-                main.setVisibility(View.VISIBLE);
+//                main.setVisibility(View.VISIBLE);
                 ln_networkjobsearcherror.setVisibility(View.GONE);
 
 
@@ -485,7 +489,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
             try{
                 JSONObject json = j.getJSONObject(ai);
                 location.add(json.getString("region"));
-                main.setVisibility(View.VISIBLE);
+//                main.setVisibility(View.VISIBLE);
                 ln_networkjobsearcherror.setVisibility(View.GONE);
             }catch (JSONException e)
             {
@@ -541,10 +545,9 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                                 return false;
                             }
                         });
-                        main.setVisibility(View.VISIBLE);
+//                        main.setVisibility(View.VISIBLE);
                         ln_networkjobsearcherror.setVisibility(View.GONE);
                         networkrefresh.setVisibility(View.GONE);
-                        ln_jobloader.setVisibility(View.GONE);
                         safefilter();
                     }
                     else {
@@ -594,8 +597,8 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
     }
     public void onResume() {
         super.onResume();
+        delay();
         drawerLayout.closeDrawers();
-        ln_jobloader.setVisibility(View.VISIBLE);
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -725,5 +728,23 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
             }
         }
         jobadapter2.setWinnerDetails(w);
+    }
+    public void delay()
+    {
+        main.setVisibility(View.GONE);
+        CDT = new CountDownTimer(2000, 1000) {
+            @Override
+            public void onTick(long l) {
+                ln_delay.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFinish() {
+                ln_delay.setVisibility(View.GONE);
+                main.setVisibility(View.VISIBLE);
+
+            }
+        }.start();
+
     }
 }

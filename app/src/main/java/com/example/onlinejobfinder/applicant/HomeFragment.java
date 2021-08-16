@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -69,6 +70,9 @@ public class HomeFragment extends Fragment {
     String catergoryString,yearString, approved;
     String [] specializationarray, locationarray;
     String val_specialization = "";
+    View ln_delay;
+    LinearLayout main;
+    CountDownTimer CDT;
 //    ProgressBar loader;
 
 
@@ -135,6 +139,10 @@ public class HomeFragment extends Fragment {
         ln_networkrecommendedjoberror = view.findViewById(R.id.networkerecommendedjoberrorlayout);
         ln_networkrecommendedjoberror.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
+        ln_delay = view.findViewById(R.id.ln_delayloadinglayout);
+        main = view.findViewById(R.id.bruh);
+        main.setVisibility(View.GONE);
+        delay();
         tv_networkerrorrefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -239,6 +247,7 @@ public class HomeFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
+        delay();
         refreshLayout.setRefreshing(true);
         arraylist.clear();
         CheckSpecialization();
@@ -321,6 +330,24 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         };
+    }
+    public void delay()
+    {
+        main.setVisibility(View.GONE);
+        CDT = new CountDownTimer(2000, 1000) {
+            @Override
+            public void onTick(long l) {
+                ln_delay.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFinish() {
+                ln_delay.setVisibility(View.GONE);
+                main.setVisibility(View.VISIBLE);
+
+            }
+        }.start();
+
     }
 
 }

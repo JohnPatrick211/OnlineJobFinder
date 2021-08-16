@@ -10,10 +10,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,6 +77,10 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
     JSONArray result;
     Button btnapply;
     ProgressDialog progressDialog;
+    RelativeLayout footer;
+    View ln_delay;
+    LinearLayout main, main2, main3, main4;
+    CountDownTimer CDT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +126,18 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
         job_id = getIntent().getExtras().getString("intentjob_id");
         id = getIntent().getExtras().getString("intentid");
         saved_id = getIntent().getExtras().getString("intentsavedid");
+        ln_delay = findViewById(R.id.ln_delayloadinglayout);
+        main = findViewById(R.id.bruh);
+        main2 = findViewById(R.id.bruh2);
+        main3 = findViewById(R.id.bruh3);
+        main4 = findViewById(R.id.bruh4);
+        footer = findViewById(R.id.footer);
+        main.setVisibility(View.GONE);
+        main2.setVisibility(View.GONE);
+        main3.setVisibility(View.GONE);
+        main4.setVisibility(View.GONE);
+        footer.setVisibility(View.GONE);
+        delay();
         try{
             if(saved_id.isEmpty())
             {
@@ -550,6 +569,12 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
 
     public void onResume() {
         super.onResume();
+        main.setVisibility(View.GONE);
+        main2.setVisibility(View.GONE);
+        main3.setVisibility(View.GONE);
+        main4.setVisibility(View.GONE);
+        footer.setVisibility(View.GONE);
+        delay();
         StringRequest request = new StringRequest(Request.Method.GET, Constant.MY_POST+"?applicant_id="+userPref2.getString("id","id"), response -> {
             try{
                 JSONObject object= new JSONObject(response);
@@ -780,5 +805,27 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         };
+    }
+    public void delay()
+    {
+        main.setVisibility(View.GONE);
+        CDT = new CountDownTimer(2000, 1000) {
+            @Override
+            public void onTick(long l) {
+                ln_delay.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFinish() {
+                ln_delay.setVisibility(View.GONE);
+                main.setVisibility(View.VISIBLE);
+                main2.setVisibility(View.VISIBLE);
+                main3.setVisibility(View.VISIBLE);
+                main4.setVisibility(View.VISIBLE);
+                footer.setVisibility(View.VISIBLE);
+
+            }
+        }.start();
+
     }
 }

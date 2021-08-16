@@ -9,7 +9,7 @@ public class Constant {
     public static final String registeremployer=home+"/registeremployer";
     public static final String checkemail=home+"/checkemail";
     public static final String checkspecialization=home+"/checkspecialization";
-    //job posts employerjobpostcount
+    //job posts
     public static final String jobposts=home+"/jobpost";
     public static final String employerjobposts=home+"/employerjobpost";
     public static final String employerjobpostcount=home+"/employerjobpostcount";
