@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     TextInputEditText edt_loginemail,edt_loginpassword;
     ProgressDialog progressDialog;
     FirebaseAuth mAuth;
+    SessionManager sessionManager;
     private TextInputLayout layoutEmail,layoutPassword;
     PhoneAuthCredential phoneAuthCredential;
     PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.customactionbar);
         getSupportActionBar().setTitle("Login");
+        sessionManager = new SessionManager(getApplicationContext());
 
 
         edt_loginemail.addTextChangedListener(new TextWatcher() {
@@ -160,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                         else
                                         {
+                                            sessionManager.setEmployerLogin(true);
                                             Intent ia = new Intent(MainActivity.this, EmployerActivity.class);
                                             startActivity(ia);
                                             finish();
@@ -168,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                     else
                                     {
+                                        sessionManager.setApplicantLogin(true);
                                         Intent i = new Intent(MainActivity.this, ApplicantActivity.class);
                                         startActivity(i);
                                         finish();
@@ -214,7 +218,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
+        if(sessionManager.getApplicantLogin())
+        {
+            Intent i = new Intent(MainActivity.this, ApplicantActivity.class);
+            startActivity(i);
+        }
+        else if(sessionManager.getEmployerLogin())
+        {
+            Intent ia = new Intent(MainActivity.this, EmployerActivity.class);
+            startActivity(ia);
+        }
     }
 
     private boolean validate(){

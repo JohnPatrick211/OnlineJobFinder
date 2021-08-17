@@ -39,6 +39,7 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
     final Fragment fragment3 = new ProfileFragment();
     final FragmentManager fm = getSupportFragmentManager();
     Fragment active = fragment1;
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -52,6 +53,7 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        sessionManager = new SessionManager(getApplicationContext());
 
 //        Bundle bundle = getIntent().getExtras();
 //        if (bundle != null) {
@@ -164,8 +166,10 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
 //                        SharedPreferences.Editor editor = userPref.edit();
                         //                       editor.clear();
                         //                      editor.apply();
+                        sessionManager.setApplicantLogin(false);
                         Intent ia = new Intent(ApplicantActivity.this, MainActivity.class);
                         startActivity(ia);
+                        finish();
 
                     }
                 });

@@ -17,6 +17,7 @@ import android.view.MenuItem;
 
 import com.example.onlinejobfinder.MainActivity;
 import com.example.onlinejobfinder.R;
+import com.example.onlinejobfinder.SessionManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -35,6 +36,7 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
     final Fragment fragment4 = new EmployerProfileFragment();
     final FragmentManager fm = getSupportFragmentManager();
     Fragment active = fragment1;
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
         name2 = userPref.getString("name","name");
         user_id = userPref.getString("id","id");
         SharedPreferences.Editor editor = userPref.edit();
+        sessionManager = new SessionManager(getApplicationContext());
         editor.putString("name",name2);
         editor.putString("id",user_id);
         editor.apply();
@@ -134,6 +137,7 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
 //                        SharedPreferences.Editor editor = userPref.edit();
  //                       editor.clear();
   //                      editor.apply();
+                        sessionManager.setEmployerLogin(false);
                         Intent ia = new Intent(EmployerActivity.this, MainActivity.class);
                         startActivity(ia);
                         finish();
