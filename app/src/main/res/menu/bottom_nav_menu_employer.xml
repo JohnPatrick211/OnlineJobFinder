@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:icon="@drawable/ic_baseline_home_24"
         android:id="@+id/navigation_employerhome"
         android:title="Home" />
 
     <item
+        android:icon="@drawable/ic_baseline_search_24"
         android:id="@+id/navigation_employerjob"
         android:title="Job" />
 
     <item
+        android:icon="@drawable/ic_baseline_person_search_24"
         android:id="@+id/navigation_employerapplicants"
         android:title="Applicants" />
 
     <item
+        android:icon="@drawable/ic_baseline_person_24"
         android:id="@+id/navigation_employerprofile"
         android:title="Profile" />
 
