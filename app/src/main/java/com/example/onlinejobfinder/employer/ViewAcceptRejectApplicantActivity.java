@@ -1,17 +1,21 @@
 package com.example.onlinejobfinder.employer;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,7 +30,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.onlinejobfinder.ApplicantActivity;
 import com.example.onlinejobfinder.Constant;
+import com.example.onlinejobfinder.MainActivity;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.adapter.educationalbackgroundadapter;
 import com.example.onlinejobfinder.adapter.vieweducationalbackgroundadapter;
@@ -66,6 +72,8 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
     String val_gender = "";
     String val_specialization = "";
     String val_resume = "";
+    String val_name ="";
+    String val_id = "";
     ArrayList<educationalbackground> arraylist;
     ArrayList<workexperience> arraylist2;
     RecyclerView recyclerView, recyclerView2;
@@ -119,8 +127,9 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
 //        id = getIntent().getExtras().getString("intentid");
 //        saved_id = getIntent().getExtras().getString("intentsavedid");
         applicant_id = getIntent().getExtras().getString("intentapplicant_id");
+        val_id = getIntent().getExtras().getString("intentid");
         //check ID debugging//
-        //Toast.makeText(getContext(), user_id, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(ViewAcceptRejectApplicantActivity.this,  val_id, Toast.LENGTH_SHORT).show();
         //Toast.makeText(ApplicantFinalCheckProfileActivity.this, email, Toast.LENGTH_SHORT).show();
         ln_delay = findViewById(R.id.ln_delayloadinglayout);
         main = findViewById(R.id.bruh);
@@ -138,13 +147,129 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
        btnhire.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               Toast.makeText(ViewAcceptRejectApplicantActivity.this,"You're Hired", Toast.LENGTH_SHORT).show();
+               AlertDialog.Builder builder = new AlertDialog.Builder(ViewAcceptRejectApplicantActivity.this);
+               ViewGroup viewGroup = findViewById(R.id.content);
+               View dialogView = LayoutInflater.from(view.getContext()).inflate(R.layout.dialog_hiring,viewGroup,false);
+               builder.setView(dialogView);
+               builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialogInterface, int i) {
+                       progressDialog.setMessage("Sending");
+                       progressDialog.show();
+                       StringRequest request = new StringRequest(Request.Method.POST, Constant.applicanthired, response -> {
+                           try{
+                               JSONObject object= new JSONObject(response);
+                               if(object.getBoolean("success")){
+                                   onBackPressed();
+                                   Toast.makeText(ViewAcceptRejectApplicantActivity.this,"Applicant Hired Successfully",Toast.LENGTH_SHORT).show();
+                                   progressDialog.cancel();
+                               }
+                               else
+                               {
+                                   Toast.makeText(ViewAcceptRejectApplicantActivity.this, "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                                   progressDialog.cancel();
+                               }
+
+                           }catch(JSONException e)
+                           {
+                               Toast.makeText(ViewAcceptRejectApplicantActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                               progressDialog.cancel();
+                           }
+                       },error ->{
+                           error.printStackTrace();
+                           progressDialog.cancel();
+                       })
+                       {
+                           @Override
+                           protected Map<String, String> getParams() throws AuthFailureError {
+                               HashMap<String,String> map = new HashMap<>();
+                               map.put("id",val_id);
+                               map.put("name",val_name);
+                               return map;
+                           }
+                       };
+                       RequestQueue queue = Volley.newRequestQueue(ViewAcceptRejectApplicantActivity.this);
+                       queue.add(request);
+
+                   }
+               });
+               builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialogInterface, int i) {
+
+                   }
+               });
+               builder.show();
            }
        });
        btndecline.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               Toast.makeText(ViewAcceptRejectApplicantActivity.this,"You're Rejected",Toast.LENGTH_SHORT).show();
+               AlertDialog.Builder builder = new AlertDialog.Builder(ViewAcceptRejectApplicantActivity.this);
+               ViewGroup viewGroup = findViewById(R.id.content);
+               View dialogView = LayoutInflater.from(view.getContext()).inflate(R.layout.dialog_declining,viewGroup,false);
+               builder.setView(dialogView);
+               builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialogInterface, int i) {
+                       progressDialog.setMessage("Declining");
+                       progressDialog.show();
+                       StringRequest request = new StringRequest(Request.Method.POST, Constant.deleteapplicantapply, response -> {
+                           try{
+                               JSONObject object= new JSONObject(response);
+                               if(object.getBoolean("success")){
+                                   //JSONObject user = object.getJSONObject("update");
+                                   //SharedPreferences userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+                                   // SharedPreferences.Editor editor = userPref.edit();
+                                   //editor.putString("id",user.getString("educational_id"));
+                                   progressDialog.cancel();
+
+                                   //editor.apply();
+                                   //  editor.commit();
+                                   Toast.makeText(ViewAcceptRejectApplicantActivity.this,"Decline Successfully",Toast.LENGTH_SHORT).show();
+                                   onBackPressed();
+
+
+                               }
+                               else
+                               {
+                                   Toast.makeText(ViewAcceptRejectApplicantActivity.this, "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                                   progressDialog.cancel();
+                               }
+
+                           }catch(JSONException e)
+                           {
+                               Toast.makeText(ViewAcceptRejectApplicantActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                               progressDialog.cancel();
+                           }
+                       },error ->{
+                           error.printStackTrace();
+                           Toast.makeText(ViewAcceptRejectApplicantActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                           progressDialog.cancel();
+                       })
+                       {
+
+                           @Override
+                           protected Map<String, String> getParams() throws AuthFailureError {
+                               HashMap<String,String> map = new HashMap<>();
+                               //map.put("id",user_id);
+                               map.put("id",val_id);
+                               return map;
+                           }
+                       };
+
+                       RequestQueue queue = Volley.newRequestQueue(ViewAcceptRejectApplicantActivity.this);
+                       queue.add(request);
+
+                   }
+               });
+               builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialogInterface, int i) {
+
+                   }
+               });
+               builder.show();
            }
        });
         txtviewresume.setOnClickListener(new View.OnClickListener() {
@@ -161,6 +286,7 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
                 if(object.getBoolean("success")){
                     JSONObject user = object.getJSONObject("user");
                     txtname.setText(user.get("name").toString());
+                    val_name = user.get("name").toString();
                     txtemail.setText(user.get("email").toString());
                     txtcontactno.setText(user.get("contactno").toString());
                     val_contactno = txtcontactno.getText().toString();

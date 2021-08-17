@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:textSize="15sp"
-        android:text="Please Add Some Job Vacancy and Wait For Approval To Approve"
+        android:text="Please Add Some Job Vacancy and Wait For Approval To Approve. If Approved, Please wait patiently for the potential candidates"
         android:gravity="center"
         android:visibility="visible"
         />

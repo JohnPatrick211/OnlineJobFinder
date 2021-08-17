@@ -20,9 +20,11 @@ public class Constant {
     public static final String savedjob=home+"/addsavedjobpost";
     public static final String postsavedjob=home+"/postsavedjobpost";
     public static final String unsavedjob=home+"/deletejobpost";
-    //apply job posts
+    //apply job posts deleteapplicantapply
     public static final String applyjob=home+"/applyjob";
     public static final String employerapplyjobpost=home+"/employerapplyjobpost";
+    public static final String applicanthired=home+"/applicanthired";
+    public static final String deleteapplicantapply=home+"/deleteapplicantapply";
     public static final String validateemployerapplyjobpost=home+"/validateemployerapplyjobpost";
     //Education Background
     public static final String geteducation=home+"/posteducationalbackground";

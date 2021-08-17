@@ -9,8 +9,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +56,9 @@ public class ViewApplyApplicantActivity extends AppCompatActivity {
     // Spinner spinnercategory, spinnerlocation;
     String catergoryString,yearString, approved,id;
     String [] specializationarray, locationarray;
+    View ln_delay;
+    LinearLayout main;
+    CountDownTimer CDT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +88,14 @@ public class ViewApplyApplicantActivity extends AppCompatActivity {
         //  spinnerlocation.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, location));
         refreshLayout.setRefreshing(true);
         setOnClickListener();
+        ln_delay = findViewById(R.id.ln_delayloadinglayout);
+        main = findViewById(R.id.bruh);
+        main.setVisibility(View.GONE);
+        refreshLayout.setVisibility(View.GONE);
+        delay();
         //getCategory();
         // getLocation();
-        getPost();
+//        getPost();
         //SharedPreferences sharedPreferences = getContext().getApplicationContext().getSharedPreferences("jobpost", Context.MODE_PRIVATE);
 //        spinnercategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
@@ -203,6 +213,10 @@ public class ViewApplyApplicantActivity extends AppCompatActivity {
     }
     public void onResume() {
         super.onResume();
+        delay();
+        arraylist.clear();
+        getPost();
+
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -217,6 +231,7 @@ public class ViewApplyApplicantActivity extends AppCompatActivity {
             public void onClick(View v, int position) {
                 Intent intent = new Intent(ViewApplyApplicantActivity.this, ViewAcceptRejectApplicantActivity.class);//                intent.putExtra("intentjob_id",arraylist.get(position).getJobid());
                 intent.putExtra("intentapplicant_id",arraylist.get(position).getApplicantid());
+                intent.putExtra("intentid",arraylist.get(position).getId());
 //                intent.putExtra("intentid",arraylist.get(position).getJobuniqueid());
 //                intent.putExtra("intentjoblogo",Constant.URL+"/storage/profiles/"+arraylist.get(position).getJoblogo());
 //                intent.putExtra("intentjobtitle",arraylist.get(position).getJobtitle());
@@ -234,5 +249,24 @@ public class ViewApplyApplicantActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         };
+    }
+    public void delay()
+    {
+        main.setVisibility(View.GONE);
+        CDT = new CountDownTimer(2000, 1000) {
+            @Override
+            public void onTick(long l) {
+                ln_delay.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFinish() {
+                ln_delay.setVisibility(View.GONE);
+                refreshLayout.setVisibility(View.VISIBLE);
+                main.setVisibility(View.VISIBLE);
+
+            }
+        }.start();
+
     }
 }

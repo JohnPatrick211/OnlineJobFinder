@@ -15,12 +15,21 @@
         layout="@layout/noapplicantsappliedlayout"
         android:visibility="gone"/>
 
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:id="@+id/ln_delayloadinglayout"
+        layout="@layout/delayloadinglayout"
+        />
+
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/employerswipe">
         <LinearLayout
+            android:id="@+id/bruh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="top"
