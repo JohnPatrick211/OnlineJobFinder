@@ -52,6 +52,9 @@ public class UpdateEducationActivity extends AppCompatActivity {
         tv_year.setText(intentyear);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
+        getSupportActionBar().setCustomView(R.layout.customactionbarupdateeducation);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         //Toast.makeText(UpdateEducationActivity.this, intentid, Toast.LENGTH_SHORT).show();
         tv_year.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -44,6 +45,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ViewRecommendedApplicantProfileActivity extends AppCompatActivity {
     LinearLayout main, main2, main3, main4;
@@ -113,6 +115,9 @@ public class ViewRecommendedApplicantProfileActivity extends AppCompatActivity {
         imageview_user = findViewById(R.id.imguserprofile);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
+        getSupportActionBar().setCustomView(R.layout.customactionbarapplicantprofile);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         //   recyclerview = root.findViewById(R.id.recyclerview_jobs_recommended);
         //   recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
         //  refreshLayout = root.findViewById(R.id.swipe2);
@@ -140,6 +145,15 @@ public class ViewRecommendedApplicantProfileActivity extends AppCompatActivity {
 
 
         delay();
+
+        txtviewresume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://peso-ojfss.000webhostapp.com/storage/resume/"+txtresume.getText().toString()));
+                startActivity(browserIntent);
+            }
+        });
+
         btnsaveapplicant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

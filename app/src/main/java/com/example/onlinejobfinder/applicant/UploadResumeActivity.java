@@ -55,6 +55,10 @@ public class UploadResumeActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
 
+        getSupportActionBar().setCustomView(R.layout.customactionbaruploadresume);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         txtuploadresume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

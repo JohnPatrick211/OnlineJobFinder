@@ -93,6 +93,9 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.customactionbarbookmarkedjob);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         navigationView.setNavigationItemSelectedListener(this);
         edt_search = findViewById(R.id.search);
         btnfilter = findViewById(R.id.btn_filter);

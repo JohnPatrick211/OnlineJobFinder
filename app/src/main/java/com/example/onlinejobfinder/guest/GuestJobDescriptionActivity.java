@@ -102,6 +102,9 @@ public class GuestJobDescriptionActivity extends AppCompatActivity {
         token = userPref2.getString("token", "token");
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
+        getSupportActionBar().setCustomView(R.layout.customactionbarmaintitle);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         btnapply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

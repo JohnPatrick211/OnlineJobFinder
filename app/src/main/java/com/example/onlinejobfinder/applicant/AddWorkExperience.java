@@ -70,6 +70,9 @@ public class AddWorkExperience extends AppCompatActivity {
         workcompanyname = findViewById(R.id.edittext_addworkcompanyname);
         workstartdate = findViewById(R.id.edittext_workstartdate);
         workenddate = findViewById(R.id.edittext_workenddate);
+        getSupportActionBar().setCustomView(R.layout.customactionbaraddworkexperience);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 //        workspecialization = findViewById(R.id.spinner_workspecialization);
 //        Specialization = new ArrayList<String>();
 //        Specialization.add("Specialization");

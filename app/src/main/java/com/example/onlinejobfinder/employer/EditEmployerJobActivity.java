@@ -88,6 +88,9 @@ public class EditEmployerJobActivity extends AppCompatActivity {
         location = new ArrayList<String>();
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
+        getSupportActionBar().setCustomView(R.layout.customactionbareditjob);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getPost();
 
         btndelete = findViewById(R.id.btndeleteeditjobsaveimage);

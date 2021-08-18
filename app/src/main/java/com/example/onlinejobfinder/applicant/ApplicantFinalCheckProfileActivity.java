@@ -137,6 +137,9 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
         main3.setVisibility(View.GONE);
         main4.setVisibility(View.GONE);
         footer.setVisibility(View.GONE);
+        getSupportActionBar().setCustomView(R.layout.customactionbarcheckprofile);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         delay();
         try{
             if(saved_id.isEmpty())

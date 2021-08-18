@@ -76,6 +76,9 @@ public class UpdateWorkExperienceActivity extends AppCompatActivity {
         workstartdate.setText(intentworkdate);
         workenddate = findViewById(R.id.updateedittext_workenddate);
         workenddate.setText(intentenddate);
+        getSupportActionBar().setCustomView(R.layout.customactionbarupdateworkexperience);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 //        workspecialization = findViewById(R.id.spinner_workspecialization);
 //        Specialization = new ArrayList<String>();
 //        Specialization.add("Specialization");

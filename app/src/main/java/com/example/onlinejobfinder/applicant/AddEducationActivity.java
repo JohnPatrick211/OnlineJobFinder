@@ -50,6 +50,9 @@ public class AddEducationActivity extends AppCompatActivity {
         user_id = prefs.getString("id","id");
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
+        getSupportActionBar().setCustomView(R.layout.customactionbaraddeducation);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         tv_year.setOnClickListener(new View.OnClickListener() {
             @Override

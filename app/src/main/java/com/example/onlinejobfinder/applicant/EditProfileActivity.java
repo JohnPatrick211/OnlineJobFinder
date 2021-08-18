@@ -93,6 +93,9 @@ public class EditProfileActivity extends AppCompatActivity {
         txtspecialization.setText(intentspecialization);
         txtgender = findViewById(R.id.applicantprofile_gender);
         txtgender.setText(intentgender);
+        getSupportActionBar().setCustomView(R.layout.customactionbareditprofile);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 //        specialization = findViewById(R.id.spinner_specialization);
 //        gender = findViewById(R.id.spinner_gender);
 //        Specialization = new ArrayList<String>();

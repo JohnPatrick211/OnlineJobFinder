@@ -86,6 +86,9 @@ public class EmployerAddJobActivity extends AppCompatActivity {
         email = userPref2.getString("email","email");
         user_id = userPref2.getString("id","id");
         token = userPref2.getString("token","token");
+        getSupportActionBar().setCustomView(R.layout.customactionbaraddjob);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         category = new ArrayList<String>();
         location = new ArrayList<String>();
         jobtitle.addTextChangedListener(new TextWatcher() {

@@ -92,6 +92,9 @@ public class ViewJobToSaveRecommendedApplicantActivity extends AppCompatActivity
         icontactno = getIntent().getExtras().getString("intentcontactno");
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
+        getSupportActionBar().setCustomView(R.layout.customactionbarmaintitle);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 //        category.add("Category");
 //        category.add("Accountant");

@@ -92,6 +92,9 @@ public class ViewApplyApplicantActivity extends AppCompatActivity {
         main = findViewById(R.id.bruh);
         main.setVisibility(View.GONE);
         refreshLayout.setVisibility(View.GONE);
+        getSupportActionBar().setCustomView(R.layout.customactionbarapplyapplicants);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         delay();
         //getCategory();
         // getLocation();

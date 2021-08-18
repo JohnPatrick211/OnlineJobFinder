@@ -1,6 +1,7 @@
 package com.example.onlinejobfinder;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,8 +53,11 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.start, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         sessionManager = new SessionManager(getApplicationContext());
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.customactionbarmaintitle);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 //        Bundle bundle = getIntent().getExtras();
 //        if (bundle != null) {

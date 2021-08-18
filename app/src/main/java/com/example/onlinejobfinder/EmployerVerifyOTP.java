@@ -38,6 +38,10 @@ public class EmployerVerifyOTP extends AppCompatActivity {
         txt_contactnum = findViewById(R.id.employer_OTPcontactnum);
         txt_contactnum.setText(intentcontactnum);
 
+        getSupportActionBar().setCustomView(R.layout.customactionbarverifyotp);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         btn_verifycode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

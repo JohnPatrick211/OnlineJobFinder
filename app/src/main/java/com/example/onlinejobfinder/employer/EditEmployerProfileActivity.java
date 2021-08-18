@@ -103,6 +103,9 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
         employer_companyoverview.setText(intentemployercompanyoverview);
         userPref2 = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         category = new ArrayList<String>();
+        getSupportActionBar().setCustomView(R.layout.customactionbareditprofile);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
        // Specialization = new ArrayList<String>();
        // Specialization.add("Specialization");
        // Specialization.add("Accountant");

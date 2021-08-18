@@ -39,6 +39,9 @@ public class GuestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_guest);
 
         BottomNavigationView navView = findViewById(R.id.nav_guestview);
+        getSupportActionBar().setCustomView(R.layout.customactionbarmaintitle);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 //        drawerLayout = findViewById(R.id.drawerLayout);
 //        navigationView = findViewById(R.id.navigation_view);
 //        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.start, R.string.close);

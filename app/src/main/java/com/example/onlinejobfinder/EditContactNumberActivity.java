@@ -50,6 +50,9 @@ public class EditContactNumberActivity extends AppCompatActivity {
         String intentemail = getIntent().getExtras().getString("email");
         String intentaddress = getIntent().getExtras().getString("address");
         String intentcompanyoverview = getIntent().getExtras().getString("companyoverview");
+        getSupportActionBar().setCustomView(R.layout.customactionbareditcontactno);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         btnsendOTP.setOnClickListener(new View.OnClickListener() {
             @Override

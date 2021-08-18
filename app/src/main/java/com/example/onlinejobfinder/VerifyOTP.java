@@ -36,6 +36,10 @@ public class VerifyOTP extends AppCompatActivity {
         String intentOTPcode = getIntent().getExtras().getString("OTPcode");
         txt_contactnum = findViewById(R.id.OTPcontactnum);
         txt_contactnum.setText(intentcontactnum);
+
+        getSupportActionBar().setCustomView(R.layout.customactionbarverifyotp);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         //checkCode
         Toast.makeText(VerifyOTP.this,intentOTPcode,Toast.LENGTH_SHORT).show();
         btn_verifycode.setOnClickListener(new View.OnClickListener() {

@@ -50,6 +50,9 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.customactionbarmaintitle);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         name2 = userPref.getString("name","name");
         user_id = userPref.getString("id","id");

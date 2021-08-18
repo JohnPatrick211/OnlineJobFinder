@@ -142,6 +142,9 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
         main3.setVisibility(View.GONE);
         main4.setVisibility(View.GONE);
         footer.setVisibility(View.GONE);
+        getSupportActionBar().setCustomView(R.layout.customactionbarapplicantprofile);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         delay();
        btnhire.setOnClickListener(new View.OnClickListener() {
