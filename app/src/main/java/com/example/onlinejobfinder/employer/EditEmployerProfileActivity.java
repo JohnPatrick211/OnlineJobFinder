@@ -284,7 +284,9 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
                 i.putExtra("name", employer_companyname.getText().toString());
                 i.putExtra("address", employer_address.getText().toString());
                 i.putExtra("email",employer_email.getText().toString());
+                i.putExtra("profile_pic", getIntent().getStringExtra("profile_pic"));
                 i.putExtra("companyoverview",employer_companyoverview.getText().toString());
+                i.putExtra("specialization",getIntent().getExtras().getString("specialization"));
                 startActivity(i);
                 finish();
             }

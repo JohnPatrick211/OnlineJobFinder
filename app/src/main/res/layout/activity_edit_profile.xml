@@ -70,11 +70,12 @@
         android:textSize="18dp"
         android:hint="Specialization"
         />
-    <EditText
+    <TextView
         android:id="@+id/applicantprofile_contactno"
         android:background="#FFFFFF"
         android:padding="10dp"
-        android:inputType="number"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18dp"

@@ -57,9 +57,9 @@ public class EditProfileActivity extends AppCompatActivity {
     String [] specializationarray;
     String [] specializationarray2 = {"Male","Female"};
    // Spinner specialization, gender;
-    EditText edit_contactno, edit_address, edit_name;
+    EditText  edit_address, edit_name;
    // ArrayList<String> Specialization, Gender;
-    TextView txtid,txtselectphoto,txt_email,txtspecialization,txtgender;
+    TextView txtid,txtselectphoto,txt_email,txtspecialization,txtgender, edit_contactno;
     Button btn_saveimage;
     CircleImageView circleImageView;
     Bitmap bitmap = null;
@@ -263,6 +263,9 @@ public class EditProfileActivity extends AppCompatActivity {
                 i.putExtra("name", edit_name.getText().toString());
                 i.putExtra("address", edit_address.getText().toString());
                 i.putExtra("email",txt_email.getText().toString());
+                i.putExtra("profile_pic", getIntent().getStringExtra("profile_pic"));
+                i.putExtra("specialization",getIntent().getExtras().getString("specialization"));
+                i.putExtra("gender",getIntent().getExtras().getString("gender"));
                 startActivity(i);
                 finish();
             }
