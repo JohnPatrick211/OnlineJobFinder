@@ -27,6 +27,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
+import com.github.chrisbanes.photoview.PhotoView;
+import com.ortiz.touchview.TouchImageView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -43,7 +45,8 @@ import java.util.Map;
 public class EmployerProfileFragment extends Fragment {
 
     TextView txtemployername, txtemployeremail, txtemployercontactno, txtemployeraddress, txtemployerspecialization,txtemployercompanyoverview;
-    ImageView editemployerprofile,imageview_employer,imageview_BIRemployer;
+    ImageView editemployerprofile,imageview_employer;
+    TouchImageView imageview_BIRemployer;
     String name2, user_id,token,permaid, address, email, contactno, background;
     String val_contactno = "";
     String val_specialization = "";

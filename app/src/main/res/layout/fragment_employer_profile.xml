@@ -209,7 +209,7 @@
             android:layout_marginBottom="5dp"
             android:gravity="center_horizontal"/>
 
-        <ImageView
+        <com.ortiz.touchview.TouchImageView
             android:id="@+id/img_profile_BIR"
             android:layout_marginTop="15dp"
             android:layout_width="350dp"
