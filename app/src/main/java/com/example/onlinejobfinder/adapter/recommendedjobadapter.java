@@ -8,7 +8,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
@@ -18,17 +17,16 @@ import com.squareup.picasso.Picasso;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class jobadapter extends RecyclerView.Adapter<jobadapter.Viewholder> implements Filterable {
+public class recommendedjobadapter extends RecyclerView.Adapter<recommendedjobadapter.Viewholder> implements Filterable {
 
 
-    public jobadapter(ArrayList<job> listjob, Context context, RecyclerViewClickListener listener) {
+    public recommendedjobadapter(ArrayList<job> listjob, Context context, RecyclerViewClickListener listener) {
         this.listjob = listjob;
         this.context = context;
         this.listener = listener;
@@ -63,17 +61,17 @@ public class jobadapter extends RecyclerView.Adapter<jobadapter.Viewholder> impl
         holder.txtview_jobcompany.setText(job2.getJobcompany());
         holder.txtview_joblocation.setText(job2.getJoblocation());
         holder.txtview_jobsalary.setText(job2.getJobsalary());
-//        SimpleDateFormat df= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-//        Date date = null;
-//        try {
-//            date = df.parse(job2.getJobdateposted().trim());
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        df.applyPattern("dd/MM/yyyy");
-//        String newDate = df.format(date);  //Output: newDate = "13/09/2014"
-//        holder.txtview_jobdateposted.setText(newDate);
-        holder.txtview_jobdateposted.setText(job2.getJobdateposted().trim());
+        SimpleDateFormat df= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date date = null;
+        try {
+            date = df.parse(job2.getJobdateposted().trim());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        df.applyPattern("MMM dd, yyyy");
+        String newDate = df.format(date);  //Output: newDate = "13/09/2014"
+        holder.txtview_jobdateposted.setText(newDate);
+//        holder.txtview_jobdateposted.setText(job2.getJobdateposted().trim());
         job2.getJobaddress();
         job2.getCompanyoverview();
         job2.getJobcategory();

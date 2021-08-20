@@ -14,7 +14,10 @@ import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.model.job;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -58,7 +61,17 @@ public class employerjobcountadapter extends RecyclerView.Adapter<employerjobcou
         holder.txtview_jobcompany.setText(job2.getJobcompany());
         holder.txtview_joblocation.setText(job2.getJoblocation());
         holder.txtview_jobsalary.setText(job2.getJobsalary());
-        holder.txtview_jobdateposted.setText(job2.getJobdateposted().trim());
+        SimpleDateFormat df= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date date = null;
+        try {
+            date = df.parse(job2.getJobdateposted().trim());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        df.applyPattern("MMM dd, yyyy");
+        String newDate = df.format(date);  //Output: newDate = "13/09/2014"
+        holder.txtview_jobdateposted.setText(newDate);
+//        holder.txtview_jobdateposted.setText(job2.getJobdateposted().trim());
         holder.txtview_countapplicants.setText(job2.getCountapplicants().trim() + " Pending");
         job2.getJobaddress();
         job2.getCompanyoverview();

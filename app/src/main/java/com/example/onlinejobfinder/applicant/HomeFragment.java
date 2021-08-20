@@ -33,13 +33,17 @@ import com.example.onlinejobfinder.CheckInternet;
 import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.adapter.jobadapter;
+import com.example.onlinejobfinder.adapter.recommendedjobadapter;
 import com.example.onlinejobfinder.model.job;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,7 +58,7 @@ public class HomeFragment extends Fragment {
     String name2,specialization,user_id;
     LinearLayout errorlayout,ln_networkrecommendedjoberror;
     RecyclerView recyclerView;
-    jobadapter.RecyclerViewClickListener listener;
+    recommendedjobadapter.RecyclerViewClickListener listener;
     int position =0;
     int position2 =0;
     boolean[] selectedspecialization, selectedlocation;
@@ -65,7 +69,7 @@ public class HomeFragment extends Fragment {
     ArrayList<String> category,location;
     JSONArray result,result2;
     SwipeRefreshLayout refreshLayout;
-    jobadapter jobadapter2;
+    recommendedjobadapter jobadapter2;
     // Spinner spinnercategory, spinnerlocation;
     String catergoryString,yearString, approved;
     String [] specializationarray, locationarray;
@@ -202,7 +206,7 @@ public class HomeFragment extends Fragment {
                         arraylist.add(job2);
                         arraylist2.add(job2);
                     }
-                    jobadapter2 = new jobadapter(arraylist,getContext(),listener);
+                    jobadapter2 = new recommendedjobadapter(arraylist,getContext(),listener);
                     recyclerView.setAdapter(jobadapter2);
                     recyclerView.setVisibility(View.VISIBLE);
                     recyclerView.setOnTouchListener(new View.OnTouchListener() {
@@ -309,7 +313,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void setOnClickListener() {
-        listener = new jobadapter.RecyclerViewClickListener() {
+        listener = new recommendedjobadapter.RecyclerViewClickListener() {
             @Override
             public void onClick(View v, int position) {
                 Intent intent = new Intent(getActivity(), ApplicantJobDescriptionActivity.class);
@@ -324,7 +328,16 @@ public class HomeFragment extends Fragment {
                 intent.putExtra("intentjobaddress",arraylist.get(position).getJobaddress());
                 intent.putExtra("intentjobspecialization",arraylist.get(position).getJobcategory());
                 intent.putExtra("intentjobsalary",arraylist.get(position).getJobsalary());
-                intent.putExtra("intentjobposted",arraylist.get(position).getJobdateposted());
+                SimpleDateFormat df= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                        Date date = null;
+                        try {
+                            date = df.parse(arraylist.get(position).getJobdateposted());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        df.applyPattern("MMM dd, yyyy");
+                        String newDate = df.format(date);  //Output: newDate = "13/09/2014"
+                intent.putExtra("intentjobposted",newDate);
                 intent.putExtra("intentjobstatus",arraylist.get(position).getJobstatus());
                 intent.putExtra("jobcompanylogo2",arraylist.get(position).getJoblogo());
                 startActivity(intent);
