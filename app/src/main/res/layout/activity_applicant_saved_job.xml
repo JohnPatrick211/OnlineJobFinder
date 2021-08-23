@@ -76,6 +76,15 @@
                 android:id="@+id/btn_filter"/>
 
         </RelativeLayout>
+
+        <include
+            android:layout_marginTop="40dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ln_nobookmarkedjoblayout"
+            layout="@layout/nobookmarkedjoblayout"
+            android:visibility="gone"
+            />
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -140,6 +149,7 @@
                 android:visibility="visible"
                 />
         </LinearLayout>
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <include

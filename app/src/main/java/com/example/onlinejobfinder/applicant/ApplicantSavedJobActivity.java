@@ -40,6 +40,7 @@ import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.EmailActivity;
 import com.example.onlinejobfinder.MainActivity;
 import com.example.onlinejobfinder.R;
+import com.example.onlinejobfinder.SessionManager;
 import com.example.onlinejobfinder.adapter.jobadapter;
 import com.example.onlinejobfinder.model.job;
 import com.google.android.material.navigation.NavigationView;
@@ -57,6 +58,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
+    View ln_nobookmarkedjoblayout;
     EditText edt_search;
     TextView tv_networkerrorrefresh;
     LinearLayout ln_networkjobsearcherror;
@@ -69,6 +71,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
     ArrayList<Integer> Specialization = new ArrayList<>();
     TextView btnfilter,tvsearchspecialization,tvsearchlocation;
     ArrayList<job> arraylist;
+    SessionManager sessionManager;
     ArrayList<job> arraylist2;
     ArrayList<String> category,location;
     JSONArray result,result2;
@@ -110,6 +113,8 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
         arraylist2 = new ArrayList<>();
         category = new ArrayList<String>();
         location = new ArrayList<String>();
+        ln_nobookmarkedjoblayout = findViewById(R.id.ln_nobookmarkedjoblayout);
+        sessionManager = new SessionManager(getApplicationContext());
         edt_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -160,7 +165,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
             @Override
             public void onClick(View view) {
                 ln_networkjobsearcherror.setVisibility(View.GONE);
-                networkrefresh.setRefreshing(true);
+//                networkrefresh.setRefreshing(true);
                 recyclerView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
@@ -168,6 +173,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                     }
                 });
                 arraylist.clear();
+                delay();
                 getPost();
             }
         });
@@ -548,10 +554,19 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                                 return false;
                             }
                         });
-//                        main.setVisibility(View.VISIBLE);
-                        ln_networkjobsearcherror.setVisibility(View.GONE);
-                        networkrefresh.setVisibility(View.GONE);
-                        safefilter();
+                        if(arraylist.isEmpty())
+                        {
+                            main.setVisibility(View.GONE);
+                            ln_nobookmarkedjoblayout.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                           // main.setVisibility(View.VISIBLE);
+                            ln_nobookmarkedjoblayout.setVisibility(View.GONE);
+                            ln_networkjobsearcherror.setVisibility(View.GONE);
+                            networkrefresh.setVisibility(View.GONE);
+                            safefilter();
+                        }
                     }
                     else {
                         Toast.makeText(ApplicantSavedJobActivity.this,"error",Toast.LENGTH_SHORT).show();
@@ -676,6 +691,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
 //                        SharedPreferences.Editor editor = userPref.edit();
                         //                       editor.clear();
                         //                      editor.apply();
+                        sessionManager.setApplicantLogin(false);
                         Intent ia = new Intent(ApplicantSavedJobActivity.this, MainActivity.class);
                         startActivity(ia);
                         finish();
@@ -735,6 +751,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
     public void delay()
     {
         main.setVisibility(View.GONE);
+        ln_nobookmarkedjoblayout.setVisibility(View.GONE);
         CDT = new CountDownTimer(2000, 1000) {
             @Override
             public void onTick(long l) {
@@ -743,8 +760,18 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
 
             @Override
             public void onFinish() {
-                ln_delay.setVisibility(View.GONE);
-                main.setVisibility(View.VISIBLE);
+                if(new CheckInternet().checkInternet(getApplicationContext())) {
+                    ln_delay.setVisibility(View.GONE);
+                    main.setVisibility(View.VISIBLE);
+                    ln_networkjobsearcherror.setVisibility(View.GONE);
+                }
+                else
+                {
+                    ln_delay.setVisibility(View.GONE);
+                    main.setVisibility(View.GONE);
+                    ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                }
+
 
             }
         }.start();

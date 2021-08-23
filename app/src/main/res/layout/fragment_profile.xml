@@ -45,7 +45,7 @@
         android:layout_marginTop="-40dp"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@color/design_default_color_primary_dark"
+        android:src="@drawable/img"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"
         android:id="@+id/imguserprofile"
@@ -122,6 +122,7 @@
             android:layout_marginTop="10dp"
             android:gravity="left"
             android:layout_marginLeft="-80dp"/>
+
         <TextView
             android:id="@+id/textView_addworkexperience"
             android:textColor="@color/design_default_color_primary"
@@ -132,6 +133,14 @@
             android:text="Add"
             android:gravity="right"
             android:layout_marginLeft="150dp"/>
+
+        <include
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ln_noworkexperiencelayout"
+            layout="@layout/noworkexperiencelayout"
+            android:visibility="gone"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="10dp"
@@ -210,6 +219,14 @@
             android:gravity="right"
             android:layout_marginLeft="150dp"/>
 
+        <include
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ln_noeducationlayout"
+            layout="@layout/noeducationlayout"
+            android:visibility="gone"
+            />
+
         <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="10dp"
             android:id="@+id/recyclerview_educationalbackground"
@@ -263,10 +280,10 @@
         android:id="@+id/bruh4"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="400px"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="#FFFFFF"
-        android:layout_marginBottom="50px"
+        android:layout_marginBottom="110px"
         android:gravity="center_horizontal">
 
         <TextView
@@ -277,6 +294,15 @@
             android:text="Resume"
             android:layout_marginBottom="8dp"
             android:gravity="center_horizontal"/>
+
+        <include
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ln_noresumelayout"
+            layout="@layout/noresumelayout"
+            android:layout_marginBottom="8dp"
+
+            />
 
         <TextView
             android:id="@+id/textView_ResumeView"
@@ -303,7 +329,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:text="Upload Document"
             android:gravity="center_horizontal"/>
 

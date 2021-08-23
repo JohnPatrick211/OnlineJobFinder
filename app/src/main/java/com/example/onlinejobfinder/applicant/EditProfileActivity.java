@@ -264,7 +264,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 i.putExtra("address", edit_address.getText().toString());
                 i.putExtra("email",txt_email.getText().toString());
                 i.putExtra("profile_pic", getIntent().getStringExtra("profile_pic"));
-                i.putExtra("specialization",getIntent().getExtras().getString("specialization"));
+                i.putExtra("specialization",txtspecialization.getText().toString().trim());
                 i.putExtra("gender",getIntent().getExtras().getString("gender"));
                 startActivity(i);
                 finish();

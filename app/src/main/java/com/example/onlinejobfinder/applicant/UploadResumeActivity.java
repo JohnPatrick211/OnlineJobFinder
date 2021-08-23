@@ -143,14 +143,16 @@ public class UploadResumeActivity extends AppCompatActivity {
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                Toast.makeText(UploadResumeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UploadResumeActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
+                                progressDialog.cancel();
                             }
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UploadResumeActivity.this, "Please Update Your Profile First Before uploading your Resume", Toast.LENGTH_SHORT).show();
+                            progressDialog.cancel();
                         }
                     }) {
 

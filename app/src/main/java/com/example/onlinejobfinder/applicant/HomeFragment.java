@@ -57,6 +57,7 @@ public class HomeFragment extends Fragment {
     TextView errortext,tv_networkerrorrefresh;
     String name2,specialization,user_id;
     LinearLayout errorlayout,ln_networkrecommendedjoberror;
+    View ln_norecommendedjoblayout;
     RecyclerView recyclerView;
     recommendedjobadapter.RecyclerViewClickListener listener;
     int position =0;
@@ -127,9 +128,11 @@ public class HomeFragment extends Fragment {
        View view = inflater.inflate(R.layout.fragment_home, container, false);
         SharedPreferences prefs = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        errorlayout = view.findViewById(R.id.allerrorlayout);
-        errortext = view.findViewById(R.id.allerrortext);
-        errorlayout.setVisibility(View.GONE);
+//        errorlayout = view.findViewById(R.id.allerrorlayout);
+
+//        errortext = view.findViewById(R.id.allerrortext);
+//        errorlayout.setVisibility(View.GONE);
+        ln_norecommendedjoblayout = view.findViewById(R.id.ln_norecommendedjoblayout);
         name2 = prefs.getString("name","name");
         user_id = prefs.getString("id","id");
         recyclerView = view.findViewById(R.id.recyclerview_recommendedjobs);
@@ -142,7 +145,7 @@ public class HomeFragment extends Fragment {
         tv_networkerrorrefresh = view.findViewById(R.id.tv_networkrecommendedjoberrorrefresh);
         ln_networkrecommendedjoberror = view.findViewById(R.id.networkerecommendedjoberrorlayout);
         ln_networkrecommendedjoberror.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.GONE);
+//        recyclerView.setVisibility(View.GONE);
         ln_delay = view.findViewById(R.id.ln_delayloadinglayout);
         main = view.findViewById(R.id.bruh);
         main.setVisibility(View.GONE);
@@ -150,6 +153,7 @@ public class HomeFragment extends Fragment {
         tv_networkerrorrefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                delay();
                 CheckSpecialization();
             }
         });
@@ -208,7 +212,7 @@ public class HomeFragment extends Fragment {
                     }
                     jobadapter2 = new recommendedjobadapter(arraylist,getContext(),listener);
                     recyclerView.setAdapter(jobadapter2);
-                    recyclerView.setVisibility(View.VISIBLE);
+//                    recyclerView.setVisibility(View.VISIBLE);
                     recyclerView.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
@@ -261,22 +265,23 @@ public class HomeFragment extends Fragment {
 
     private void CheckSpecialization() {
         ln_networkrecommendedjoberror.setVisibility(View.GONE);
-        refreshLayout.setRefreshing(true);
         if(new CheckInternet().checkInternet(getContext()))
         {
             StringRequest request = new StringRequest(Request.Method.POST, Constant.checkspecialization, response -> {
                 try{
                     JSONObject object= new JSONObject(response);
                     if(object.getBoolean("success")){
-                        errorlayout.setVisibility(View.GONE);
+//                        errorlayout.setVisibility(View.GONE);
+                        ln_norecommendedjoblayout.setVisibility(View.GONE);
                         JSONObject user = object.getJSONObject("Specialization");
                         val_specialization =  user.get("Specialization").toString();
                         getPost();
                     }
                     else
                     {
-                        errorlayout.setVisibility(View.VISIBLE);
-                        errortext.setText("Please set your Specialization in your Profile");
+                      //  main.setVisibility(View.GONE);
+                        ln_norecommendedjoblayout.setVisibility(View.VISIBLE);
+//                        errortext.setText("Please set your Specialization in your Profile");
                         refreshLayout.setRefreshing(false);
                     }
 
@@ -307,6 +312,7 @@ public class HomeFragment extends Fragment {
         else
         {
             recyclerView.setVisibility(View.GONE);
+            Toast.makeText(getContext(),"success",Toast.LENGTH_SHORT).show();
             ln_networkrecommendedjoberror.setVisibility(View.VISIBLE);
             refreshLayout.setRefreshing(false);
         }
@@ -347,6 +353,7 @@ public class HomeFragment extends Fragment {
     public void delay()
     {
         main.setVisibility(View.GONE);
+        ln_norecommendedjoblayout.setVisibility(View.GONE);
         CDT = new CountDownTimer(2000, 1000) {
             @Override
             public void onTick(long l) {
@@ -355,8 +362,17 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFinish() {
-                ln_delay.setVisibility(View.GONE);
-                main.setVisibility(View.VISIBLE);
+                if(new CheckInternet().checkInternet(getContext())) {
+                    ln_delay.setVisibility(View.GONE);
+                    main.setVisibility(View.VISIBLE);
+                    ln_networkrecommendedjoberror.setVisibility(View.GONE);
+                }
+                else
+                {
+                    ln_delay.setVisibility(View.GONE);
+                    main.setVisibility(View.GONE);
+                    ln_networkrecommendedjoberror.setVisibility(View.VISIBLE);
+                }
 
             }
         }.start();

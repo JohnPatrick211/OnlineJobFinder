@@ -35,6 +35,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.CheckInternet;
 import com.example.onlinejobfinder.Constant;
+import com.example.onlinejobfinder.MainActivity;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.adapter.educationalbackgroundadapter;
 import com.example.onlinejobfinder.adapter.jobadapter;
@@ -176,7 +177,6 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ln_networkjobsearcherror.setVisibility(View.GONE);
-                networkrefresh.setRefreshing(true);
                 recyclerView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
@@ -184,6 +184,7 @@ public class SearchFragment extends Fragment {
                     }
                 });
                 arraylist.clear();
+                delay();
                 getPost();
             }
         });

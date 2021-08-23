@@ -50,6 +50,7 @@ public class ProfileFragment extends Fragment {
 
     TextView txtmanageaccount, txtname, txtemail, txtcontactno, txtaddress, txtgender, txtspecialization, txtresume,txtintentresume, txtviewresume, txtaddeduc,txtaddwork;
     ImageView editprofile;
+    View ln_noworkexperiencelayout, ln_noeducationlayout, ln_noresumelayout;
     LinearLayout ln_networkerrorworkexperience, ln_networkerroreducation;
     TextView tvs_networkworkerrorrefresh, tvs_networkeducationerrorrefresh;
     educationalbackgroundadapter educationalbackgroundadapter;
@@ -171,6 +172,9 @@ public class ProfileFragment extends Fragment {
         tvs_networkeducationerrorrefresh = root.findViewById(R.id.tv_networkeducationerrorrefresh);
         ln_networkerrorworkexperience.setVisibility(View.GONE);
         ln_networkerroreducation.setVisibility(View.GONE);
+        ln_noworkexperiencelayout = root.findViewById(R.id.ln_noworkexperiencelayout);
+        ln_noeducationlayout = root.findViewById(R.id.ln_noeducationlayout);
+        ln_noresumelayout = root.findViewById(R.id.ln_noresumelayout);
         //check ID debugging//
         //Toast.makeText(getContext(), user_id, Toast.LENGTH_SHORT).show();
         Toast.makeText(getContext(), email, Toast.LENGTH_SHORT).show();
@@ -274,6 +278,7 @@ public class ProfileFragment extends Fragment {
                     {
                         txtresume.setVisibility(View.GONE);
                         txtviewresume.setVisibility(View.GONE);
+                        ln_noresumelayout.setVisibility(View.VISIBLE);
                     }
                     else {
                         txtcontactno.setVisibility(View.VISIBLE);
@@ -282,6 +287,7 @@ public class ProfileFragment extends Fragment {
                         txtgender.setVisibility(View.VISIBLE);
                         txtresume.setVisibility(View.VISIBLE);
                         txtviewresume.setVisibility(View.VISIBLE);
+                        ln_noresumelayout.setVisibility(View.GONE);
                     }
 
                 }
@@ -396,18 +402,23 @@ public class ProfileFragment extends Fragment {
                         txtspecialization.setVisibility(View.GONE);
                         txtgender.setVisibility(View.GONE);
                     }
-                    if(user.get("resume").toString().equals("null"))
-                    {
-                        txtresume.setVisibility(View.GONE);
-                        txtviewresume.setVisibility(View.GONE);
-                    }
                     else {
                         txtcontactno.setVisibility(View.VISIBLE);
                         txtaddress.setVisibility(View.VISIBLE);
                         txtspecialization.setVisibility(View.VISIBLE);
                         txtgender.setVisibility(View.VISIBLE);
-                        txtresume.setVisibility(View.VISIBLE);
-                        txtviewresume.setVisibility(View.VISIBLE);
+                        if(user.get("resume").toString().equals("null"))
+                        {
+                            txtresume.setVisibility(View.GONE);
+                            txtviewresume.setVisibility(View.GONE);
+                            ln_noresumelayout.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            txtresume.setVisibility(View.VISIBLE);
+                            txtviewresume.setVisibility(View.VISIBLE);
+                            ln_noresumelayout.setVisibility(View.GONE);
+                        }
                     }
 
                 }
@@ -474,8 +485,19 @@ public class ProfileFragment extends Fragment {
                     educationalbackgroundadapter = new educationalbackgroundadapter(arraylist,getContext(),listener);
                     recyclerView.setAdapter(educationalbackgroundadapter);
                     educationalbackgroundadapter.notifyDataSetChanged();
-                    recyclerView.setVisibility(View.VISIBLE);
-                    ln_networkerroreducation.setVisibility(View.GONE);
+                    if(arraylist.isEmpty())
+                    {
+                        ln_noeducationlayout.setVisibility(View.VISIBLE);
+                        ln_networkerroreducation.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.GONE);
+                    }
+                    else
+                    {
+                        recyclerView.setVisibility(View.VISIBLE);
+                        ln_networkerroreducation.setVisibility(View.GONE);
+                        ln_noeducationlayout.setVisibility(View.GONE);
+                    }
+
                 }
                 else {
                     networkeducationerror();
@@ -536,8 +558,19 @@ public class ProfileFragment extends Fragment {
                     workexperienceadapter2 = new workexperienceadapter(arraylist2,getContext(),worklistener);
                     recyclerView2.setAdapter(workexperienceadapter2);
                     workexperienceadapter2.notifyDataSetChanged();
-                    recyclerView2.setVisibility(View.VISIBLE);
-                    ln_networkerrorworkexperience.setVisibility(View.GONE);
+                    if(arraylist2.isEmpty())
+                    {
+                        ln_noworkexperiencelayout.setVisibility(View.VISIBLE);
+                        ln_networkerrorworkexperience.setVisibility(View.GONE);
+                        recyclerView2.setVisibility(View.GONE);
+                    }
+                    else
+                    {
+                        recyclerView2.setVisibility(View.VISIBLE);
+                        ln_networkerrorworkexperience.setVisibility(View.GONE);
+                        ln_noworkexperiencelayout.setVisibility(View.GONE);
+                    }
+
                 }
                 else {
                     Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
@@ -634,7 +667,18 @@ public class ProfileFragment extends Fragment {
                     educationalbackgroundadapter = new educationalbackgroundadapter(arraylist,getContext(),listener);
                     recyclerView.setAdapter(educationalbackgroundadapter);
                     educationalbackgroundadapter.notifyDataSetChanged();
-                    recyclerView.setVisibility(View.VISIBLE);
+                    if(arraylist.isEmpty())
+                    {
+                        ln_noeducationlayout.setVisibility(View.VISIBLE);
+                        ln_networkerroreducation.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.GONE);
+                    }
+                    else
+                    {
+                        recyclerView.setVisibility(View.VISIBLE);
+                        ln_networkerroreducation.setVisibility(View.GONE);
+                        ln_noeducationlayout.setVisibility(View.GONE);
+                    }
                 }
                 else {
                     Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
@@ -697,7 +741,18 @@ public class ProfileFragment extends Fragment {
                     workexperienceadapter2 = new workexperienceadapter(arraylist2,getContext(),worklistener);
                     recyclerView2.setAdapter(workexperienceadapter2);
                     workexperienceadapter2.notifyDataSetChanged();
-                    recyclerView2.setVisibility(View.VISIBLE);
+                    if(arraylist2.isEmpty())
+                    {
+                        ln_noworkexperiencelayout.setVisibility(View.VISIBLE);
+                        ln_networkerrorworkexperience.setVisibility(View.GONE);
+                        recyclerView2.setVisibility(View.GONE);
+                    }
+                    else
+                    {
+                        recyclerView2.setVisibility(View.VISIBLE);
+                        ln_networkerrorworkexperience.setVisibility(View.GONE);
+                        ln_noworkexperiencelayout.setVisibility(View.GONE);
+                    }
                 }
                 else {
                     Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
@@ -732,11 +787,13 @@ public class ProfileFragment extends Fragment {
     }
     private void networkworkexperienceerror()
     {
+        ln_noworkexperiencelayout.setVisibility(View.GONE);
         ln_networkerrorworkexperience.setVisibility(View.VISIBLE);
     }
     private void networkeducationerror()
     {
-       ln_networkerroreducation.setVisibility(View.VISIBLE);
+        ln_noeducationlayout.setVisibility(View.GONE);
+        ln_networkerroreducation.setVisibility(View.VISIBLE);
     }
 
     private void getData() {
