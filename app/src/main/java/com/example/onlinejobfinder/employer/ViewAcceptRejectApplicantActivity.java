@@ -55,6 +55,7 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
     LinearLayout main, main2, main3, main4;
     RelativeLayout footer;
     View ln_delay;
+    View ln_noviewworkexperiencelayout;
     CountDownTimer CDT;
     TextView txtmanageaccount, txtname, txtemail, txtcontactno, txtaddress, txtgender, txtspecialization, txtresume,txtintentresume, txtviewresume, txtaddeduc,txtaddwork;
     ImageView editprofile;
@@ -128,6 +129,7 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
 //        saved_id = getIntent().getExtras().getString("intentsavedid");
         applicant_id = getIntent().getExtras().getString("intentapplicant_id");
         val_id = getIntent().getExtras().getString("intentid");
+        ln_noviewworkexperiencelayout = findViewById(R.id.ln_noviewworkexperiencelayout);
         //check ID debugging//
 //        Toast.makeText(ViewAcceptRejectApplicantActivity.this,  val_id, Toast.LENGTH_SHORT).show();
         //Toast.makeText(ApplicantFinalCheckProfileActivity.this, email, Toast.LENGTH_SHORT).show();
@@ -548,6 +550,16 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
                     workexperienceadapter2 = new viewworkexperienceadapter(arraylist2,ViewAcceptRejectApplicantActivity.this);
                     recyclerView2.setAdapter(workexperienceadapter2);
                     workexperienceadapter2.notifyDataSetChanged();
+                    if(arraylist2.isEmpty())
+                    {
+                        ln_noviewworkexperiencelayout.setVisibility(View.VISIBLE);
+                        recyclerView2.setVisibility(View.GONE);
+                    }
+                    else
+                    {
+                        recyclerView2.setVisibility(View.VISIBLE);
+                        ln_noviewworkexperiencelayout.setVisibility(View.GONE);
+                    }
                 }
                 else {
                     Toast.makeText(ViewAcceptRejectApplicantActivity.this,"error",Toast.LENGTH_SHORT).show();

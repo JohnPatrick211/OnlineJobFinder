@@ -117,6 +117,16 @@
             android:gravity="left"
             android:layout_marginLeft="-80dp"/>
 
+        <include
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ln_noviewworkexperiencelayout"
+            layout="@layout/noviewworkexperiencelayout"
+            android:visibility="gone"
+            android:layout_marginBottom="20dp"
+
+            />
+
         <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="10dp"
             android:id="@+id/recyclerview_workexperience"
