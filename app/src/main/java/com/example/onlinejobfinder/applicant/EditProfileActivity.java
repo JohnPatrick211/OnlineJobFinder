@@ -551,6 +551,7 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        category.clear();
         getCategory();
     }
 
