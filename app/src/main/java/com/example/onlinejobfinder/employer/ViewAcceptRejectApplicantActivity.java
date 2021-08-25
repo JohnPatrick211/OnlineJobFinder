@@ -189,7 +189,7 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
                            protected Map<String, String> getParams() throws AuthFailureError {
                                HashMap<String,String> map = new HashMap<>();
                                map.put("id",val_id);
-                               map.put("name",val_name);
+                               map.put("applicant_id",applicant_id);
                                return map;
                            }
                        };

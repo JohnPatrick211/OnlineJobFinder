@@ -41,13 +41,14 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
     final FragmentManager fm = getSupportFragmentManager();
     Fragment active = fragment1;
     SessionManager sessionManager;
+    BottomNavigationView navView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_applicant);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigation_view);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.start, R.string.close);
@@ -191,5 +192,30 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
     public void onResume() {
         super.onResume();
         drawerLayout.closeDrawers();
+    }
+    public void onBackPressed()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Do you want to logout?");
+        builder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+//                        SharedPreferences.Editor editor = userPref.edit();
+                //                       editor.clear();
+                //                      editor.apply();
+                sessionManager.setApplicantLogin(false);
+                Intent ia = new Intent(ApplicantActivity.this, MainActivity.class);
+                startActivity(ia);
+                finish();
+
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.show();
     }
 }

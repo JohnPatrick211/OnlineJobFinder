@@ -559,16 +559,22 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
                     i.putExtra("address", "");
                     i.putExtra("specialization", "");
                     i.putExtra("gender", "");
+                    Toast.makeText(getApplicationContext(),"error1",Toast.LENGTH_SHORT).show();
+
                 }
-                if (imageview_user.getDrawable() != null) {
-
-                    i.putExtra("profile_pic", imgUrl);
-
-                } else {
+                 else {
                     i.putExtra("contactno", txtcontactno.getText().toString());
                     i.putExtra("address", txtaddress.getText().toString());
                     i.putExtra("specialization", txtspecialization.getText().toString());
                     i.putExtra("gender", txtgender.getText().toString());
+                    if (imageview_user.getDrawable() == null) {
+                        i.putExtra("profile_pic", imgUrl);
+                    }
+                    else
+                    {
+                        i.putExtra("profile_pic", imgUrl);
+                    }
+
                 }
                 startActivity(i);
             }

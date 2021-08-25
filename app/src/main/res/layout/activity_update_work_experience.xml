@@ -68,6 +68,8 @@
         android:orientation="vertical">
 
         <TextView
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:background="#FFFFFF"
             android:padding="10dp"
             android:id="@+id/updatetv_workspecialization"
@@ -86,6 +88,8 @@
         android:orientation="vertical">
 
         <TextView
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:background="#FFFFFF"
             android:padding="10dp"
             android:id="@+id/updateedittext_workstartdate"
@@ -104,6 +108,8 @@
         android:orientation="vertical">
 
         <TextView
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:background="#FFFFFF"
             android:padding="10dp"
             android:id="@+id/updateedittext_workenddate"

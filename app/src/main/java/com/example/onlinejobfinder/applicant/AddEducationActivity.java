@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,6 +55,54 @@ public class AddEducationActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.customactionbaraddeducation);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        edit_school.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                edit_school.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                edit_school.setError(null);
+            }
+        });
+        edit_course.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                edit_course.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                edit_course.setError(null);
+            }
+        });
+        tv_year.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tv_year.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                tv_year.setError(null);
+            }
+        });
 
         tv_year.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,57 +114,60 @@ public class AddEducationActivity extends AppCompatActivity {
         btnaddeduc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog.setMessage("Saving");
-                progressDialog.show();
-                StringRequest request = new StringRequest(Request.Method.POST, Constant.addeducation, response -> {
-                       try{
-                        JSONObject object= new JSONObject(response);
-                        if(object.getBoolean("success")){
-                            JSONObject user = object.getJSONObject("update");
-                            SharedPreferences userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = userPref.edit();
-                            editor.putString("id",user.getString("educational_id"));
-                            progressDialog.cancel();
-
-                            editor.apply();
-                            editor.commit();
-                            Toast.makeText(AddEducationActivity.this,"Saved Successfully",Toast.LENGTH_SHORT).show();
-                            onBackPressed();
-
-
-                        }
-                        else
-                        {
-                            Toast.makeText(AddEducationActivity.this, "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
-                            progressDialog.cancel();
-                        }
-
-                    }catch(JSONException e)
-                    {
-                        Toast.makeText(AddEducationActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
-                        progressDialog.cancel();
-                    }
-                },error ->{
-                    error.printStackTrace();
-                    Toast.makeText(AddEducationActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
-                    progressDialog.cancel();
-                })
+                if(validate())
                 {
+                    progressDialog.setMessage("Saving");
+                    progressDialog.show();
+                    StringRequest request = new StringRequest(Request.Method.POST, Constant.addeducation, response -> {
+                        try{
+                            JSONObject object= new JSONObject(response);
+                            if(object.getBoolean("success")){
+                                JSONObject user = object.getJSONObject("update");
+                                SharedPreferences userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = userPref.edit();
+                                editor.putString("id",user.getString("educational_id"));
+                                progressDialog.cancel();
 
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        HashMap<String,String> map = new HashMap<>();
-                        //map.put("id",user_id);
-                        map.put("educational_id",user_id);
-                        map.put("school",edit_school.getText().toString().trim());
-                        map.put("course",edit_course.getText().toString().trim());
-                        map.put("year",tv_year.getText().toString().trim());
-                        return map;
-                    }
-                };
+                                editor.apply();
+                                editor.commit();
+                                Toast.makeText(AddEducationActivity.this,"Saved Successfully",Toast.LENGTH_SHORT).show();
+                                onBackPressed();
 
-                RequestQueue queue = Volley.newRequestQueue(AddEducationActivity.this);
-                queue.add(request);
+
+                            }
+                            else
+                            {
+                                Toast.makeText(AddEducationActivity.this, "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                                progressDialog.cancel();
+                            }
+
+                        }catch(JSONException e)
+                        {
+                            Toast.makeText(AddEducationActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                            progressDialog.cancel();
+                        }
+                    },error ->{
+                        error.printStackTrace();
+                        Toast.makeText(AddEducationActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                        progressDialog.cancel();
+                    })
+                    {
+
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            HashMap<String,String> map = new HashMap<>();
+                            //map.put("id",user_id);
+                            map.put("educational_id",user_id);
+                            map.put("school",edit_school.getText().toString().trim());
+                            map.put("course",edit_course.getText().toString().trim());
+                            map.put("year",tv_year.getText().toString().trim());
+                            return map;
+                        }
+                    };
+
+                    RequestQueue queue = Volley.newRequestQueue(AddEducationActivity.this);
+                    queue.add(request);
+                }
             }
         });
     }
@@ -142,5 +195,25 @@ public class AddEducationActivity extends AppCompatActivity {
                 .setTitle("Select Year")
                 .showYearOnly()
                 .build().show();
+    }
+    private boolean validate(){
+        if (edit_school.getText().toString().isEmpty()){
+            edit_school.setError("School/Institute is required");
+            edit_school.requestFocus();
+            return false;
+        }
+        if (edit_course.getText().toString().isEmpty()) {
+            edit_course.setError("Course is required");
+            edit_course.requestFocus();
+            return false;
+        }
+        if (tv_year.getText().toString().equals("Year of Graduation") || tv_year.getText().toString().isEmpty()){
+            tv_year.setError("Year of Graduation is required");
+            tv_year.requestFocus();
+            return false;
+        }
+
+
+        return true;
     }
 }

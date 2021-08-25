@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -84,6 +86,86 @@ public class AddWorkExperience extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         //getCategory();
+        workposition.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                workposition.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                workposition.setError(null);
+            }
+        });
+        workcompanyname.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                workcompanyname.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                workcompanyname.setError(null);
+            }
+        });
+        tvworkspecialization.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvworkspecialization.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                tvworkspecialization.setError(null);
+            }
+        });
+        workstartdate.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                workstartdate.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                workstartdate.setError(null);
+            }
+        });
+        workenddate.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                workenddate.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                workenddate.setError(null);
+            }
+        });
         workstartdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -171,58 +253,61 @@ public class AddWorkExperience extends AppCompatActivity {
         btn_savework.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog.setMessage("Saving");
-                progressDialog.show();
-                StringRequest request = new StringRequest(Request.Method.POST, Constant.addworkexperience, response -> {
-                    try{
-                        JSONObject object= new JSONObject(response);
-                        if(object.getBoolean("success")){
-                            JSONObject user = object.getJSONObject("update");
-                            SharedPreferences userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = userPref.edit();
-                            editor.putString("id",user.getString("workexp_id"));
-                            progressDialog.cancel();
-
-                            editor.apply();
-                            editor.commit();
-                            Toast.makeText(AddWorkExperience.this,"Saved Successfully",Toast.LENGTH_SHORT).show();
-                            onBackPressed();
-
-
-                        }
-                        else
-                        {
-                            Toast.makeText(AddWorkExperience.this, "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
-                            progressDialog.cancel();
-                        }
-
-                    }catch(JSONException e)
-                    {
-                        Toast.makeText(AddWorkExperience.this,e.getMessage(),Toast.LENGTH_SHORT).show();
-                        progressDialog.cancel();
-                    }
-                },error ->{
-                    error.printStackTrace();
-                    Toast.makeText(AddWorkExperience.this,error.getMessage(),Toast.LENGTH_SHORT).show();
-                    progressDialog.cancel();
-                })
+                if(validate())
                 {
+                    progressDialog.setMessage("Saving");
+                    progressDialog.show();
+                    StringRequest request = new StringRequest(Request.Method.POST, Constant.addworkexperience, response -> {
+                        try{
+                            JSONObject object= new JSONObject(response);
+                            if(object.getBoolean("success")){
+                                JSONObject user = object.getJSONObject("update");
+                                SharedPreferences userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = userPref.edit();
+                                editor.putString("id",user.getString("workexp_id"));
+                                progressDialog.cancel();
 
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        HashMap<String,String> map = new HashMap<>();
-                        //map.put("id",user_id);
-                        map.put("workexp_id",user_id);
-                        map.put("name",workcompanyname.getText().toString().trim());
-                        map.put("position",workposition.getText().toString().trim());
-                        map.put("specialization",tvworkspecialization.getText().toString());
-                        map.put("startenddate",workstartdate.getText().toString().trim() + " - " + workenddate.getText().toString().trim());
-                        return map;
-                    }
-                };
+                                editor.apply();
+                                editor.commit();
+                                Toast.makeText(AddWorkExperience.this,"Saved Successfully",Toast.LENGTH_SHORT).show();
+                                onBackPressed();
 
-                RequestQueue queue = Volley.newRequestQueue(AddWorkExperience.this);
-                queue.add(request);
+
+                            }
+                            else
+                            {
+                                Toast.makeText(AddWorkExperience.this, "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                                progressDialog.cancel();
+                            }
+
+                        }catch(JSONException e)
+                        {
+                            Toast.makeText(AddWorkExperience.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                            progressDialog.cancel();
+                        }
+                    },error ->{
+                        error.printStackTrace();
+                        Toast.makeText(AddWorkExperience.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                        progressDialog.cancel();
+                    })
+                    {
+
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            HashMap<String,String> map = new HashMap<>();
+                            //map.put("id",user_id);
+                            map.put("workexp_id",user_id);
+                            map.put("name",workcompanyname.getText().toString().trim());
+                            map.put("position",workposition.getText().toString().trim());
+                            map.put("specialization",tvworkspecialization.getText().toString());
+                            map.put("startenddate",workstartdate.getText().toString().trim() + " - " + workenddate.getText().toString().trim());
+                            return map;
+                        }
+                    };
+
+                    RequestQueue queue = Volley.newRequestQueue(AddWorkExperience.this);
+                    queue.add(request);
+                }
             }
         });
     }
@@ -424,5 +509,34 @@ public class AddWorkExperience extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getCategory();
+    }
+
+    private boolean validate(){
+        if (workposition.getText().toString().isEmpty()){
+            workposition.setError("Position is required");
+            workposition.requestFocus();
+            return false;
+        }
+        if (workcompanyname.getText().toString().isEmpty()) {
+            workcompanyname.setError("Company Name is required");
+            workcompanyname.requestFocus();
+            return false;
+        }
+        if (tvworkspecialization.getText().toString().equals("Specialization") || tvworkspecialization.getText().toString().isEmpty()){
+            tvworkspecialization.setError("Specialization is required");
+            tvworkspecialization.requestFocus();
+            return false;
+        }
+        if (workstartdate.getText().toString().equals("Start Date") || workstartdate.getText().toString().isEmpty()){
+            workstartdate.setError("Start Date is required");
+            workstartdate.requestFocus();
+            return false;
+        }
+        if (workenddate.getText().toString().equals("End Date") || workenddate.getText().toString().isEmpty()){
+            workenddate.setError("End Date is required");
+            workenddate.requestFocus();
+            return false;
+        }
+        return true;
     }
 }

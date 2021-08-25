@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.onlinejobfinder.ApplicantActivity;
 import com.example.onlinejobfinder.MainActivity;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.SessionManager;
@@ -166,5 +167,29 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
     public void onResume() {
         super.onResume();
         drawerLayout.closeDrawers();
+    }
+    public void onBackPressed()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Do you want to logout?");
+        builder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+//                        SharedPreferences.Editor editor = userPref.edit();
+                //                       editor.clear();
+                //                      editor.apply();
+                sessionManager.setEmployerLogin(false);
+                Intent ia = new Intent(EmployerActivity.this, MainActivity.class);
+                startActivity(ia);
+                finish();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.show();
     }
 }

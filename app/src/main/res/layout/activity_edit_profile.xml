@@ -69,6 +69,8 @@
         android:layout_height="wrap_content"
         android:textSize="18dp"
         android:hint="Specialization"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         />
     <TextView
         android:id="@+id/applicantprofile_contactno"
@@ -111,6 +113,8 @@
         android:layout_height="wrap_content"
         android:textSize="18dp"
         android:hint="Gender"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         />
 
     <Button

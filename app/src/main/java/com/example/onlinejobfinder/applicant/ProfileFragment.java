@@ -346,18 +346,19 @@ public class ProfileFragment extends Fragment {
                    i.putExtra("specialization","");
                    i.putExtra("gender","");
                }
-               if(imageview_user.getDrawable() != null)
-               {
-
-                   i.putExtra("profile_pic", imgUrl);
-
-               }
                if(!val_contactno.equals("null")||!val_address.equals("null")||!val_specialization.equals("null") ||!val_gender.equals("null") )
                {
                    i.putExtra("contactno",txtcontactno.getText().toString());
                    i.putExtra("address",txtaddress.getText().toString());
                    i.putExtra("specialization",txtspecialization.getText().toString());
                    i.putExtra("gender",txtgender.getText().toString());
+                   if (imageview_user.getDrawable() == null) {
+                       i.putExtra("profile_pic", imgUrl);
+                   }
+                   else
+                   {
+                       i.putExtra("profile_pic", imgUrl);
+                   }
                }
                startActivity(i);
            }

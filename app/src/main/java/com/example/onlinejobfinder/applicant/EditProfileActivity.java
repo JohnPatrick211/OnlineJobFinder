@@ -15,6 +15,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -120,6 +122,86 @@ public class EditProfileActivity extends AppCompatActivity {
 //        txtid.setText(user_id);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
+        edit_name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                edit_name.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                edit_name.setError(null);
+            }
+        });
+        edit_contactno.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                edit_contactno.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                edit_contactno.setError(null);
+            }
+        });
+        edit_address.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                edit_address.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                edit_address.setError(null);
+            }
+        });
+        txtspecialization.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                txtspecialization.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                txtspecialization.setError(null);
+            }
+        });
+        txtgender.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                txtgender.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                txtgender.setError(null);
+            }
+        });
         try {
             String checknull = getIntent().getExtras().getString("profile_pic");
             if (checknull.equals("null")) {
@@ -281,82 +363,84 @@ public class EditProfileActivity extends AppCompatActivity {
         btn_saveimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog.setMessage("Saving");
-                progressDialog.show();
-                StringRequest request = new StringRequest(Request.Method.POST, Constant.updateprofile, response -> {
+                if(validate())
+                {
+                    progressDialog.setMessage("Saving");
+                    progressDialog.show();
+                    StringRequest request = new StringRequest(Request.Method.POST, Constant.updateprofile, response -> {
 //                StringRequest request = new StringRequest(Request.Method.POST, Constant.SAVE_USER_PROFILE, response -> {
-                    try{
-                        JSONObject object= new JSONObject(response);
-                        if(object.getBoolean("success")){
-                            JSONObject user = object.getJSONObject("update");
-                            SharedPreferences userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = userPref.edit();
-                            editor.putString("id",user.getString("applicant_id"));
-                            //editor.putString("file_path",user.getString("file_path"));
-                            //                           Intent i = new Intent(UploadProfileRegister.this, MainActivity.class);
-                            //                           startActivity(i);
-                            progressDialog.cancel();
+                        try{
+                            JSONObject object= new JSONObject(response);
+                            if(object.getBoolean("success")){
+                                JSONObject user = object.getJSONObject("update");
+                                SharedPreferences userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = userPref.edit();
+                                editor.putString("id",user.getString("applicant_id"));
+                                //editor.putString("file_path",user.getString("file_path"));
+                                //                           Intent i = new Intent(UploadProfileRegister.this, MainActivity.class);
+                                //                           startActivity(i);
+                                progressDialog.cancel();
 
-                            editor.apply();
-                            editor.commit();
-                            Toast.makeText(EditProfileActivity.this,"Saved Successfully",Toast.LENGTH_SHORT).show();
-                           // if(role.equals("employer"))
-                           // {
-                             //   Intent ia = new Intent(EditProfileActivity.this, GuestActivity.class);
-                               // startActivity(ia);
-                             //   finish();
-                           // }
-                           // else
-                           // {
-                          //      Intent i = new Intent(UploadProfileRegister.this, MainActivity.class);
-                          //      startActivity(i);
-                          //      finish();
-                          //  }
+                                editor.apply();
+                                editor.commit();
+                                Toast.makeText(EditProfileActivity.this,"Saved Successfully",Toast.LENGTH_SHORT).show();
+                                // if(role.equals("employer"))
+                                // {
+                                //   Intent ia = new Intent(EditProfileActivity.this, GuestActivity.class);
+                                // startActivity(ia);
+                                //   finish();
+                                // }
+                                // else
+                                // {
+                                //      Intent i = new Intent(UploadProfileRegister.this, MainActivity.class);
+                                //      startActivity(i);
+                                //      finish();
+                                //  }
 
 //                            Intent i = new Intent(RegisterActivity.this,UploadProfileRegister.class);
 //                            startActivity(i);
-                            onBackPressed();
+                                onBackPressed();
 
 
-                        }
-                        else
+                            }
+                            else
+                            {
+                                Toast.makeText(EditProfileActivity.this, "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                                progressDialog.cancel();
+                            }
+
+                        }catch(JSONException e)
                         {
-                            Toast.makeText(EditProfileActivity.this, "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditProfileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
                         }
-
-                    }catch(JSONException e)
-                    {
-                        Toast.makeText(EditProfileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                    },error ->{
+                        error.printStackTrace();
+                        Toast.makeText(EditProfileActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
                         progressDialog.cancel();
-                    }
-                },error ->{
-                    error.printStackTrace();
-                    Toast.makeText(EditProfileActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
-                    progressDialog.cancel();
-                })
-                {
-                  //  public Map<String, String> getHeaders() throws AuthFailureError {
-                   //     HashMap<String,String> map = new HashMap<>();
-                    //    String token = userPref.getString("token","");
-                    //    map.put("Authorization","Bearer"+token);
-                   //     return map;
-                    //}
+                    })
+                    {
+                        //  public Map<String, String> getHeaders() throws AuthFailureError {
+                        //     HashMap<String,String> map = new HashMap<>();
+                        //    String token = userPref.getString("token","");
+                        //    map.put("Authorization","Bearer"+token);
+                        //     return map;
+                        //}
 
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        HashMap<String,String> map = new HashMap<>();
-                        //map.put("id",user_id);
-                        map.put("applicant_id",user_id);
-                        map.put("name",edit_name.getText().toString().trim());
-                        map.put("email",txt_email.getText().toString().trim());
-                        map.put("contactno",edit_contactno.getText().toString().trim());
-                        map.put("address",edit_address.getText().toString().trim());
-                        map.put("gender",txtgender.getText().toString().trim());
-                        map.put("Specialization",txtspecialization.getText().toString().trim());
-                        map.put("profile_pic",bitmapToString(bitmap));
-                        return map;
-                    }
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            HashMap<String,String> map = new HashMap<>();
+                            //map.put("id",user_id);
+                            map.put("applicant_id",user_id);
+                            map.put("name",edit_name.getText().toString().trim());
+                            map.put("email",txt_email.getText().toString().trim());
+                            map.put("contactno",edit_contactno.getText().toString().trim());
+                            map.put("address",edit_address.getText().toString().trim());
+                            map.put("gender",txtgender.getText().toString().trim());
+                            map.put("Specialization",txtspecialization.getText().toString().trim());
+                            map.put("profile_pic",bitmapToString(bitmap));
+                            return map;
+                        }
 //                    public byte [] getBody()
 //                    {
 //                        Map <String,String> map = new HashMap<>();
@@ -364,10 +448,11 @@ public class EditProfileActivity extends AppCompatActivity {
 //                        map.put("file_path",bitmapToString(bitmap));
 //                        return map[user_id,bitmapToString(bitmap)];
 //                    }
-                };
+                    };
 
-                RequestQueue queue = Volley.newRequestQueue(EditProfileActivity.this);
-                queue.add(request);
+                    RequestQueue queue = Volley.newRequestQueue(EditProfileActivity.this);
+                    queue.add(request);
+                }
             }
         });
     }
@@ -467,5 +552,36 @@ public class EditProfileActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getCategory();
+    }
+
+    private boolean validate(){
+        if (edit_name.getText().toString().isEmpty()){
+            edit_name.setError("Name is required");
+            edit_name.requestFocus();
+            return false;
+        }
+        if (txtspecialization.getText().toString().equals("Specialization")) {
+            txtspecialization.setError("Specialization is required");
+            txtspecialization.requestFocus();
+            return false;
+        }
+        if (edit_contactno.getText().toString().equals("Contact Number")){
+            edit_contactno.setError("Contact Number is required");
+            edit_contactno.requestFocus();
+            return false;
+        }
+        if (edit_address.getText().toString().isEmpty()) {
+            edit_address.setError("Address is required");
+            edit_address.requestFocus();
+            return false;
+        }
+        if (txtgender.getText().toString().equals("Gender")){
+            txtgender.setError("Gender is required");
+            txtgender.requestFocus();
+            return false;
+        }
+
+
+        return true;
     }
 }
