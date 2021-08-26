@@ -4,9 +4,13 @@
     <item
         android:id="@+id/navigation_home"
         android:title="Home"/>
-<item
+    <item
     android:id="@+id/navigation_testemail"
     android:title="Email"/>
+
+    <item
+        android:id="@+id/navigation_applicationhistory"
+        android:title="Application History"/>
 
     <item
         android:id="@+id/navigation_savedjob"

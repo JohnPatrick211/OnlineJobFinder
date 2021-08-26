@@ -19,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.onlinejobfinder.applicant.ApplicantHistoryActivity;
 import com.example.onlinejobfinder.applicant.ApplicantSavedJobActivity;
 import com.example.onlinejobfinder.applicant.HomeFragment;
 import com.example.onlinejobfinder.applicant.ProfileFragment;
@@ -161,6 +162,12 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
                 intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent2.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent2);
+                break;
+            case R.id.navigation_applicationhistory:
+                Intent intent3 = new Intent(ApplicantActivity.this, ApplicantHistoryActivity.class);
+                intent3.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent3.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent3);
                 break;
             case R.id.navigation_logout:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);

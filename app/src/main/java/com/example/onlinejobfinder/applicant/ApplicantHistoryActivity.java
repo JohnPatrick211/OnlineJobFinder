@@ -23,12 +23,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amar.library.ui.StickyScrollView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -41,7 +38,10 @@ import com.example.onlinejobfinder.EmailActivity;
 import com.example.onlinejobfinder.MainActivity;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.SessionManager;
-import com.example.onlinejobfinder.adapter.jobadapter;
+import com.example.onlinejobfinder.adapter.applicanthistoryadapter;
+import com.example.onlinejobfinder.adapter.employerjobcountadapter;
+import com.example.onlinejobfinder.employer.ViewApplyApplicantActivity;
+import com.example.onlinejobfinder.model.applicanthistory;
 import com.example.onlinejobfinder.model.job;
 import com.google.android.material.navigation.NavigationView;
 
@@ -49,72 +49,107 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class ApplicantSavedJobActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class ApplicantHistoryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
-    View ln_nobookmarkedjoblayout;
-    EditText edt_search;
-    TextView tv_networkerrorrefresh;
-    LinearLayout ln_networkjobsearcherror;
+    SessionManager sessionManager;
     RecyclerView recyclerView;
+    View ln_nojobappplicantlayout;
+    EditText edt_search;
     SharedPreferences userPref2;
-    jobadapter.RecyclerViewClickListener listener;
+    String name2, user_id,token,email;
+    applicanthistoryadapter.RecyclerViewClickListener listener;
     int position =0;
     int position2 =0;
     boolean[] selectedspecialization, selectedlocation;
     ArrayList<Integer> Specialization = new ArrayList<>();
     TextView btnfilter,tvsearchspecialization,tvsearchlocation;
-    ArrayList<job> arraylist;
-    SessionManager sessionManager;
-    ArrayList<job> arraylist2;
+    ArrayList<applicanthistory> arraylist;
+    ArrayList<applicanthistory> arraylist2;
     ArrayList<String> category,location;
     JSONArray result,result2;
     SwipeRefreshLayout refreshLayout,networkrefresh;
-    jobadapter jobadapter2;
-    String name2, user_id,token,email;
+    TextView tv_networkerrorrefresh;
+    LinearLayout main;
+    LinearLayout ln_networkjobsearcherror;
+    applicanthistoryadapter jobadapter2;
     // Spinner spinnercategory, spinnerlocation;
-    String catergoryString,yearString;
+    String catergoryString,yearString, approved;
     String [] specializationarray, locationarray;
     View ln_delay;
-    LinearLayout main;
     CountDownTimer CDT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_applicant_saved_job);
-
+        setContentView(R.layout.activity_applicant_history);
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigation_view);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.start, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setCustomView(R.layout.customactionbarbookmarkedjob);
+        getSupportActionBar().setCustomView(R.layout.customactionbarmaintitle);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        navigationView.setNavigationItemSelectedListener(this);
+        sessionManager = new SessionManager(getApplicationContext());
+        btnfilter = findViewById(R.id.btn_employerfilter);
+        tvsearchspecialization = findViewById(R.id.tv_searchemployerspecialization);
+        tvsearchlocation  = findViewById(R.id.tv_searchemployerlocation);
+        recyclerView = findViewById(R.id.recyclerview_jobs);
         edt_search = findViewById(R.id.search);
-        btnfilter = findViewById(R.id.btn_filter);
-        tvsearchspecialization = findViewById(R.id.tv_searchspecialization);
-        tvsearchlocation  = findViewById(R.id.tv_searchlocation);
-        recyclerView = findViewById(R.id.recyclerview_savedjobs);
-        recyclerView.setLayoutManager(new LinearLayoutManager(ApplicantSavedJobActivity.this));
-        refreshLayout = findViewById(R.id.swipe);
+        recyclerView.setLayoutManager(new LinearLayoutManager(ApplicantHistoryActivity.this));
+        refreshLayout = findViewById(R.id.employerswipe);
 //        spinnercategory = view.findViewById(R.id.spinner_category);
         //       spinnerlocation = view.findViewById(R.id.spinner_location);
         arraylist = new ArrayList<>();
         arraylist2 = new ArrayList<>();
         category = new ArrayList<String>();
         location = new ArrayList<String>();
-        ln_nobookmarkedjoblayout = findViewById(R.id.ln_nobookmarkedjoblayout);
-        sessionManager = new SessionManager(getApplicationContext());
+        approved = "Approved";
+        userPref2 = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        name2 = userPref2.getString("name","name");
+        email = userPref2.getString("email","email");
+        user_id = userPref2.getString("id","id");
+        token = userPref2.getString("token","token");
+        networkrefresh = findViewById(R.id.networkswipe);
+        ln_nojobappplicantlayout = findViewById(R.id.ln_nojobapplicantlayout);
+        ln_delay = findViewById(R.id.ln_delayloadinglayout);
+        main = findViewById(R.id.bruh);
+        main.setVisibility(View.GONE);
+        tv_networkerrorrefresh = findViewById(R.id.tv_networkjobsearcherrorrefresh);
+        ln_networkjobsearcherror = findViewById(R.id.networkjobsearcherrorlayout);
+        ln_networkjobsearcherror.setVisibility(View.GONE);
+        main.setVisibility(View.GONE);
+
+        navigationView.setNavigationItemSelectedListener(this);
+
+        delay();
+
+        tv_networkerrorrefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ln_networkjobsearcherror.setVisibility(View.GONE);
+                networkrefresh.setRefreshing(true);
+                recyclerView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return true;
+                    }
+                });
+                arraylist.clear();
+                getPost();
+            }
+        });
         edt_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -144,44 +179,11 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
         setOnClickListener();
         //getCategory();
         // getLocation();
-        userPref2 = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-        name2 = userPref2.getString("name","name");
-        email = userPref2.getString("email","email");
-        user_id = userPref2.getString("id","id");
-        token = userPref2.getString("token","token");
-        networkrefresh = findViewById(R.id.networkswipe);
-        main = findViewById(R.id.bruh);
-        tv_networkerrorrefresh = findViewById(R.id.tv_networkjobsearcherrorrefresh);
-        ln_networkjobsearcherror = findViewById(R.id.networkjobsearcherrorlayout);
-        ln_networkjobsearcherror.setVisibility(View.GONE);
-        ln_delay = findViewById(R.id.ln_delayloadinglayout);
-        main = findViewById(R.id.bruh);
-        main.setVisibility(View.GONE);
-
-        delay();
-
-
-        tv_networkerrorrefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ln_networkjobsearcherror.setVisibility(View.GONE);
-//                networkrefresh.setRefreshing(true);
-                recyclerView.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        return true;
-                    }
-                });
-                arraylist.clear();
-                delay();
-                getPost();
-            }
-        });
         tvsearchspecialization.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(
-                        ApplicantSavedJobActivity.this
+                        ApplicantHistoryActivity.this
                 );
                 tvsearchspecialization.setText(specializationarray[position]);
                 builder.setTitle("Select Specialization");
@@ -237,7 +239,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(
-                        ApplicantSavedJobActivity.this
+                        ApplicantHistoryActivity.this
                 );
                 tvsearchlocation.setText(locationarray[position2]);
                 builder.setTitle("Select Region");
@@ -294,7 +296,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
             public void onClick(View view) {
                 catergoryString = tvsearchspecialization.getText().toString();
                 yearString = tvsearchlocation.getText().toString();
-                ArrayList<job> w = new ArrayList<>();
+                ArrayList<applicanthistory> w = new ArrayList<>();
                 if(catergoryString.equals("Specialization") && yearString.equals("Region"))
                 {
 
@@ -302,7 +304,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                 }
                 else
                 {
-                    for(job details : arraylist)
+                    for(applicanthistory details : arraylist)
                     {
                         if(catergoryString.equals("Specialization") && !TextUtils.isEmpty(yearString))
                         {
@@ -331,7 +333,6 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                 jobadapter2.setWinnerDetails(w);
             }
         });
-  //      getPost();
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("jobpost", Context.MODE_PRIVATE);
 //        spinnercategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
@@ -375,9 +376,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                 getPost();
             }
         });
-
     }
-
     private void getCategory() {
         StringRequest request = new StringRequest(Request.Method.GET, Constant.categoryfilter, response ->{
             JSONObject j = null;
@@ -386,16 +385,19 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                 result = j.getJSONArray("categories");
                 getSubCategory(result);
 //                main.setVisibility(View.VISIBLE);
+
                 ln_networkjobsearcherror.setVisibility(View.GONE);
 
 
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(ApplicantSavedJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(ApplicantHistoryActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
                 main.setVisibility(View.GONE);
+
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                 networkrefresh.setVisibility(View.VISIBLE);
+                ln_nojobappplicantlayout.setVisibility(View.GONE);
             }
 
             refreshLayout.setRefreshing(false);
@@ -409,6 +411,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
             main.setVisibility(View.GONE);
             ln_networkjobsearcherror.setVisibility(View.VISIBLE);
             networkrefresh.setVisibility(View.VISIBLE);
+            ln_nojobappplicantlayout.setVisibility(View.GONE);
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -417,7 +420,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
             }
         };
 
-        RequestQueue queue = Volley.newRequestQueue(ApplicantSavedJobActivity.this);
+        RequestQueue queue = Volley.newRequestQueue(ApplicantHistoryActivity.this);
         queue.add(request);
     }
 
@@ -428,12 +431,15 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                 JSONObject json = j.getJSONObject(ai);
                 category.add(json.getString("category"));
 //                main.setVisibility(View.VISIBLE);
+
                 ln_networkjobsearcherror.setVisibility(View.GONE);
             }catch (JSONException e)
             {
+
                 e.printStackTrace();
                 main.setVisibility(View.GONE);
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                ln_nojobappplicantlayout.setVisibility(View.GONE);
             }
         }
         specializationarray = category.toArray(new String[0]);
@@ -450,16 +456,19 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                 result2 = j.getJSONArray("locations");
                 getSubLocation(result2);
 //                main.setVisibility(View.VISIBLE);
+
                 ln_networkjobsearcherror.setVisibility(View.GONE);
 
 
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(ApplicantSavedJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(ApplicantHistoryActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
                 main.setVisibility(View.GONE);
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                 networkrefresh.setVisibility(View.VISIBLE);
+                ln_nojobappplicantlayout.setVisibility(View.GONE);
+
             }
 
             refreshLayout.setRefreshing(false);
@@ -477,7 +486,9 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
             refreshLayout.setRefreshing(false);
             networkrefresh.setRefreshing(false);
 
+
             main.setVisibility(View.GONE);
+            ln_nojobappplicantlayout.setVisibility(View.GONE);
             ln_networkjobsearcherror.setVisibility(View.VISIBLE);
             networkrefresh.setVisibility(View.VISIBLE);
         }){
@@ -488,7 +499,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
             }
         };
 
-        RequestQueue queue = Volley.newRequestQueue(ApplicantSavedJobActivity.this);
+        RequestQueue queue = Volley.newRequestQueue(ApplicantHistoryActivity.this);
         queue.add(request);
     }
 
@@ -499,12 +510,15 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                 JSONObject json = j.getJSONObject(ai);
                 location.add(json.getString("region"));
 //                main.setVisibility(View.VISIBLE);
+
                 ln_networkjobsearcherror.setVisibility(View.GONE);
             }catch (JSONException e)
             {
                 e.printStackTrace();
                 main.setVisibility(View.GONE);
+                ln_nojobappplicantlayout.setVisibility(View.GONE);
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+
             }
         }
         locationarray = location.toArray(new String[0]);
@@ -514,9 +528,9 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
     }
 
     private void getPost() {
-        if(new CheckInternet().checkInternet(ApplicantSavedJobActivity.this))
+        if(new CheckInternet().checkInternet(ApplicantHistoryActivity.this))
         {
-            StringRequest request = new StringRequest(Request.Method.GET, Constant.postsavedjob+"?applicant_id="+user_id, response ->{
+            StringRequest request = new StringRequest(Request.Method.GET, Constant.applicationhistory+"?applicant_id="+user_id, response ->{
                 try{
                     JSONObject object = new JSONObject(response);
                     if(object.getBoolean("success"))
@@ -527,7 +541,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                             JSONObject postObject = array.getJSONObject(i);
                             //JSONObject getpostObject = postObject.getJSONObject("jobposts");
 
-                            job job2 = new job();
+                            applicanthistory job2 = new applicanthistory();
                             job2.setJoblogo(postObject.getString("logo"));
                             job2.setJobtitle(postObject.getString("jobtitle"));
                             job2.setJobcompany(postObject.getString("companyname"));
@@ -540,13 +554,12 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                             job2.setJobid(postObject.getString("job_id"));
                             job2.setJobdescription(postObject.getString("jobdescription"));
                             job2.setJobuniqueid(postObject.getString("id"));
-                            job2.setJobstatus(postObject.getString("jobstatus"));
-                            job2.setSavedid(postObject.getString("saved_id"));
+                            job2.setJobstatus(postObject.getString("status"));
 
                             arraylist.add(job2);
-                            arraylist2.add(job2);
+                            //arraylist2.add(job2);
                         }
-                        jobadapter2 = new jobadapter(arraylist,ApplicantSavedJobActivity.this,listener);
+                        jobadapter2 = new applicanthistoryadapter(arraylist,ApplicantHistoryActivity.this,listener);
                         recyclerView.setAdapter(jobadapter2);
                         recyclerView.setOnTouchListener(new View.OnTouchListener() {
                             @Override
@@ -557,28 +570,30 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                         if(arraylist.isEmpty())
                         {
                             main.setVisibility(View.GONE);
-                            ln_nobookmarkedjoblayout.setVisibility(View.VISIBLE);
+                            ln_nojobappplicantlayout.setVisibility(View.VISIBLE);
                         }
-                        else
-                        {
-                           // main.setVisibility(View.VISIBLE);
-                            ln_nobookmarkedjoblayout.setVisibility(View.GONE);
+                        else {
+                            ln_nojobappplicantlayout.setVisibility(View.GONE);
+                            main.setVisibility(View.VISIBLE);
                             ln_networkjobsearcherror.setVisibility(View.GONE);
                             networkrefresh.setVisibility(View.GONE);
                             safefilter();
                         }
+
                     }
                     else {
-                        Toast.makeText(ApplicantSavedJobActivity.this,"error",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ApplicantHistoryActivity.this,"error",Toast.LENGTH_SHORT).show();
                         main.setVisibility(View.GONE);
+                        ln_nojobappplicantlayout.setVisibility(View.GONE);
                         ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                         networkrefresh.setVisibility(View.VISIBLE);
                     }
                 }catch(JSONException e)
                 {
                     e.printStackTrace();
-                    Toast.makeText(ApplicantSavedJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ApplicantHistoryActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
                     main.setVisibility(View.GONE);
+                    ln_nojobappplicantlayout.setVisibility(View.GONE);
                     ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                     networkrefresh.setVisibility(View.VISIBLE);
                 }
@@ -588,6 +603,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
 
             },error -> {
                 error.printStackTrace();
+                ln_nojobappplicantlayout.setVisibility(View.GONE);
                 refreshLayout.setRefreshing(false);
                 networkrefresh.setRefreshing(false);
                 main.setVisibility(View.GONE);
@@ -601,45 +617,47 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                 }
             };
 
-            RequestQueue queue = Volley.newRequestQueue(ApplicantSavedJobActivity.this);
+            RequestQueue queue = Volley.newRequestQueue(ApplicantHistoryActivity.this);
             queue.add(request);
         }
         else
         {
             main.setVisibility(View.GONE);
+            ln_nojobappplicantlayout.setVisibility(View.GONE);
             ln_networkjobsearcherror.setVisibility(View.VISIBLE);
             refreshLayout.setRefreshing(false);
             networkrefresh.setRefreshing(false);
             networkrefresh.setVisibility(View.VISIBLE);
         }
+
     }
     public void onResume() {
         super.onResume();
-        delay();
         drawerLayout.closeDrawers();
+        delay();
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return true;
             }
         });
-        getCategory();
-        getLocation();
-        getPost();
         arraylist.clear();
         category.clear();
         location.clear();
+        getCategory();
+        getLocation();
+        getPost();
+
     }
 
     private void setOnClickListener() {
-        listener = new jobadapter.RecyclerViewClickListener() {
+        listener = new  applicanthistoryadapter.RecyclerViewClickListener() {
             @Override
             public void onClick(View v, int position) {
-                Intent intent = new Intent(ApplicantSavedJobActivity.this, ApplicantJobDescriptionActivity.class);
+                Intent intent = new Intent(ApplicantHistoryActivity.this, ApplicantHistoryViewJobActivity.class);
                 intent.putExtra("intentjob_id",arraylist.get(position).getJobid());
                 intent.putExtra("intentid",arraylist.get(position).getJobuniqueid());
                 intent.putExtra("intentjoblogo",Constant.URL+"/storage/profiles/"+arraylist.get(position).getJoblogo());
-                intent.putExtra("jobcompanylogo2",arraylist.get(position).getJoblogo());
                 intent.putExtra("intentjobtitle",arraylist.get(position).getJobtitle());
                 intent.putExtra("intentjobcompany",arraylist.get(position).getJobcompany());
                 intent.putExtra("intentjobdescription",arraylist.get(position).getJobdescription());
@@ -648,77 +666,27 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                 intent.putExtra("intentjobaddress",arraylist.get(position).getJobaddress());
                 intent.putExtra("intentjobspecialization",arraylist.get(position).getJobcategory());
                 intent.putExtra("intentjobsalary",arraylist.get(position).getJobsalary());
-                intent.putExtra("intentjobposted",arraylist.get(position).getJobdateposted());
+                SimpleDateFormat df= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                Date date = null;
+                try {
+                    date = df.parse(arraylist.get(position).getJobdateposted());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                df.applyPattern("MMM dd, yyyy");
+                String newDate = df.format(date);  //Output: newDate = "13/09/2014"
+                intent.putExtra("intentjobposted",newDate);
                 intent.putExtra("intentjobstatus",arraylist.get(position).getJobstatus());
-                intent.putExtra("intentsavedid",arraylist.get(position).getSavedid());
-                intent.putExtra("intentremove","Remove");
-                intent.putExtra("intent1","1");
+                intent.putExtra("jobcompanylogo2",arraylist.get(position).getJoblogo());
                 startActivity(intent);
             }
         };
-    }
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(toggle.onOptionsItemSelected(item))
-        {
-            return true;
-        }
-        return true;
-    }
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId())
-        {
-            case R.id.navigation_home:
-                Intent intent = new Intent(ApplicantSavedJobActivity.this, ApplicantActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-                break;
-            case R.id.navigation_testemail:
-                Intent intent1 = new Intent(ApplicantSavedJobActivity.this,EmailActivity.class);
-                startActivity(intent1);
-                break;
-            case R.id.navigation_savedjob:
-                drawerLayout.closeDrawers();
-                break;
-            case R.id.navigation_applicationhistory:
-                Intent intent3 = new Intent(ApplicantSavedJobActivity.this, ApplicantHistoryActivity.class);
-                intent3.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent3.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent3);
-                break;
-            case R.id.navigation_logout:
-                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
-                builder.setMessage("Do you want to logout?");
-                builder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        SharedPreferences.Editor editor = userPref.edit();
-                        //                       editor.clear();
-                        //                      editor.apply();
-                        sessionManager.setApplicantLogin(false);
-                        Intent ia = new Intent(ApplicantSavedJobActivity.this, MainActivity.class);
-                        startActivity(ia);
-                        finish();
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-                builder.show();
-                break;
-        }
-        return true;
     }
     private void safefilter()
     {
         catergoryString = tvsearchspecialization.getText().toString();
         yearString = tvsearchlocation.getText().toString();
-        ArrayList<job> w = new ArrayList<>();
+        ArrayList<applicanthistory> w = new ArrayList<>();
         if(catergoryString.equals("Specialization") && yearString.equals("Region"))
         {
 
@@ -726,7 +694,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
         }
         else
         {
-            for(job details : arraylist)
+            for(applicanthistory details : arraylist)
             {
                 if(catergoryString.equals("Specialization") && !TextUtils.isEmpty(yearString))
                 {
@@ -757,7 +725,6 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
     public void delay()
     {
         main.setVisibility(View.GONE);
-        ln_nobookmarkedjoblayout.setVisibility(View.GONE);
         CDT = new CountDownTimer(2000, 1000) {
             @Override
             public void onTick(long l) {
@@ -766,21 +733,80 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
 
             @Override
             public void onFinish() {
-                if(new CheckInternet().checkInternet(getApplicationContext())) {
+                if(new CheckInternet().checkInternet(ApplicantHistoryActivity.this)) {
                     ln_delay.setVisibility(View.GONE);
-                    main.setVisibility(View.VISIBLE);
-                    ln_networkjobsearcherror.setVisibility(View.GONE);
+
                 }
                 else
                 {
                     ln_delay.setVisibility(View.GONE);
                     main.setVisibility(View.GONE);
                     ln_networkjobsearcherror.setVisibility(View.VISIBLE);
+                    networkrefresh.setVisibility(View.VISIBLE);
                 }
-
 
             }
         }.start();
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(toggle.onOptionsItemSelected(item))
+        {
+            return true;
+        }
+        return true;
+    }
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.navigation_home:
+                drawerLayout.closeDrawers();
+                Intent intent3 = new Intent(ApplicantHistoryActivity.this, ApplicantActivity.class);
+                intent3.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent3.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent3);
+                break;
+            case R.id.navigation_testemail:
+                Intent intent1 = new Intent(ApplicantHistoryActivity.this, EmailActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.navigation_savedjob:
+                Intent intent2 = new Intent(ApplicantHistoryActivity.this, ApplicantSavedJobActivity.class);
+                intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent2.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent2);
+                break;
+            case R.id.navigation_applicationhistory:
+                drawerLayout.closeDrawers();
+                break;
+            case R.id.navigation_logout:
+                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+                builder.setMessage("Do you want to logout?");
+                builder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        SharedPreferences.Editor editor = userPref.edit();
+                        //                       editor.clear();
+                        //                      editor.apply();
+                        sessionManager.setApplicantLogin(false);
+                        Intent ia = new Intent(ApplicantHistoryActivity.this, MainActivity.class);
+                        startActivity(ia);
+                        finish();
+
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                builder.show();
+                break;
+        }
+        return true;
     }
 }
