@@ -161,6 +161,12 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
                 ia.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(ia);
                 break;
+            case R.id.navigation_applicanthired:
+                Intent ia1 = new Intent(EmployerActivity.this, ApplicantHiredActivity.class);
+                ia1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                ia1.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(ia1);
+                break;
         }
         return true;
     }

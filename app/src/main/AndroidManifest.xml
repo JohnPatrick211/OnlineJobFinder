@@ -10,7 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OnlineJobFinder"
         android:usesCleartextTraffic="true">
-        <activity android:name=".tabregister.EmailOTPActivity"></activity>
+        <activity android:name=".employer.ViewApplyProfileActivity"></activity>
+        <activity android:name=".employer.ApplicantHiredActivity" />
+        <activity android:name=".tabregister.EmailOTPActivity" />
         <activity android:name=".guest.GuestJobDescriptionActivity" />
         <activity android:name=".guest.GuestActivity" />
         <activity android:name=".employer.ViewJobToSaveRecommendedApplicantActivity" />

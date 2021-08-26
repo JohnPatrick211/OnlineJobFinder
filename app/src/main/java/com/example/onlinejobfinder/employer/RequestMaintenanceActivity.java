@@ -22,6 +22,7 @@ import com.example.onlinejobfinder.MainActivity;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.SendMail;
 import com.example.onlinejobfinder.SendRequestMail;
+import com.example.onlinejobfinder.SessionManager;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
@@ -36,6 +37,7 @@ public class RequestMaintenanceActivity extends AppCompatActivity implements Nav
     String name2, user_id,token,permaid, address, email, contactno, background;
     String val_contactno = "";
     String val_specialization = "";
+    SessionManager sessionManager;
     SharedPreferences userPref2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,7 @@ public class RequestMaintenanceActivity extends AppCompatActivity implements Nav
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         edittext_email.setText(email);
+        sessionManager = new SessionManager(getApplicationContext());
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -102,6 +105,7 @@ public class RequestMaintenanceActivity extends AppCompatActivity implements Nav
 //                        SharedPreferences.Editor editor = userPref.edit();
                         //                       editor.clear();
                         //                      editor.apply();
+                        sessionManager.setEmployerLogin(false);
                         Intent ia = new Intent(RequestMaintenanceActivity.this, MainActivity.class);
                         startActivity(ia);
                         finish();
@@ -117,6 +121,12 @@ public class RequestMaintenanceActivity extends AppCompatActivity implements Nav
                 break;
             case R.id.navigation_requestmaintenance:
                 drawerLayout.closeDrawers();
+                break;
+            case R.id.navigation_applicanthired:
+                Intent ia11 = new Intent(RequestMaintenanceActivity.this, ApplicantHiredActivity.class);
+                ia11.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                ia11.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(ia11);
                 break;
         }
         return true;
