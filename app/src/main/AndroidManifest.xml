@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OnlineJobFinder"
         android:usesCleartextTraffic="true">
-        <activity android:name=".applicant.ApplicantHistoryViewJobActivity"></activity>
+        <activity android:name=".termsandprivacy.TermsAndPrivacyActivity"></activity>
+        <activity android:name=".applicant.ApplicantHistoryViewJobActivity" />
         <activity android:name=".applicant.ApplicantHistoryActivity" />
         <activity android:name=".employer.ViewApplyProfileActivity" />
         <activity android:name=".employer.ApplicantHiredActivity" />

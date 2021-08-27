@@ -31,6 +31,7 @@ import com.example.onlinejobfinder.MainActivity;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.SendMail;
 import com.example.onlinejobfinder.SendOTPMail;
+import com.example.onlinejobfinder.termsandprivacy.TermsAndPrivacyActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -54,7 +55,7 @@ import java.util.Random;
  * create an instance of this fragment.
  */
 public class ApplicantFragment extends Fragment {
-    TextView signin;
+    TextView signin,terms,privacy;
     Button btnregister;
      TextInputLayout layoutEmail,layoutPassword,layoutConfirm,layoutName;
     TextInputEditText edt_email,edt_name,edt_password,edt_confirmpassword;
@@ -112,6 +113,8 @@ public class ApplicantFragment extends Fragment {
         // Inflate the layout for this fragment
         View view=  inflater.inflate(R.layout.fragment_applicant, container, false);
         btnregister = view.findViewById(R.id.btn_register);
+        privacy = view.findViewById(R.id.txtview_privacy);
+        terms = view.findViewById(R.id.txtview_termsandconditions);
         edt_email = view.findViewById(R.id.edittext_email);
         edt_name = view.findViewById(R.id.edittext_name);
         edt_password = view.findViewById(R.id.edittext_password);
@@ -126,6 +129,21 @@ public class ApplicantFragment extends Fragment {
         String role_applicant = "applicant";
 //        user = mAuth.getCurrentUser();
         signin = view.findViewById(R.id.txtview_signin);
+
+        terms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), TermsAndPrivacyActivity.class);
+                startActivity(i);
+            }
+        });
+        privacy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), TermsAndPrivacyActivity.class);
+                startActivity(i);
+            }
+        });
 
         signin.setOnClickListener(new View.OnClickListener() {
             @Override

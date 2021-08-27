@@ -201,7 +201,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:text="By Clicking Send Button, You agree with our Privacy Policy and Terms of Conditions"
+        android:text="By Clicking “Send” Button, You agree with our Privacy Policy and Terms of Conditions"
         android:textSize="18dp"/>
 
     <com.google.android.material.button.MaterialButton
