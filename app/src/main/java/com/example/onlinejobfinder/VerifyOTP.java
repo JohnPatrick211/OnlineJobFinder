@@ -96,12 +96,12 @@ public class VerifyOTP extends AppCompatActivity {
 
                     }catch(JSONException e)
                     {
-                        Toast.makeText(VerifyOTP.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(VerifyOTP.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                         progressDialog.cancel();
                     }
                 },error ->{
                     error.printStackTrace();
-                    Toast.makeText(VerifyOTP.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(VerifyOTP.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     progressDialog.cancel();
                 })
                 {
@@ -135,7 +135,7 @@ public class VerifyOTP extends AppCompatActivity {
             }
         });
 
-        Toast.makeText(VerifyOTP.this,intentOTPcode,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(VerifyOTP.this,intentOTPcode,Toast.LENGTH_SHORT).show();
         btn_verifycode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

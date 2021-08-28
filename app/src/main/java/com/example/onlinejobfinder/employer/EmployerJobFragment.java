@@ -514,7 +514,7 @@ public class EmployerJobFragment extends Fragment {
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                 main.setVisibility(View.GONE);
                 addjob.setVisibility(View.GONE);
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
@@ -585,7 +585,7 @@ public class EmployerJobFragment extends Fragment {
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                 main.setVisibility(View.GONE);
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                 ln_nojoblayout.setVisibility(View.GONE);
@@ -706,7 +706,7 @@ public class EmployerJobFragment extends Fragment {
                         }
                     }
                     else {
-                        Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                         main.setVisibility(View.GONE);
                         ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                         ln_nojoblayout.setVisibility(View.GONE);
@@ -716,7 +716,7 @@ public class EmployerJobFragment extends Fragment {
                 }catch(JSONException e)
                 {
                     e.printStackTrace();
-                    Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     main.setVisibility(View.GONE);
                     ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                     addjob.setVisibility(View.GONE);
@@ -812,8 +812,8 @@ public class EmployerJobFragment extends Fragment {
                         JSONObject user = object.getJSONObject("user");
                         val_contactno = user.get("contactno").toString();
                         val_specialization =  user.get("Specialization").toString();
-                        Toast.makeText(getContext(),val_contactno,Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getContext(),val_specialization,Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(),val_contactno,Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(),val_specialization,Toast.LENGTH_SHORT).show();
                         intentcompanyname = user.get("name").toString();
                         intentemail = user.get("email").toString();
                         intentaddress = user.get("address").toString();
@@ -854,7 +854,7 @@ public class EmployerJobFragment extends Fragment {
                 }catch(JSONException e)
                 {
                     e.printStackTrace();
-                    Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     main.setVisibility(View.GONE);
                     ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                     networkrefresh.setVisibility(View.VISIBLE);
@@ -867,7 +867,7 @@ public class EmployerJobFragment extends Fragment {
 
             },error ->{
                 error.printStackTrace();
-                Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                 refreshLayout.setRefreshing(false);
                 networkrefresh.setRefreshing(false);
                 main.setVisibility(View.GONE);

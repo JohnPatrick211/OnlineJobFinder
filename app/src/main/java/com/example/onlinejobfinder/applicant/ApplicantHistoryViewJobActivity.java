@@ -179,11 +179,11 @@ public class ApplicantHistoryViewJobActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    Toast.makeText(ApplicantHistoryViewJobActivity.this, "error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ApplicantHistoryViewJobActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(ApplicantHistoryViewJobActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ApplicantHistoryViewJobActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
             }
 
 

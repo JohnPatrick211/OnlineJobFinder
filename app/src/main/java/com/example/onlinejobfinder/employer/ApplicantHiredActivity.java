@@ -227,13 +227,13 @@ public class ApplicantHiredActivity extends AppCompatActivity implements Navigat
                     }
                 }
                 else {
-                    Toast.makeText(ApplicantHiredActivity.this,"error",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ApplicantHiredActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     ln_noappplicantsappliedlayout.setVisibility(View.GONE);
                 }
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(ApplicantHiredActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(ApplicantHiredActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                 ln_noappplicantsappliedlayout.setVisibility(View.GONE);
             }
 
@@ -291,7 +291,7 @@ public class ApplicantHiredActivity extends AppCompatActivity implements Navigat
 //                intent.putExtra("intentjobposted",arraylist.get(position).getJobdateposted());
 //                intent.putExtra("intentjobstatus",arraylist.get(position).getJobstatus());
 //                intent.putExtra("jobcompanylogo2",arraylist.get(position).getJoblogo());
-                Toast.makeText(ApplicantHiredActivity.this,"Success",Toast.LENGTH_SHORT).show();
+               // Toast.makeText(ApplicantHiredActivity.this,"Success",Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         };

@@ -282,12 +282,12 @@ public class AddWorkExperience extends AppCompatActivity {
 
                         }catch(JSONException e)
                         {
-                            Toast.makeText(AddWorkExperience.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddWorkExperience.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
                         }
                     },error ->{
                         error.printStackTrace();
-                        Toast.makeText(AddWorkExperience.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddWorkExperience.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                         progressDialog.cancel();
                     })
                     {
@@ -328,7 +328,7 @@ public class AddWorkExperience extends AppCompatActivity {
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(AddWorkExperience.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddWorkExperience.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             }
 
             //refreshLayout.setRefreshing(false);

@@ -76,7 +76,7 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
         editor.apply();
         editor.commit();
         //check ID debugging//
-        Toast.makeText(ApplicantActivity.this,user_id,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(ApplicantActivity.this,user_id,Toast.LENGTH_SHORT).show();
 
 //        getSupportFragmentManager().beginTransaction().replace(R.id.container,new HomeFragment()).commit();
 //

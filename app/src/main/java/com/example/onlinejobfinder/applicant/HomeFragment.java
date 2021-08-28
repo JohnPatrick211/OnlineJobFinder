@@ -221,14 +221,14 @@ public class HomeFragment extends Fragment {
                     });
                 }
                 else {
-                    Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     recyclerView.setVisibility(View.GONE);
                     ln_networkrecommendedjoberror.setVisibility(View.VISIBLE);
                 }
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                 recyclerView.setVisibility(View.GONE);
                 ln_networkrecommendedjoberror.setVisibility(View.VISIBLE);
             }
@@ -287,12 +287,12 @@ public class HomeFragment extends Fragment {
 
                 }catch(JSONException e)
                 {
-                    Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     refreshLayout.setRefreshing(false);
                 }
             },error ->{
                 error.printStackTrace();
-                Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                 refreshLayout.setRefreshing(false);
 
             })

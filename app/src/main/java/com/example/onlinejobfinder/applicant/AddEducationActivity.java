@@ -143,12 +143,12 @@ public class AddEducationActivity extends AppCompatActivity {
 
                         }catch(JSONException e)
                         {
-                            Toast.makeText(AddEducationActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddEducationActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
                         }
                     },error ->{
                         error.printStackTrace();
-                        Toast.makeText(AddEducationActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddEducationActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                         progressDialog.cancel();
                     })
                     {

@@ -155,7 +155,7 @@ public class ApplicantJobDescriptionActivity extends AppCompatActivity {
                             }
 
                         } catch (JSONException e) {
-                            Toast.makeText(ApplicantJobDescriptionActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ApplicantJobDescriptionActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
                         }
                     }, error -> {
@@ -220,12 +220,12 @@ public class ApplicantJobDescriptionActivity extends AppCompatActivity {
                             }
 
                         } catch (JSONException e) {
-                            Toast.makeText(ApplicantJobDescriptionActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ApplicantJobDescriptionActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
                         }
                     }, error -> {
                         error.printStackTrace();
-                        Toast.makeText(ApplicantJobDescriptionActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ApplicantJobDescriptionActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
                         progressDialog.cancel();
                     }) {
 
@@ -333,11 +333,11 @@ public class ApplicantJobDescriptionActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    Toast.makeText(ApplicantJobDescriptionActivity.this, "error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ApplicantJobDescriptionActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(ApplicantJobDescriptionActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ApplicantJobDescriptionActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
             }
 
 

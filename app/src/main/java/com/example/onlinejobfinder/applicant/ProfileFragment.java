@@ -177,7 +177,7 @@ public class ProfileFragment extends Fragment {
         ln_noresumelayout = root.findViewById(R.id.ln_noresumelayout);
         //check ID debugging//
         //Toast.makeText(getContext(), user_id, Toast.LENGTH_SHORT).show();
-        Toast.makeText(getContext(), email, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), email, Toast.LENGTH_SHORT).show();
         setOnClickListener();
         setOnClickListener2();
 
@@ -313,7 +313,7 @@ public class ProfileFragment extends Fragment {
             }
         },error ->{
             error.printStackTrace();
-            Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             imageview_user.setBackgroundResource(R.drawable.img);
             txtname.setText(name2);
             txtemail.setText(email);
@@ -444,7 +444,7 @@ public class ProfileFragment extends Fragment {
             }
         },error ->{
             error.printStackTrace();
-            Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             // progressDialog.cancel();
         })
         {
@@ -502,7 +502,7 @@ public class ProfileFragment extends Fragment {
                 }
                 else {
                     networkeducationerror();
-                    Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     recyclerView.setVisibility(View.GONE);
                 }
             }catch(JSONException e)
@@ -510,7 +510,7 @@ public class ProfileFragment extends Fragment {
                 networkeducationerror();
                 recyclerView.setVisibility(View.GONE);
                 e.printStackTrace();
-                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             }
 
 
@@ -518,7 +518,7 @@ public class ProfileFragment extends Fragment {
         },error -> {
             error.printStackTrace();
             networkeducationerror();
-            Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             recyclerView.setVisibility(View.GONE);
         }){
             @Override
@@ -574,7 +574,7 @@ public class ProfileFragment extends Fragment {
 
                 }
                 else {
-                    Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     recyclerView2.setVisibility(View.GONE);
                     networkworkexperienceerror();
                 }
@@ -583,14 +583,14 @@ public class ProfileFragment extends Fragment {
                 recyclerView2.setVisibility(View.GONE);
                 e.printStackTrace();
                 networkworkexperienceerror();
-                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             }
 
 
 
         },error -> {
             error.printStackTrace();
-            Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             recyclerView2.setVisibility(View.GONE);
             networkworkexperienceerror();
         }){
@@ -682,7 +682,7 @@ public class ProfileFragment extends Fragment {
                     }
                 }
                 else {
-                    Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     networkeducationerror();
                     recyclerView.setVisibility(View.GONE);
                 }
@@ -691,14 +691,14 @@ public class ProfileFragment extends Fragment {
                 networkeducationerror();
                 recyclerView.setVisibility(View.GONE);
                 e.printStackTrace();
-                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             }
 
 
 
         },error -> {
             error.printStackTrace();
-            Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             networkeducationerror();
             recyclerView.setVisibility(View.GONE);
         }){
@@ -756,7 +756,7 @@ public class ProfileFragment extends Fragment {
                     }
                 }
                 else {
-                    Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     recyclerView2.setVisibility(View.GONE);
                     networkworkexperienceerror();
                 }
@@ -764,7 +764,7 @@ public class ProfileFragment extends Fragment {
             {
                 recyclerView2.setVisibility(View.GONE);
                 e.printStackTrace();
-                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                 networkworkexperienceerror();
             }
 
@@ -772,7 +772,7 @@ public class ProfileFragment extends Fragment {
 
         },error -> {
             error.printStackTrace();
-            Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             recyclerView2.setVisibility(View.GONE);
             networkworkexperienceerror();
         }){

@@ -420,7 +420,7 @@ public class SearchFragment extends Fragment {
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                 main.setVisibility(View.GONE);
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                 networkrefresh.setVisibility(View.VISIBLE);
@@ -482,7 +482,7 @@ public class SearchFragment extends Fragment {
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                 main.setVisibility(View.GONE);
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                 networkrefresh.setVisibility(View.VISIBLE);
@@ -584,7 +584,7 @@ public class SearchFragment extends Fragment {
                         safefilter();
                     }
                     else {
-                        Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                         main.setVisibility(View.GONE);
                         ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                         networkrefresh.setVisibility(View.VISIBLE);
@@ -592,7 +592,7 @@ public class SearchFragment extends Fragment {
                 }catch(JSONException e)
                 {
                     e.printStackTrace();
-                    Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     main.setVisibility(View.GONE);
                     ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                     networkrefresh.setVisibility(View.VISIBLE);

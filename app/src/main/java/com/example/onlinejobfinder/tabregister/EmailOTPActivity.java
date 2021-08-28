@@ -165,7 +165,7 @@ public class EmailOTPActivity extends AppCompatActivity {
 
                                 }catch(JSONException e)
                                 {
-                                    Toast.makeText(EmailOTPActivity.this,"error",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(EmailOTPActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                                     progressDialog.cancel();
                                 }
                             },error ->{

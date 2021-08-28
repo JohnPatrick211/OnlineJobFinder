@@ -146,7 +146,7 @@ public class EmployerProfileFragment extends Fragment {
 
 
 
-        Toast.makeText(getContext(), email, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), email, Toast.LENGTH_SHORT).show();
 
         StringRequest request = new StringRequest(Request.Method.GET, Constant.EMPLOYER_POST+"?employer_id="+user_id, response -> {
             try{
@@ -192,7 +192,7 @@ public class EmployerProfileFragment extends Fragment {
                 }
                 else
                 {
-                    Toast.makeText(getContext(), "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
                     // progressDialog.cancel();
                     networkcompanyerror();
                     txtemployercompanyoverview.setVisibility(View.GONE);
@@ -213,7 +213,7 @@ public class EmployerProfileFragment extends Fragment {
             }
         },error ->{
             error.printStackTrace();
-            Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             txtemployername.setText(name2);
             txtemployeremail.setText(email);
             networkcompanyerror();
@@ -330,7 +330,7 @@ public class EmployerProfileFragment extends Fragment {
             }
         },error ->{
             error.printStackTrace();
-            Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             txtemployername.setText(name2);
             txtemployeremail.setText(email);
             networkcompanyerror();
@@ -414,7 +414,7 @@ public class EmployerProfileFragment extends Fragment {
             }
         },error ->{
             error.printStackTrace();
-            Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             txtemployername.setText(name2);
             txtemployeremail.setText(email);
             imageview_employer.setBackgroundResource(R.drawable.img);

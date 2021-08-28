@@ -101,7 +101,7 @@ public class SendRequestMail extends AsyncTask<Void,Void,Void> {
 
         } catch (MessagingException e) {
             progressDialog.dismiss();
-            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
+            Toast.makeText(context,"Network Error, Please Try Again",Toast.LENGTH_LONG).show();
         }
         return null;
     }

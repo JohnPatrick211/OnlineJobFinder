@@ -359,13 +359,13 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
 
                         }catch(JSONException e)
                         {
-                            Toast.makeText(EditEmployerProfileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditEmployerProfileActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                             // Toast.makeText(EditEmployerProfileActivity.this, response, Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
                         }
                     },error ->{
                         error.printStackTrace();
-                        Toast.makeText(EditEmployerProfileActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditEmployerProfileActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                         progressDialog.cancel();
                     })
                     {
@@ -418,7 +418,7 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
         }
         else
         {
-            Toast.makeText(EditEmployerProfileActivity.this,"error",Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditEmployerProfileActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
         }
         return "";
     }
@@ -460,7 +460,7 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(EditEmployerProfileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditEmployerProfileActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             }
 
             //refreshLayout.setRefreshing(false);

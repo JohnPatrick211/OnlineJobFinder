@@ -42,13 +42,13 @@ public class TermsAndPrivacyActivity extends AppCompatActivity {
         if(privacy.equals("privacy"))
         {
             viewpager.setCurrentItem(1, true);
-            Toast.makeText(TermsAndPrivacyActivity.this, "success", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(TermsAndPrivacyActivity.this, "success", Toast.LENGTH_SHORT).show();
             selected = 1;
         }
         else
         {
             viewpager.setCurrentItem(0, true);
-            Toast.makeText(TermsAndPrivacyActivity.this, "failed", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(TermsAndPrivacyActivity.this, "failed", Toast.LENGTH_SHORT).show();
             selected = 0;
         }
 

@@ -183,17 +183,17 @@ public class ViewApplyApplicantActivity extends AppCompatActivity {
                     {
                         recyclerView.setVisibility(View.GONE);
                         ln_noappplicantsappliedlayout.setVisibility(View.VISIBLE);
-                        Toast.makeText(ViewApplyApplicantActivity.this,"arraylist is empty",Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(ViewApplyApplicantActivity.this,"arraylist is empty",Toast.LENGTH_SHORT).show();
                     }
                 }
                 else {
-                    Toast.makeText(ViewApplyApplicantActivity.this,"error",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewApplyApplicantActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     ln_noappplicantsappliedlayout.setVisibility(View.GONE);
                 }
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(ViewApplyApplicantActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(ViewApplyApplicantActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                 ln_noappplicantsappliedlayout.setVisibility(View.GONE);
             }
 
@@ -248,7 +248,7 @@ public class ViewApplyApplicantActivity extends AppCompatActivity {
 //                intent.putExtra("intentjobposted",arraylist.get(position).getJobdateposted());
 //                intent.putExtra("intentjobstatus",arraylist.get(position).getJobstatus());
 //                intent.putExtra("jobcompanylogo2",arraylist.get(position).getJoblogo());
-                Toast.makeText(ViewApplyApplicantActivity.this,"Success",Toast.LENGTH_SHORT).show();
+               // Toast.makeText(ViewApplyApplicantActivity.this,"Success",Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         };

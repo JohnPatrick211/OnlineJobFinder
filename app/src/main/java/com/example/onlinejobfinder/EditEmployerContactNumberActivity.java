@@ -133,13 +133,13 @@ public class EditEmployerContactNumberActivity extends AppCompatActivity {
 
                         }catch(JSONException e)
                         {
-                            Toast.makeText(EditEmployerContactNumberActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditEmployerContactNumberActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
 
                             progressDialog.cancel();
                         }
                     },error ->{
                         error.printStackTrace();
-                        Toast.makeText(EditEmployerContactNumberActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditEmployerContactNumberActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                         progressDialog.cancel();
                     })
                     {

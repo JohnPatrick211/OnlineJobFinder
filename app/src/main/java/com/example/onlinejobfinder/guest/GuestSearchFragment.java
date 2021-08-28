@@ -320,7 +320,7 @@ public class GuestSearchFragment extends Fragment {
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             }
 
             refreshLayout.setRefreshing(false);
@@ -369,7 +369,7 @@ public class GuestSearchFragment extends Fragment {
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             }
 
             refreshLayout.setRefreshing(false);
@@ -453,12 +453,12 @@ public class GuestSearchFragment extends Fragment {
                     safefilter();
                 }
                 else {
-                    Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                 }
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             }
 
             refreshLayout.setRefreshing(false);

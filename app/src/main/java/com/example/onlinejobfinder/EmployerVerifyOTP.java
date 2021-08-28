@@ -90,12 +90,12 @@ public class EmployerVerifyOTP extends AppCompatActivity {
 
                     }catch(JSONException e)
                     {
-                        Toast.makeText(EmployerVerifyOTP.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EmployerVerifyOTP.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                         progressDialog.cancel();
                     }
                 },error ->{
                     error.printStackTrace();
-                    Toast.makeText(EmployerVerifyOTP.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EmployerVerifyOTP.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     progressDialog.cancel();
                 })
                 {

@@ -121,7 +121,7 @@ public class UploadResumeActivity extends AppCompatActivity {
                             rQueue.getCache().clear();
                             try {
                                 JSONObject jsonObject = new JSONObject(new String(response.data));
-                                Toast.makeText(getApplicationContext(), jsonObject.getString("user"), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getApplicationContext(), jsonObject.getString("user"), Toast.LENGTH_SHORT).show();
 
                                 jsonObject.toString().replace("\\\\","");
 
@@ -194,10 +194,10 @@ public class UploadResumeActivity extends AppCompatActivity {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            Toast.makeText(UploadResumeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(UploadResumeActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(UploadResumeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(UploadResumeActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
         }
 
 

@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
                         }catch(JSONException e)
                         {
-                            Toast.makeText(MainActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
                         }
                     },error ->{

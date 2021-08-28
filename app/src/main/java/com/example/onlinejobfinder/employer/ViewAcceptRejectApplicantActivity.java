@@ -177,7 +177,7 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
 
                            }catch(JSONException e)
                            {
-                               Toast.makeText(ViewAcceptRejectApplicantActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                               Toast.makeText(ViewAcceptRejectApplicantActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                                progressDialog.cancel();
                            }
                        },error ->{
@@ -244,12 +244,12 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
 
                            }catch(JSONException e)
                            {
-                               Toast.makeText(ViewAcceptRejectApplicantActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                               Toast.makeText(ViewAcceptRejectApplicantActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                                progressDialog.cancel();
                            }
                        },error ->{
                            error.printStackTrace();
-                           Toast.makeText(ViewAcceptRejectApplicantActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                           Toast.makeText(ViewAcceptRejectApplicantActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                            progressDialog.cancel();
                        })
                        {
@@ -357,7 +357,7 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
             }
         },error ->{
             error.printStackTrace();
-            Toast.makeText(ViewAcceptRejectApplicantActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(ViewAcceptRejectApplicantActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             txtname.setText(name2);
             txtemail.setText(email);
             // progressDialog.cancel();
@@ -450,7 +450,7 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
             }
         },error ->{
             error.printStackTrace();
-            Toast.makeText(ViewAcceptRejectApplicantActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(ViewAcceptRejectApplicantActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             // progressDialog.cancel();
         })
         {
@@ -495,21 +495,21 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
 
                 }
                 else {
-                    Toast.makeText(ViewAcceptRejectApplicantActivity.this,"error",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewAcceptRejectApplicantActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     recyclerView.setVisibility(View.GONE);
                 }
             }catch(JSONException e)
             {
                 recyclerView.setVisibility(View.GONE);
                 e.printStackTrace();
-                Toast.makeText(ViewAcceptRejectApplicantActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(ViewAcceptRejectApplicantActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             }
 
 
 
         },error -> {
             error.printStackTrace();
-            Toast.makeText(ViewAcceptRejectApplicantActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(ViewAcceptRejectApplicantActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             recyclerView.setVisibility(View.GONE);
         }){
             @Override
@@ -562,21 +562,21 @@ public class ViewAcceptRejectApplicantActivity extends AppCompatActivity {
                     }
                 }
                 else {
-                    Toast.makeText(ViewAcceptRejectApplicantActivity.this,"error",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewAcceptRejectApplicantActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     recyclerView2.setVisibility(View.GONE);
                 }
             }catch(JSONException e)
             {
                 recyclerView2.setVisibility(View.GONE);
                 e.printStackTrace();
-                Toast.makeText(ViewAcceptRejectApplicantActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(ViewAcceptRejectApplicantActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             }
 
 
 
         },error -> {
             error.printStackTrace();
-            Toast.makeText(ViewAcceptRejectApplicantActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(ViewAcceptRejectApplicantActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             recyclerView2.setVisibility(View.GONE);
         }){
             @Override

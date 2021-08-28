@@ -268,12 +268,12 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
 
                         }catch(JSONException e)
                         {
-                            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
                         }
                     },error ->{
                         error.printStackTrace();
-                        Toast.makeText(getApplicationContext(),"network error, please try again",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                         progressDialog.cancel();
                     })
                     {
@@ -366,7 +366,7 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
         if(imagemployerBIR.getDrawable() == null)
         {
             txtview_BIR.setError("BIR Certificate is Required");
-            Toast.makeText(EmployerRegistrationActivity.this,"BIR Certificate is Required",Toast.LENGTH_SHORT).show();
+           // Toast.makeText(EmployerRegistrationActivity.this,"BIR Certificate is Required",Toast.LENGTH_SHORT).show();
             return false;
         }
 

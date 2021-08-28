@@ -246,7 +246,7 @@ public class EmployerHomeFragment extends Fragment {
                             });
                         }
                         else {
-                            Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                             recyclerView.setVisibility(View.GONE);
                             ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
                             refreshLayout.setRefreshing(false);
@@ -254,7 +254,7 @@ public class EmployerHomeFragment extends Fragment {
                     }catch(JSONException e)
                     {
                         e.printStackTrace();
-                        Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                         recyclerView.setVisibility(View.GONE);
                         //ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
                         ln_norecommendedlayout.setVisibility(View.VISIBLE);
@@ -327,7 +327,7 @@ public class EmployerHomeFragment extends Fragment {
 //                intent.putExtra("intentjobposted",arraylist.get(position).getJobdateposted());
 //                intent.putExtra("intentjobstatus",arraylist.get(position).getJobstatus());
 //                intent.putExtra("jobcompanylogo2",arraylist.get(position).getJoblogo());
-                Toast.makeText(getContext(),"Success",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"Success",Toast.LENGTH_SHORT).show();
                startActivity(intent);
             }
         };
@@ -344,9 +344,9 @@ public class EmployerHomeFragment extends Fragment {
                         JSONObject user = object.getJSONObject("user");
                         val_contactno = user.get("contactno").toString();
                         val_specialization =  user.get("Specialization").toString();
-                        Toast.makeText(getContext(),val_contactno,Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getContext(),val_specialization,Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getContext(),"success",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(),val_contactno,Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(),val_specialization,Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(),"success",Toast.LENGTH_SHORT).show();
                         intentcompanyname = user.get("name").toString();
                         intentemail = user.get("email").toString();
                         intentaddress = user.get("address").toString();
@@ -407,7 +407,7 @@ public class EmployerHomeFragment extends Fragment {
                 }
             },error ->{
                 error.printStackTrace();
-                Toast.makeText(getContext(),"error.getMessage()",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                 recyclerView.setVisibility(View.GONE);
                 ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
                 refreshLayout.setRefreshing(false);

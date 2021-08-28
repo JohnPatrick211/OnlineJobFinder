@@ -299,12 +299,12 @@ public class UpdateWorkExperienceActivity extends AppCompatActivity {
 
                     }catch(JSONException e)
                     {
-                        Toast.makeText(UpdateWorkExperienceActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UpdateWorkExperienceActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                         progressDialog.cancel();
                     }
                 },error ->{
                     error.printStackTrace();
-                    Toast.makeText(UpdateWorkExperienceActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UpdateWorkExperienceActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     progressDialog.cancel();
                 })
                 {
@@ -355,12 +355,12 @@ public class UpdateWorkExperienceActivity extends AppCompatActivity {
 
                         }catch(JSONException e)
                         {
-                            Toast.makeText(UpdateWorkExperienceActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UpdateWorkExperienceActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
                         }
                     },error ->{
                         error.printStackTrace();
-                        Toast.makeText(UpdateWorkExperienceActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UpdateWorkExperienceActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                         progressDialog.cancel();
                     })
                     {
@@ -536,7 +536,7 @@ public class UpdateWorkExperienceActivity extends AppCompatActivity {
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(UpdateWorkExperienceActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(UpdateWorkExperienceActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             }
 
             //refreshLayout.setRefreshing(false);

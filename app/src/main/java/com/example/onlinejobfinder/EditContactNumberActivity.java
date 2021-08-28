@@ -142,13 +142,13 @@ public class EditContactNumberActivity extends AppCompatActivity {
 
                         }catch(JSONException e)
                         {
-                            Toast.makeText(EditContactNumberActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditContactNumberActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
 
                             progressDialog.cancel();
                         }
                     },error ->{
                         error.printStackTrace();
-                        Toast.makeText(EditContactNumberActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditContactNumberActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                         progressDialog.cancel();
                     })
                     {

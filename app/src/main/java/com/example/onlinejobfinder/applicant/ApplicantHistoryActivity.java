@@ -392,7 +392,7 @@ public class ApplicantHistoryActivity extends AppCompatActivity implements Navig
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(ApplicantHistoryActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(ApplicantHistoryActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                 main.setVisibility(View.GONE);
 
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
@@ -463,7 +463,7 @@ public class ApplicantHistoryActivity extends AppCompatActivity implements Navig
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(ApplicantHistoryActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(ApplicantHistoryActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                 main.setVisibility(View.GONE);
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                 networkrefresh.setVisibility(View.VISIBLE);
@@ -582,7 +582,7 @@ public class ApplicantHistoryActivity extends AppCompatActivity implements Navig
 
                     }
                     else {
-                        Toast.makeText(ApplicantHistoryActivity.this,"error",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ApplicantHistoryActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                         main.setVisibility(View.GONE);
                         ln_nojobappplicantlayout.setVisibility(View.GONE);
                         ln_networkjobsearcherror.setVisibility(View.VISIBLE);
@@ -591,7 +591,7 @@ public class ApplicantHistoryActivity extends AppCompatActivity implements Navig
                 }catch(JSONException e)
                 {
                     e.printStackTrace();
-                    Toast.makeText(ApplicantHistoryActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ApplicantHistoryActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     main.setVisibility(View.GONE);
                     ln_nojobappplicantlayout.setVisibility(View.GONE);
                     ln_networkjobsearcherror.setVisibility(View.VISIBLE);

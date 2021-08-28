@@ -354,7 +354,7 @@ public class EmployerAddJobActivity extends AppCompatActivity {
 
                         }catch(JSONException e)
                         {
-                            Toast.makeText(EmployerAddJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EmployerAddJobActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
                         }
                     },error ->{
@@ -405,7 +405,7 @@ public class EmployerAddJobActivity extends AppCompatActivity {
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(EmployerAddJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(EmployerAddJobActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             }
 
            // refreshLayout.setRefreshing(false);
@@ -454,7 +454,7 @@ public class EmployerAddJobActivity extends AppCompatActivity {
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(EmployerAddJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(EmployerAddJobActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             }
 
           //  refreshLayout.setRefreshing(false);

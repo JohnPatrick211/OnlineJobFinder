@@ -141,9 +141,9 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
         val_id = userPref.getString("id","id");
         val_saved_id = userPref.getString("saved_id","saved_id");
         val_job_id = userPref.getString("job_id","job_id");
-        Toast.makeText(getApplicationContext(),val_id,Toast.LENGTH_SHORT).show();
-        Toast.makeText(getApplicationContext(),val_saved_id,Toast.LENGTH_SHORT).show();
-        Toast.makeText(getApplicationContext(),val_job_id,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(),val_id,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(),val_saved_id,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(),val_job_id,Toast.LENGTH_SHORT).show();
         ln_delay = findViewById(R.id.ln_delayloadinglayout);
         main = findViewById(R.id.bruh);
         main2 = findViewById(R.id.bruh2);
@@ -195,10 +195,10 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
                                     //                           Intent i = new Intent(UploadProfileRegister.this, MainActivity.class);
                                     //                           startActivity(i);
                                     progressDialog.cancel();
-                                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, "From Display Job", Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, job_id, Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, id, Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, user_id, Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, "From Display Job", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, job_id, Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, id, Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, user_id, Toast.LENGTH_SHORT).show();
 
 //                                editor.apply();
 //                                editor.commit();
@@ -230,12 +230,12 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
                                 }
 
                             } catch (JSONException e) {
-                                Toast.makeText(ApplicantFinalCheckProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ApplicantFinalCheckProfileActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
                                 progressDialog.cancel();
                             }
                         }, error -> {
                             error.printStackTrace();
-                            Toast.makeText(ApplicantFinalCheckProfileActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ApplicantFinalCheckProfileActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
                         }) {
                             //  public Map<String, String> getHeaders() throws AuthFailureError {
@@ -288,10 +288,10 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
                                     //                           Intent i = new Intent(UploadProfileRegister.this, MainActivity.class);
                                     //                           startActivity(i);
                                     progressDialog.cancel();
-                                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, "From Display Saved Job", Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, job_id, Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, saved_id, Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, user_id, Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, "From Display Saved Job", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, job_id, Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, saved_id, Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, user_id, Toast.LENGTH_SHORT).show();
 
 //                                editor.apply();
 //                                editor.commit();
@@ -323,12 +323,12 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
                                 }
 
                             } catch (JSONException e) {
-                                Toast.makeText(ApplicantFinalCheckProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ApplicantFinalCheckProfileActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
                                 progressDialog.cancel();
                             }
                         }, error -> {
                             error.printStackTrace();
-                            Toast.makeText(ApplicantFinalCheckProfileActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ApplicantFinalCheckProfileActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
                         }) {
                             //  public Map<String, String> getHeaders() throws AuthFailureError {
@@ -464,7 +464,7 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
             }
         }, error -> {
             error.printStackTrace();
-            Toast.makeText(ApplicantFinalCheckProfileActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(ApplicantFinalCheckProfileActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
             txtname.setText(name2);
             imageview_user.setBackgroundResource(R.drawable.img);
             txtemail.setText(email);
@@ -559,7 +559,7 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
                     i.putExtra("address", "");
                     i.putExtra("specialization", "");
                     i.putExtra("gender", "");
-                    Toast.makeText(getApplicationContext(),"error1",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(),"error1",Toast.LENGTH_SHORT).show();
 
                 }
                  else {
@@ -665,7 +665,7 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
             }
         }, error -> {
             error.printStackTrace();
-            Toast.makeText(ApplicantFinalCheckProfileActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(ApplicantFinalCheckProfileActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
             // progressDialog.cancel();
         }) {
 
@@ -711,19 +711,19 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
                         ln_noeducationlayout.setVisibility(View.GONE);
                     }
                 } else {
-                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, "error", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, "error", Toast.LENGTH_SHORT).show();
                     recyclerView.setVisibility(View.GONE);
                 }
             } catch (JSONException e) {
                 recyclerView.setVisibility(View.GONE);
                 e.printStackTrace();
-                Toast.makeText(ApplicantFinalCheckProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ApplicantFinalCheckProfileActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
             }
 
 
         }, error -> {
             error.printStackTrace();
-            Toast.makeText(ApplicantFinalCheckProfileActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(ApplicantFinalCheckProfileActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
             recyclerView.setVisibility(View.GONE);
         }) {
             @Override
@@ -769,19 +769,19 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
                         ln_noworkexperiencelayout.setVisibility(View.GONE);
                     }
                 } else {
-                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, "error", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ApplicantFinalCheckProfileActivity.this, "error", Toast.LENGTH_SHORT).show();
                     recyclerView2.setVisibility(View.GONE);
                 }
             } catch (JSONException e) {
                 recyclerView2.setVisibility(View.GONE);
                 e.printStackTrace();
-                Toast.makeText(ApplicantFinalCheckProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ApplicantFinalCheckProfileActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
             }
 
 
         }, error -> {
             error.printStackTrace();
-            Toast.makeText(ApplicantFinalCheckProfileActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(ApplicantFinalCheckProfileActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
             recyclerView2.setVisibility(View.GONE);
         }) {
             @Override

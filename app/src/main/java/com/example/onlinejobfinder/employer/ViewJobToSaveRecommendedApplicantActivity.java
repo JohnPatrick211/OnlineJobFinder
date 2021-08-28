@@ -172,12 +172,12 @@ public class ViewJobToSaveRecommendedApplicantActivity extends AppCompatActivity
                     }
                 }
                 else {
-                    Toast.makeText(ViewJobToSaveRecommendedApplicantActivity.this,"error",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewJobToSaveRecommendedApplicantActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                 }
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(ViewJobToSaveRecommendedApplicantActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(ViewJobToSaveRecommendedApplicantActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             }
 
             refreshLayout.setRefreshing(false);
@@ -232,13 +232,13 @@ public class ViewJobToSaveRecommendedApplicantActivity extends AppCompatActivity
 
                     }catch(JSONException e)
                     {
-                        Toast.makeText(ViewJobToSaveRecommendedApplicantActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ViewJobToSaveRecommendedApplicantActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                         progressDialog.cancel();
                         refreshLayout.setRefreshing(false);
                     }
                 },error ->{
                     error.printStackTrace();
-                    Toast.makeText(ViewJobToSaveRecommendedApplicantActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewJobToSaveRecommendedApplicantActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     progressDialog.cancel();
                     refreshLayout.setRefreshing(false);
 
@@ -322,12 +322,12 @@ public class ViewJobToSaveRecommendedApplicantActivity extends AppCompatActivity
 
             }catch(JSONException e)
             {
-                Toast.makeText(ViewJobToSaveRecommendedApplicantActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(ViewJobToSaveRecommendedApplicantActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                 progressDialog.cancel();
             }
         },error ->{
             error.printStackTrace();
-            Toast.makeText(ViewJobToSaveRecommendedApplicantActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(ViewJobToSaveRecommendedApplicantActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             progressDialog.cancel();
         })
         {

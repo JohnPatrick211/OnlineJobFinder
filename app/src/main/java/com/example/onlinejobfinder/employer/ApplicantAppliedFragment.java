@@ -415,7 +415,7 @@ public class ApplicantAppliedFragment extends Fragment {
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                 main.setVisibility(View.GONE);
 
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
@@ -486,7 +486,7 @@ public class ApplicantAppliedFragment extends Fragment {
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                 main.setVisibility(View.GONE);
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                 networkrefresh.setVisibility(View.VISIBLE);
@@ -605,7 +605,7 @@ public class ApplicantAppliedFragment extends Fragment {
 
                     }
                     else {
-                        Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                         main.setVisibility(View.GONE);
                         ln_nojobappplicantlayout.setVisibility(View.GONE);
                         ln_networkjobsearcherror.setVisibility(View.VISIBLE);
@@ -614,7 +614,7 @@ public class ApplicantAppliedFragment extends Fragment {
                 }catch(JSONException e)
                 {
                     e.printStackTrace();
-                    Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     main.setVisibility(View.GONE);
                     ln_nojobappplicantlayout.setVisibility(View.GONE);
                     ln_networkjobsearcherror.setVisibility(View.VISIBLE);

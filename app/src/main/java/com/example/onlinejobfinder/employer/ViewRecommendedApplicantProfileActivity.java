@@ -242,7 +242,7 @@ public class ViewRecommendedApplicantProfileActivity extends AppCompatActivity {
             }
         },error ->{
             error.printStackTrace();
-            Toast.makeText(ViewRecommendedApplicantProfileActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(ViewRecommendedApplicantProfileActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             txtname.setText(name2);
             txtemail.setText(email);
             // progressDialog.cancel();
@@ -339,7 +339,7 @@ public class ViewRecommendedApplicantProfileActivity extends AppCompatActivity {
             }
         },error ->{
             error.printStackTrace();
-            Toast.makeText(ViewRecommendedApplicantProfileActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(ViewRecommendedApplicantProfileActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             // progressDialog.cancel();
         })
         {
@@ -383,21 +383,21 @@ public class ViewRecommendedApplicantProfileActivity extends AppCompatActivity {
                     educationalbackgroundadapter.notifyDataSetChanged();
                 }
                 else {
-                    Toast.makeText(ViewRecommendedApplicantProfileActivity.this,"error",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewRecommendedApplicantProfileActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     recyclerView.setVisibility(View.GONE);
                 }
             }catch(JSONException e)
             {
                 recyclerView.setVisibility(View.GONE);
                 e.printStackTrace();
-                Toast.makeText(ViewRecommendedApplicantProfileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(ViewRecommendedApplicantProfileActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             }
 
 
 
         },error -> {
             error.printStackTrace();
-            Toast.makeText(ViewRecommendedApplicantProfileActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(ViewRecommendedApplicantProfileActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             recyclerView.setVisibility(View.GONE);
         }){
             @Override
@@ -440,21 +440,21 @@ public class ViewRecommendedApplicantProfileActivity extends AppCompatActivity {
                     workexperienceadapter2.notifyDataSetChanged();
                 }
                 else {
-                    Toast.makeText(ViewRecommendedApplicantProfileActivity.this,"error",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewRecommendedApplicantProfileActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     recyclerView2.setVisibility(View.GONE);
                 }
             }catch(JSONException e)
             {
                 recyclerView2.setVisibility(View.GONE);
                 e.printStackTrace();
-                Toast.makeText(ViewRecommendedApplicantProfileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(ViewRecommendedApplicantProfileActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             }
 
 
 
         },error -> {
             error.printStackTrace();
-            Toast.makeText(ViewRecommendedApplicantProfileActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(ViewRecommendedApplicantProfileActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             recyclerView2.setVisibility(View.GONE);
         }){
             @Override

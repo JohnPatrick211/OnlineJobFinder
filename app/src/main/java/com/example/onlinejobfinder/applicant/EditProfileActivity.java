@@ -411,12 +411,12 @@ public class EditProfileActivity extends AppCompatActivity {
 
                         }catch(JSONException e)
                         {
-                            Toast.makeText(EditProfileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditProfileActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
                         }
                     },error ->{
                         error.printStackTrace();
-                        Toast.makeText(EditProfileActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditProfileActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                         progressDialog.cancel();
                     })
                     {
@@ -468,7 +468,7 @@ public class EditProfileActivity extends AppCompatActivity {
         }
         else
         {
-            Toast.makeText(EditProfileActivity.this,"error",Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditProfileActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
         }
         return "";
     }
@@ -509,7 +509,7 @@ public class EditProfileActivity extends AppCompatActivity {
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(EditProfileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditProfileActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             }
 
             //refreshLayout.setRefreshing(false);

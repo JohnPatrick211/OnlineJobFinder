@@ -392,7 +392,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(ApplicantSavedJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(ApplicantSavedJobActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                 main.setVisibility(View.GONE);
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                 networkrefresh.setVisibility(View.VISIBLE);
@@ -456,7 +456,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
             }catch(JSONException e)
             {
                 e.printStackTrace();
-                Toast.makeText(ApplicantSavedJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(ApplicantSavedJobActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                 main.setVisibility(View.GONE);
                 ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                 networkrefresh.setVisibility(View.VISIBLE);
@@ -569,7 +569,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                         }
                     }
                     else {
-                        Toast.makeText(ApplicantSavedJobActivity.this,"error",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ApplicantSavedJobActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                         main.setVisibility(View.GONE);
                         ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                         networkrefresh.setVisibility(View.VISIBLE);
@@ -577,7 +577,7 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                 }catch(JSONException e)
                 {
                     e.printStackTrace();
-                    Toast.makeText(ApplicantSavedJobActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ApplicantSavedJobActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
                     main.setVisibility(View.GONE);
                     ln_networkjobsearcherror.setVisibility(View.VISIBLE);
                     networkrefresh.setVisibility(View.VISIBLE);
