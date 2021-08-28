@@ -175,9 +175,6 @@ public class ApplicantHistoryViewJobActivity extends AppCompatActivity {
 //                        job2.setJobdescription(postObject.getString("jobdescription"));
 //                        job2.setJobuniqueid(postObject.getString("id"));
 //                        job2.setJobstatus(postObject.getString("jobstatus"));
-                        if (id.equals(postObject.getString("saved_id"))) {
-                            btnsavedjob.setText("Remove");
-                        }
 
                     }
 

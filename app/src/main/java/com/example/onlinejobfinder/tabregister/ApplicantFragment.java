@@ -134,6 +134,7 @@ public class ApplicantFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getContext(), TermsAndPrivacyActivity.class);
+                i.putExtra("privacy","empty");
                 startActivity(i);
             }
         });
@@ -141,6 +142,7 @@ public class ApplicantFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getContext(), TermsAndPrivacyActivity.class);
+                i.putExtra("privacy","privacy");
                 startActivity(i);
             }
         });

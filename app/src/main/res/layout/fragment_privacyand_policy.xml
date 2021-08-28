@@ -1,14 +1,545 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<com.amar.library.ui.StickyScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/stickyscrollview"
+    tools:context=".termsandprivacy.PrivacyandPolicyFragment"
+    >
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".termsandprivacy.PrivacyandPolicyFragment">
+    android:layout_margin="15dp"
+    android:orientation="vertical"
+   >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/title1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="Privacy and Policy" />
+
+        <TextView
+            android:id="@+id/id_1.1"
+            android:layout_below="@+id/title1"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="Hi, Your privacy is important to PESO Online Job Finder Mobile Application. Please read this Privacy Notice carefully as it forms part of the Terms of Use which govern the use of the PESO Online Job Finder Services and the PESO Online Job Finder Mobile Application." />
+
+        <TextView
+            android:id="@+id/title2"
+            android:layout_below="@+id/id_1.1"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:text="In this Privacy Notice:-" />
+
+        <TextView
+            android:id="@+id/id_2.1"
+            android:layout_below="@+id/title2"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="“PESO Online Job Finder“, “PESO Online Job Finder Services“, “PESO Online Job Finder Mobile Application “, “You“, “Applicants” and “Employers” shall have the same meaning as defined in the Terms of Use." />
+
+        <TextView
+            android:id="@+id/id_2.2"
+            android:layout_below="@+id/id_2.1"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="“User Profile” means the profile created by users of the PESO Online Job Finder Mobile Application that may include personal information, resume, credentials and certifications, and photo." />
+
+        <TextView
+            android:id="@+id/id_2.3"
+            android:layout_below="@+id/id_2.2"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="“personal information” is data that can be used to identify an individual." />
+
+        <TextView
+            android:id="@+id/id_2.4"
+            android:layout_below="@+id/id_2.3"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="“processing” includes but is not limited to collecting, holding, storing, recording, organizing, adapting, using, disclosing, correcting, and destructing." />
+
+        <TextView
+            android:id="@+id/title3"
+            android:layout_below="@+id/id_2.4"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:text="1. COLLECTION OF PERSONAL INFORMATION" />
+
+        <TextView
+            android:id="@+id/id_3.1"
+            android:layout_below="@+id/title3"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="1.1	When you register for the PESO Online Job Finder Services:" />
+
+        <TextView
+            android:id="@+id/id_3.1.1"
+            android:layout_below="@+id/id_3.1"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="1.1.1	Each time when you register with PESO Online Job Finder for any of the PESO Online Job Finder Services, you will be asked to provide certain personal information about yourself in order to create an account." />
+
+        <TextView
+            android:id="@+id/id_3.1.2"
+            android:layout_below="@+id/id_3.1.1"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="1.1.2	The personal information collected during the registration process includes but is not limited to your email address and name." />
+
+        <TextView
+            android:id="@+id/id_3.1.3"
+            android:layout_below="@+id/id_3.1.2"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="1.1.3	Whenever the personal information requested by PESO Online Job Finder is marked as “Required Field”, you must provide and agree to the processing of this personal information by PESO Online Job Finder. If you do not agree to provide this personal information and/or not agree to us processing it in the manner set out in this Privacy Notice, then PESO Online Job Finder will be unable to provide the relevant services to you and your application for such services will be rejected." />
+
+        <TextView
+            android:id="@+id/id_3.2"
+            android:layout_below="@+id/id_3.1.3"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="1.2	From your use of the PESO Online Job Finder Services and/or the PESO Online Job Finder Mobile Application." />
+
+        <TextView
+            android:id="@+id/id_3.2.1"
+            android:layout_below="@+id/id_3.2"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="1.2.1	We collect personal information directly from you when you choose to engage any of the PESO Online Job Finder Services and/or to use the PESO Online Job Finder Mobile Application. The following are examples of personal information PESO Online Job Finder may collect directly from you:" />
+
+        <TextView
+            android:id="@+id/id_3.2.1.1"
+            android:layout_below="@+id/id_3.2.1"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="1.2.1.1	Full Name" />
+
+        <TextView
+            android:id="@+id/id_3.2.1.2"
+            android:layout_below="@+id/id_3.2.1.1"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="1.2.1.2	Email Address" />
+
+        <TextView
+            android:id="@+id/id_3.2.1.3"
+            android:layout_below="@+id/id_3.2.1.2"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="1.2.1.3	Contact Number" />
+
+        <TextView
+            android:id="@+id/id_3.2.1.4"
+            android:layout_below="@+id/id_3.2.1.3"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="1.2.1.4	Specialization" />
+
+        <TextView
+            android:id="@+id/id_3.2.1.5"
+            android:layout_below="@+id/id_3.2.1.4"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="1.2.1.5	Gender" />
+
+        <TextView
+            android:id="@+id/id_3.2.1.6"
+            android:layout_below="@+id/id_3.2.1.5"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="1.2.1.6	Work Experience" />
+
+        <TextView
+            android:id="@+id/id_3.2.1.7"
+            android:layout_below="@+id/id_3.2.1.6"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="1.2.1.7	Educational Background" />
+
+        <TextView
+            android:id="@+id/id_3.2.1.8"
+            android:layout_below="@+id/id_3.2.1.7"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="1.2.1.8	Resume" />
+
+        <TextView
+            android:id="@+id/title4"
+            android:layout_below="@+id/id_3.2.1.8"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:text="2.	PURPOSES OF COLLECTING AND USE OF PERSONAL INFORMATION" />
+
+        <TextView
+            android:id="@+id/id_4.1"
+            android:layout_below="@+id/title4"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="2.1	The purposes for which PESO Online Job Finder processes your personal information are as follows:" />
+
+        <TextView
+            android:id="@+id/id_4.1.1"
+            android:layout_below="@+id/id_4.1"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="2.1.1	To verify your identity;" />
+
+        <TextView
+            android:id="@+id/id_4.1.2"
+            android:layout_below="@+id/id_4.1.1"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="2.1.2	To assess and/or verify your employability;" />
+
+        <TextView
+            android:id="@+id/id_4.1.3"
+            android:layout_below="@+id/id_4.1.2"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="2.1.3	To provide the PESO Online Job Finder Services which you have requested;" />
+
+        <TextView
+            android:id="@+id/id_4.1.4"
+            android:layout_below="@+id/id_4.1.3"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="2.1.4	To administer and manage the PESO Online Job Finder Services provided to you;" />
+
+        <TextView
+            android:id="@+id/id_4.1.5"
+            android:layout_below="@+id/id_4.1.4"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="2.1.5	To contact you in respect of PESO Online Job Finder Services;" />
+
+        <TextView
+            android:id="@+id/id_4.1.6"
+            android:layout_below="@+id/id_4.1.5"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="2.1.6	To improve placement opportunities for you or for tailoring specific services to you;" />
+
+        <TextView
+            android:id="@+id/id_4.1.7"
+            android:layout_below="@+id/id_4.1.6"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="2.1.7	To maintain and develop the PESO Online Job Finder Mobile Application and PESO Online Job Finder Services;" />
+
+        <TextView
+            android:id="@+id/id_4.1.8"
+            android:layout_below="@+id/id_4.1.7"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="2.1.8	To gain an understanding of your information and communication needs in order for PESO Online Job Finder to enhance and customize the PESO Online Job Finder Services;" />
+
+        <TextView
+            android:id="@+id/id_4.1.9"
+            android:layout_below="@+id/id_4.1.8"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="2.1.9	To conduct research and development and statistical analysis in connection with the PESO Online Job Finder Services to identify trends and develop new services that reflect your interests;" />
+
+        <TextView
+            android:id="@+id/id_4.1.10"
+            android:layout_below="@+id/id_4.1.9"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="2.1.10	To assist PESO Online Job Finder in understanding your browsing preferences on the PESO Online Job Finder Mobile Application so that PESO Online Job Finder can tailor content accordingly;" />
+
+        <TextView
+            android:id="@+id/title5"
+            android:layout_below="@+id/id_4.1.10"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:text="3.	CHOICE AND ACCESS OF PERSONAL INFORMATION" />
+
+        <TextView
+            android:id="@+id/id_5.1"
+            android:layout_below="@+id/title5"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="3.1	You may have different privacy concerns. PESO Online Job Finder goal is to be clear of what information it collects, so that you can make meaningful choices about how it is used. For example:-" />
+
+        <TextView
+            android:id="@+id/id_5.1.1"
+            android:layout_below="@+id/id_5.1"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="3.1.1	You can control who you share your personal information with;" />
+
+        <TextView
+            android:id="@+id/id_5.1.2"
+            android:layout_below="@+id/id_5.1.1"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="3.1.2	You may view, edit or delete your personal information and preferences at any time." />
+
+        <TextView
+            android:id="@+id/id_5.1.3"
+            android:layout_below="@+id/id_5.1.2"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="3.1.3	You may obtain a copy of your personal information by contacting PESO Online Job Finder here." />
+
+        <TextView
+            android:id="@+id/title6"
+            android:layout_below="@+id/id_5.1.3"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:text="4.	RETENTION OF PERSONAL INFORMATION" />
+
+        <TextView
+            android:id="@+id/id_6.1"
+            android:layout_below="@+id/title6"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="4.1	PESO Online Job Finder will retain your personal information for the period necessary to fulfill the purposes set out in Clause 2 above and any legal." />
+
+        <TextView
+            android:id="@+id/title7"
+            android:layout_below="@+id/id_6.1"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:text="5.	SECURITY OF PERSONAL INFORMATION" />
+
+        <TextView
+            android:id="@+id/id_7.1"
+            android:layout_below="@+id/title7"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="5.1	 PESO Online Job Finder is committed to keeping personal information secure. PESO Online Job Finder has appropriate technical, administrative and physical procedures in place to protect personal information from loss, theft and misuse, as well as against unauthorized access, disclosure, alteration and destruction." />
+
+        <TextView
+            android:id="@+id/id_7.2"
+            android:layout_below="@+id/id_7.1"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="5.2	No method of transmission over the Internet, or method of electronic storage, is 100% secure, however. Therefore, we cannot guarantee its absolute security." />
+
+        <TextView
+            android:id="@+id/title8"
+            android:layout_below="@+id/id_7.2"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:text="6.	Contact Information" />
+
+        <TextView
+            android:id="@+id/id_8.1"
+            android:layout_below="@+id/title8"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:text="You may also contact PESO Online Job Finder Data Privacy Officer through the following:" />
+
+        <TextView
+            android:id="@+id/id_8.2"
+            android:layout_below="@+id/id_8.1"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:layout_marginBottom="50dp"
+            android:text="Email: pesodataprotectionofficer@peso.com" />
+
+    </RelativeLayout>
 
 </FrameLayout>
+
+</com.amar.library.ui.StickyScrollView>

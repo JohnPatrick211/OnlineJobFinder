@@ -55,7 +55,6 @@
         android:textColor="#000"
         android:textSize="17sp"
         android:gravity="left"
-        android:justificationMode="inter_word"
         android:text="1.1 This PESO Online Job Finder Mobile Application is provided to you for your use subject to these Terms. These Terms form a binding agreement between you and JobStreet.com. By accessing or using the PESO Online Job Finder Mobile Application you agree to accept and/or to be bound by these Terms. you agree to use the PESO Online Job Finder Mobile Application at your own risk." />
 
     <TextView

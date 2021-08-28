@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.onlinejobfinder.R;
 import com.google.android.material.tabs.TabItem;
@@ -15,6 +16,8 @@ public class TermsAndPrivacyActivity extends AppCompatActivity {
     ViewPager viewpager;
     TabItem applicant,employer;
     pager2adapter pageradapter2;
+    String privacy = "";
+    int selected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +30,33 @@ public class TermsAndPrivacyActivity extends AppCompatActivity {
         employer = findViewById(R.id.tabitem_employer);
         pageradapter2 = new pager2adapter(getSupportFragmentManager(),tabLayout.getTabCount());
         viewpager.setAdapter(pageradapter2);
+        privacy = getIntent().getExtras().getString("privacy");
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.customactionbarmaintitle);
+
+            if (privacy.equals("empty")) {
+                privacy = "empty";
+            } else {
+                privacy = "privacy";
+            }
+        if(privacy.equals("privacy"))
+        {
+            viewpager.setCurrentItem(1, true);
+            Toast.makeText(TermsAndPrivacyActivity.this, "success", Toast.LENGTH_SHORT).show();
+            selected = 1;
+        }
+        else
+        {
+            viewpager.setCurrentItem(0, true);
+            Toast.makeText(TermsAndPrivacyActivity.this, "failed", Toast.LENGTH_SHORT).show();
+            selected = 0;
+        }
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewpager.setCurrentItem(tab.getPosition());
+
+                    viewpager.setCurrentItem(tab.getPosition());
             }
 
             @Override
@@ -43,7 +66,7 @@ public class TermsAndPrivacyActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                viewpager.setCurrentItem(tab.getPosition());
             }
         });
     }

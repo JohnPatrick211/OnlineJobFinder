@@ -29,6 +29,7 @@ import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.MainActivity;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.SendMail;
+import com.example.onlinejobfinder.termsandprivacy.TermsAndPrivacyActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -44,7 +45,7 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
     TextInputLayout layoutAddress, layoutPassword,layoutConfirm,layoutCompanyName;
     TextInputEditText txtemployercompanyname, txtemployerpassword, txtemployerconfirmpassword, txtemployeraddress;
     EditText txtemployercompanyoverview;
-    TextView txtemployeremail,txtselectBIR,txtview_BIR;
+    TextView txtemployeremail,txtselectBIR,txtview_BIR,terms,privacy;
     ImageView imagemployerBIR;
     Button btnsendapproval;
     Bitmap bitmap = null;
@@ -55,6 +56,8 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employer_registration);
         txtview_BIR = findViewById(R.id.txtview_BIR);
+        privacy = findViewById(R.id.txtview_privacy);
+        terms = findViewById(R.id.txtview_termsandconditions);
         layoutAddress = findViewById(R.id.txtLayoutEmployerAddressSignUp);
         layoutPassword = findViewById(R.id.txtLayoutEmployerPasswordSignUp);
         layoutConfirm = findViewById(R.id.txtLayoutEmployerConfirmPasswordSignUp);
@@ -77,6 +80,22 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
         txtemployeremail.setText(intentemail);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
+        terms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(EmployerRegistrationActivity.this, TermsAndPrivacyActivity.class);
+                i.putExtra("privacy","empty");
+                startActivity(i);
+            }
+        });
+        privacy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(EmployerRegistrationActivity.this, TermsAndPrivacyActivity.class);
+                i.putExtra("privacy","privacy");
+                startActivity(i);
+            }
+        });
         txtselectBIR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -199,7 +218,7 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
 //                            editor.putString("role",user.getString("role"));
 //                            editor.apply();
 
-                                Toast.makeText(getApplicationContext(),"Register Successfully, Please Wait for the email confirmation",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EmployerRegistrationActivity.this,"Register Successfully, Please Wait for the email confirmation",Toast.LENGTH_SHORT).show();
                                 SendMail sm = new SendMail(EmployerRegistrationActivity.this, "pesojob@gmail.com", "New Employer Approval", "Please Check the Pending Employer");
                                 sm.execute();
 

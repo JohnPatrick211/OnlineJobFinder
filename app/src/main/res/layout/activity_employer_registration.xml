@@ -196,13 +196,59 @@
         android:textColor="@color/design_default_color_primary_dark"
         />
 
-    <TextView
-        android:layout_marginTop="10dp"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="By Clicking “Send” Button, You agree with our Privacy Policy and Terms of Conditions"
-        android:textSize="18dp"/>
+        android:background="@color/white"
+        >
+
+        <TextView
+            android:id="@+id/txt_terms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="By Clicking “SEND” Button, You agree with our"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="14dp"
+            android:layout_marginTop="15dp"/>
+
+        <TextView
+            android:id="@+id/txtview_privacy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Privacy Policy"
+            android:layout_below="@+id/txt_terms"
+            android:textColor="@color/design_default_color_primary"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            />
+
+        <TextView
+            android:id="@+id/txt_and"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" and "
+            android:textColor="@color/black"
+            android:layout_toRightOf="@+id/txtview_privacy"
+            android:layout_below="@+id/txt_terms"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            />
+
+        <TextView
+            android:id="@+id/txtview_termsandconditions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Terms and Conditions"
+            android:textColor="@color/design_default_color_primary"
+            android:layout_toRightOf="@+id/txt_and"
+            android:layout_below="@+id/txt_terms"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            />
+
+
+    </RelativeLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnsendtoapproval"
