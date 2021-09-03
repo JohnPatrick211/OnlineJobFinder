@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.amar.library.ui.StickyScrollView
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,7 +8,6 @@
     android:layout_width="match_parent"
     android:id="@+id/stickyscrollview"
     tools:context=".applicant.ApplicantFinalCheckProfileActivity"
-    app:stickyFooter="@+id/footer"
     >
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -174,7 +173,7 @@
             android:layout_marginBottom="20dp"
             android:layout_marginTop="10dp"
             android:gravity="left"
-            android:layout_marginLeft="-100dp"/>
+            android:layout_marginLeft="-115dp"/>
         <TextView
             android:id="@+id/textView_addeducation"
             android:textColor="@color/design_default_color_primary"
@@ -196,6 +195,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="10dp"
+            android:nestedScrollingEnabled="false"
             android:id="@+id/recyclerview_educationalbackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -281,5 +281,5 @@
 
     </RelativeLayout>
 </LinearLayout>
-    </com.amar.library.ui.StickyScrollView>
+    </androidx.core.widget.NestedScrollView>
 
