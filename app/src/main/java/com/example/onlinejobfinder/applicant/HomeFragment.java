@@ -312,7 +312,6 @@ public class HomeFragment extends Fragment {
         else
         {
             recyclerView.setVisibility(View.GONE);
-            Toast.makeText(getContext(),"success",Toast.LENGTH_SHORT).show();
             ln_networkrecommendedjoberror.setVisibility(View.VISIBLE);
             refreshLayout.setRefreshing(false);
         }
@@ -366,6 +365,7 @@ public class HomeFragment extends Fragment {
                     ln_delay.setVisibility(View.GONE);
                     main.setVisibility(View.VISIBLE);
                     ln_networkrecommendedjoberror.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
                 }
                 else
                 {
