@@ -69,11 +69,10 @@
             <!--                android:layout_height="wrap_content"-->
             <!--                android:id="@+id/spinner_location"/>-->
             <TextView
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@+id/tv_searchemployerlocation"
+                android:layout_marginLeft="160dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="90dp"
                 android:textAlignment="center"
                 android:textColor="@color/design_default_color_primary"
                 android:text="Filter"

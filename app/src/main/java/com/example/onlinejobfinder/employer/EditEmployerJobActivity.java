@@ -587,7 +587,7 @@ public class EditEmployerJobActivity extends AppCompatActivity {
 //                        appliedapplicants2.setContactno(postObject.getString("contactno"));
 //                        appliedapplicants2.setStatus(postObject.getString("status"));
 //                        appliedapplicants2.setGender(postObject.getString("gender"));
-                        if (intentid.equals(postObject.getString("applyjob_id"))) {
+                        if (intentid.equals(postObject.getString("applyjob_id")) && pending.equals(postObject.getString("status"))) {
                             remjob = true;
                         }
                     }
