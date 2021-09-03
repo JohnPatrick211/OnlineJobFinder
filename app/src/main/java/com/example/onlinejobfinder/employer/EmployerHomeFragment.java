@@ -229,6 +229,7 @@ public class EmployerHomeFragment extends Fragment {
                                 recommendedapplicants2.setGender(postObject.getString("gender"));
                                 recommendedapplicants2.setWorkexp_id(postObject.getString("workexp_id"));
                                 recommendedapplicants2.setEducational_id(postObject.getString("educational_id"));
+                                Toast.makeText(getContext(),val_specialization,Toast.LENGTH_SHORT).show();
                                 arraylist.add(recommendedapplicants2);
 //                        filter();
                                 // ArrayList<recommendedapplicants> w = new ArrayList<>();
@@ -344,6 +345,7 @@ public class EmployerHomeFragment extends Fragment {
                         JSONObject user = object.getJSONObject("user");
                         val_contactno = user.get("contactno").toString();
                         val_specialization =  user.get("Specialization").toString();
+                        val_specialization = val_specialization.replace("&","%26");
 //                        Toast.makeText(getContext(),val_contactno,Toast.LENGTH_SHORT).show();
 //                        Toast.makeText(getContext(),val_specialization,Toast.LENGTH_SHORT).show();
 //                        Toast.makeText(getContext(),"success",Toast.LENGTH_SHORT).show();
