@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.animation.ValueAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,6 +23,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -55,6 +57,9 @@ import java.util.Map;
 import java.util.Objects;
 
 public class ApplicantSavedJobActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+    RelativeLayout searchlayout;
+    ImageView filterbutton;
+    boolean expand = false;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
@@ -89,7 +94,8 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_applicant_saved_job);
-
+        filterbutton = findViewById(R.id.filterbutton);
+        searchlayout = findViewById(R.id.searchlayout);
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigation_view);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.start, R.string.close);
@@ -159,6 +165,42 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
         main.setVisibility(View.GONE);
 
         delay();
+
+        filterbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!expand)
+                {
+                    ValueAnimator va = ValueAnimator.ofInt(100,250);
+                    va.setDuration(400);
+                    va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                            Integer value = (Integer) valueAnimator.getAnimatedValue();
+                            searchlayout.getLayoutParams().height = value.intValue();
+                            searchlayout.requestLayout();
+                        }
+                    });
+                    va.start();
+                    expand = true;
+                }
+                else
+                {
+                    ValueAnimator va = ValueAnimator.ofInt(250,100);
+                    va.setDuration(400);
+                    va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                            Integer value = (Integer) valueAnimator.getAnimatedValue();
+                            searchlayout.getLayoutParams().height = value.intValue();
+                            searchlayout.requestLayout();
+                        }
+                    });
+                    va.start();
+                    expand = false;
+                }
+            }
+        });
 
 
         tv_networkerrorrefresh.setOnClickListener(new View.OnClickListener() {

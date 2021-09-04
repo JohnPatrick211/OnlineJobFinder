@@ -1,5 +1,6 @@
 package com.example.onlinejobfinder.employer;
 
+import android.animation.ValueAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,7 +22,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +58,9 @@ import java.util.Map;
  */
 public class ApplicantAppliedFragment extends Fragment {
 
+    RelativeLayout searchlayout;
+    ImageView filterbutton;
+    boolean expand = false;
     RecyclerView recyclerView;
     View ln_nojobappplicantlayout;
     EditText edt_search;
@@ -126,6 +132,8 @@ public class ApplicantAppliedFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_applicant_applied, container, false);
+        filterbutton = view.findViewById(R.id.filterbutton);
+        searchlayout = view.findViewById(R.id.searchlayout);
         btnfilter = view.findViewById(R.id.btn_employerfilter);
         tvsearchspecialization = view.findViewById(R.id.tv_searchemployerspecialization);
         tvsearchlocation  = view.findViewById(R.id.tv_searchemployerlocation);
@@ -156,6 +164,42 @@ public class ApplicantAppliedFragment extends Fragment {
         main.setVisibility(View.GONE);
 
         delay();
+
+        filterbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!expand)
+                {
+                    ValueAnimator va = ValueAnimator.ofInt(100,250);
+                    va.setDuration(400);
+                    va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                            Integer value = (Integer) valueAnimator.getAnimatedValue();
+                            searchlayout.getLayoutParams().height = value.intValue();
+                            searchlayout.requestLayout();
+                        }
+                    });
+                    va.start();
+                    expand = true;
+                }
+                else
+                {
+                    ValueAnimator va = ValueAnimator.ofInt(250,100);
+                    va.setDuration(400);
+                    va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                            Integer value = (Integer) valueAnimator.getAnimatedValue();
+                            searchlayout.getLayoutParams().height = value.intValue();
+                            searchlayout.requestLayout();
+                        }
+                    });
+                    va.start();
+                    expand = false;
+                }
+            }
+        });
         tv_networkerrorrefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

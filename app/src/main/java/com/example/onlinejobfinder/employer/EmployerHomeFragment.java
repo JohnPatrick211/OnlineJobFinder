@@ -229,7 +229,6 @@ public class EmployerHomeFragment extends Fragment {
                                 recommendedapplicants2.setGender(postObject.getString("gender"));
                                 recommendedapplicants2.setWorkexp_id(postObject.getString("workexp_id"));
                                 recommendedapplicants2.setEducational_id(postObject.getString("educational_id"));
-                                Toast.makeText(getContext(),val_specialization,Toast.LENGTH_SHORT).show();
                                 arraylist.add(recommendedapplicants2);
 //                        filter();
                                 // ArrayList<recommendedapplicants> w = new ArrayList<>();
