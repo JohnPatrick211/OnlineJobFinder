@@ -48,7 +48,9 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class EditEmployerProfileActivity extends AppCompatActivity {
@@ -235,7 +237,14 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
                         }
                         else
                         {
-                            Specialization.remove(i);
+                            for(int aq=0; aq<= Specialization.size(); aq++)
+                            {
+                                if(Specialization.get(aq) == i)
+                                {
+                                    Specialization.remove(aq);
+                                    break;
+                                }
+                            }
                         }
                     }
                 });
