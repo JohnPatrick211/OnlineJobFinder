@@ -225,6 +225,11 @@ public class HomeFragment extends Fragment {
                         recyclerView.setVisibility(View.GONE);
                         ln_noemptyrecommendedjoblayout.setVisibility(View.VISIBLE);
                     }
+                    else
+                    {
+                        recyclerView.setVisibility(View.VISIBLE);
+                        ln_noemptyrecommendedjoblayout.setVisibility(View.GONE);
+                    }
                 }
                 else {
                     Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();

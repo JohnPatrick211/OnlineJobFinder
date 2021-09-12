@@ -244,6 +244,11 @@ public class EmployerHomeFragment extends Fragment {
                                 recyclerView.setVisibility(View.GONE);
                                 ln_noemptyrecommendedapplicantlayout.setVisibility(View.VISIBLE);
                             }
+                            else
+                            {
+                                recyclerView.setVisibility(View.VISIBLE);
+                                ln_noemptyrecommendedapplicantlayout.setVisibility(View.GONE);
+                            }
                             recyclerView.setOnTouchListener(new View.OnTouchListener() {
                                 @Override
                                 public boolean onTouch(View v, MotionEvent event) {
