@@ -261,7 +261,14 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
                                 stringBuilder.append(", ");
                             }
                         }
-                        employer_specialization.setText(stringBuilder.toString());
+                        if(Specialization.isEmpty())
+                        {
+                            employer_specialization.setText("Specialization");
+                        }
+                        else {
+                            employer_specialization.setText(stringBuilder.toString());
+                        }
+
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
