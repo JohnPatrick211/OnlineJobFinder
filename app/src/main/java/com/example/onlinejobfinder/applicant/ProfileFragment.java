@@ -388,6 +388,7 @@ public class ProfileFragment extends Fragment {
                     txtresume.setText(user.get("resume").toString());
                     val_resume = txtresume.getText().toString();
                     Picasso.get().load(Constant.URL+"/storage/profiles/"+user.getString("profile_pic")).into(imageview_user);
+                    imgUrl = Constant.URL+"/storage/profiles/"+user.getString("profile_pic");
                     SharedPreferences.Editor editor2 = userPref2.edit();
                     editor2.putString("name",user.getString("name"));
                     editor2.putString("address",user.getString("address"));
