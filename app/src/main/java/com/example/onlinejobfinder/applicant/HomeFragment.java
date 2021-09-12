@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment {
     TextView errortext,tv_networkerrorrefresh;
     String name2,specialization,user_id;
     LinearLayout errorlayout,ln_networkrecommendedjoberror;
-    View ln_norecommendedjoblayout;
+    View ln_norecommendedjoblayout, ln_noemptyrecommendedjoblayout;
     RecyclerView recyclerView;
     recommendedjobadapter.RecyclerViewClickListener listener;
     int position =0;
@@ -133,6 +133,7 @@ public class HomeFragment extends Fragment {
 //        errortext = view.findViewById(R.id.allerrortext);
 //        errorlayout.setVisibility(View.GONE);
         ln_norecommendedjoblayout = view.findViewById(R.id.ln_norecommendedjoblayout);
+        ln_noemptyrecommendedjoblayout = view.findViewById(R.id.ln_noemptyrecommendedjoblayout);
         name2 = prefs.getString("name","name");
         user_id = prefs.getString("id","id");
         recyclerView = view.findViewById(R.id.recyclerview_recommendedjobs);
@@ -219,6 +220,11 @@ public class HomeFragment extends Fragment {
                             return false;
                         }
                     });
+                    if(arraylist.isEmpty())
+                    {
+                        recyclerView.setVisibility(View.GONE);
+                        ln_noemptyrecommendedjoblayout.setVisibility(View.VISIBLE);
+                    }
                 }
                 else {
                     Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();

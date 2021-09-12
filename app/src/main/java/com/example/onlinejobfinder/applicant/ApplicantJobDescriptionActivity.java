@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,7 +52,7 @@ public class ApplicantJobDescriptionActivity extends AppCompatActivity {
     String job_id, id, logo, jobstatus,saved_id,intent1;
     LinearLayout jobdescription, companyoverview;
     TabLayout tablayout_jobdescription;
-    CircleImageView img_joblogo;
+    ImageView img_joblogo;
     TextView tv_jobtitle, tv_jobcompany, tv_jobsalary, tv_jobdescription, tv_jobcompanyoverview, tv_joblocation, tv_jobaddress, tv_jobspecialization, tv_jobdateposted;
     Button btnapply, btnsavedjob;
     ProgressDialog progressDialog;

@@ -41,17 +41,14 @@
             android:layout_gravity="right"
             />
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:layout_marginTop="-40dp"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/img"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
             android:id="@+id/imgemployerprofile"
             />
-
-
         <TextView
             android:id="@+id/textView_EmployerNameProfile"
             android:layout_width="match_parent"

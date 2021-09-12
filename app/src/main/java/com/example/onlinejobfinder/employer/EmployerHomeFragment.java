@@ -54,7 +54,7 @@ public class EmployerHomeFragment extends Fragment {
 
     TextView tv_networkerrorrefresh;
     LinearLayout ln_networkrecommendedapperror;
-    View ln_norecommendedlayout;
+    View ln_norecommendedlayout, ln_noemptyrecommendedapplicantlayout;
     RecyclerView recyclerView;
     View ln_delay;
     LinearLayout main;
@@ -133,6 +133,7 @@ public class EmployerHomeFragment extends Fragment {
 //        spinnercategory = view.findViewById(R.id.spinner_category);
         //       spinnerlocation = view.findViewById(R.id.spinner_location);
         ln_norecommendedlayout = view.findViewById(R.id.ln_norecommendedlayout);
+        ln_noemptyrecommendedapplicantlayout = view.findViewById(R.id.ln_noemptyrecommendedapplicantlayout);
         arraylist = new ArrayList<>();
         arraylist2 = new ArrayList<>();
         category = new ArrayList<String>();
@@ -238,6 +239,11 @@ public class EmployerHomeFragment extends Fragment {
                             recommendedapplicantsadapter2 = new recommendedapplicantsadapter(arraylist,getContext(),listener);
                             recyclerView.setAdapter(recommendedapplicantsadapter2);
                             recyclerView.setVisibility(View.VISIBLE);
+                            if(arraylist.isEmpty())
+                            {
+                                recyclerView.setVisibility(View.GONE);
+                                ln_noemptyrecommendedapplicantlayout.setVisibility(View.VISIBLE);
+                            }
                             recyclerView.setOnTouchListener(new View.OnTouchListener() {
                                 @Override
                                 public boolean onTouch(View v, MotionEvent event) {

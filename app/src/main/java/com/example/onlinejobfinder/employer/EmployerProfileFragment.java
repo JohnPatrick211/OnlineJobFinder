@@ -178,7 +178,7 @@ public class EmployerProfileFragment extends Fragment {
                         txtemployercontactno.setVisibility(View.GONE);
                         txtemployerspecialization.setVisibility(View.GONE);
                     }
-                    if(imageview_employer.getDrawable() == null)
+                    if(user.getString("profile_pic").equals("null"))
                     {
 
                         imageview_employer.setBackgroundResource(R.drawable.img);
@@ -285,6 +285,7 @@ public class EmployerProfileFragment extends Fragment {
                     txtemployerspecialization.setText(user.get("Specialization").toString());
                     val_specialization =  txtemployerspecialization.getText().toString();
                     txtemployercompanyoverview.setText(user.get("companyoverview").toString());
+                    imgUrl = Constant.URL+"/storage/profiles/"+user.getString("profile_pic");
                     Picasso.get().load(Constant.URL+"/storage/profiles/"+user.getString("profile_pic")).into(imageview_employer);
                     Picasso.get().load(Constant.URL+"/storage/BIR/"+user.getString("BIR_file")).into(imageview_BIRemployer);
                     SharedPreferences.Editor editor2 = userPref2.edit();
@@ -369,6 +370,7 @@ public class EmployerProfileFragment extends Fragment {
                     txtemployerspecialization.setText(user.get("Specialization").toString());
                     val_specialization =  txtemployerspecialization.getText().toString();
                     txtemployercompanyoverview.setText(user.get("companyoverview").toString());
+                    imgUrl = Constant.URL+"/storage/profiles/"+user.getString("profile_pic");
                     Picasso.get().load(Constant.URL+"/storage/profiles/"+user.getString("profile_pic")).into(imageview_employer);
                     Picasso.get().load(Constant.URL+"/storage/BIR/"+user.getString("BIR_file")).into(imageview_BIRemployer);
                     SharedPreferences.Editor editor2 = userPref2.edit();

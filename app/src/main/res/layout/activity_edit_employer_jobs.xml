@@ -16,8 +16,8 @@
     android:gravity="center_horizontal"
     tools:context=".employer.EditEmployerJobActivity">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="100dp"
+    <ImageView
+        android:layout_width="200dp"
         android:layout_height="100dp"
         android:src="@color/design_default_color_primary_dark"
         android:layout_gravity="center_horizontal"

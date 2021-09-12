@@ -62,7 +62,7 @@ public class EditEmployerProfileActivity extends AppCompatActivity {
     TextView employer_email, employer_contactnum,employer_selectphoto, employer_specialization;
     EditText employer_companyname, employer_address, employer_companyoverview;
     //Spinner employer_specialization;
-    CircleImageView employer_profilepic;
+    ImageView employer_profilepic;
     Button btn_saveemployer;
     Bitmap bitmap = null;
     ProgressDialog progressDialog;

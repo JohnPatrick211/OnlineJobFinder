@@ -42,6 +42,14 @@
             layout="@layout/norecommendedlayout"
             android:visibility="gone"/>
 
+        <include
+            android:layout_marginTop="40dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ln_noemptyrecommendedapplicantlayout"
+            layout="@layout/noemptyrecommendedapplicantlayout"
+            android:visibility="gone"/>
+
         <LinearLayout
             android:id="@+id/networkerecommendedapperrorlayout"
             android:layout_width="match_parent"

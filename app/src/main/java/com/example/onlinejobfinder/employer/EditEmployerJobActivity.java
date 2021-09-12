@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +42,7 @@ public class EditEmployerJobActivity extends AppCompatActivity {
 
     EditText edit_jobtitle, edit_jobsalary, edit_jobaddress, edit_jobdescription,edit_jobcompanyoverview;
     TextView edit_jobcompanyname, edit_jobregion, edit_jobemail, edit_jobspecialization;
-    CircleImageView edit_joblogo;
+    ImageView edit_joblogo;
     Button btn_editsendapprove,btndelete;
     ProgressDialog progressDialog;
     String intentid,intentjobtitle,intentjobsalary,intentjobaddress,

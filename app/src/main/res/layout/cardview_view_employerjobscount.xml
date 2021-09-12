@@ -21,7 +21,7 @@
             <ImageView
                 android:layout_marginTop="10dp"
                 android:id="@+id/imageview_joblogo"
-                android:layout_width="100dp"
+                android:layout_width="110dp"
                 android:layout_height="100dp"
                 android:src="@drawable/logo"
                 />
