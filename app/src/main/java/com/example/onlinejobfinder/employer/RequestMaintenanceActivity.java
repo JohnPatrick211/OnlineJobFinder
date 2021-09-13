@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.onlinejobfinder.EmailActivity;
 import com.example.onlinejobfinder.MainActivity;
@@ -24,6 +26,7 @@ import com.example.onlinejobfinder.SendMail;
 import com.example.onlinejobfinder.SendRequestMail;
 import com.example.onlinejobfinder.SessionManager;
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
@@ -39,6 +42,8 @@ public class RequestMaintenanceActivity extends AppCompatActivity implements Nav
     String val_specialization = "";
     SessionManager sessionManager;
     SharedPreferences userPref2;
+    ImageView imageprofile;
+    TextView textnameprofile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +71,23 @@ public class RequestMaintenanceActivity extends AppCompatActivity implements Nav
         progressDialog.setCancelable(false);
         edittext_email.setText(email);
         sessionManager = new SessionManager(getApplicationContext());
+
+        String intentname = getIntent().getExtras().getString("name");
+        imageprofile = navigationView.getHeaderView(0).findViewById(R.id.drawerimageviewprofile);
+        textnameprofile = navigationView.getHeaderView(0).findViewById(R.id.drawerprofilename);
+        textnameprofile.setText(intentname);
+
+
+        try {
+            String checknull = getIntent().getExtras().getString("profile_pic");
+            if (checknull.equals("null")) {
+                imageprofile.setImageResource(R.drawable.img);
+            } else {
+                Picasso.get().load(getIntent().getStringExtra("profile_pic")).into( imageprofile);
+            }
+        } catch (Exception e) {
+            imageprofile.setImageResource(R.drawable.img);
+        }
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -126,6 +148,8 @@ public class RequestMaintenanceActivity extends AppCompatActivity implements Nav
                 Intent ia11 = new Intent(RequestMaintenanceActivity.this, ApplicantHiredActivity.class);
                 ia11.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 ia11.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                ia11.putExtra("name",textnameprofile.getText().toString());
+                ia11.putExtra("profile_pic", getIntent().getStringExtra("profile_pic"));
                 startActivity(ia11);
                 break;
         }

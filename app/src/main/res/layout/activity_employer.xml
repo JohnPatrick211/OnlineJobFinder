@@ -47,7 +47,10 @@
         android:id="@+id/navigation_view2"
         app:menu="@menu/navigation_drawer_menu_employer"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/drawer_header"
+        app:headerLayout="@layout/drawer_header2"
+        app:itemIconPadding="30dp"
+        app:itemHorizontalPadding="10dp"
+        app:itemIconTint="@color/design_default_color_primary"
         app:itemTextAppearance="?android:attr/textAppearanceMedium"
         android:layout_gravity="start"/>
 

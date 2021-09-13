@@ -18,6 +18,7 @@ import android.os.CountDownTimer;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +36,7 @@ import com.example.onlinejobfinder.adapter.appliedapplicantsadapter;
 import com.example.onlinejobfinder.model.appliedapplicants;
 import com.example.onlinejobfinder.model.job;
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -72,6 +74,8 @@ public class ApplicantHiredActivity extends AppCompatActivity implements Navigat
     SharedPreferences userPref2;
     String name2, user_id,token,email;
     SessionManager sessionManager;
+    ImageView imageprofile;
+    TextView textnameprofile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +118,22 @@ public class ApplicantHiredActivity extends AppCompatActivity implements Navigat
         navigationView.setNavigationItemSelectedListener(this);
 
         delay();
+
+        String intentname = getIntent().getExtras().getString("name");
+        imageprofile = navigationView.getHeaderView(0).findViewById(R.id.drawerimageviewprofile);
+        textnameprofile = navigationView.getHeaderView(0).findViewById(R.id.drawerprofilename);
+        textnameprofile.setText(intentname);
+
+        try {
+            String checknull = getIntent().getExtras().getString("profile_pic");
+            if (checknull.equals("null")) {
+                imageprofile.setImageResource(R.drawable.img);
+            } else {
+                Picasso.get().load(getIntent().getStringExtra("profile_pic")).into( imageprofile);
+            }
+        } catch (Exception e) {
+            imageprofile.setImageResource(R.drawable.img);
+        }
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -177,6 +197,8 @@ public class ApplicantHiredActivity extends AppCompatActivity implements Navigat
                 Intent ia12 = new Intent(ApplicantHiredActivity.this, RequestMaintenanceActivity.class);
                 ia12.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 ia12.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                ia12.putExtra("name",textnameprofile.getText().toString());
+                ia12.putExtra("profile_pic", getIntent().getStringExtra("profile_pic"));
                 startActivity(ia12);
                 break;
         }

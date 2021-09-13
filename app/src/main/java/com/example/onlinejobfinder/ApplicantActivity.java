@@ -17,8 +17,15 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.applicant.ApplicantHistoryActivity;
 import com.example.onlinejobfinder.applicant.ApplicantSavedJobActivity;
 import com.example.onlinejobfinder.applicant.HomeFragment;
@@ -27,7 +34,13 @@ import com.example.onlinejobfinder.applicant.SearchFragment;
 import com.example.onlinejobfinder.employer.EmployerActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class ApplicantActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -35,7 +48,8 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     SharedPreferences userPref;
-    String name2,user_id;
+    String name2,user_id,token;
+    String imgUrl;
     final Fragment fragment1 = new HomeFragment();
     final Fragment fragment2 = new SearchFragment();
     final Fragment fragment3 = new ProfileFragment();
@@ -43,6 +57,8 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
     Fragment active = fragment1;
     SessionManager sessionManager;
     BottomNavigationView navView;
+    ImageView imageprofile;
+    TextView textnameprofile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -60,6 +76,8 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
         getSupportActionBar().setCustomView(R.layout.customactionbarmaintitle);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        imageprofile = navigationView.getHeaderView(0).findViewById(R.id.drawerimageviewprofile);
+        textnameprofile = navigationView.getHeaderView(0).findViewById(R.id.drawerprofilename);
 
 //        Bundle bundle = getIntent().getExtras();
 //        if (bundle != null) {
@@ -70,6 +88,7 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
         userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         name2 = userPref.getString("name","name");
         user_id = userPref.getString("id","id");
+        token = userPref.getString("token","token");
         SharedPreferences.Editor editor = userPref.edit();
         editor.putString("name",name2);
         editor.putString("id",user_id);
@@ -85,6 +104,8 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
         fm.beginTransaction().add(R.id.container, fragment3, "3").hide(fragment3).commit();
         fm.beginTransaction().add(R.id.container, fragment2, "2").hide(fragment2).commit();
         fm.beginTransaction().add(R.id.container, fragment1, "1").commit();
+
+        getPost();
 
 //        navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 //            @Override
@@ -138,6 +159,57 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
 //        NavigationUI.setupWithNavController(navView, navController);
     }
 
+    private void getPost() {
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.MY_POST+"?applicant_id="+user_id, response -> {
+            try{
+                JSONObject object= new JSONObject(response);
+                if(object.getBoolean("success")){
+                    JSONObject user = object.getJSONObject("user");
+                    textnameprofile.setText(user.get("name").toString());
+                    Picasso.get().load(Constant.URL+"/storage/profiles/"+user.getString("profile_pic")).into(imageprofile);
+                    imgUrl = Constant.URL+"/storage/profiles/"+user.getString("profile_pic");
+                    if(user.getString("profile_pic").equals("null"))
+                    {
+                        imageprofile.setBackgroundResource(R.drawable.img);
+                    }
+                }
+                else
+                {
+                    Toast.makeText(ApplicantActivity.this, "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
+                    // progressDialog.cancel();
+                }
+
+            }catch(JSONException e)
+            {
+                //Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                imageprofile.setBackgroundResource(R.drawable.img);
+                textnameprofile.setText(name2);
+//                txtemail.setText(email);
+                //  progressDialog.cancel();
+            }
+        },error ->{
+            error.printStackTrace();
+            Toast.makeText(ApplicantActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
+            imageprofile.setBackgroundResource(R.drawable.img);
+            textnameprofile.setText(name2);
+          //  txtemail.setText(email);
+            // progressDialog.cancel();
+        })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                //String token = userPref.getString("token","token");
+                map.put("Authorization","Bearer "+token);
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(ApplicantActivity.this);
+        queue.add(request);
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(toggle.onOptionsItemSelected(item))
@@ -161,12 +233,16 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
                 Intent intent2 = new Intent(ApplicantActivity.this, ApplicantSavedJobActivity.class);
                 intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent2.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent2.putExtra("name",textnameprofile.getText().toString());
+                intent2.putExtra("profile_pic", imgUrl);
                 startActivity(intent2);
                 break;
             case R.id.navigation_applicationhistory:
                 Intent intent3 = new Intent(ApplicantActivity.this, ApplicantHistoryActivity.class);
                 intent3.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent3.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent3.putExtra("name",textnameprofile.getText().toString());
+                intent3.putExtra("profile_pic", imgUrl);
                 startActivity(intent3);
                 break;
             case R.id.navigation_logout:
@@ -198,6 +274,7 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
     }
     public void onResume() {
         super.onResume();
+        getPost();
         drawerLayout.closeDrawers();
     }
     public void onBackPressed()

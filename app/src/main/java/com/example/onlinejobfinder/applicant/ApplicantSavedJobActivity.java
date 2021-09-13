@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
@@ -46,6 +47,7 @@ import com.example.onlinejobfinder.SessionManager;
 import com.example.onlinejobfinder.adapter.jobadapter;
 import com.example.onlinejobfinder.model.job;
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -89,6 +91,8 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
     View ln_delay;
     LinearLayout main;
     CountDownTimer CDT;
+    ImageView imageprofile;
+    TextView textnameprofile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +125,22 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
         location = new ArrayList<String>();
         ln_nobookmarkedjoblayout = findViewById(R.id.ln_nobookmarkedjoblayout);
         sessionManager = new SessionManager(getApplicationContext());
+        String intentname = getIntent().getExtras().getString("name");
+        imageprofile = navigationView.getHeaderView(0).findViewById(R.id.drawerimageviewprofile);
+        textnameprofile = navigationView.getHeaderView(0).findViewById(R.id.drawerprofilename);
+        textnameprofile.setText(intentname);
+
+
+        try {
+            String checknull = getIntent().getExtras().getString("profile_pic");
+            if (checknull.equals("null")) {
+                imageprofile.setImageResource(R.drawable.img);
+            } else {
+                Picasso.get().load(getIntent().getStringExtra("profile_pic")).into( imageprofile);
+            }
+        } catch (Exception e) {
+            imageprofile.setImageResource(R.drawable.img);
+        }
         edt_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -728,6 +748,8 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                 Intent intent3 = new Intent(ApplicantSavedJobActivity.this, ApplicantHistoryActivity.class);
                 intent3.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent3.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent3.putExtra("name",textnameprofile.getText().toString());
+                intent3.putExtra("profile_pic", getIntent().getStringExtra("profile_pic"));
                 startActivity(intent3);
                 break;
             case R.id.navigation_logout:

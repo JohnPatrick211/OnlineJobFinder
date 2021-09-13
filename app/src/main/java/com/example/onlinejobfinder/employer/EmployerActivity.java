@@ -14,14 +14,30 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.ApplicantActivity;
+import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.MainActivity;
 import com.example.onlinejobfinder.R;
 import com.example.onlinejobfinder.SessionManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class EmployerActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
@@ -30,7 +46,8 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     SharedPreferences userPref;
-    String name2,user_id;
+    String name2,user_id,token;
+    String imgUrl;
     final Fragment fragment1 = new EmployerHomeFragment();
     final Fragment fragment2 = new EmployerJobFragment();
     final Fragment fragment3 = new ApplicantAppliedFragment();
@@ -38,6 +55,8 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
     final FragmentManager fm = getSupportFragmentManager();
     Fragment active = fragment1;
     SessionManager sessionManager;
+    ImageView imageprofile;
+    TextView textnameprofile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +76,16 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
         userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         name2 = userPref.getString("name","name");
         user_id = userPref.getString("id","id");
+        token = userPref.getString("token","token");
         SharedPreferences.Editor editor = userPref.edit();
         sessionManager = new SessionManager(getApplicationContext());
         editor.putString("name",name2);
         editor.putString("id",user_id);
         editor.apply();
         editor.commit();
+
+        imageprofile = navigationView.getHeaderView(0).findViewById(R.id.drawerimageviewprofile);
+        textnameprofile = navigationView.getHeaderView(0).findViewById(R.id.drawerprofilename);
 
 //        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 //        getSupportFragmentManager().beginTransaction().replace(R.id.container2,new EmployerHomeFragment()).commit();
@@ -72,6 +95,8 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
         fm.beginTransaction().add(R.id.container2, fragment3, "3").hide(fragment3).commit();
         fm.beginTransaction().add(R.id.container2, fragment2, "2").hide(fragment2).commit();
         fm.beginTransaction().add(R.id.container2, fragment1, "1").commit();
+
+        getPost();
 
 //        navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 //            @Override
@@ -117,6 +142,59 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
 
 
     }
+
+    private void getPost() {
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.EMPLOYER_POST+"?employer_id="+user_id, response -> {
+            try{
+                JSONObject object= new JSONObject(response);
+                if(object.getBoolean("success")){
+                    JSONObject user = object.getJSONObject("user");
+                    textnameprofile.setText(user.get("name").toString());
+                    imgUrl = Constant.URL+"/storage/profiles/"+user.getString("profile_pic");
+                    Picasso.get().load(Constant.URL+"/storage/profiles/"+user.getString("profile_pic")).into(imageprofile);
+                    if(user.getString("profile_pic").equals("null"))
+                    {
+
+                        imageprofile.setBackgroundResource(R.drawable.img);
+
+                    }
+                }
+                else
+                {
+                    Toast.makeText(EmployerActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
+                    // progressDialog.cancel();
+                }
+
+            }catch(JSONException e)
+            {
+                //Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                textnameprofile.setText(name2);
+               // txtemployeremail.setText(email);
+                imageprofile.setBackgroundResource(R.drawable.img);
+                //  progressDialog.cancel();
+            }
+        },error ->{
+            error.printStackTrace();
+            Toast.makeText(EmployerActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
+            textnameprofile.setText(name2);
+            imageprofile.setBackgroundResource(R.drawable.img);
+            // progressDialog.cancel();
+        })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                //String token = userPref.getString("token","token");
+                map.put("Authorization","Bearer "+token);
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(EmployerActivity.this);
+        queue.add(request);
+    }
+
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(toggle.onOptionsItemSelected(item))
         {
@@ -159,12 +237,16 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
                 Intent ia = new Intent(EmployerActivity.this, RequestMaintenanceActivity.class);
                 ia.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 ia.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                ia.putExtra("name",textnameprofile.getText().toString());
+                ia.putExtra("profile_pic", imgUrl);
                 startActivity(ia);
                 break;
             case R.id.navigation_applicanthired:
                 Intent ia1 = new Intent(EmployerActivity.this, ApplicantHiredActivity.class);
                 ia1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 ia1.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                ia1.putExtra("name",textnameprofile.getText().toString());
+                ia1.putExtra("profile_pic", imgUrl);
                 startActivity(ia1);
                 break;
         }

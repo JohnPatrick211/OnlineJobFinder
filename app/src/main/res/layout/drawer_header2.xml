@@ -6,9 +6,9 @@
     android:orientation="vertical"
     >
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/drawerimageviewprofile"
-        android:layout_width="100dp"
+        android:layout_width="125dp"
         android:layout_height="100dp"
         android:paddingTop="10dp"
         android:src="@drawable/img"
@@ -23,12 +23,12 @@
         android:gravity="center_horizontal"
         android:id="@+id/drawerprofilename"/>
 
-   <LinearLayout
-    android:layout_marginTop="10dp"
-    android:layout_width="match_parent"
-    android:layout_height="1dp"
-    android:background="#F0F0FF">
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F0F0FF">
 
-</LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

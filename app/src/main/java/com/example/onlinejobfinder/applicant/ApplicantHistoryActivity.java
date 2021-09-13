@@ -47,6 +47,7 @@ import com.example.onlinejobfinder.employer.ViewApplyApplicantActivity;
 import com.example.onlinejobfinder.model.applicanthistory;
 import com.example.onlinejobfinder.model.job;
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -93,6 +94,8 @@ public class ApplicantHistoryActivity extends AppCompatActivity implements Navig
     String [] specializationarray, locationarray;
     View ln_delay;
     CountDownTimer CDT;
+    ImageView imageprofile;
+    TextView textnameprofile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +145,22 @@ public class ApplicantHistoryActivity extends AppCompatActivity implements Navig
         navigationView.setNavigationItemSelectedListener(this);
 
         delay();
+
+        String intentname = getIntent().getExtras().getString("name");
+        imageprofile = navigationView.getHeaderView(0).findViewById(R.id.drawerimageviewprofile);
+        textnameprofile = navigationView.getHeaderView(0).findViewById(R.id.drawerprofilename);
+        textnameprofile.setText(intentname);
+
+        try {
+            String checknull = getIntent().getExtras().getString("profile_pic");
+            if (checknull.equals("null")) {
+                imageprofile.setImageResource(R.drawable.img);
+            } else {
+                Picasso.get().load(getIntent().getStringExtra("profile_pic")).into( imageprofile);
+            }
+        } catch (Exception e) {
+            imageprofile.setImageResource(R.drawable.img);
+        }
 
         filterbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -821,6 +840,8 @@ public class ApplicantHistoryActivity extends AppCompatActivity implements Navig
                 Intent intent2 = new Intent(ApplicantHistoryActivity.this, ApplicantSavedJobActivity.class);
                 intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent2.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent2.putExtra("name",textnameprofile.getText().toString());
+                intent2.putExtra("profile_pic", getIntent().getStringExtra("profile_pic"));
                 startActivity(intent2);
                 break;
             case R.id.navigation_applicationhistory:
