@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +43,7 @@ import java.util.Map;
 
 public class EmployerAddJobActivity extends AppCompatActivity {
 
-    CircleImageView joblogo;
+    ImageView joblogo;
     EditText jobtitle,jobaddress,jobsalary,jobdescription,jobcompanyoverview;
     TextView jobcompanyname, jobregion,jobspecialization,jobemail;
     Button btnsendjobapprove,btndelete;
