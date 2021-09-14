@@ -289,7 +289,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         EditProfileActivity.this
                 );
                 txtgender.setText(specializationarray2[position]);
-                builder.setTitle("Select Specialization");
+                builder.setTitle("Select Gender");
                 builder.setCancelable(false);
                 builder.setSingleChoiceItems(specializationarray2, position, new DialogInterface.OnClickListener() {
                     @Override
@@ -566,7 +566,17 @@ public class EditProfileActivity extends AppCompatActivity {
             txtspecialization.requestFocus();
             return false;
         }
+        if (txtspecialization.getText().toString().isEmpty()) {
+            txtspecialization.setError("Specialization is required");
+            txtspecialization.requestFocus();
+            return false;
+        }
         if (edit_contactno.getText().toString().equals("Contact Number")){
+            edit_contactno.setError("Contact Number is required");
+            edit_contactno.requestFocus();
+            return false;
+        }
+        if (edit_contactno.getText().toString().isEmpty()){
             edit_contactno.setError("Contact Number is required");
             edit_contactno.requestFocus();
             return false;
@@ -577,6 +587,11 @@ public class EditProfileActivity extends AppCompatActivity {
             return false;
         }
         if (txtgender.getText().toString().equals("Gender")){
+            txtgender.setError("Gender is required");
+            txtgender.requestFocus();
+            return false;
+        }
+        if (txtgender.getText().toString().isEmpty()){
             txtgender.setError("Gender is required");
             txtgender.requestFocus();
             return false;

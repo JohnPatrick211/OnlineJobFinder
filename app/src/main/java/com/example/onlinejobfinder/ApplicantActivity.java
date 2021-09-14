@@ -170,7 +170,7 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
                     imgUrl = Constant.URL+"/storage/profiles/"+user.getString("profile_pic");
                     if(user.getString("profile_pic").equals("null"))
                     {
-                        imageprofile.setBackgroundResource(R.drawable.img);
+                        imageprofile.setImageResource(R.drawable.img);
                     }
                 }
                 else
@@ -182,7 +182,7 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
             }catch(JSONException e)
             {
                 //Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
-                imageprofile.setBackgroundResource(R.drawable.img);
+                imageprofile.setImageResource(R.drawable.img);
                 textnameprofile.setText(name2);
 //                txtemail.setText(email);
                 //  progressDialog.cancel();
@@ -190,7 +190,7 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
         },error ->{
             error.printStackTrace();
             Toast.makeText(ApplicantActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
-            imageprofile.setBackgroundResource(R.drawable.img);
+            imageprofile.setImageResource(R.drawable.img);
             textnameprofile.setText(name2);
           //  txtemail.setText(email);
             // progressDialog.cancel();

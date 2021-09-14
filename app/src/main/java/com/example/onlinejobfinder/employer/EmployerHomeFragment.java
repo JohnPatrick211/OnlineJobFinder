@@ -60,6 +60,7 @@ public class EmployerHomeFragment extends Fragment {
     LinearLayout main;
     CountDownTimer CDT;
     SharedPreferences userPref2;
+    boolean display;
     recommendedapplicantsadapter.RecyclerViewClickListener listener;
     int position =0;
     int position2 =0;
@@ -242,7 +243,14 @@ public class EmployerHomeFragment extends Fragment {
                             if(arraylist.isEmpty())
                             {
                                 recyclerView.setVisibility(View.GONE);
-                                ln_noemptyrecommendedapplicantlayout.setVisibility(View.VISIBLE);
+                                if(display)
+                                {
+                                    ln_noemptyrecommendedapplicantlayout.setVisibility(View.GONE);
+                                }
+                                else
+                                {
+                                    ln_noemptyrecommendedapplicantlayout.setVisibility(View.VISIBLE);
+                                }
                             }
                             else
                             {
@@ -382,10 +390,12 @@ public class EmployerHomeFragment extends Fragment {
                             recyclerView.setVisibility(View.GONE);
 //                            ln_networkrecommendedapperror.setVisibility(View.VISIBLE);
                             ln_norecommendedlayout.setVisibility(View.VISIBLE);
+                            display = true;
                             refreshLayout.setRefreshing(false);
 
                         }
                         else {
+                            display = false;
                             ln_norecommendedlayout.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);
 

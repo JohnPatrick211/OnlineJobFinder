@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.onlinejobfinder.Constant;
 import com.example.onlinejobfinder.EmailActivity;
 import com.example.onlinejobfinder.MainActivity;
 import com.example.onlinejobfinder.R;
@@ -80,7 +81,7 @@ public class RequestMaintenanceActivity extends AppCompatActivity implements Nav
 
         try {
             String checknull = getIntent().getExtras().getString("profile_pic");
-            if (checknull.equals("null")) {
+            if (checknull.equals(Constant.URL+"/storage/profiles/null")) {
                 imageprofile.setImageResource(R.drawable.img);
             } else {
                 Picasso.get().load(getIntent().getStringExtra("profile_pic")).into( imageprofile);

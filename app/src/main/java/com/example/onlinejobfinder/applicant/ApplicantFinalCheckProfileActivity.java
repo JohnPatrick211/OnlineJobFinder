@@ -454,7 +454,7 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
                 txtcontactno.setVisibility(View.GONE);
                 txtaddress.setVisibility(View.GONE);
                 txtspecialization.setVisibility(View.GONE);
-                imageview_user.setBackgroundResource(R.drawable.img);
+                imageview_user.setImageResource(R.drawable.img);
                 txtgender.setVisibility(View.GONE);
                 txtresume.setVisibility(View.GONE);
                 txtviewresume.setVisibility(View.GONE);
@@ -466,7 +466,7 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
             error.printStackTrace();
             Toast.makeText(ApplicantFinalCheckProfileActivity.this, "Network Error, Please Try Again", Toast.LENGTH_SHORT).show();
             txtname.setText(name2);
-            imageview_user.setBackgroundResource(R.drawable.img);
+            imageview_user.setImageResource(R.drawable.img);
             txtemail.setText(email);
             // progressDialog.cancel();
         }) {

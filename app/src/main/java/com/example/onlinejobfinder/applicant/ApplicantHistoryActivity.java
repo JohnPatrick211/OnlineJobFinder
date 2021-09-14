@@ -153,7 +153,7 @@ public class ApplicantHistoryActivity extends AppCompatActivity implements Navig
 
         try {
             String checknull = getIntent().getExtras().getString("profile_pic");
-            if (checknull.equals("null")) {
+            if (checknull.equals(Constant.URL+"/storage/profiles/null")) {
                 imageprofile.setImageResource(R.drawable.img);
             } else {
                 Picasso.get().load(getIntent().getStringExtra("profile_pic")).into( imageprofile);

@@ -268,7 +268,7 @@ public class ProfileFragment extends Fragment {
                         txtspecialization.setVisibility(View.GONE);
                         txtgender.setVisibility(View.GONE);
                     }
-                    if(imageview_user.getDrawable() == null)
+                    if(user.getString("profile_pic").equals("null"))
                     {
 
                         imageview_user.setBackgroundResource(R.drawable.img);

@@ -155,7 +155,7 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
                     if(user.getString("profile_pic").equals("null"))
                     {
 
-                        imageprofile.setBackgroundResource(R.drawable.img);
+                        imageprofile.setImageResource(R.drawable.img);
 
                     }
                 }
@@ -170,14 +170,14 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
                 //Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
                 textnameprofile.setText(name2);
                // txtemployeremail.setText(email);
-                imageprofile.setBackgroundResource(R.drawable.img);
+                imageprofile.setImageResource(R.drawable.img);
                 //  progressDialog.cancel();
             }
         },error ->{
             error.printStackTrace();
             Toast.makeText(EmployerActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             textnameprofile.setText(name2);
-            imageprofile.setBackgroundResource(R.drawable.img);
+            imageprofile.setImageResource(R.drawable.img);
             // progressDialog.cancel();
         })
         {
@@ -254,6 +254,7 @@ public class EmployerActivity extends AppCompatActivity  implements NavigationVi
     }
     public void onResume() {
         super.onResume();
+        getPost();
         drawerLayout.closeDrawers();
     }
     public void onBackPressed()

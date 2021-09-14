@@ -181,7 +181,7 @@ public class EmployerProfileFragment extends Fragment {
                     if(user.getString("profile_pic").equals("null"))
                     {
 
-                        imageview_employer.setBackgroundResource(R.drawable.img);
+                        imageview_employer.setImageResource(R.drawable.img);
 
                     }
                     else {
@@ -206,7 +206,7 @@ public class EmployerProfileFragment extends Fragment {
                 txtemployerspecialization.setVisibility(View.GONE);
                 txtemployername.setText(name2);
                 txtemployeremail.setText(email);
-                imageview_employer.setBackgroundResource(R.drawable.img);
+                imageview_employer.setImageResource(R.drawable.img);
                 networkcompanyerror();
                 txtemployercompanyoverview.setVisibility(View.GONE);
                 //  progressDialog.cancel();
@@ -217,7 +217,7 @@ public class EmployerProfileFragment extends Fragment {
             txtemployername.setText(name2);
             txtemployeremail.setText(email);
             networkcompanyerror();
-            imageview_employer.setBackgroundResource(R.drawable.img);
+            imageview_employer.setImageResource(R.drawable.img);
             txtemployercompanyoverview.setVisibility(View.GONE);
             // progressDialog.cancel();
         })
@@ -302,6 +302,12 @@ public class EmployerProfileFragment extends Fragment {
                         txtemployercontactno.setVisibility(View.GONE);
                         txtemployerspecialization.setVisibility(View.GONE);
                     }
+                    if(user.getString("profile_pic").equals("null"))
+                    {
+
+                        imageview_employer.setImageResource(R.drawable.img);
+
+                    }
                     else {
                         txtemployercontactno.setVisibility(View.VISIBLE);
                         txtemployerspecialization.setVisibility(View.VISIBLE);
@@ -324,7 +330,7 @@ public class EmployerProfileFragment extends Fragment {
                 txtemployerspecialization.setVisibility(View.GONE);
                 txtemployername.setText(name2);
                 txtemployeremail.setText(email);
-                imageview_employer.setBackgroundResource(R.drawable.img);
+                imageview_employer.setImageResource(R.drawable.img);
                 networkcompanyerror();
                 txtemployercompanyoverview.setVisibility(View.GONE);
                 //  progressDialog.cancel();
@@ -335,7 +341,7 @@ public class EmployerProfileFragment extends Fragment {
             txtemployername.setText(name2);
             txtemployeremail.setText(email);
             networkcompanyerror();
-            imageview_employer.setBackgroundResource(R.drawable.img);
+            imageview_employer.setImageResource(R.drawable.img);
             txtemployercompanyoverview.setVisibility(View.GONE);
             // progressDialog.cancel();
         })
@@ -408,7 +414,7 @@ public class EmployerProfileFragment extends Fragment {
                 txtemployeraddress.setVisibility(View.GONE);
                 txtemployerspecialization.setVisibility(View.GONE);
                 txtemployername.setText(name2);
-                imageview_employer.setBackgroundResource(R.drawable.img);
+                imageview_employer.setImageResource(R.drawable.img);
                 txtemployeremail.setText(email);
                 networkcompanyerror();
                 txtemployercompanyoverview.setVisibility(View.GONE);
@@ -419,7 +425,7 @@ public class EmployerProfileFragment extends Fragment {
             Toast.makeText(getContext(),"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
             txtemployername.setText(name2);
             txtemployeremail.setText(email);
-            imageview_employer.setBackgroundResource(R.drawable.img);
+            imageview_employer.setImageResource(R.drawable.img);
             txtemployercompanyoverview.setText("network error in loading of content");
             networkcompanyerror();
             txtemployercompanyoverview.setVisibility(View.GONE);
