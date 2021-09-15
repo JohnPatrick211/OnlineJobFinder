@@ -12,6 +12,12 @@ android {
 
     }
 
+    lintOptions {
+
+        checkReleaseBuilds false
+
+    }
+
     defaultConfig {
         applicationId "com.example.onlinejobfinder"
         minSdkVersion 26

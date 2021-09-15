@@ -130,15 +130,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(validate())
                 {
-                    user2.reload();
                     progressDialog.setMessage("Logging In");
                     progressDialog.show();
                     StringRequest request = new StringRequest(Request.Method.POST, Constant.login, response -> {
                         try{
-                            user2.reload();
-                            if(user2.isEmailVerified())
-                            {
-                                progressDialog.cancel();
                                 JSONObject object= new JSONObject(response);
                                 if(object.getBoolean("success")){
                                     JSONObject user = object.getJSONObject("user");
@@ -181,17 +176,6 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.makeText(MainActivity.this,"Invalid Credentials",Toast.LENGTH_SHORT).show();
                                     progressDialog.cancel();
                                 }
-                            }
-                            else if(!user2.isEmailVerified())
-                            {
-                                Toast.makeText(MainActivity.this,"Your email is not verified",Toast.LENGTH_SHORT).show();
-                                progressDialog.cancel();
-                            }
-                            else
-                            {
-                                Toast.makeText(MainActivity.this,"Invalid Credentials",Toast.LENGTH_SHORT).show();
-                                progressDialog.cancel();
-                            }
                             progressDialog.cancel();
 
                         }catch(JSONException e)
