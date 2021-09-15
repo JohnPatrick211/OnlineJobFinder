@@ -29,6 +29,8 @@ import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.Constant;
@@ -452,6 +454,24 @@ public class EditProfileActivity extends AppCompatActivity {
 
                     RequestQueue queue = Volley.newRequestQueue(EditProfileActivity.this);
                     queue.add(request);
+                    request.setRetryPolicy(new RetryPolicy() {
+                        @Override
+                        public int getCurrentTimeout() {
+                            return 50000;
+                        }
+
+                        @Override
+                        public int getCurrentRetryCount() {
+                            return 0;
+                        }
+
+                        @Override
+                        public void retry(VolleyError error) throws VolleyError {
+                            Toast.makeText(EditProfileActivity.this,"Network Error, Please Try Again",Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getApplicationContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
+                            progressDialog.cancel();
+                        }
+                    });
                 }
             }
         });
