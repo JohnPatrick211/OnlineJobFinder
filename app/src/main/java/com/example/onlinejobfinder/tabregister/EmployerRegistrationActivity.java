@@ -230,7 +230,12 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
                             }
                             else if(object.getString("Status").equals("201"))
                             {
-                                Toast.makeText(getApplicationContext(),"Email Already Exists",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"Register Successfully, Please Wait for the email confirmation",Toast.LENGTH_SHORT).show();
+                                SendMail sm = new SendMail(EmployerRegistrationActivity.this, "pesojob@gmail.com", "New Employer Approval", "Please Check the Pending Employer");
+                                sm.execute();
+
+                                Intent i = new Intent(EmployerRegistrationActivity.this, MainActivity.class);
+                                startActivity(i);
                                 progressDialog.cancel();
                             }
 //                        else if(object.getString("Status").equals("202"))
@@ -238,9 +243,7 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
 //                            Toast.makeText(getApplicationContext(),"Name Already Exists, Please Try Again",Toast.LENGTH_SHORT).show();
 //                            progressDialog.cancel();
 //                        }
-                            else
-                            {
-                                if(!object.getBoolean("success")){
+                                else if(!object.getBoolean("success")){
                                     JSONObject user = object.getJSONObject("employer");
                                     String status = user.getString("status");
                                     if(status.equals("pending"))
@@ -254,7 +257,12 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
                                         progressDialog.cancel();
                                     }
                                     else {
-                                        Toast.makeText(getApplicationContext(),"Email Already Exists",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(),"Register Successfully, Please Wait for the email confirmation",Toast.LENGTH_SHORT).show();
+                                        SendMail sm = new SendMail(EmployerRegistrationActivity.this, "pesojob@gmail.com", "New Employer Approval", "Please Check the Pending Employer");
+                                        sm.execute();
+
+                                        Intent i = new Intent(EmployerRegistrationActivity.this, MainActivity.class);
+                                        startActivity(i);
                                         progressDialog.cancel();
                                     }
                                 }
@@ -263,8 +271,6 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), "Error Occurred, Please try again", Toast.LENGTH_SHORT).show();
                                     progressDialog.cancel();
                                 }
-
-                            }
 
                         }catch(JSONException e)
                         {
