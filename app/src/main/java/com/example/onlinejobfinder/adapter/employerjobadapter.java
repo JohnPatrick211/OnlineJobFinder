@@ -29,9 +29,13 @@ public class employerjobadapter extends RecyclerView.Adapter<employerjobadapter.
         this.context = context;
         this.listener = listener;
         categorysearch = new ArrayList<>(listjob);
+        getfilterjob = new ArrayList<>(listjob);
+        getfilterjob2 = new ArrayList<>(listjob);
     }
 
     private ArrayList<job> listjob;
+    private ArrayList<job> getfilterjob;
+    private ArrayList<job> getfilterjob2;
     private Context context;
     private List<job> categorysearch;
    private RecyclerViewClickListener listener;
@@ -88,7 +92,7 @@ public class employerjobadapter extends RecyclerView.Adapter<employerjobadapter.
             }
             else {
                 String filterPattern = charSequence.toString().toLowerCase().trim();
-                for (job item : categorysearch){
+                for (job item :  getfilterjob){
                     if (item.getJobcategory().toLowerCase().contains(filterPattern)){
                         filterList.add(item);
                     }
@@ -174,6 +178,10 @@ public class employerjobadapter extends RecyclerView.Adapter<employerjobadapter.
     {
         this.listjob = listjob;
         notifyDataSetChanged();
+        System.out.println(listjob.size());
+        getfilterjob = listjob;
+//        getfilterjob2 = listjob;
+        System.out.println("filter =" + getfilterjob.size());
     }
 
 }

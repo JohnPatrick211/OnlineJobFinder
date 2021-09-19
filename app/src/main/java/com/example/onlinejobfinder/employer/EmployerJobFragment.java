@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -233,9 +234,14 @@ public class EmployerJobFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                jobadapter2.getFilter().filter(charSequence.toString().toLowerCase());
-                tvsearchspecialization.setText("Specialization");
-                tvsearchlocation.setText("Region");
+                if(charSequence.length() == 0)
+                {
+                    safefilter();
+                }
+                else
+                {
+                    jobadapter2.getFilter().filter(charSequence.toString().toLowerCase());
+                }
             }
 
             @Override
@@ -447,9 +453,11 @@ public class EmployerJobFragment extends Fragment {
         btnfilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setFilterDelayAnimation();
                 catergoryString = tvsearchspecialization.getText().toString();
                 yearString = tvsearchlocation.getText().toString();
                 statusString = tvsearchstatus.getText().toString();
+                setColorAnimation();
                 ArrayList<job> w = new ArrayList<>();
                 if(catergoryString.equals("Specialization") && yearString.equals("Region") && statusString.equals("Status"))
                 {
@@ -1057,5 +1065,66 @@ public class EmployerJobFragment extends Fragment {
             }
         }.start();
 
+    }
+    public void setFilterDelayAnimation()
+    {
+        ln_delay.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+        CDT = new CountDownTimer(2000, 1000) {
+            @Override
+            public void onTick(long l) {
+                ln_delay.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFinish() {
+                ln_delay.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+
+            }
+        }.start();
+        if(!expand)
+        {
+            ValueAnimator va = ValueAnimator.ofInt(100,250);
+            va.setDuration(400);
+            va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    Integer value = (Integer) valueAnimator.getAnimatedValue();
+                    searchlayout.getLayoutParams().height = value.intValue();
+                    searchlayout.requestLayout();
+                }
+            });
+            va.start();
+            expand = true;
+        }
+        else
+        {
+            ValueAnimator va = ValueAnimator.ofInt(250,100);
+            va.setDuration(400);
+            va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    Integer value = (Integer) valueAnimator.getAnimatedValue();
+                    searchlayout.getLayoutParams().height = value.intValue();
+                    searchlayout.requestLayout();
+                }
+            });
+            va.start();
+            expand = false;
+        }
+    }
+    public void setColorAnimation()
+    {
+        if(catergoryString.equals("Specialization") && yearString.equals("Region") && statusString.equals("Status"))
+        {
+            int color = Color.parseColor("#FF6200EE");
+            filterbutton.setColorFilter(color);
+        }
+        else
+        {
+            int color2 = Color.parseColor("#E91E47");
+            filterbutton.setColorFilter(color2);
+        }
     }
 }
