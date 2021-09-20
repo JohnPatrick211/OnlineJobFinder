@@ -27,16 +27,16 @@
                 android:textColor="@color/black"
                 android:text="Sample School"
                 android:textStyle="bold"
-                android:textSize="20sp"/>
+                android:textSize="18sp"/>
 
 
             <TextView
                 android:id="@+id/textView_applicantcourse"
-                android:layout_width="wrap_content"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:text="Sample Course"
-                android:textSize="20sp"/>
+                android:textSize="16sp"/>
 
             <TextView
                 android:textColor="@color/black"
@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sample Year Graduated"
-                android:textSize="18sp"/>
+                android:textSize="16sp"/>
 
 
         </LinearLayout>

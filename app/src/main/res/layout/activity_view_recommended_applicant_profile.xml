@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.amar.library.ui.StickyScrollView
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:id="@+id/stickyscrollview"
-    tools:context=".applicant.ApplicantFinalCheckProfileActivity"
+    tools:context=".employer.ViewRecommendedApplicantProfileActivity"
     app:stickyFooter="@+id/footer"
     >
 
@@ -18,7 +18,7 @@
     android:background="#F0F0FF"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context=".employer.ViewRecommendedApplicantProfileActivity">
+   >
 
     <include
         android:layout_width="fill_parent"
@@ -155,6 +155,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="10dp"
+            android:nestedScrollingEnabled="false"
             android:id="@+id/recyclerview_educationalbackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -226,7 +227,7 @@
 </LinearLayout>
 
 
-</com.amar.library.ui.StickyScrollView>
+</androidx.core.widget.NestedScrollView>
 
 
 

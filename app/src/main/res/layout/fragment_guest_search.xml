@@ -104,7 +104,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview_jobs"
                     android:layout_width="match_parent"
-                    android:layout_height="530dp" />
+                    android:layout_height="560dp" />
             </LinearLayout>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

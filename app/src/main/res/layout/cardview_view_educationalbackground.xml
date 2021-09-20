@@ -13,46 +13,46 @@
 
 
         <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginBottom="-20dp">
 
             <ImageView
                 android:id="@+id/image_editeducation"
-                android:layout_marginRight="0dp"
                 android:layout_width="50dp"
-                android:padding="6dp"
                 android:layout_height="50dp"
-                android:src="@drawable/ic_baseline_edit_24"
                 android:layout_gravity="right"
-                />
+                android:layout_marginRight="0dp"
+                android:padding="6dp"
+                android:src="@drawable/ic_baseline_edit_24" />
 
             <TextView
-                android:layout_marginTop="-40dp"
                 android:id="@+id/textView_applicantschool"
-                android:layout_width="wrap_content"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:layout_marginTop="-40dp"
                 android:text="Sample School"
-                android:textStyle="bold"
-                android:textSize="20sp"/>
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
 
             <TextView
                 android:id="@+id/textView_applicantcourse"
-                android:layout_width="wrap_content"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
                 android:text="Sample Course"
-                android:textSize="20sp"/>
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
             <TextView
-                android:textColor="@color/black"
                 android:id="@+id/textView_applicantyeargraduated"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sample Year Graduated"
-                android:textSize="18sp"/>
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
 
         </LinearLayout>
