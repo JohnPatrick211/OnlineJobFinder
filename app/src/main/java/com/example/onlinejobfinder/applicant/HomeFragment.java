@@ -286,6 +286,7 @@ public class HomeFragment extends Fragment {
                         ln_norecommendedjoblayout.setVisibility(View.GONE);
                         JSONObject user = object.getJSONObject("Specialization");
                         val_specialization =  user.get("Specialization").toString();
+                        val_specialization = val_specialization.replace("&","%26");
                         getPost();
                     }
                     else
