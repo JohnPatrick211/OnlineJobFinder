@@ -72,7 +72,7 @@ public class SearchFragment extends Fragment {
     int position2 =0;
     boolean[] selectedspecialization, selectedlocation;
     ArrayList<Integer> Specialization = new ArrayList<>();
-    TextView btnfilter,tvsearchspecialization,tvsearchlocation;
+    TextView btnfilter,tvsearchspecialization,tvsearchlocation, tvsearchsalaryminimum;
     ArrayList<job> arraylist;
     ArrayList<job> arraylist2;
     ArrayList<String> category,location;
@@ -80,11 +80,13 @@ public class SearchFragment extends Fragment {
     SwipeRefreshLayout refreshLayout,networkrefresh;
     jobadapter jobadapter2;
    // Spinner spinnercategory, spinnerlocation;
-    String catergoryString,yearString, approved;
+    String catergoryString,yearString, salaryString, approved;
     String [] specializationarray, locationarray;
     View ln_delay;
     LinearLayout main;
     CountDownTimer CDT;
+    String rangesalary;
+    int salary1;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -136,6 +138,7 @@ public class SearchFragment extends Fragment {
         btnfilter = view.findViewById(R.id.btn_filter);
         tvsearchspecialization = view.findViewById(R.id.tv_searchspecialization);
         tvsearchlocation  = view.findViewById(R.id.tv_searchlocation);
+        tvsearchsalaryminimum = view.findViewById(R.id.tv_searchsalaryminimum);
         recyclerView = view.findViewById(R.id.recyclerview_jobs);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         refreshLayout = view.findViewById(R.id.swipe);
@@ -172,7 +175,7 @@ public class SearchFragment extends Fragment {
             public void onClick(View view) {
                 if(!expand)
                 {
-                    ValueAnimator va = ValueAnimator.ofInt(100,250);
+                    ValueAnimator va = ValueAnimator.ofInt(100,260);
                     va.setDuration(400);
                     va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                         @Override
@@ -187,7 +190,7 @@ public class SearchFragment extends Fragment {
                 }
                 else
                 {
-                    ValueAnimator va = ValueAnimator.ofInt(250,100);
+                    ValueAnimator va = ValueAnimator.ofInt(260,100);
                     va.setDuration(400);
                     va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                         @Override
@@ -242,6 +245,59 @@ public class SearchFragment extends Fragment {
         setOnClickListener();
         //getCategory();
        // getLocation();
+        tvsearchsalaryminimum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(
+                        getContext()
+                );
+                builder.setTitle("Enter Minimum Salary");
+                final View customdialog = getLayoutInflater().inflate
+                        (R.layout.dialog_edittext,null);
+                builder.setView(customdialog);
+                builder.setPositiveButton("OK", new
+                        DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int
+                                    i) {
+                                EditText edt_entersalaryminimum =
+                                        customdialog.findViewById(R.id.edittext_salaryminimum);
+                                if(edt_entersalaryminimum.getText().toString().trim
+                                        ().isEmpty())
+                                {
+                                    tvsearchsalaryminimum.setText("Salary/Minimum");
+                                    dialogInterface.dismiss();
+                                }
+                                else
+                                {
+                                    tvsearchsalaryminimum.setText
+                                            (edt_entersalaryminimum.getText().toString().trim());
+                                    dialogInterface.dismiss();
+                                }
+                            }
+                        });
+                builder.setNegativeButton("Cancel", new
+                        DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int
+                                    i) {
+                                dialogInterface.dismiss();
+                                tvsearchsalaryminimum.setText("Salary/Minimum");
+                            }
+                        });
+                builder.setNeutralButton("Clear", new
+                        DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int
+                                    i) {
+                                dialogInterface.dismiss();
+                                tvsearchsalaryminimum.setText("Salary/Minimum");
+                                tvsearchlocation.setText("Region");
+                            }
+                        });
+                builder.show();
+            }
+        });
         tvsearchspecialization.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -360,9 +416,10 @@ public class SearchFragment extends Fragment {
                 setFilterDelayAnimation();
                 catergoryString = tvsearchspecialization.getText().toString();
                 yearString = tvsearchlocation.getText().toString();
+                salaryString = tvsearchsalaryminimum.getText().toString();
                 setColorAnimation();
                 ArrayList<job> w = new ArrayList<>();
-                if(catergoryString.equals("Specialization") && yearString.equals("Region"))
+                if(catergoryString.equals("Specialization") && yearString.equals("Region") && salaryString.equals("Salary/Minimum"))
                 {
 
                     w.addAll(arraylist);
@@ -371,23 +428,71 @@ public class SearchFragment extends Fragment {
                 {
                     for(job details : arraylist)
                     {
-                        if(catergoryString.equals("Specialization") && !TextUtils.isEmpty(yearString))
+                        rangesalary = details.getJobsalary();
+                        rangesalary = rangesalary.replace(",","");
+                        rangesalary = rangesalary.replace(".","");
+                        rangesalary = rangesalary.replace("PHP","");
+                        rangesalary = rangesalary.replace("Php","");
+                        if(rangesalary.contains("-"))
+                        {
+                            String []parts = rangesalary.split("-");
+                            salary1 = Integer.valueOf(parts[0].trim());
+                            System.out.println(salary1);
+                        }
+                        else
+                        {
+                            salary1 = Integer.valueOf(rangesalary.trim());
+                            System.out.println(salary1);
+                        }
+                        if(catergoryString.equals("Specialization") && salaryString.equals("Salary/Minimum") && !TextUtils.isEmpty(yearString))
                         {
                             if(details.getJoblocation().contains(yearString))
                             {
                                 w.add(details);
                             }
                         }
-                        else if(yearString.equals("Region") && !TextUtils.isEmpty(catergoryString))
+                        else if(yearString.equals("Region") && salaryString.equals("Salary/Minimum") && !TextUtils.isEmpty(catergoryString))
                         {
                             if(details.getJobcategory().contains(catergoryString))
                             {
                                 w.add(details);
                             }
                         }
-                        else
+                        else if(yearString.equals("Region") && catergoryString.equals("Specialization")&&!TextUtils.isEmpty(salaryString))
+                        {
+                            if(String.valueOf(salary1).contains(salaryString))
+                            {
+                                w.add(details);
+                                // Toast.makeText(getContext(),"add statonly",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else if(catergoryString.equals("Specialization")  && !TextUtils.isEmpty(yearString) && !TextUtils.isEmpty(salaryString))
+                        {
+                            if(details.getJoblocation().contains(yearString) && String.valueOf(salary1).contains(salaryString))
+                            {
+                                w.add(details);
+                                // Toast.makeText(getContext(),"add spe",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else if(yearString.equals("Region")  && !TextUtils.isEmpty(catergoryString) && !TextUtils.isEmpty(salaryString))
+                        {
+                            if(details.getJobcategory().contains(catergoryString) && String.valueOf(salary1).contains(salaryString))
+                            {
+                                w.add(details);
+                                // Toast.makeText(getContext(),"add reg",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else if(salaryString.equals("Salary/Minimum")  && !TextUtils.isEmpty(catergoryString) && !TextUtils.isEmpty(yearString))
                         {
                             if(details.getJobcategory().contains(catergoryString) && details.getJoblocation().contains(yearString))
+                            {
+                                w.add(details);
+                                // Toast.makeText(getContext(),"add stat",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else
+                        {
+                            if(details.getJobcategory().contains(catergoryString) && details.getJoblocation().contains(yearString) && String.valueOf(salary1).contains(salaryString))
                             {
                                 w.add(details);
                             }
@@ -728,8 +833,9 @@ public class SearchFragment extends Fragment {
     {
         catergoryString = tvsearchspecialization.getText().toString();
         yearString = tvsearchlocation.getText().toString();
+        salaryString = tvsearchsalaryminimum.getText().toString();
         ArrayList<job> w = new ArrayList<>();
-        if(catergoryString.equals("Specialization") && yearString.equals("Region"))
+        if(catergoryString.equals("Specialization") && yearString.equals("Region") && salaryString.equals("Salary/Minimum"))
         {
 
             w.addAll(arraylist);
@@ -738,23 +844,71 @@ public class SearchFragment extends Fragment {
         {
             for(job details : arraylist)
             {
-                if(catergoryString.equals("Specialization") && !TextUtils.isEmpty(yearString))
+                rangesalary = details.getJobsalary();
+                rangesalary = rangesalary.replace(",","");
+                rangesalary = rangesalary.replace(".","");
+                rangesalary = rangesalary.replace("PHP","");
+                rangesalary = rangesalary.replace("Php","");
+                if(rangesalary.contains("-"))
+                {
+                    String []parts = rangesalary.split("-");
+                    salary1 = Integer.valueOf(parts[0].trim());
+                    System.out.println(salary1);
+                }
+                else
+                {
+                    salary1 = Integer.valueOf(rangesalary.trim());
+                    System.out.println(salary1);
+                }
+                if(catergoryString.equals("Specialization") && salaryString.equals("Salary/Minimum") && !TextUtils.isEmpty(yearString))
                 {
                     if(details.getJoblocation().contains(yearString))
                     {
                         w.add(details);
                     }
                 }
-                else if(yearString.equals("Region") && !TextUtils.isEmpty(catergoryString))
+                else if(yearString.equals("Region") && salaryString.equals("Salary/Minimum") && !TextUtils.isEmpty(catergoryString))
                 {
                     if(details.getJobcategory().contains(catergoryString))
                     {
                         w.add(details);
                     }
                 }
-                else
+                else if(yearString.equals("Region") && catergoryString.equals("Specialization")&&!TextUtils.isEmpty(salaryString))
+                {
+                    if(String.valueOf(salary1).contains(salaryString))
+                    {
+                        w.add(details);
+                        // Toast.makeText(getContext(),"add statonly",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else if(catergoryString.equals("Specialization")  && !TextUtils.isEmpty(yearString) && !TextUtils.isEmpty(salaryString))
+                {
+                    if(details.getJoblocation().contains(yearString) && String.valueOf(salary1).contains(salaryString))
+                    {
+                        w.add(details);
+                        // Toast.makeText(getContext(),"add spe",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else if(yearString.equals("Region")  && !TextUtils.isEmpty(catergoryString) && !TextUtils.isEmpty(salaryString))
+                {
+                    if(details.getJobcategory().contains(catergoryString) && String.valueOf(salary1).contains(salaryString))
+                    {
+                        w.add(details);
+                        // Toast.makeText(getContext(),"add reg",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else if(salaryString.equals("Salary/Minimum")  && !TextUtils.isEmpty(catergoryString) && !TextUtils.isEmpty(yearString))
                 {
                     if(details.getJobcategory().contains(catergoryString) && details.getJoblocation().contains(yearString))
+                    {
+                        w.add(details);
+                        // Toast.makeText(getContext(),"add stat",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+                    if(details.getJobcategory().contains(catergoryString) && details.getJoblocation().contains(yearString) && String.valueOf(salary1).contains(salaryString))
                     {
                         w.add(details);
                     }
@@ -810,7 +964,7 @@ public class SearchFragment extends Fragment {
         }.start();
         if(!expand)
         {
-            ValueAnimator va = ValueAnimator.ofInt(100,250);
+            ValueAnimator va = ValueAnimator.ofInt(100,260);
             va.setDuration(400);
             va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
@@ -825,7 +979,7 @@ public class SearchFragment extends Fragment {
         }
         else
         {
-            ValueAnimator va = ValueAnimator.ofInt(250,100);
+            ValueAnimator va = ValueAnimator.ofInt(260,100);
             va.setDuration(400);
             va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
@@ -841,7 +995,7 @@ public class SearchFragment extends Fragment {
     }
     public void setColorAnimation()
     {
-        if(catergoryString.equals("Specialization") && yearString.equals("Region"))
+        if(catergoryString.equals("Specialization") && yearString.equals("Region") && salaryString.equals("Salary/Minimum"))
         {
             int color = Color.parseColor("#FF6200EE");
             filterbutton.setColorFilter(color);
