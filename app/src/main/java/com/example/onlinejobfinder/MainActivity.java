@@ -66,9 +66,10 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user2 = mAuth.getCurrentUser();
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.customactionbar);
-        getSupportActionBar().setTitle("Login");
+        getSupportActionBar().hide();
+//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//        getSupportActionBar().setCustomView(R.layout.customactionbar);
+//        getSupportActionBar().setTitle("Login");
         sessionManager = new SessionManager(getApplicationContext());
 
 
