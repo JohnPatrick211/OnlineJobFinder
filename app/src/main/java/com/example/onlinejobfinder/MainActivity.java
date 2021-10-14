@@ -1,14 +1,19 @@
 package com.example.onlinejobfinder;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,12 +28,15 @@ import com.android.volley.toolbox.Volley;
 import com.example.onlinejobfinder.employer.EmployerActivity;
 import com.example.onlinejobfinder.guest.GuestActivity;
 import com.example.onlinejobfinder.tabregister.RegisterActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +45,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String CHANNEL_ID = "101";
     TextView txtview_signup,txtview_guest;
     Button btnlogin;
     TextInputEditText edt_loginemail,edt_loginpassword;
@@ -47,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     PhoneAuthCredential phoneAuthCredential;
     PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     PhoneAuthProvider.ForceResendingToken token;
+    private static final String TAG ="JobApprovedOrRejectNotification";
 
 
 
@@ -71,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
 //        getSupportActionBar().setCustomView(R.layout.customactionbar);
 //        getSupportActionBar().setTitle("Login");
         sessionManager = new SessionManager(getApplicationContext());
+        createNotificationChannel();
+        getTokenId();
 
 
         edt_loginemail.addTextChangedListener(new TextWatcher() {
@@ -232,5 +244,34 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    private void getTokenId()
+    {
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if(!task.isSuccessful())
+                {
+                    Log.d(TAG,"onComplete: Failed to get token");
+                }
+
+                //token
+                String token = task.getResult();
+                Log.d(TAG,"onComplete: "+token);
+            }
+        });
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "firebasenotifchannel";
+            String description = "Receive Firebase Notification";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }

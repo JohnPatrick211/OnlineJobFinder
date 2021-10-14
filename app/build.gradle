@@ -60,6 +60,7 @@ dependencies {
     implementation 'com.github.amarjain07:StickyScrollView:1.0.2'
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
     implementation 'com.github.MikeOrtiz:TouchImageView:1.4.1'
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
     //implementation 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
     //api 'com.github.ok2c.hc4.android:httpclient-android:0.1.0'
     //implementation 'org.apache.httpcomponents:httpclient:4.3.5'
