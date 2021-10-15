@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.example.onlinejobfinder.MainActivity;
 import com.example.onlinejobfinder.R;
+import com.example.onlinejobfinder.SessionManager;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -17,28 +18,32 @@ public class FirebaseServices extends FirebaseMessagingService {
 
     private static final String TAG ="JobApprovedOrRejectNotification";
     private static final String CHANNEL_ID = "101";
+    SessionManager sessionManager;
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
-        showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+        if(remoteMessage.getNotification() != null)
+        {
+                showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+        }
     }
 
     private void showNotification(String title, String message)
     {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.logo)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                // Set the intent that will fire when the user taps the notification
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.logo)
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    // Set the intent that will fire when the user taps the notification
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true);
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        notificationManager.notify(1, builder.build());
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            notificationManager.notify(1, builder.build());
     }
 }
