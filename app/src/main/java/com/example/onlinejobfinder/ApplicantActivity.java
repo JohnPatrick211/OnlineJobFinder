@@ -34,6 +34,7 @@ import com.example.onlinejobfinder.applicant.SearchFragment;
 import com.example.onlinejobfinder.employer.EmployerActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -255,6 +256,7 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
                         //                       editor.clear();
                         //                      editor.apply();
                         sessionManager.setApplicantLogin(false);
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic("Applicant");
                         Intent ia = new Intent(ApplicantActivity.this, MainActivity.class);
                         startActivity(ia);
                         finish();

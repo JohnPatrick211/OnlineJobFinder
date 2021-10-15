@@ -83,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
         sessionManager = new SessionManager(getApplicationContext());
         createNotificationChannel();
         getTokenId();
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("Employer");
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("Applicant");
 
 
         edt_loginemail.addTextChangedListener(new TextWatcher() {
@@ -171,6 +173,8 @@ public class MainActivity extends AppCompatActivity {
                                         else
                                         {
                                             sessionManager.setEmployerLogin(true);
+                                            FirebaseMessaging.getInstance().subscribeToTopic("Employer");
+                                            FirebaseMessaging.getInstance().unsubscribeFromTopic("Applicant");
                                             Intent ia = new Intent(MainActivity.this, EmployerActivity.class);
                                             startActivity(ia);
                                             finish();
@@ -180,6 +184,8 @@ public class MainActivity extends AppCompatActivity {
                                     else
                                     {
                                         sessionManager.setApplicantLogin(true);
+                                        FirebaseMessaging.getInstance().subscribeToTopic("Applicant");
+                                        FirebaseMessaging.getInstance().unsubscribeFromTopic("Employer");
                                         Intent i = new Intent(MainActivity.this, ApplicantActivity.class);
                                         startActivity(i);
                                         finish();
