@@ -223,11 +223,15 @@ public class MainActivity extends AppCompatActivity {
         });
         if(sessionManager.getApplicantLogin())
         {
+            FirebaseMessaging.getInstance().subscribeToTopic("Applicant");
+            FirebaseMessaging.getInstance().unsubscribeFromTopic("Employer");
             Intent i = new Intent(MainActivity.this, ApplicantActivity.class);
             startActivity(i);
         }
         else if(sessionManager.getEmployerLogin())
         {
+            FirebaseMessaging.getInstance().subscribeToTopic("Employer");
+            FirebaseMessaging.getInstance().unsubscribeFromTopic("Applicant");
             Intent ia = new Intent(MainActivity.this, EmployerActivity.class);
             startActivity(ia);
         }
