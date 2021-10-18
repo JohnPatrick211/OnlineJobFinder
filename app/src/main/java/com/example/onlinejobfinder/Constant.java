@@ -2,6 +2,9 @@ package com.example.onlinejobfinder;
 
 
 public class Constant {
+    //local URL
+    //public static final String URL="http://192.168.254.104";
+    //Online URL
     public static final String URL="https://peso-ojfss.000webhostapp.com";
     public static final String home=URL+"/api";
     public static final String login=home+"/login";
