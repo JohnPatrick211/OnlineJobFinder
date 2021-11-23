@@ -226,10 +226,6 @@ public class ApplicantActivity extends AppCompatActivity implements NavigationVi
             case R.id.navigation_home:
                 drawerLayout.closeDrawers();
                 break;
-            case R.id.navigation_testemail:
-                Intent intent1 = new Intent(ApplicantActivity.this,EmailActivity.class);
-                startActivity(intent1);
-                break;
             case R.id.navigation_savedjob:
                 Intent intent2 = new Intent(ApplicantActivity.this, ApplicantSavedJobActivity.class);
                 intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

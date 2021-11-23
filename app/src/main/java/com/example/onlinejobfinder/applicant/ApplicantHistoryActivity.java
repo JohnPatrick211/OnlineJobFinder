@@ -985,10 +985,6 @@ public class ApplicantHistoryActivity extends AppCompatActivity implements Navig
                 intent3.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent3);
                 break;
-            case R.id.navigation_testemail:
-                Intent intent1 = new Intent(ApplicantHistoryActivity.this, EmailActivity.class);
-                startActivity(intent1);
-                break;
             case R.id.navigation_savedjob:
                 Intent intent2 = new Intent(ApplicantHistoryActivity.this, ApplicantSavedJobActivity.class);
                 intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

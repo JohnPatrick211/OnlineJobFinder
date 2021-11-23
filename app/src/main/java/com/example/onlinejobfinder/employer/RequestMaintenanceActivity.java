@@ -98,7 +98,7 @@ public class RequestMaintenanceActivity extends AppCompatActivity implements Nav
                 SendRequestMail sm = new SendRequestMail(RequestMaintenanceActivity.this, "admin@pesobalayan-ojfs.online","pesostaff@pesobalayan-ojfs.online", edittext_subject.getText().toString(),
                         "Employer Email: " + edittext_email.getText().toString()+ "\n" +
                                 edittext_message.getText().toString(),
-                        "request-notification@pesobalayan-ojfs.online");
+                        "peso-notification@pesobalayan-ojfs.online");
                 sm.execute();
             }
         });

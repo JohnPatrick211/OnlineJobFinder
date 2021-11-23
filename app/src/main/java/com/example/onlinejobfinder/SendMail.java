@@ -28,6 +28,7 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
 
     //Information to send email
     private String email;
+    private String email2;
     private String subject;
     private String message;
 
@@ -35,10 +36,11 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
     private ProgressDialog progressDialog;
 
     //Class Constructor
-    public SendMail(Context context, String email, String subject, String message){
+    public SendMail(Context context, String email, String email2, String subject, String message){
         //Initializing variables
         this.context = context;
         this.email = email;
+        this.email2 = email2;
         this.subject = subject;
         this.message = message;
     }
@@ -66,9 +68,10 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
 
         //Configuring properties for gmail
         //If you are not using gmail you may need to change the values
-        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.host", "smtp.hostinger.com");
         props.put("mail.smtp.socketFactory.port", "465");
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
 
@@ -77,7 +80,7 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
                 new javax.mail.Authenticator() {
                     //Authenticating the password
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("pesojob@gmail.com", "twnbhinfjdoqzykm");
+                        return new PasswordAuthentication("peso-notification@pesobalayan-ojfs.online", "Wynspogi211");
                     }
                 });
 
@@ -86,9 +89,10 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
             MimeMessage mm = new MimeMessage(session);
 
             //Setting sender address
-            mm.setFrom(new InternetAddress("pesojob@gmail.com"));
+            mm.setFrom(new InternetAddress("peso-notification@pesobalayan-ojfs.online"));
             //Adding receiver
             mm.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+            mm.addRecipient(Message.RecipientType.TO, new InternetAddress(email2));
             //Adding subject
             mm.setSubject(subject);
             //Adding message
@@ -99,6 +103,7 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
 
         } catch (MessagingException e) {
   //          progressDialog.dismiss();
+            System.out.println(e);
             Toast.makeText(context,"Network Error, Please Try Again",Toast.LENGTH_LONG).show();
         }
         return null;

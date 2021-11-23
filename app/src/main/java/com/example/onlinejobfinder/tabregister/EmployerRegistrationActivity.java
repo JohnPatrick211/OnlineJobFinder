@@ -221,7 +221,7 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
 //                            editor.apply();
 
                                 Toast.makeText(EmployerRegistrationActivity.this,"Register Successfully, Please Wait for the email confirmation",Toast.LENGTH_SHORT).show();
-                                SendMail sm = new SendMail(EmployerRegistrationActivity.this, "pesojob@gmail.com", "New Employer Approval", "Please Check the Pending Employer");
+                                SendMail sm = new SendMail(EmployerRegistrationActivity.this, "admin@pesobalayan-ojfs.online","pesostaff@pesobalayan-ojfs.online", "New Employer Approval", "Please Check the Pending Employer");
                                 sm.execute();
 
                                 Intent i = new Intent(EmployerRegistrationActivity.this, MainActivity.class);
@@ -233,7 +233,7 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
                             else if(object.getString("Status").equals("201"))
                             {
                                 Toast.makeText(getApplicationContext(),"Register Successfully, Please Wait for the email confirmation",Toast.LENGTH_SHORT).show();
-                                SendMail sm = new SendMail(EmployerRegistrationActivity.this, "pesojob@gmail.com", "New Employer Approval", "Please Check the Pending Employer");
+                                SendMail sm = new SendMail(EmployerRegistrationActivity.this, "admin@pesobalayan-ojfs.online","pesostaff@pesobalayan-ojfs.online", "New Employer Approval", "Please Check the Pending Employer");
                                 sm.execute();
 
                                 Intent i = new Intent(EmployerRegistrationActivity.this, MainActivity.class);
@@ -260,7 +260,7 @@ public class EmployerRegistrationActivity extends AppCompatActivity {
                                     }
                                     else {
                                         Toast.makeText(getApplicationContext(),"Register Successfully, Please Wait for the email confirmation",Toast.LENGTH_SHORT).show();
-                                        SendMail sm = new SendMail(EmployerRegistrationActivity.this, "pesojob@gmail.com", "New Employer Approval", "Please Check the Pending Employer");
+                                        SendMail sm = new SendMail(EmployerRegistrationActivity.this, "admin@pesobalayan-ojfs.online","pesostaff@pesobalayan-ojfs.online", "New Employer Approval", "Please Check the Pending Employer");
                                         sm.execute();
 
                                         Intent i = new Intent(EmployerRegistrationActivity.this, MainActivity.class);

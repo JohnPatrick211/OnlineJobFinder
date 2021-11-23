@@ -840,10 +840,6 @@ public class ApplicantSavedJobActivity extends AppCompatActivity implements Navi
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
                 break;
-            case R.id.navigation_testemail:
-                Intent intent1 = new Intent(ApplicantSavedJobActivity.this,EmailActivity.class);
-                startActivity(intent1);
-                break;
             case R.id.navigation_savedjob:
                 drawerLayout.closeDrawers();
                 break;

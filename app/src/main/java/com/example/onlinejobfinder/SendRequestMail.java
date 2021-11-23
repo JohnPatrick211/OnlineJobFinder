@@ -82,7 +82,7 @@ public class SendRequestMail extends AsyncTask<Void,Void,Void> {
                 new javax.mail.Authenticator() {
                     //Authenticating the password
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("request-notification@pesobalayan-ojfs.online", "Wynspogi211");
+                        return new PasswordAuthentication("peso-notification@pesobalayan-ojfs.online", "Wynspogi211");
                     }
                 });
 

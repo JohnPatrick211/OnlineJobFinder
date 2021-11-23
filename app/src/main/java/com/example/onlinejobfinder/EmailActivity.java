@@ -30,15 +30,5 @@ public class EmailActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
 
-
-
-
-        btn_sendemail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SendMail sm = new SendMail(EmailActivity.this, "alvezwynsjohn@gmail.com", "New Job Vacancies", "New Job Vacancies to your accounts");
-                sm.execute();
-            }
-        });
     }
 }
