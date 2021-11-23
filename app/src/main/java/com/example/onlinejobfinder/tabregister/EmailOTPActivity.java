@@ -75,7 +75,7 @@ public class EmailOTPActivity extends AppCompatActivity {
         tv_resend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SendOTPMail sm = new SendOTPMail(EmailOTPActivity.this, intentemail, "Email Verification", "Your Code is " +randomnumber ,intentemail);
+                SendOTPMail sm = new SendOTPMail(EmailOTPActivity.this, intentemail, "Email Verification", "Your Code is " +randomnumber ,"pesoverification@pesobalayan-ojfs.online");
                 intentOTPcode = Integer.toString(randomnumber);
                 sm.execute();
                 CDT = new CountDownTimer(30000, 1000) {

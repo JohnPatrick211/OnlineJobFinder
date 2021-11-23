@@ -248,7 +248,7 @@ public class ApplicantFragment extends Fragment {
                             JSONObject object= new JSONObject(response);
                             if(object.getString("Status").equals("201"))
                             {
-                                SendOTPMail sm = new SendOTPMail(getContext(), edt_email.getText().toString().trim(), "Email Verification", "Your Code is " +randomnumber,edt_email.getText().toString().trim());
+                                SendOTPMail sm = new SendOTPMail(getContext(), edt_email.getText().toString().trim(), "Email Verification", "Your Code is " +randomnumber,"pesoverification@pesobalayan-ojfs.online");
                                 sm.execute();
                                 Intent i = new Intent(getContext(), EmailOTPActivity.class);
                                 i.putExtra("name",edt_name.getText().toString().trim());

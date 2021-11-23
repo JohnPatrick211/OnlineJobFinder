@@ -72,9 +72,10 @@ public class SendOTPMail extends AsyncTask<Void,Void,Void> {
 
         //Configuring properties for gmail
         //If you are not using gmail you may need to change the values
-        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.host", "smtp.hostinger.com");
         props.put("mail.smtp.socketFactory.port", "465");
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
 
@@ -83,14 +84,13 @@ public class SendOTPMail extends AsyncTask<Void,Void,Void> {
                 new javax.mail.Authenticator() {
                     //Authenticating the password
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("pesojob@gmail.com", "twnbhinfjdoqzykm");
+                        return new PasswordAuthentication("pesoverification@pesobalayan-ojfs.online", "Wynspogi211");
                     }
                 });
 
         try {
             //Creating MimeMessage object
             MimeMessage mm = new MimeMessage(session);
-
             //Setting sender address
             mm.setFrom(new InternetAddress(sender));
             //Adding receiver
@@ -105,6 +105,7 @@ public class SendOTPMail extends AsyncTask<Void,Void,Void> {
 
         } catch (MessagingException e) {
             progressDialog.dismiss();
+            System.out.println(e);
             Toast.makeText(context,"Network Error, Please Try Again",Toast.LENGTH_LONG).show();
         }
         return null;
