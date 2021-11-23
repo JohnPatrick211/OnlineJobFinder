@@ -95,7 +95,10 @@ public class RequestMaintenanceActivity extends AppCompatActivity implements Nav
         btn_sendrequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SendRequestMail sm = new SendRequestMail(RequestMaintenanceActivity.this, "pesojob@gmail.com", edittext_subject.getText().toString(), edittext_message.getText().toString(),edittext_email.getText().toString());
+                SendRequestMail sm = new SendRequestMail(RequestMaintenanceActivity.this, "admin@pesobalayan-ojfs.online","pesostaff@pesobalayan-ojfs.online", edittext_subject.getText().toString(),
+                        "Employer Email: " + edittext_email.getText().toString()+ "\n" +
+                                edittext_message.getText().toString(),
+                        "request-notification@pesobalayan-ojfs.online");
                 sm.execute();
             }
         });
