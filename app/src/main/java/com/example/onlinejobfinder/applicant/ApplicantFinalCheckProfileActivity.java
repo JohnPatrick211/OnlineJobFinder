@@ -394,7 +394,7 @@ public class ApplicantFinalCheckProfileActivity extends AppCompatActivity {
         txtviewresume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://peso-ojfss.000webhostapp.com/storage/resume/" + txtresume.getText().toString()));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://pesobalayan-ojfs.online/storage/resume/" + txtresume.getText().toString()));
                 startActivity(browserIntent);
             }
         });

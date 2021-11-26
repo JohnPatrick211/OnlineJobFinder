@@ -40,7 +40,7 @@ import static com.sun.mail.util.ASCIIUtility.getBytes;
 public class UploadResumeActivity extends AppCompatActivity {
 
     TextView txtuploadresume;
-    private String upload_URL = "https://peso-ojfss.000webhostapp.com/api/uploadpdf";
+    private String upload_URL = "https://pesobalayan-ojfs.online/api/uploadpdf";
     private RequestQueue rQueue;
     String intentapplicantid;
     ProgressDialog progressDialog;
